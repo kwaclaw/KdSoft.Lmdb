@@ -1,6 +1,6 @@
 ﻿namespace KdSoft.Lmdb
 {
-    public static class DbConst
+    public static class MdbConstants
     {
         /** mdb_env	Environment Flags */
 

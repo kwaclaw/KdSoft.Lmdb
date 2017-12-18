@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <AssemblyName>KdSoft.Lmdb.Tests</AssemblyName>
+    <RootNamespace>KdSoft.Lmdb.Tests</RootNamespace>
+    <Platforms>AnyCPU;x64;x86</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lmdb\Lmdb.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(OS)' == 'Unix' ">
+    <NativeLib Include="../LibLmdb/runtimes/osx/native/lmdb.dylib" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'x86' AND '$(OS)' != 'Unix' ">
+    <NativeLib Include="../LibLmdb/runtimes/win-x86/native/lmdb.dll" />
+  </ItemGroup>
+  <ItemGroup Condition=" ('$(Platform)' == 'x64' OR '$(Platform)' == 'AnyCPU') AND '$(OS)' == 'Windows_NT' ">
+    <NativeLib Include="../LibLmdb/runtimes/win-x64/native/lmdb.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TestEnv\" />
+  </ItemGroup>
+
+  <Target Name="CopyNativeLib" AfterTargets="Build">
+    <Copy SourceFiles="@(NativeLib)" DestinationFolder="$(OutputPath)" />
+  </Target>
+
+</Project>

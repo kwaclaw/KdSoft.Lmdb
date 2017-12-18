@@ -6,7 +6,7 @@ namespace KdSoft.Lmdb
     /// Transaction open mode
     /// </summary>
     [Flags]
-    public enum TransactionFlags: uint
+    public enum TransactionModes: uint
     {
         /// <summary>
         /// Normal mode

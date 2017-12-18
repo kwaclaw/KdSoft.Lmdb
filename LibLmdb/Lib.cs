@@ -6,26 +6,29 @@ namespace KdSoft.Lmdb
 {
     /// <summary>Interface to the LMDB library.</summary>
     [SuppressUnmanagedCodeSecurity]
-    public static class LmdbApi
+    public static class Lib
     {
         const string libName = "lmdb";
 
         [UnmanagedFunctionPointer(Compile.CallConv), SuppressUnmanagedCodeSecurity]
-        public delegate int CompareFunction(in DbValue x, in DbValue y);
+        public delegate int CompareFunction(in MdbValue x, in MdbValue y);
 
         [UnmanagedFunctionPointer(Compile.CallConv), SuppressUnmanagedCodeSecurity]
         public delegate void AssertFunction(IntPtr env, [MarshalAs(UnmanagedType.LPStr), In] string msg);
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        static extern bool SetDllDirectory(string lpPathName);
+        [DllImport(libName, EntryPoint = "mdb_version", CallingConvention = Compile.CallConv)]
+        static extern IntPtr _mdb_version(out int major, out int minor, out int patch);
+        public static string mdb_version(out int major, out int minor, out int patch) {
+            IntPtr verStr = _mdb_version(out major, out minor, out patch);
+            return Marshal.PtrToStringAnsi(verStr);
+        }
 
-        #region LMDB API
-
-        [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern IntPtr mdb_version(out int major, out int minor, out int patch);
-
-        [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern IntPtr mdb_strerror(int err);
+        [DllImport(libName, EntryPoint = "mdb_strerror", CallingConvention = Compile.CallConv)]
+        static extern IntPtr _mdb_strerror(int err);
+        public static string mdb_strerror(DbRetCode error) {
+            IntPtr errStr = _mdb_strerror((int)error);
+            return Marshal.PtrToStringAnsi(errStr);
+        }
 
         #region MDB Environment
 
@@ -33,7 +36,7 @@ namespace KdSoft.Lmdb
         public static extern DbRetCode mdb_env_create(out IntPtr env);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        internal static extern DbRetCode mdb_env_open(IntPtr env, string path, EnvironmentFlags flags, UnixFileMode mode);
+        public static extern DbRetCode mdb_env_open(IntPtr env, string path, MdbEnvOpenOptions flags, UnixFileMode mode);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_env_copy(IntPtr env, string path);
@@ -42,16 +45,16 @@ namespace KdSoft.Lmdb
         public static extern DbRetCode mdb_env_copyfd(IntPtr env, IntPtr fd);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_env_copy2(IntPtr env, string path, EnvironmentCopyFlags copyFlags);
+        public static extern DbRetCode mdb_env_copy2(IntPtr env, string path, EnvironmentCopyOptions copyFlags);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_env_copyfd2(IntPtr env, IntPtr fd, EnvironmentCopyFlags flags);
+        public static extern DbRetCode mdb_env_copyfd2(IntPtr env, IntPtr fd, EnvironmentCopyOptions flags);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_env_stat(IntPtr env, [MarshalAs(UnmanagedType.Struct)] out DbStat stat);
+        public static extern DbRetCode mdb_env_stat(IntPtr env, [MarshalAs(UnmanagedType.Struct)] out MdbStat stat);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_env_info(IntPtr env, [MarshalAs(UnmanagedType.Struct)] out DbEnvInfo stat);
+        public static extern DbRetCode mdb_env_info(IntPtr env, [MarshalAs(UnmanagedType.Struct)] out MdbEnvInfo stat);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_env_sync(IntPtr env, bool force);
@@ -60,10 +63,10 @@ namespace KdSoft.Lmdb
         public static extern void mdb_env_close(IntPtr env);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_env_set_flags(IntPtr env, EnvironmentFlags flags, int onoff);
+        public static extern DbRetCode mdb_env_set_flags(IntPtr env, MdbEnvOpenOptions flags, int onoff);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_env_get_flags(IntPtr env, out EnvironmentFlags flags);
+        public static extern DbRetCode mdb_env_get_flags(IntPtr env, out MdbEnvOpenOptions flags);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_env_get_path(IntPtr env, [MarshalAs(UnmanagedType.LPStr)] out string path);
@@ -92,17 +95,15 @@ namespace KdSoft.Lmdb
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern IntPtr mdb_env_get_userctx(IntPtr env);
 
-        //typedef void MDB_assert_func(MDB_env* env, const char* msg);
-
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_env_set_assert(IntPtr env, AssertFunction func);
 
         #endregion
 
-        #region MDB Transaction & Database
+        #region MDB Transaction
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_txn_begin(IntPtr env, IntPtr parent, TransactionFlags flags, out IntPtr txn);
+        public static extern DbRetCode mdb_txn_begin(IntPtr env, IntPtr parent, TransactionModes flags, out IntPtr txn);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern IntPtr mdb_txn_env(IntPtr txn);
@@ -122,14 +123,18 @@ namespace KdSoft.Lmdb
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_txn_renew(IntPtr txn);
 
-        [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_dbi_open(IntPtr txn, string name, DatabaseFlags flags, out uint db);
+        #endregion
+
+        #region MDB Database
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_stat(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct)] out DbStat stat);
+        public static extern DbRetCode mdb_dbi_open(IntPtr txn, string name, MdbOptions flags, out uint db);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_dbi_flags(IntPtr txn, uint dbi, out DatabaseFlags flags);
+        public static extern DbRetCode mdb_stat(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct)] out MdbStat stat);
+
+        [DllImport(libName, CallingConvention = Compile.CallConv)]
+        public static extern DbRetCode mdb_dbi_flags(IntPtr txn, uint dbi, out MdbOptions flags);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern void mdb_dbi_close(IntPtr env, uint dbi);
@@ -144,16 +149,16 @@ namespace KdSoft.Lmdb
         public static extern DbRetCode mdb_set_dupsort(IntPtr txn, uint dbi, CompareFunction cmp);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_get(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref DbValue key, [MarshalAs(UnmanagedType.Struct)] ref DbValue data);
+        public static extern DbRetCode mdb_get(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref MdbValue key, [MarshalAs(UnmanagedType.Struct)] ref MdbValue data);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_put(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref DbValue key, [MarshalAs(UnmanagedType.Struct), In] ref DbValue data, PutOptions flags);
+        public static extern DbRetCode mdb_put(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref MdbValue key, [MarshalAs(UnmanagedType.Struct), In] ref MdbValue data, PutOptions flags);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_del(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref DbValue key, [MarshalAs(UnmanagedType.Struct), In] ref DbValue data);
+        public static extern DbRetCode mdb_del(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref MdbValue key, [MarshalAs(UnmanagedType.Struct), In] ref MdbValue data);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_del(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref DbValue key, IntPtr data);
+        public static extern DbRetCode mdb_del(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref MdbValue key, IntPtr data);
 
         #endregion
 
@@ -169,17 +174,15 @@ namespace KdSoft.Lmdb
         public static extern DbRetCode mdb_cursor_renew(IntPtr txn, IntPtr cursor);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_cursor_get(IntPtr cursor, [MarshalAs(UnmanagedType.Struct), In] ref DbValue key, [MarshalAs(UnmanagedType.Struct), Out] DbValue data, CursorOperation op);
+        public static extern DbRetCode mdb_cursor_get(IntPtr cursor, [MarshalAs(UnmanagedType.Struct), In] ref MdbValue key, [MarshalAs(UnmanagedType.Struct), Out] MdbValue data, CursorOperation op);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_cursor_put(IntPtr cursor, [MarshalAs(UnmanagedType.Struct)] ref DbValue key, [MarshalAs(UnmanagedType.Struct), In] ref DbValue value, CursorPutOptions flags);
+        public static extern DbRetCode mdb_cursor_put(IntPtr cursor, [MarshalAs(UnmanagedType.Struct)] ref MdbValue key, [MarshalAs(UnmanagedType.Struct), In] ref MdbValue value, CursorPutOptions flags);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_cursor_del(IntPtr cursor, CursorDeleteOptions flags);
 
         #endregion
-
-        #endregion LMDB API
     }
 
     /// <summary>General LMDB API return code.</summary>

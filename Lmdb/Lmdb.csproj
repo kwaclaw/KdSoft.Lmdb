@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>KdSoft.Lmdb</AssemblyName>
+    <RootNamespace>KdSoft.Lmdb</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LibLmdb\LibLmdb.csproj" />
+  </ItemGroup>
+
+</Project>
