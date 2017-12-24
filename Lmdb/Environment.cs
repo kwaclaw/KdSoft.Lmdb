@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
-using System.Threading;
 
 namespace KdSoft.Lmdb
 {
-    public class Environment : CriticalFinalizerObject, IDisposable
+    public class Environment: CriticalFinalizerObject, IDisposable
     {
         //TODO keep track of databases: databases should only ever be opened once, so on additional calls we return the same handle
 
@@ -47,6 +47,8 @@ namespace KdSoft.Lmdb
             }
         }
 
+        #region Helpers
+
         void RunChecked(Func<DbRetCode> mdbFunc) {
             lock (rscLock) {
                 CheckDisposed();
@@ -66,10 +68,7 @@ namespace KdSoft.Lmdb
             }
         }
 
-        public void Open(string path, MdbEnvOpenOptions options = MdbEnvOpenOptions.None, UnixFileMode fileMode = UnixFileMode.Default) {
-            RunChecked(() => Lib.mdb_env_open(env, path, options, fileMode));
-        }
-
+        #endregion
 
         #region Configuration and Stats
 
@@ -100,14 +99,13 @@ namespace KdSoft.Lmdb
 
         uint maxDatabases;
         /// <summary>
-        /// Set the maximum number of named databases for the environment.
+        /// Set/get the maximum number of named databases for the environment.
         /// This function is only needed if multiple databases will be used in the environment.
         /// Simpler applications that use the environment as a single unnamed database can ignore this option.
         /// This function may only be called after mdb_env_create() and before mdb_env_open().
         /// Currently a moderate number of slots are cheap but a huge number gets expensive: 7-120 words per transaction,
         /// and every mdb_dbi_open() does a linear search of the opened slots.
         /// </summary>
-        /// <param name="newValue"></param>
         public uint MaxDatabases {
             get {
                 CheckDisposed();
@@ -126,17 +124,42 @@ namespace KdSoft.Lmdb
         /// ties the slot to the MDB_txn object until it or the MDB_env object is destroyed.
         /// This function may only be called after mdb_env_create() and before mdb_env_open().
         /// </summary>
-        /// <param name="newValue"></param>
         public uint MaxReaders {
             get => GetChecked((out uint value) => Lib.mdb_env_get_maxreaders(env, out value));
             set => RunChecked(() => Lib.mdb_env_set_maxreaders(env, value));
         }
 
         /// <summary>
+        /// Set environment flags.
+        /// This may be used to set some flags in addition to those from mdb_env_open(), or to unset these flags.
+        /// If several threads change the flags at the same time, the result is undefined.
+        /// </summary>
+        /// <param name="options">Option flags to set, bitwise OR'ed together.</param>
+        /// <param name="onoff">A <c>true</c> value sets the flags, <c>false</c> clears them.</param>
+        public void SetOptions(EnvironmentOptions options, bool onoff) {
+            RunChecked(() => Lib.mdb_env_set_flags(env, options, onoff));
+        }
+
+        /// <summary>
         /// Return information about the LMDB environment.
         /// </summary>
-        public MdbEnvInfo GetInfo() {
-            return GetChecked((out MdbEnvInfo value) => Lib.mdb_env_info(env, out value));
+        public EnvironmentOptions GetOptions() {
+            return GetChecked((out EnvironmentOptions value) => Lib.mdb_env_get_flags(env, out value));
+        }
+
+        /// <summary>
+        /// Return information about the LMDB environment.
+        /// </summary>
+        public EnvironmentInfo GetInfo() {
+            return GetChecked((out EnvironmentInfo value) => Lib.mdb_env_info(env, out value));
+        }
+
+        /// <summary>
+        /// Return statistics about the LMDB environment.
+        /// </summary>
+        /// <returns></returns>
+        public DatabaseStats GetStats() {
+            return GetChecked((out DatabaseStats value) => Lib.mdb_env_stat(env, out value));
         }
 
         /// <summary>
@@ -159,6 +182,137 @@ namespace KdSoft.Lmdb
 
         #endregion
 
+        /// <summary>
+        /// Open an environment handle.
+        /// If this function fails, mdb_env_close() must be called to discard the MDB_env handle.
+        /// </summary>
+        /// <param name="path">The directory in which the database files reside. This directory must already exist and be writable.</param>
+        /// <param name="options">Special options for this environment. See <see cref="EnvironmentOptions"/>.
+        /// This parameter must be set to 0 or by bitwise OR'ing together one or more of the values.
+        /// Flags set by mdb_env_set_flags() are also used.</param>
+        /// <param name="fileMode">The UNIX permissions to set on created files and semaphores. This parameter is ignored on Windows.</param>
+        public void Open(string path, EnvironmentOptions options = EnvironmentOptions.None, UnixFileMode fileMode = UnixFileMode.Default) {
+            RunChecked(() => Lib.mdb_env_open(env, path, options, fileMode));
+        }
+
+        /// <summary>
+        /// Close the environment and release the memory map. Same as Dispose().
+        /// Only a single thread may call this function. All transactions, databases, and cursors must already be closed
+        /// before calling this function. Attempts to use any such handles after calling this function will cause a SIGSEGV.
+        /// The environment handle will be freed and must not be used again after this call.
+        /// </summary>
+        public void Close() {
+            Dispose();
+        }
+
+        /// <summary>
+        /// Flush the data buffers to disk. Data is always written to disk when mdb_txn_commit() is called,
+        /// but the operating system may keep it buffered.LMDB always flushes the OS buffers upon commit as well,
+        /// unless the environment was opened with MDB_NOSYNC or in part MDB_NOMETASYNC.
+        /// This call is not valid if the environment was opened with MDB_RDONLY.
+        /// </summary>
+        /// <param name="force">
+        /// If <c>true</c>, force a synchronous flush. Otherwise if the environment has the MDB_NOSYNC flag set
+        /// the flushes will be omitted, and with MDB_MAPASYNC they will be asynchronous.
+        /// </param>
+        public void Sync(bool force) {
+            RunChecked(() => Lib.mdb_env_sync(env, force));
+        }
+
+        #region Databases and Transactions
+
+        DOpenDbTransaction activeDbTxn;
+        readonly object dbTxnLock = new object();
+        readonly ConcurrentDictionary<UIntPtr, Transaction> transactions = new ConcurrentDictionary<UIntPtr, Transaction>();
+        readonly Dictionary<string, Database> databases = new Dictionary<string, Database>(StringComparer.OrdinalIgnoreCase);
+
+        public Database this[string name] {
+            get {
+                lock (dbTxnLock) {
+                    return databases[name];
+                }
+            }
+        }
+
+        public IEnumerable<Database> GetDatabases() {
+            lock (dbTxnLock) {
+                return databases.Values;
+            }
+        }
+
+        void TransactionDisposed(UIntPtr txnId) {
+            transactions.TryRemove(txnId, out Transaction value);
+        }
+
+        void DatabaseTransactionClosed(UIntPtr txnId) {
+            lock (dbTxnLock) {
+                activeDbTxn = null;
+            }
+        }
+
+        void DatabaseDisposed(Database db) {
+            lock (dbTxnLock) {
+                databases.Remove(db.Name);
+            }
+        }
+
+        /// <summary>
+        /// Create a transaction for use with the environment.
+        /// The transaction handle may be discarded using mdb_txn_abort() or mdb_txn_commit().
+        /// Note: A transaction and its cursors must only be used by a single thread, and a thread may only have a single transaction at a time.
+        /// If MDB_NOTLS is in use, this does not apply to read-only transactions.
+        /// Cursors may not span transactions.
+        /// </summary>
+        /// <param name="modes">Special options for this transaction. This parameter must be set to 0 or by bitwise OR'ing together.</param>
+        /// <param name="parent">
+        /// If this parameter is non-NULL, the new transaction will be a nested transaction, with the transaction
+        /// indicated by parent as its parent. Transactions may be nested to any level.
+        /// A parent transaction and its cursors may not issue any other operations than
+        /// mdb_txn_commit and mdb_txn_abort while it has active child transactions.
+        /// </param>
+        /// <returns>Ne transaction instance.</returns>
+        public Transaction BeginTransaction(TransactionModes modes, Transaction parent = null) {
+            var (txn, txnId) = BeginTransactionInternal(modes, parent);
+            var result = new Transaction(txn, parent, TransactionDisposed);
+            if (!transactions.TryAdd(txnId, result)) {
+                Lib.mdb_txn_abort(txn);
+                throw new LmdbException($"Transaction with same Id {txnId} exists already.");
+            }
+            return result;
+        }
+
+        (IntPtr txn, UIntPtr txnId) BeginTransactionInternal(TransactionModes modes, Transaction parent) {
+            var parentTxn = parent?.Handle ?? IntPtr.Zero;
+            var txn = GetChecked((out IntPtr value) => Lib.mdb_txn_begin(env, parentTxn, modes, out value));
+            var txnId = Lib.mdb_txn_id(txn);
+            return (txn, txnId);
+        }
+
+        /// <summary>
+        /// Create a transaction that allows opening databases in the environment. <see cref="BeginTransaction"/>.
+        /// A newly opened database handle will be private to the transaction until the transaction is successfully committed.
+        /// If the transaction is aborted the handle will be closed automatically.
+        /// After a successful commit the handle will reside in the shared environment, and may be used by other transactions.
+        /// The OpenDatabase function must not be called from multiple concurrent transactions in the same process.
+        /// A transaction that uses that function must finish (either commit or abort) before any other transaction in the process
+        /// may use the OpenDatabase function, therefore only one such transaction is allowed to be active in the environment at a time.
+        /// </summary>
+        /// <param name="modes">Special options for this transaction..</param>
+        /// <param name="parent">If this parameter is non-NULL, the new transaction will be a nested transaction.</param>
+        /// <returns>Ne transaction instance.</returns>
+        public DOpenDbTransaction BeginOpenDbTransaction(TransactionModes modes, Transaction parent = null) {
+            if ((modes & TransactionModes.ReadOnly) != 0)
+                throw new LmdbException("An OpenDbTransaction must not be read-only");
+            lock (dbTxnLock) {
+                if (activeDbTxn != null)
+                    throw new LmdbException("Only one OpenDbTransaction can be active at a time.");
+                var (txn, txnId) = BeginTransactionInternal(modes, parent);
+                return new DOpenDbTransaction(txn, parent, DatabaseTransactionClosed, databases, DatabaseDisposed);
+            }
+        }
+
+        #endregion
+
         #region Unmanaged Resources
 
         protected internal readonly object rscLock = new object();
@@ -167,7 +321,7 @@ namespace KdSoft.Lmdb
         internal volatile IntPtr env;
         readonly GCHandle instanceHandle;
 
-        HashSet<Database> databases = new HashSet<Database>(new Database.EqualityComparer(StringComparer.OrdinalIgnoreCase));
+        internal IntPtr Handle => env;
 
         void ReleaseUnmanagedResources() {
             IntPtr resHandle = this.env;
@@ -210,8 +364,18 @@ namespace KdSoft.Lmdb
                 finally {
                     if (disposing) {
                         // dispose managed state (managed objects).
-                        foreach (var db in databases)
-                            db.Dispose();
+                        foreach (var txEntry in transactions) {
+                            txEntry.Value.Dispose();
+                        }
+                        lock (dbTxnLock) {
+                            activeDbTxn?.Dispose();
+                            // It is very rarely necessary to close a database handle, and in general they should just be left open.
+                            // Therefore we just set the database handle to 0 when the environment is Disposed(), so that
+                            // using the Database instance will raise the appropriate exception
+                            foreach (var dbEntry in databases) {
+                                dbEntry.Value.ClearHandle();
+                            }
+                        }
                     }
                     // free unmanaged resources (unmanaged objects) and override a finalizer below.
                     ReleaseUnmanagedResources();
@@ -221,8 +385,8 @@ namespace KdSoft.Lmdb
                     instanceHandle.Free();
 
                 // set large fields to null.
+                transactions.Clear();
                 databases.Clear();
-                databases = null;
             }
         }
 
@@ -230,10 +394,17 @@ namespace KdSoft.Lmdb
             Dispose(false);
         }
 
+        /// <summary>
+        /// Close the environment and release the memory map. Same as Close().
+        /// Only a single thread may call this function. All transactions, databases, and cursors must already be closed
+        /// before calling this function. Attempts to use any such handles after calling this function will cause a SIGSEGV.
+        /// The environment handle will be freed and must not be used again after this call.
+        /// </summary>
         public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
         #endregion
 
         #region Nested Types

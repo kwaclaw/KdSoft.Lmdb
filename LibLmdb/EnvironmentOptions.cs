@@ -7,7 +7,7 @@ namespace KdSoft.Lmdb
     /// Options to open LMDB environment
     /// </summary>
     [Flags]
-    public enum MdbEnvOpenOptions : uint
+    public enum EnvironmentOptions : uint
     {
         /// <summary>
         /// No special options.
@@ -21,14 +21,14 @@ namespace KdSoft.Lmdb
         /// This option may not always work, depending on how the operating system has allocated memory to shared libraries and other uses. 
         /// The feature is highly experimental.
         /// </summary>
-        FixedMap = MdbConstants.MDB_FIXEDMAP,
+        FixedMap = LibConstants.MDB_FIXEDMAP,
 
         /// <summary>
         /// MDB_NOSUBDIR. By default, MDB creates its environment in a directory whose pathname is given in path, and creates its data and lock files under that directory. 
         /// With this option, path is used as-is for the database main data file. 
         /// The database lock file is the path with "-lock" appended.
         /// </summary>
-        NoSubDir = MdbConstants.MDB_NOSUBDIR,
+        NoSubDir = LibConstants.MDB_NOSUBDIR,
 
         /// <summary>
         /// MDB_NOSYNC. Don't flush system buffers to disk when committing a transaction. 
@@ -40,14 +40,14 @@ namespace KdSoft.Lmdb
         /// (MDB_MAPASYNC | MDB_WRITEMAP) may be preferable. 
         /// This flag may be changed at any time using mdb_env_set_flags().
         /// </summary>
-        NoSync = MdbConstants.MDB_NOSYNC,
+        NoSync = LibConstants.MDB_NOSYNC,
 
         /// <summary>
         /// MDB_RDONLY. Open the environment in read-only mode. 
         /// No write operations will be allowed. 
         /// MDB will still modify the lock file - except on read-only filesystems, where MDB does not use locks.
         /// </summary>
-        ReadOnly = MdbConstants.MDB_RDONLY,
+        ReadOnly = LibConstants.MDB_RDONLY,
 
         /// <summary>
         /// MDB_NOMETASYNC. Flush system buffers to disk only once per transaction, omit the metadata flush. 
@@ -56,14 +56,14 @@ namespace KdSoft.Lmdb
         /// I.e. it preserves the ACI (atomicity, consistency, isolation) but not D (durability) database property. 
         /// This flag may be changed at any time using mdb_env_set_flags().
         /// </summary>
-        NoMetaSync = MdbConstants.MDB_NOMETASYNC,
+        NoMetaSync = LibConstants.MDB_NOMETASYNC,
 
         /// <summary>
         /// MDB_WRITEMAP Use a writeable memory map unless MDB_RDONLY is set. 
         /// This is faster and uses fewer mallocs, but loses protection from application bugs like wild pointer writes and other bad updates into the database. 
         /// Incompatible with nested transactions.
         /// </summary>
-        WriteMap = MdbConstants.MDB_WRITEMAP,
+        WriteMap = LibConstants.MDB_WRITEMAP,
 
         /// <summary>
         /// MDB_MAPASYNC. When using MDB_WRITEMAP, use asynchronous flushes to disk. 
@@ -71,27 +71,27 @@ namespace KdSoft.Lmdb
         /// Calling mdb_env_sync() ensures on-disk database integrity until next commit. 
         /// This flag may be changed at any time using mdb_env_set_flags().
         /// </summary>
-        MapAsync = MdbConstants.MDB_MAPASYNC,
+        MapAsync = LibConstants.MDB_MAPASYNC,
 
         /// <summary>
         /// MDB_NOTLS. tie reader locktable slots to MDB_txn objects instead of to threads
         /// </summary>
-        NoThreadLocalStorage = MdbConstants.MDB_NOTLS,
+        NoThreadLocalStorage = LibConstants.MDB_NOTLS,
 
         /// <summary>
         /// MDB_NOLOCK. don't do any locking, caller must manage their own locks
         /// </summary>
-        NoLock = MdbConstants.MDB_NOLOCK,
+        NoLock = LibConstants.MDB_NOLOCK,
 
         /// <summary>
         /// MDB_NORDAHEAD. don't do readahead (no effect on Windows)
         /// </summary>
-        NoReadAhead = MdbConstants.MDB_NORDAHEAD,
+        NoReadAhead = LibConstants.MDB_NORDAHEAD,
 
         /// <summary>
         /// MDB_NOMEMINIT. don't initialize malloc'd memory before writing to datafile
         /// </summary>
-        NoMemoryInitialization = MdbConstants.MDB_NOMEMINIT
+        NoMemoryInitialization = LibConstants.MDB_NOMEMINIT
     }
 
     /// <summary>
@@ -105,6 +105,6 @@ namespace KdSoft.Lmdb
         /// <summary>
         /// MDB_CP_COMPACT. Compacting copy: Omit free space from copy, and renumber all pages sequentially.
         /// </summary>
-        Compact = MdbConstants.MDB_CP_COMPACT
+        Compact = LibConstants.MDB_CP_COMPACT
     }
 }

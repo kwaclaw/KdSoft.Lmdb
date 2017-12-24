@@ -7,7 +7,7 @@ namespace KdSoft.Lmdb
     /// Statistics for a database in the environment
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = Compile.PackSize)]
-    public struct MdbEnvInfo
+    public struct EnvironmentInfo
     {
         /// <summary>
         /// Address of map, if fixed

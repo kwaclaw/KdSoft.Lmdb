@@ -6,7 +6,8 @@ namespace KdSoft.Lmdb.Tests
 {
     public class EnvironmentTests
     {
-        ITestOutputHelper output;
+        readonly ITestOutputHelper output;
+        const string envPath = @"F:\Work\Private\KdSoft.Lmdb\Tests\TestEnv";
 
         public EnvironmentTests(ITestOutputHelper output) {
             this.output = output;
@@ -15,7 +16,7 @@ namespace KdSoft.Lmdb.Tests
         [Fact]
         public void OpenEnvironment() {
             using (var env = new Environment()) {
-                env.Open(@"F:\Work\Private\KdSoft.Lmdb\Tests\TestEnv");
+                env.Open(envPath);
                 var envInfo = env.GetInfo();
                 output.WriteLine($"MapAddr: {envInfo.MapAddr}");
                 output.WriteLine($"MapSize: {envInfo.MapSize}");
@@ -23,6 +24,27 @@ namespace KdSoft.Lmdb.Tests
                 output.WriteLine($"NumReaders: {envInfo.NumReaders}");
                 output.WriteLine($"LastPgNo: {envInfo.LastPgNo}");
                 output.WriteLine($"LastTxnId: {envInfo.LastTxnId}");
+            }
+        }
+
+        [Fact]
+        public void AbortTransaction() {
+            using (var env = new Environment()) {
+                env.Open(envPath);
+                using (var tx = env.BeginTransaction(TransactionModes.None)) {
+                    //
+                }
+            }
+
+        }
+
+        [Fact]
+        public void CommitTransaction() {
+            using (var env = new Environment()) {
+                env.Open(envPath);
+                using (var tx = env.BeginTransaction(TransactionModes.None)) {
+                    tx.Commit();
+                }
             }
         }
     }

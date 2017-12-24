@@ -6,7 +6,7 @@ using System.Text;
 
 namespace KdSoft.Lmdb
 {
-    public static unsafe class MdbUtil
+    public static unsafe class LibUtil
     {
         // calculates length of null-terminated byte string
         public static int ByteStrLen(byte* str) {

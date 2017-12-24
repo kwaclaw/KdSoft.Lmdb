@@ -52,7 +52,7 @@ namespace KdSoft.Lmdb
                     errStr = DotNetStr(ret);
                 else
                     errStr = UnknownStr(ret);
-                throw new MbException(ret, errStr);
+                throw new LmdbException(ret, errStr);
             }
         }
 

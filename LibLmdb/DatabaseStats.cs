@@ -7,7 +7,7 @@ namespace KdSoft.Lmdb
     /// Statistics for a database in the environment
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = Compile.PackSize)]
-    public struct MdbStat
+    public struct DatabaseStats
     {
         /// <summary>
         /// Size of a database page. This is currently the same for all databases.

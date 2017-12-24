@@ -109,39 +109,39 @@
         /// <summary>
         /// Overwrite the current key/data pair
         /// </summary>
-        Current = MdbConstants.MDB_CURRENT,
+        Current = LibConstants.MDB_CURRENT,
 
         /// <summary>
         /// For put: Don't write if the key already exists.
         /// </summary>
-        NoOverwrite = MdbConstants.MDB_NOOVERWRITE,
+        NoOverwrite = LibConstants.MDB_NOOVERWRITE,
 
        /// <summary>
         /// Only for MDB_DUPSORT
         /// For put: don't write if the key and data pair already exist.
         /// For mdb_cursor_del: remove all duplicate data items.
         /// </summary>
-        NoDuplicateData = MdbConstants.MDB_NODUPDATA,
+        NoDuplicateData = LibConstants.MDB_NODUPDATA,
 
         /// <summary>
         /// For put: Just reserve space for data, don't copy it. Return a pointer to the reserved space.
         /// </summary>
-        ReserveSpace = MdbConstants.MDB_RESERVE,
+        ReserveSpace = LibConstants.MDB_RESERVE,
 
         /// <summary>
         /// Data is being appended, don't split full pages.
         /// </summary>
-        AppendData = MdbConstants.MDB_APPEND,
+        AppendData = LibConstants.MDB_APPEND,
 
         /// <summary>
         /// Duplicate data is being appended, don't split full pages.
         /// </summary>
-        AppendDuplicateData = MdbConstants.MDB_APPENDDUP,
+        AppendDuplicateData = LibConstants.MDB_APPENDDUP,
 
         /// <summary>
         /// Store multiple data items in one call. Only for MDB_DUPFIXED.
         /// </summary>
-        MultipleData = MdbConstants.MDB_MULTIPLE
+        MultipleData = LibConstants.MDB_MULTIPLE
     }
 
     /// <summary>
@@ -159,6 +159,6 @@
         /// For put: don't write if the key and data pair already exist.
         /// For mdb_cursor_del: remove all duplicate data items.
         /// </summary>
-        NoDuplicateData = MdbConstants.MDB_NODUPDATA
+        NoDuplicateData = LibConstants.MDB_NODUPDATA
     }
 }

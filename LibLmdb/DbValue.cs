@@ -6,9 +6,9 @@ using System.Text;
 namespace KdSoft.Lmdb
 {
     [StructLayout(LayoutKind.Sequential, Pack = Compile.PackSize)]
-    public unsafe struct MdbValue
+    public unsafe struct DbValue
     {
-        public MdbValue(long size, byte* data) {
+        public DbValue(long size, byte* data) {
             this.Size = (IntPtr)size;
             this.Data = (IntPtr)data;
         }
