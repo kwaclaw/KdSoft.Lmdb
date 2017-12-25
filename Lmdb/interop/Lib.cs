@@ -5,6 +5,7 @@ using System.Security;
 namespace KdSoft.Lmdb
 {
     /// <summary>Interface to the LMDB library.</summary>
+    [CLSCompliant(false)]
     [SuppressUnmanagedCodeSecurity]
     public static class Lib
     {
@@ -109,7 +110,7 @@ namespace KdSoft.Lmdb
         public static extern IntPtr mdb_txn_env(IntPtr txn);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern UIntPtr mdb_txn_id(IntPtr txn);
+        public static extern IntPtr mdb_txn_id(IntPtr txn);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_txn_commit(IntPtr txn);

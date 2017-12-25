@@ -4,7 +4,7 @@ namespace KdSoft.Lmdb
 {
     public class Transaction: AbstractTransaction
     {
-        internal Transaction(IntPtr handle, Transaction parent, Action<UIntPtr> disposed) : base(handle, parent, disposed) {
+        internal Transaction(IntPtr handle, Transaction parent, Action<IntPtr> disposed) : base(handle, parent, disposed) {
             //
         }
 

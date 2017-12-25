@@ -32,11 +32,11 @@ namespace KdSoft.Lmdb
         /// <summary>
         /// max reader slots in the environment
         /// </summary>
-        public readonly uint MaxReaders;
+        public readonly int MaxReaders;
 
         /// <summary>
         /// max reader slots used in the environment
         /// </summary>
-        public readonly uint NumReaders;
+        public readonly int NumReaders;
     }
 }

@@ -7,9 +7,9 @@ namespace KdSoft.Lmdb
     public abstract class AbstractTransaction: IDisposable
     {
         readonly Transaction parent;
-        readonly Action<UIntPtr> disposed;
+        readonly Action<IntPtr> disposed;
 
-        protected AbstractTransaction(IntPtr handle, Transaction parent, Action<UIntPtr> disposed) {
+        protected AbstractTransaction(IntPtr handle, Transaction parent, Action<IntPtr> disposed) {
             this.handle = handle;
             this.parent = parent;
             this.disposed = disposed;
@@ -42,7 +42,7 @@ namespace KdSoft.Lmdb
             }
         }
 
-        public UIntPtr Id {
+        public IntPtr Id {
             get {
                 lock (rscLock) {
                     var txn = CheckDisposed();

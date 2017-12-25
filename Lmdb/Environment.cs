@@ -106,14 +106,14 @@ namespace KdSoft.Lmdb
         /// Currently a moderate number of slots are cheap but a huge number gets expensive: 7-120 words per transaction,
         /// and every mdb_dbi_open() does a linear search of the opened slots.
         /// </summary>
-        public uint MaxDatabases {
+        public int MaxDatabases {
             get {
                 CheckDisposed();
-                return maxDatabases;
+                return unchecked((int)maxDatabases);
             }
             set {
-                RunChecked(() => Lib.mdb_env_set_maxdbs(env, value));
-                maxDatabases = value;
+                RunChecked(() => Lib.mdb_env_set_maxdbs(env, unchecked((uint)value)));
+                maxDatabases = unchecked((uint)value);
             }
         }
 
@@ -124,9 +124,9 @@ namespace KdSoft.Lmdb
         /// ties the slot to the MDB_txn object until it or the MDB_env object is destroyed.
         /// This function may only be called after mdb_env_create() and before mdb_env_open().
         /// </summary>
-        public uint MaxReaders {
-            get => GetChecked((out uint value) => Lib.mdb_env_get_maxreaders(env, out value));
-            set => RunChecked(() => Lib.mdb_env_set_maxreaders(env, value));
+        public int MaxReaders {
+            get => unchecked((int)GetChecked((out uint value) => Lib.mdb_env_get_maxreaders(env, out value)));
+            set => RunChecked(() => Lib.mdb_env_set_maxreaders(env, unchecked((uint)value)));
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace KdSoft.Lmdb
 
         DOpenDbTransaction activeDbTxn;
         readonly object dbTxnLock = new object();
-        readonly ConcurrentDictionary<UIntPtr, Transaction> transactions = new ConcurrentDictionary<UIntPtr, Transaction>();
+        readonly ConcurrentDictionary<IntPtr, Transaction> transactions = new ConcurrentDictionary<IntPtr, Transaction>();
         readonly Dictionary<string, Database> databases = new Dictionary<string, Database>(StringComparer.OrdinalIgnoreCase);
 
         public Database this[string name] {
@@ -240,11 +240,11 @@ namespace KdSoft.Lmdb
             }
         }
 
-        void TransactionDisposed(UIntPtr txnId) {
+        void TransactionDisposed(IntPtr txnId) {
             transactions.TryRemove(txnId, out Transaction value);
         }
 
-        void DatabaseTransactionClosed(UIntPtr txnId) {
+        void DatabaseTransactionClosed(IntPtr txnId) {
             lock (dbTxnLock) {
                 activeDbTxn = null;
             }
@@ -281,7 +281,7 @@ namespace KdSoft.Lmdb
             return result;
         }
 
-        (IntPtr txn, UIntPtr txnId) BeginTransactionInternal(TransactionModes modes, Transaction parent) {
+        (IntPtr txn, IntPtr txnId) BeginTransactionInternal(TransactionModes modes, Transaction parent) {
             var parentTxn = parent?.Handle ?? IntPtr.Zero;
             var txn = GetChecked((out IntPtr value) => Lib.mdb_txn_begin(env, parentTxn, modes, out value));
             var txnId = Lib.mdb_txn_id(txn);
@@ -415,11 +415,11 @@ namespace KdSoft.Lmdb
         public class Configuration
         {
             public long? MapSize { get; }
-            public uint? MaxReaders { get; }
-            public uint? MaxDatabases { get; }
+            public int? MaxReaders { get; }
+            public int? MaxDatabases { get; }
             public bool AutoReduceMapSizeIn32BitProcess { get; }
 
-            public Configuration(uint? maxDatabases = null, uint? maxReaders = null, long? mapSize = null, bool autoReduceMapSizeIn32BitProcess = false) {
+            public Configuration(int? maxDatabases = null, int? maxReaders = null, long? mapSize = null, bool autoReduceMapSizeIn32BitProcess = false) {
                 this.MaxDatabases = maxDatabases;
                 this.MaxReaders = maxReaders;
                 this.MapSize = mapSize;

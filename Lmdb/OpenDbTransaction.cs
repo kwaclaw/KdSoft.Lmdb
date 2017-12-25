@@ -15,7 +15,7 @@ namespace KdSoft.Lmdb
         internal DOpenDbTransaction(
             IntPtr handle,
             Transaction parent,
-            Action<UIntPtr> closed,
+            Action<IntPtr> closed,
             Dictionary<string, Database> committedDatabases,
             Action<Database> committedDisposed
         ) : base(handle, parent, closed) {

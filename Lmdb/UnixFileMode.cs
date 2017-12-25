@@ -6,7 +6,7 @@ namespace KdSoft.Lmdb
     /// Unix file access privilegies
     /// </summary>
     [Flags]
-    public enum UnixFileMode : uint
+    public enum UnixFileMode
     {
         /// <summary>
         /// S_IRUSR, read permission, owner

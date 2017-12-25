@@ -8,6 +8,7 @@ namespace KdSoft.Lmdb
     [StructLayout(LayoutKind.Sequential, Pack = Compile.PackSize)]
     public unsafe struct DbValue
     {
+        [CLSCompliant(false)]
         public DbValue(long size, byte* data) {
             this.Size = (IntPtr)size;
             this.Data = (IntPtr)data;

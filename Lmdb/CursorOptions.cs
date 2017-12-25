@@ -3,7 +3,7 @@
     /// <summary>
     /// Cursor operation types
     /// </summary>
-    public enum CursorOperation : int
+    public enum CursorOperation
     {
         /// <summary>
         /// Position at first key/data item
@@ -99,7 +99,7 @@
     /// <summary>
     /// Special options for cursor put operation.
     /// </summary>
-    public enum CursorPutOptions: uint
+    public enum CursorPutOptions: int
     {
         /// <summary>
         /// No special behavior.
@@ -109,45 +109,45 @@
         /// <summary>
         /// Overwrite the current key/data pair
         /// </summary>
-        Current = LibConstants.MDB_CURRENT,
+        Current = (int)LibConstants.MDB_CURRENT,
 
         /// <summary>
         /// For put: Don't write if the key already exists.
         /// </summary>
-        NoOverwrite = LibConstants.MDB_NOOVERWRITE,
+        NoOverwrite = (int)LibConstants.MDB_NOOVERWRITE,
 
        /// <summary>
         /// Only for MDB_DUPSORT
         /// For put: don't write if the key and data pair already exist.
         /// For mdb_cursor_del: remove all duplicate data items.
         /// </summary>
-        NoDuplicateData = LibConstants.MDB_NODUPDATA,
+        NoDuplicateData = (int)LibConstants.MDB_NODUPDATA,
 
         /// <summary>
         /// For put: Just reserve space for data, don't copy it. Return a pointer to the reserved space.
         /// </summary>
-        ReserveSpace = LibConstants.MDB_RESERVE,
+        ReserveSpace = (int)LibConstants.MDB_RESERVE,
 
         /// <summary>
         /// Data is being appended, don't split full pages.
         /// </summary>
-        AppendData = LibConstants.MDB_APPEND,
+        AppendData = (int)LibConstants.MDB_APPEND,
 
         /// <summary>
         /// Duplicate data is being appended, don't split full pages.
         /// </summary>
-        AppendDuplicateData = LibConstants.MDB_APPENDDUP,
+        AppendDuplicateData = (int)LibConstants.MDB_APPENDDUP,
 
         /// <summary>
         /// Store multiple data items in one call. Only for MDB_DUPFIXED.
         /// </summary>
-        MultipleData = LibConstants.MDB_MULTIPLE
+        MultipleData = (int)LibConstants.MDB_MULTIPLE
     }
 
     /// <summary>
     /// Cursor delete operation options
     /// </summary>
-    public enum CursorDeleteOptions: uint
+    public enum CursorDeleteOptions
     {
         /// <summary>
         /// No special behavior
@@ -159,6 +159,6 @@
         /// For put: don't write if the key and data pair already exist.
         /// For mdb_cursor_del: remove all duplicate data items.
         /// </summary>
-        NoDuplicateData = LibConstants.MDB_NODUPDATA
+        NoDuplicateData = (int)LibConstants.MDB_NODUPDATA
     }
 }

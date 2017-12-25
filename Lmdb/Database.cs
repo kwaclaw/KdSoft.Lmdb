@@ -7,7 +7,6 @@ namespace KdSoft.Lmdb
 {
     public class Database: IDisposable
     {
-
         public string Name { get; }
 
         // should we make the "creating/opening" transaction update the Database state once the transaction  is committed? Because:
@@ -65,6 +64,7 @@ namespace KdSoft.Lmdb
 
         public const string disposedStr = "Database handle closed.";
 
+        [CLSCompliant(false)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected uint CheckDisposed() {
             // avoid multiple volatile memory access

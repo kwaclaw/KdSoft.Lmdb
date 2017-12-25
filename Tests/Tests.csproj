@@ -17,13 +17,13 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(OS)' == 'Unix' ">
-    <NativeLib Include="../LibLmdb/runtimes/osx/native/lmdb.dylib" />
+    <NativeLib Include="../Lmdb/runtimes/osx/native/lmdb.dylib" />
   </ItemGroup>
   <ItemGroup Condition=" '$(Platform)' == 'x86' AND '$(OS)' != 'Unix' ">
-    <NativeLib Include="../LibLmdb/runtimes/win-x86/native/lmdb.dll" />
+    <NativeLib Include="../Lmdb/runtimes/win-x86/native/lmdb.dll" />
   </ItemGroup>
   <ItemGroup Condition=" ('$(Platform)' == 'x64' OR '$(Platform)' == 'AnyCPU') AND '$(OS)' == 'Windows_NT' ">
-    <NativeLib Include="../LibLmdb/runtimes/win-x64/native/lmdb.dll" />
+    <NativeLib Include="../Lmdb/runtimes/win-x64/native/lmdb.dll" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="TestEnv\" />

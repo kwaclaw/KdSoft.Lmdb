@@ -12,12 +12,12 @@ namespace KdSoft.Lmdb
         /// <summary>
         /// Size of a database page. This is currently the same for all databases.
         /// </summary>
-        public readonly uint PageSize;
+        public readonly int PageSize;
 
         /// <summary>
         /// Depth (height) of the B-tree
         /// </summary>
-        public readonly uint Depth;
+        public readonly int Depth;
 
         /// <summary>
         /// Number of internal (non-leaf) pages

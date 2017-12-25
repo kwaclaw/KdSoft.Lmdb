@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace KdSoft.Lmdb
 {
+    [CLSCompliant(false)]
     public static unsafe class LibUtil
     {
         // calculates length of null-terminated byte string

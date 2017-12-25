@@ -1,5 +1,8 @@
-﻿namespace KdSoft.Lmdb
+﻿using System;
+
+namespace KdSoft.Lmdb
 {
+    [CLSCompliant(false)]
     public static class LibConstants
     {
         /** mdb_env	Environment Flags */
