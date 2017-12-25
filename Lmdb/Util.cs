@@ -43,6 +43,7 @@ namespace KdSoft.Lmdb
         public const DbRetCode MdbLowError = (DbRetCode)(-30800);
         public const DbRetCode DotNetLowError = (DbRetCode)(-41000);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void CheckRetCode(DbRetCode ret) {
             if (ret != DbRetCode.SUCCESS) {
                 string errStr;
@@ -55,6 +56,5 @@ namespace KdSoft.Lmdb
                 throw new LmdbException(ret, errStr);
             }
         }
-
     }
 }

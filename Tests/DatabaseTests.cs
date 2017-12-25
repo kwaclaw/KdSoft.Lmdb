@@ -21,15 +21,23 @@ namespace KdSoft.Lmdb.Tests
 
         [Fact]
         public void OpenDatabase() {
+            var config = new Database.Configuration(DatabaseOptions.Create);
             Database dbase;
             using (var tx = env.BeginOpenDbTransaction(TransactionModes.None)) {
-                dbase = tx.OpenDatabase("TestDb1", DatabaseOptions.Create);
+                dbase = tx.OpenDatabase("TestDb1", config);
                 tx.Commit();
             }
 
             var dbs = env.GetDatabases();
             foreach (var db in dbs)
                 output.WriteLine($"Database '{db.Name}'");
+
+            using (var tx = env.BeginTransaction(TransactionModes.None)) {
+                dbase.Drop(tx);
+                tx.Commit();
+            }
+
+            Assert.Empty(env.GetDatabases());
         }
     }
 }

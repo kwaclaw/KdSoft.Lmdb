@@ -8,25 +8,14 @@ namespace KdSoft.Lmdb
     public class Database: IDisposable
     {
         public string Name { get; }
+        public Configuration Config { get; }
 
-        // should we make the "creating/opening" transaction update the Database state once the transaction  is committed? Because:
-        // The handle may only be closed once.
-        // The database handle will be private to the current transaction until the transaction is successfully committed.
-        // If the transaction is aborted the handle will be closed automatically.
-        // After a successful commit the handle will reside in the shared environment, and may be used by other transactions.
-
-        //TODO we first track a newly created database in its transaction, and when the transaction commits we pass it to the environment.
-        //TODO figure out how we can prevent two transactions to open the same database name - maybe there should be a global
-        //     databases dictionary (in environment), and the transaction only gets a list of "uncommitted" databases?
-        //     or does the "uncommitted" state mean a database becomes only "real" once it is committed and before that
-        //     we don't have to care for name clashes!
-
-
-        internal Database(uint dbi, IntPtr env, string name, Action<Database> disposed) {
+        internal Database(uint dbi, IntPtr env, string name, Action<Database> disposed, Configuration config) {
             this.dbi = dbi;
             this.env = env;
             this.Name = name;
             this.disposed = disposed;
+            this.Config = config;
         }
 
         Action<Database> disposed;
@@ -42,6 +31,78 @@ namespace KdSoft.Lmdb
                     return (Environment)gcHandle.Target;
                 }
             }
+        }
+
+        #region Helpers
+
+        [CLSCompliant(false)]
+        protected void RunChecked(Func<uint, DbRetCode> libFunc) {
+            lock (rscLock) {
+                var handle = CheckDisposed();
+                var ret = libFunc(handle);
+                Util.CheckRetCode(ret);
+            }
+        }
+
+        [CLSCompliant(false)]
+        protected delegate R LibFunc<T, out R>(uint handle, out T result);
+
+        [CLSCompliant(false)]
+        protected T GetChecked<T>(LibFunc<T, DbRetCode> libFunc) {
+            lock (rscLock) {
+                var handle = CheckDisposed();
+                var ret = libFunc(handle, out var result);
+                Util.CheckRetCode(ret);
+                return result;
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Same as <see cref="Dispose()"/>. Close a database handle. Normally unnecessary. Use with care:
+        /// This call is not mutex protected. Handles should only be closed by a single thread, and only
+        /// if no other threads are going to reference the database handle or one of its cursors any further.
+        /// Do not close a handle if an existing transaction has modified its database.
+        /// Doing so can cause misbehavior from database corruption to errors like MDB_BAD_VALSIZE(since the DB name is gone).
+        /// Closing a database handle is not necessary, but lets mdb_dbi_open() reuse the handle value.
+        /// Usually it's better to set a bigger mdb_env_set_maxdbs(), unless that value would be large.
+        /// </summary>
+        public void Close() {
+            Dispose();
+        }
+
+        /// <summary>
+        /// Empty a database.
+        /// </summary>
+        public void Truncate(Transaction transaction) {
+            RunChecked((handle) => Lib.mdb_drop(transaction.Handle, handle, false));
+        }
+
+        /// <summary>
+        /// Delete and close a database. See <see cref="Close()"/> for restrictions.
+        /// </summary>
+        public void Drop(Transaction transaction) {
+            lock (rscLock) {
+                var handle = CheckDisposed();
+                var ret = Lib.mdb_drop(transaction.Handle, handle, true);
+                Util.CheckRetCode(ret);
+                SetDisposed();
+            }
+        }
+
+        /// <summary>
+        /// Retrieve statistics for the database.
+        /// </summary>
+        public Statistics GetStats(Transaction transaction) {
+            return GetChecked((uint handle, out Statistics value) => Lib.mdb_stat(transaction.Handle, handle, out value));
+        }
+
+        /// <summary>
+        /// Retrieve the options for the database.
+        /// </summary>
+        public DatabaseOptions GetOptions(Transaction transaction) {
+            return GetChecked((uint handle, out DatabaseOptions value) => Lib.mdb_dbi_flags(transaction.Handle, handle, out value));
         }
 
         #region Unmanaged Resources
@@ -112,10 +173,13 @@ namespace KdSoft.Lmdb
         }
 
         /// <summary>
-        /// Close the environment and release the memory map. Same as Close().
-        /// Only a single thread may call this function. All transactions, databases, and cursors must already be closed
-        /// before calling this function. Attempts to use any such handles after calling this function will cause a SIGSEGV.
-        /// The environment handle will be freed and must not be used again after this call.
+        /// Same as <see cref="Close"/>. Close a database handle. Normally unnecessary. Use with care:
+        /// This call is not mutex protected. Handles should only be closed by a single thread, and only
+        /// if no other threads are going to reference the database handle or one of its cursors any further.
+        /// Do not close a handle if an existing transaction has modified its database.
+        /// Doing so can cause misbehavior from database corruption to errors like MDB_BAD_VALSIZE(since the DB name is gone).
+        /// Closing a database handle is not necessary, but lets mdb_dbi_open() reuse the handle value.
+        /// Usually it's better to set a bigger mdb_env_set_maxdbs(), unless that value would be large.
         /// </summary>
         public void Dispose() {
             Dispose(true);
@@ -124,7 +188,23 @@ namespace KdSoft.Lmdb
 
         #endregion
 
-        #region EqualityComparer
+        #region Nested Types
+
+        /// <summary>
+        /// Database configuration
+        /// </summary>
+        public class Configuration
+        {
+            public DatabaseOptions Options { get; }
+            public CompareFunction Compare { get; }
+            public CompareFunction DupCompare { get; }
+
+            public Configuration(DatabaseOptions options, CompareFunction compare = null, CompareFunction dupCompare = null) {
+                this.Options = options;
+                this.Compare = compare;
+                this.DupCompare = dupCompare;
+            }
+        }
 
         public class EqualityComparer : IEqualityComparer<Database>, IComparer<Database>
         {

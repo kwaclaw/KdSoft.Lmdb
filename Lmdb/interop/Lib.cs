@@ -4,6 +4,12 @@ using System.Security;
 
 namespace KdSoft.Lmdb
 {
+    [UnmanagedFunctionPointer(Compile.CallConv), SuppressUnmanagedCodeSecurity]
+    public delegate int CompareFunction(in DbValue x, in DbValue y);
+
+    [UnmanagedFunctionPointer(Compile.CallConv), SuppressUnmanagedCodeSecurity]
+    public delegate void AssertFunction(IntPtr env, [MarshalAs(UnmanagedType.LPStr), In] string msg);
+
     /// <summary>Interface to the LMDB library.</summary>
     [CLSCompliant(false)]
     [SuppressUnmanagedCodeSecurity]
@@ -11,11 +17,6 @@ namespace KdSoft.Lmdb
     {
         const string libName = "lmdb";
 
-        [UnmanagedFunctionPointer(Compile.CallConv), SuppressUnmanagedCodeSecurity]
-        public delegate int CompareFunction(in DbValue x, in DbValue y);
-
-        [UnmanagedFunctionPointer(Compile.CallConv), SuppressUnmanagedCodeSecurity]
-        public delegate void AssertFunction(IntPtr env, [MarshalAs(UnmanagedType.LPStr), In] string msg);
 
         [DllImport(libName, EntryPoint = "mdb_version", CallingConvention = Compile.CallConv)]
         static extern IntPtr _mdb_version(out int major, out int minor, out int patch);
@@ -52,7 +53,7 @@ namespace KdSoft.Lmdb
         public static extern DbRetCode mdb_env_copyfd2(IntPtr env, IntPtr fd, EnvironmentCopyOptions flags);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_env_stat(IntPtr env, [MarshalAs(UnmanagedType.Struct)] out DatabaseStats stat);
+        public static extern DbRetCode mdb_env_stat(IntPtr env, [MarshalAs(UnmanagedType.Struct)] out Statistics stat);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_env_info(IntPtr env, [MarshalAs(UnmanagedType.Struct)] out EnvironmentInfo stat);
@@ -132,7 +133,7 @@ namespace KdSoft.Lmdb
         public static extern DbRetCode mdb_dbi_open(IntPtr txn, string name, DatabaseOptions flags, out uint db);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_stat(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct)] out DatabaseStats stat);
+        public static extern DbRetCode mdb_stat(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct)] out Statistics stat);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_dbi_flags(IntPtr txn, uint dbi, out DatabaseOptions flags);

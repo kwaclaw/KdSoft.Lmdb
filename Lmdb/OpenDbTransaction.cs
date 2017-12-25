@@ -6,19 +6,19 @@ namespace KdSoft.Lmdb
     /// <summary>
     /// Transaction that allows creation/opening of databases. Only one of these can be active at a time.
     /// </summary>
-    public class DOpenDbTransaction: AbstractTransaction
+    public class OpenDbTransaction: Transaction
     {
         readonly Dictionary<string, Database> committedDatabases;
         readonly Action<Database> committedDisposed;
         readonly List<Database> newDatabases = new List<Database>();
 
-        internal DOpenDbTransaction(
-            IntPtr handle,
+        internal OpenDbTransaction(
+            IntPtr txn,
             Transaction parent,
             Action<IntPtr> closed,
             Dictionary<string, Database> committedDatabases,
             Action<Database> committedDisposed
-        ) : base(handle, parent, closed) {
+        ) : base(txn, parent, closed) {
             this.committedDatabases = committedDatabases;
             this.committedDisposed = committedDisposed;
         }
@@ -41,19 +41,35 @@ namespace KdSoft.Lmdb
         /// Database names are keys in the unnamed database, and may be read but not written.
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="options"></param>
+        /// <param name="config"></param>
         /// <returns></returns>
-        public Database OpenDatabase(string name, DatabaseOptions options) {
+        public Database OpenDatabase(string name, Database.Configuration config) {
             lock (rscLock) {
                 lock (dbLock) {
                     // we won't allow database name conflicts, even before the new database is committed
                     if (committedDatabases.ContainsKey(name))
                         throw new LmdbException($"Database '{name}' exists already.");
-                    var txn = CheckDisposed();
-                    var ret = Lib.mdb_dbi_open(txn, name, options, out uint dbi);
+                    var handle = CheckDisposed();
+                    var ret = Lib.mdb_dbi_open(handle, name, config.Options, out uint dbi);
                     Util.CheckRetCode(ret);
-                    var env = Lib.mdb_txn_env(Handle);
-                    var result = new Database(dbi, env, name, NewDatabaseDisposed);
+
+                    var env = Lib.mdb_txn_env(handle);
+
+                    if (config.Compare != null) {
+                        ret = Lib.mdb_set_compare(handle, dbi, config.Compare);
+                        if (ret != DbRetCode.SUCCESS)
+                            Lib.mdb_dbi_close(env, dbi);
+                        Util.CheckRetCode(ret);
+                    }
+
+                    if (config.DupCompare != null) {
+                        ret = Lib.mdb_set_dupsort(handle, dbi, config.DupCompare);
+                        if (ret != DbRetCode.SUCCESS)
+                            Lib.mdb_dbi_close(env, dbi);
+                        Util.CheckRetCode(ret);
+                    }
+
+                    var result = new Database(dbi, env, name, NewDatabaseDisposed, config);
                     newDatabases.Add(result);
                     return result;
                 }

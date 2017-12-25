@@ -4,10 +4,10 @@ using System.Runtime.InteropServices;
 namespace KdSoft.Lmdb
 {
     /// <summary>
-    /// Statistics for a database in the environment
+    /// Statistics for a database or the environment.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = Compile.PackSize)]
-    public struct DatabaseStats
+    public struct Statistics
     {
         /// <summary>
         /// Size of a database page. This is currently the same for all databases.
