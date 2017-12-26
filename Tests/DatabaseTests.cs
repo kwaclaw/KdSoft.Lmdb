@@ -11,11 +11,11 @@ namespace KdSoft.Lmdb.Tests
     [Collection("Environment")]
     public class DatabaseTests
     {
-        readonly Environment env;
+        readonly EnvironmentFixture fixture;
         readonly ITestOutputHelper output;
 
-        public DatabaseTests(EnvironmentFixture envFx, ITestOutputHelper output) {
-            this.env = envFx.Env;
+        public DatabaseTests(EnvironmentFixture fixture, ITestOutputHelper output) {
+            this.fixture = fixture;
             this.output = output;
         }
 
@@ -23,21 +23,63 @@ namespace KdSoft.Lmdb.Tests
         public void OpenDatabase() {
             var config = new Database.Configuration(DatabaseOptions.Create);
             Database dbase;
-            using (var tx = env.BeginOpenDbTransaction(TransactionModes.None)) {
+            using (var tx = fixture.Env.BeginOpenDbTransaction(TransactionModes.None)) {
                 dbase = tx.OpenDatabase("TestDb1", config);
                 tx.Commit();
             }
 
-            var dbs = env.GetDatabases();
+            var dbs = fixture.Env.GetDatabases();
             foreach (var db in dbs)
                 output.WriteLine($"Database '{db.Name}'");
 
-            using (var tx = env.BeginTransaction(TransactionModes.None)) {
+            using (var tx = fixture.Env.BeginTransaction(TransactionModes.None)) {
                 dbase.Drop(tx);
                 tx.Commit();
             }
 
-            Assert.Empty(env.GetDatabases());
+            Assert.Empty(fixture.Env.GetDatabases());
+        }
+
+        const string testData = "Test Data";
+
+        [Fact]
+        public void SimpleStoreRetrieve() {
+            var config = new Database.Configuration(DatabaseOptions.Create);
+            Database dbase;
+            using (var tx = fixture.Env.BeginOpenDbTransaction(TransactionModes.None)) {
+                dbase = tx.OpenDatabase("TestDb1", config);
+                tx.Commit();
+            }
+
+            var buffer = fixture.Buffers.Acquire(1024);
+            try {
+                var keyBuf1 = Guid.NewGuid().ToByteArray();
+                var putData1 = testData.AsReadOnlySpan().NonPortableCast<char, byte>();
+
+                var keyBuf2 = Guid.NewGuid().ToByteArray();
+                int byteCount = Encoding.UTF8.GetBytes(testData, 0, testData.Length, buffer, 0);
+                var putData2 = new ReadOnlySpan<byte>(buffer, 0, byteCount);
+
+                using (var tx = fixture.Env.BeginTransaction(TransactionModes.None)) {
+                    dbase.Put(tx, keyBuf1, putData1, PutOptions.None);
+                    dbase.Put(tx, keyBuf2, putData2, PutOptions.None);
+                    tx.Commit();
+                }
+
+                ReadOnlySpan<byte> getData1;
+                ReadOnlySpan<byte> getData2;
+                using (var tx = fixture.Env.BeginReadOnlyTransaction(TransactionModes.None)) {
+                    getData1 = dbase.Get(tx, keyBuf1);
+                    getData2 = dbase.Get(tx, keyBuf2);
+                    tx.Commit();
+                }
+
+                Assert.True(putData1.SequenceEqual(getData1));
+                Assert.Equal(testData, Encoding.UTF8.GetString(getData2.ToArray()));
+            }
+            finally {
+                fixture.Buffers.Return(buffer);
+            }
         }
     }
 }

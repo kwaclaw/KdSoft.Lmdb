@@ -1,4 +1,5 @@
 ﻿using System;
+using KdSoft.Utils;
 using Xunit;
 
 namespace KdSoft.Lmdb.Tests
@@ -12,9 +13,12 @@ namespace KdSoft.Lmdb.Tests
             var env = new Environment(config);
             env.Open(envPath);
             this.Env = env;
+            this.Buffers = new BufferPool();
         }
 
         public Environment Env { get; }
+
+        public BufferPool Buffers { get; }
 
         public void Dispose() {
             Env.Close();

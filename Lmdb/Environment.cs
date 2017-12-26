@@ -300,7 +300,7 @@ namespace KdSoft.Lmdb
         /// For details, see <see cref="BeginTransaction(TransactionModes, Transaction)"/>.
         /// </summary>
         public ReadOnlyTransaction BeginReadOnlyTransaction(TransactionModes modes, Transaction parent = null) {
-            modes = modes & TransactionModes.ReadOnly;
+            modes = modes | TransactionModes.ReadOnly;
             return (ReadOnlyTransaction)BeginTransaction(modes, parent);
         }
 
