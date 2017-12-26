@@ -105,6 +105,59 @@ namespace KdSoft.Lmdb
             return GetChecked((uint handle, out DatabaseOptions value) => Lib.mdb_dbi_flags(transaction.Handle, handle, out value));
         }
 
+        //public ReadOnlySpan<byte> Get(Transaction transaction, ReadOnlyMemory<byte> key) {
+        //    ReadOnlySpan<byte> result;
+        //    lock (rscLock) {
+        //        var handle = CheckDisposed();
+        //        DbRetCode ret;
+        //        unsafe {
+        //            using (var memHandle = key.Retain(true)) {
+        //                var dbKey = new DbValue(memHandle.Pointer, key.Length);
+        //                var dbValue = default(DbValue);
+        //                ret = Lib.mdb_get(transaction.Handle, handle, ref dbKey, ref dbValue);
+        //                result = dbValue.ToReadOnlySpan();
+        //            }
+        //        }
+        //        Util.CheckRetCode(ret);
+        //    }
+        //    return result;
+        //}
+
+        public ReadOnlySpan<byte> Get(Transaction transaction, ReadOnlySpan<byte> key) {
+            ReadOnlySpan<byte> result;
+            lock (rscLock) {
+                var handle = CheckDisposed();
+                DbRetCode ret;
+                unsafe {
+                    fixed (void* bytePtr = &MemoryMarshal.GetReference(key)) {
+                        var dbKey = new DbValue(bytePtr, key.Length);
+                        var dbValue = default(DbValue);
+                        ret = Lib.mdb_get(transaction.Handle, handle, ref dbKey, ref dbValue);
+                        result = dbValue.ToReadOnlySpan();
+                    }
+                }
+                Util.CheckRetCode(ret);
+            }
+            return result;
+        }
+
+        public void Put(Transaction transaction, ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, PutOptions options) {
+            lock (rscLock) {
+                var handle = CheckDisposed();
+                DbRetCode ret;
+                unsafe {
+                    fixed (void* keyPtr = &MemoryMarshal.GetReference(key)) {
+                        var dbKey = new DbValue(keyPtr, key.Length);
+                        fixed (void* dataPtr = &MemoryMarshal.GetReference(data)) {
+                            var dbValue = new DbValue(dataPtr, data.Length);
+                            ret = Lib.mdb_put(transaction.Handle, handle, ref dbKey, ref dbValue, options);
+                        }
+                    }
+                }
+                Util.CheckRetCode(ret);
+            }
+        }
+
         #region Unmanaged Resources
 
         protected readonly object rscLock = new object();

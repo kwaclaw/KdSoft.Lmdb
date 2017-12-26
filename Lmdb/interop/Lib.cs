@@ -4,6 +4,8 @@ using System.Security;
 
 namespace KdSoft.Lmdb
 {
+    //TODO convert compare function delegate type to use Memory<byte> or Span<byte>
+
     [UnmanagedFunctionPointer(Compile.CallConv), SuppressUnmanagedCodeSecurity]
     public delegate int CompareFunction(in DbValue x, in DbValue y);
 
