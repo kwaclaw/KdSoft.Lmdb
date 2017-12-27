@@ -7,10 +7,10 @@ using System.Runtime.InteropServices;
 
 namespace KdSoft.Lmdb
 {
+    public delegate void AssertFunction(Environment env, string msg);
+
     public class Environment: CriticalFinalizerObject, IDisposable
     {
-        //TODO keep track of databases: databases should only ever be opened once, so on additional calls we return the same handle
-
         //TODO we do not have to close transactions and cursors, but we must invalidate their handles, so we still need to track them
         readonly bool autoReduceMapSizeIn32BitProcess;
 
@@ -224,7 +224,7 @@ namespace KdSoft.Lmdb
 
         #region Databases and Transactions
 
-        OpenDbTransaction activeDbTxn;
+        DatabaseTransaction activeDbTxn;
         readonly object dbTxnLock = new object();
         readonly ConcurrentDictionary<IntPtr, Transaction> transactions = new ConcurrentDictionary<IntPtr, Transaction>();
         readonly Dictionary<string, Database> databases = new Dictionary<string, Database>(StringComparer.OrdinalIgnoreCase);
@@ -316,14 +316,14 @@ namespace KdSoft.Lmdb
         /// <param name="modes">Special options for this transaction..</param>
         /// <param name="parent">If this parameter is non-NULL, the new transaction will be a nested transaction.</param>
         /// <returns>New transaction instance.</returns>
-        public OpenDbTransaction BeginOpenDbTransaction(TransactionModes modes, Transaction parent = null) {
+        public DatabaseTransaction BeginOpenDbTransaction(TransactionModes modes, Transaction parent = null) {
             if ((modes & TransactionModes.ReadOnly) != 0)
                 throw new LmdbException("An OpenDbTransaction must not be read-only");
             lock (dbTxnLock) {
                 if (activeDbTxn != null)
                     throw new LmdbException("Only one OpenDbTransaction can be active at a time.");
                 var (txn, txnId) = BeginTransactionInternal(modes, parent);
-                return new OpenDbTransaction(txn, parent, DatabaseTransactionClosed, databases, DatabaseDisposed);
+                return new DatabaseTransaction(txn, parent, DatabaseTransactionClosed, databases, DatabaseDisposed);
             }
         }
 
