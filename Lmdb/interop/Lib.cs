@@ -4,14 +4,6 @@ using System.Security;
 
 namespace KdSoft.Lmdb
 {
-    //TODO convert compare function delegate type to use Memory<byte> or Span<byte>
-
-    [UnmanagedFunctionPointer(Compile.CallConv), SuppressUnmanagedCodeSecurity]
-    public delegate int CompareFunction(in DbValue x, in DbValue y);
-
-    [UnmanagedFunctionPointer(Compile.CallConv), SuppressUnmanagedCodeSecurity]
-    public delegate void AssertFunction(IntPtr env, [MarshalAs(UnmanagedType.LPStr), In] string msg);
-
     /// <summary>Interface to the LMDB library.</summary>
     [CLSCompliant(false)]
     [SuppressUnmanagedCodeSecurity]
@@ -19,6 +11,11 @@ namespace KdSoft.Lmdb
     {
         const string libName = "lmdb";
 
+        [UnmanagedFunctionPointer(Compile.CallConv), SuppressUnmanagedCodeSecurity]
+        public delegate int CompareFunction(in DbValue x, in DbValue y);
+
+        [UnmanagedFunctionPointer(Compile.CallConv), SuppressUnmanagedCodeSecurity]
+        public delegate void AssertFunction(IntPtr env, [MarshalAs(UnmanagedType.LPStr), In] string msg);
 
         [DllImport(libName, EntryPoint = "mdb_version", CallingConvention = Compile.CallConv)]
         static extern IntPtr _mdb_version(out int major, out int minor, out int patch);

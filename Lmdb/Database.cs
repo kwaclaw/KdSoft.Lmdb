@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 
 namespace KdSoft.Lmdb
 {
+    public delegate int CompareFunction(in ReadOnlySpan<byte> x, in ReadOnlySpan<byte> y);
+
     public class Database: IDisposable
     {
         public string Name { get; }
@@ -250,12 +252,19 @@ namespace KdSoft.Lmdb
         {
             public DatabaseOptions Options { get; }
             public CompareFunction Compare { get; }
-            public CompareFunction DupCompare { get; }
+            internal Lib.CompareFunction LibCompare { get; }
 
-            public Configuration(DatabaseOptions options, CompareFunction compare = null, CompareFunction dupCompare = null) {
+            public Configuration(DatabaseOptions options, CompareFunction compare = null) {
                 this.Options = options;
                 this.Compare = compare;
-                this.DupCompare = dupCompare;
+                if (compare != null)
+                    this.LibCompare = CompareWrapper;
+            }
+
+            // no check for Compare == null
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            int CompareWrapper(in DbValue x, in DbValue y) {
+                return Compare(x.ToReadOnlySpan(), y.ToReadOnlySpan());
             }
         }
 
