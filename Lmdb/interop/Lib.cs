@@ -129,13 +129,13 @@ namespace KdSoft.Lmdb
         #region MDB Database
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_dbi_open(IntPtr txn, string name, DatabaseOptions flags, out uint db);
+        public static extern DbRetCode mdb_dbi_open(IntPtr txn, string name, uint flags, out uint db);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_stat(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct)] out Statistics stat);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_dbi_flags(IntPtr txn, uint dbi, out DatabaseOptions flags);
+        public static extern DbRetCode mdb_dbi_flags(IntPtr txn, uint dbi, out uint flags);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern void mdb_dbi_close(IntPtr env, uint dbi);
@@ -153,7 +153,7 @@ namespace KdSoft.Lmdb
         public static extern DbRetCode mdb_get(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref DbValue key, [MarshalAs(UnmanagedType.Struct)] ref DbValue data);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_put(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref DbValue key, [MarshalAs(UnmanagedType.Struct), In] ref DbValue data, PutOptions flags);
+        public static extern DbRetCode mdb_put(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref DbValue key, [MarshalAs(UnmanagedType.Struct), In] ref DbValue data, uint flags);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_del(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref DbValue key, [MarshalAs(UnmanagedType.Struct), In] ref DbValue data);

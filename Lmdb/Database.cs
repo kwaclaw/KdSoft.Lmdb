@@ -103,28 +103,32 @@ namespace KdSoft.Lmdb
         /// <summary>
         /// Retrieve the options for the database.
         /// </summary>
-        public DatabaseOptions GetOptions(Transaction transaction) {
-            return GetChecked((uint handle, out DatabaseOptions value) => Lib.mdb_dbi_flags(transaction.Handle, handle, out value));
+        public int GetAllOptions(Transaction transaction) {
+            uint opts = GetChecked((uint handle, out uint value) => Lib.mdb_dbi_flags(transaction.Handle, handle, out value));
+            return unchecked((int)opts);
         }
 
-        //public ReadOnlySpan<byte> Get(Transaction transaction, ReadOnlyMemory<byte> key) {
-        //    ReadOnlySpan<byte> result;
-        //    lock (rscLock) {
-        //        var handle = CheckDisposed();
-        //        DbRetCode ret;
-        //        unsafe {
-        //            using (var memHandle = key.Retain(true)) {
-        //                var dbKey = new DbValue(memHandle.Pointer, key.Length);
-        //                var dbValue = default(DbValue);
-        //                ret = Lib.mdb_get(transaction.Handle, handle, ref dbKey, ref dbValue);
-        //                result = dbValue.ToReadOnlySpan();
-        //            }
-        //        }
-        //        Util.CheckRetCode(ret);
-        //    }
-        //    return result;
-        //}
+        /// <summary>
+        /// Retrieve the options for the database.
+        /// </summary>
+        public DatabaseOptions GetOptions(Transaction transaction) {
+            uint opts = GetChecked((uint handle, out uint value) => Lib.mdb_dbi_flags(transaction.Handle, handle, out value));
+            return unchecked((DatabaseOptions)opts);
+        }
 
+        /// <summary>
+        /// Get items from a database.
+        /// This function retrieves key/data pairs from the database. The address and length of the data associated with
+        /// the specified key are returned in the structure to which data refers.
+        /// If the database supports duplicate keys (MDB_DUPSORT) then the first data item for the key will be returned.
+        /// Retrieval of other items requires the use of mdb_cursor_get().
+        /// Note: The memory pointed to by the returned values is owned by the database. The caller need not dispose of the memory,
+        /// and may not modify it in any way. For values returned in a read-only transaction any modification attempts will cause a SIGSEGV.
+        /// Values returned from the database are valid only until a subsequent update operation, or the end of the transaction.
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public ReadOnlySpan<byte> Get(Transaction transaction, ReadOnlySpan<byte> key) {
             ReadOnlySpan<byte> result;
             lock (rscLock) {
@@ -143,20 +147,57 @@ namespace KdSoft.Lmdb
             return result;
         }
 
-        public void Put(Transaction transaction, ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, PutOptions options) {
+        [CLSCompliant(false)]
+        protected void PutInternal(Transaction transaction, ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, uint options) {
             lock (rscLock) {
                 var handle = CheckDisposed();
                 DbRetCode ret;
                 unsafe {
-                    fixed (void* keyPtr = &MemoryMarshal.GetReference(key)) {
+                    fixed (void* keyPtr = &MemoryMarshal.GetReference(key))
+                    fixed (void* dataPtr = &MemoryMarshal.GetReference(data)) {
                         var dbKey = new DbValue(keyPtr, key.Length);
-                        fixed (void* dataPtr = &MemoryMarshal.GetReference(data)) {
-                            var dbValue = new DbValue(dataPtr, data.Length);
-                            ret = Lib.mdb_put(transaction.Handle, handle, ref dbKey, ref dbValue, options);
-                        }
+                        var dbValue = new DbValue(dataPtr, data.Length);
+                        ret = Lib.mdb_put(transaction.Handle, handle, ref dbKey, ref dbValue, options);
                     }
                 }
                 Util.CheckRetCode(ret);
+            }
+        }
+
+        /// <summary>
+        /// Store items into a database.
+        /// This function stores key/data pairs in the database. The default behavior is to enter
+        /// the new key/data pair, replacing any previously existing key.
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <param name="key"></param>
+        /// <param name="data"></param>
+        /// <param name="options"></param>
+        public void Put(Transaction transaction, ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, PutOptions options) {
+            PutInternal(transaction, key, data, unchecked((uint)options));
+        }
+
+        /// <summary>
+        /// Delete items from a database. This function removes key/data pairs from the database.
+        /// If this instance is a <see cref="MultiValueDatabase"/> then all of the duplicate data items for the key will be deleted.
+        /// This function will return MDB_NOTFOUND if the specified key/data pair is not in the database.
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <param name="key"></param>
+        public bool Delete(Transaction transaction, ReadOnlySpan<byte> key) {
+            lock (rscLock) {
+                var handle = CheckDisposed();
+                DbRetCode ret;
+                unsafe {
+                    fixed (void* bytePtr = &MemoryMarshal.GetReference(key)) {
+                        var dbKey = new DbValue(bytePtr, key.Length);
+                        ret = Lib.mdb_del(transaction.Handle, handle, ref dbKey, IntPtr.Zero);
+                    }
+                }
+                if (ret == DbRetCode.NOTFOUND)
+                    return false;
+                Util.CheckRetCode(ret);
+                return true;
             }
         }
 
