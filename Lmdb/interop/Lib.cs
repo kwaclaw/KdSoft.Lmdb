@@ -153,7 +153,7 @@ namespace KdSoft.Lmdb
         public static extern DbRetCode mdb_get(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref DbValue key, [MarshalAs(UnmanagedType.Struct)] ref DbValue data);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_put(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref DbValue key, [MarshalAs(UnmanagedType.Struct), In] ref DbValue data, uint flags);
+        public static extern DbRetCode mdb_put(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref DbValue key, [MarshalAs(UnmanagedType.Struct)] ref DbValue data, uint flags);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_del(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref DbValue key, [MarshalAs(UnmanagedType.Struct), In] ref DbValue data);

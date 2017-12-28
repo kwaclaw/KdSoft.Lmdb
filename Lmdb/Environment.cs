@@ -51,11 +51,12 @@ namespace KdSoft.Lmdb
 
         [CLSCompliant(false)]
         protected void RunChecked(Func<IntPtr, DbRetCode> libFunc) {
+            DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
-                var ret = libFunc(handle);
-                Util.CheckRetCode(ret);
+                ret = libFunc(handle);
             }
+            Util.CheckRetCode(ret);
         }
 
         [CLSCompliant(false)]
@@ -63,12 +64,14 @@ namespace KdSoft.Lmdb
 
         [CLSCompliant(false)]
         protected T GetChecked<T>(LibFunc<T, DbRetCode> libFunc) {
+            DbRetCode ret;
+            T result;
             lock (rscLock) {
                 var handle = CheckDisposed();
-                var ret = libFunc(handle, out var result);
-                Util.CheckRetCode(ret);
-                return result;
+                ret = libFunc(handle, out result);
             }
+            Util.CheckRetCode(ret);
+            return result;
         }
 
         #endregion
@@ -221,6 +224,8 @@ namespace KdSoft.Lmdb
         public void Sync(bool force) {
             RunChecked((handle) => Lib.mdb_env_sync(handle, force));
         }
+
+        //TODO expose mdb_reader_list() and mdb_reader_check()
 
         #region Databases and Transactions
 

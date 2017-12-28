@@ -39,11 +39,12 @@ namespace KdSoft.Lmdb
 
         [CLSCompliant(false)]
         protected void RunChecked(Func<uint, DbRetCode> libFunc) {
+            DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
-                var ret = libFunc(handle);
-                Util.CheckRetCode(ret);
+                ret = libFunc(handle);
             }
+            Util.CheckRetCode(ret);
         }
 
         [CLSCompliant(false)]
@@ -51,12 +52,14 @@ namespace KdSoft.Lmdb
 
         [CLSCompliant(false)]
         protected T GetChecked<T>(LibFunc<T, DbRetCode> libFunc) {
+            DbRetCode ret;
+            T result;
             lock (rscLock) {
                 var handle = CheckDisposed();
-                var ret = libFunc(handle, out var result);
-                Util.CheckRetCode(ret);
-                return result;
+                ret = libFunc(handle, out result);
             }
+            Util.CheckRetCode(ret);
+            return result;
         }
 
         #endregion
@@ -128,30 +131,31 @@ namespace KdSoft.Lmdb
         /// </summary>
         /// <param name="transaction"></param>
         /// <param name="key"></param>
-        /// <returns></returns>
-        public ReadOnlySpan<byte> Get(Transaction transaction, ReadOnlySpan<byte> key) {
-            ReadOnlySpan<byte> result;
+        /// <returns><c>true</c> if data for key retrieved without error, <c>false</c> if key does not exist.</returns>
+        public bool Get(Transaction transaction, ReadOnlySpan<byte> key, out ReadOnlySpan<byte> data) {
+            DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
-                DbRetCode ret;
                 unsafe {
                     fixed (void* bytePtr = &MemoryMarshal.GetReference(key)) {
                         var dbKey = new DbValue(bytePtr, key.Length);
-                        var dbValue = default(DbValue);
-                        ret = Lib.mdb_get(transaction.Handle, handle, ref dbKey, ref dbValue);
-                        result = dbValue.ToReadOnlySpan();
+                        var dbData = default(DbValue);
+                        ret = Lib.mdb_get(transaction.Handle, handle, ref dbKey, ref dbData);
+                        data = dbData.ToReadOnlySpan();
                     }
                 }
-                Util.CheckRetCode(ret);
             }
-            return result;
+            if (ret == DbRetCode.NOTFOUND)
+                return false;
+            Util.CheckRetCode(ret);
+            return true;
         }
 
         [CLSCompliant(false)]
-        protected void PutInternal(Transaction transaction, ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, uint options) {
+        protected bool PutInternal(Transaction transaction, ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, uint options) {
+            DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
-                DbRetCode ret;
                 unsafe {
                     fixed (void* keyPtr = &MemoryMarshal.GetReference(key))
                     fixed (void* dataPtr = &MemoryMarshal.GetReference(data)) {
@@ -160,8 +164,11 @@ namespace KdSoft.Lmdb
                         ret = Lib.mdb_put(transaction.Handle, handle, ref dbKey, ref dbValue, options);
                     }
                 }
-                Util.CheckRetCode(ret);
             }
+            if (ret == DbRetCode.KEYEXIST)
+                return false;
+            Util.CheckRetCode(ret);
+            return true;
         }
 
         /// <summary>
@@ -173,8 +180,10 @@ namespace KdSoft.Lmdb
         /// <param name="key"></param>
         /// <param name="data"></param>
         /// <param name="options"></param>
-        public void Put(Transaction transaction, ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, PutOptions options) {
-            PutInternal(transaction, key, data, unchecked((uint)options));
+        /// <returns><c>true</c> if inserted without error, <c>false</c> if <see cref="PutOptions.NoOverwrite"/>
+        /// was specified and the key already exists.</returns>
+        public bool Put(Transaction transaction, ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, PutOptions options) {
+            return PutInternal(transaction, key, data, unchecked((uint)options));
         }
 
         /// <summary>
@@ -185,21 +194,23 @@ namespace KdSoft.Lmdb
         /// <param name="transaction"></param>
         /// <param name="key"></param>
         public bool Delete(Transaction transaction, ReadOnlySpan<byte> key) {
+            DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
-                DbRetCode ret;
                 unsafe {
                     fixed (void* bytePtr = &MemoryMarshal.GetReference(key)) {
                         var dbKey = new DbValue(bytePtr, key.Length);
                         ret = Lib.mdb_del(transaction.Handle, handle, ref dbKey, IntPtr.Zero);
                     }
                 }
-                if (ret == DbRetCode.NOTFOUND)
-                    return false;
-                Util.CheckRetCode(ret);
-                return true;
             }
+            if (ret == DbRetCode.NOTFOUND)
+                return false;
+            Util.CheckRetCode(ret);
+            return true;
         }
+
+        //TODO expose mdb_cmp() and mdb_dcmp()
 
         #region Unmanaged Resources
 

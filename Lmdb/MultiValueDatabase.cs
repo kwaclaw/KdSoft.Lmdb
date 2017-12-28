@@ -32,9 +32,11 @@ namespace KdSoft.Lmdb
         /// <param name="data"></param>
         /// <param name="options"></param>
         /// <param name="mvOptions"></param>
-        public void Put(Transaction transaction, ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, PutOptions options, MultiValuePutOptions mvOptions) {
+        /// <returns><c>true</c> if inserted without error, <c>false</c> if <see cref="PutOptions.NoOverwrite"/>
+        /// was specified and the key already exists.</returns>
+        public bool Put(Transaction transaction, ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, PutOptions options, MultiValuePutOptions mvOptions) {
             uint opts = unchecked((uint)options | (uint)mvOptions);
-            PutInternal(transaction, key, data, opts);
+            return PutInternal(transaction, key, data, opts);
         }
 
         /// <summary>
