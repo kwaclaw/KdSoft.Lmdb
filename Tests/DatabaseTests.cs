@@ -46,17 +46,18 @@ namespace KdSoft.Lmdb.Tests
         public void SimpleStoreRetrieve() {
             var config = new Database.Configuration(DatabaseOptions.Create);
             Database dbase;
+            Statistics stats;
             using (var tx = fixture.Env.BeginOpenDbTransaction(TransactionModes.None)) {
-                dbase = tx.OpenDatabase("TestDb1", config);
+                dbase = tx.OpenDatabase("TestDb2", config);
+                stats = dbase.GetStats(tx);
                 tx.Commit();
             }
 
+            var keyBuf1 = Guid.NewGuid().ToByteArray();
+            var keyBuf2 = Guid.NewGuid().ToByteArray();
             var buffer = fixture.Buffers.Acquire(1024);
             try {
-                var keyBuf1 = Guid.NewGuid().ToByteArray();
                 var putData1 = testData.AsReadOnlySpan().NonPortableCast<char, byte>();
-
-                var keyBuf2 = Guid.NewGuid().ToByteArray();
                 int byteCount = Encoding.UTF8.GetBytes(testData, 0, testData.Length, buffer, 0);
                 var putData2 = new ReadOnlySpan<byte>(buffer, 0, byteCount);
 
@@ -79,6 +80,10 @@ namespace KdSoft.Lmdb.Tests
             }
             finally {
                 fixture.Buffers.Return(buffer);
+                using (var tx = fixture.Env.BeginOpenDbTransaction(TransactionModes.None)) {
+                    dbase.Drop(tx);
+                    tx.Commit();
+                }
             }
         }
     }
