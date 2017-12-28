@@ -188,7 +188,7 @@ namespace KdSoft.Lmdb
 
     /// <summary>General LMDB API return code.</summary>
     /// <remarks>Also includes framework specific custom codes such as those returned from a call-back.</remarks>
-    public enum DbRetCode : int
+    public enum DbRetCode
     {
         // BerkeleyDB uses -30800 to -30999, we'll go under them
 
