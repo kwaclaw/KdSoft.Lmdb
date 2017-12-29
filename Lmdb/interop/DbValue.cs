@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -6,7 +7,7 @@ namespace KdSoft.Lmdb
 {
     [CLSCompliant(false)]
     [StructLayout(LayoutKind.Sequential, Pack = Compile.PackSize)]
-    public unsafe struct DbValue
+    public unsafe readonly ref struct DbValue
     {
         public readonly IntPtr Size;
         public readonly void* Data;
@@ -19,6 +20,18 @@ namespace KdSoft.Lmdb
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DbValue(void* data, int size) {
+            this.Data = data;
+            this.Size = (IntPtr)size;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public DbValue(void* data, ulong size) {
+            this.Data = data;
+            this.Size = (IntPtr)size;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public DbValue(void* data, uint size) {
             this.Data = data;
             this.Size = (IntPtr)size;
         }
