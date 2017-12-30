@@ -70,8 +70,8 @@ namespace KdSoft.Lmdb.Tests
                 ReadOnlySpan<byte> getData1;
                 ReadOnlySpan<byte> getData2;
                 using (var tx = fixture.Env.BeginReadOnlyTransaction(TransactionModes.None)) {
-                    getData1 = dbase.Get(tx, keyBuf1);
-                    getData2 = dbase.Get(tx, keyBuf2);
+                    Assert.True(dbase.Get(tx, keyBuf1, out getData1));
+                    Assert.True(dbase.Get(tx, keyBuf2, out getData2));
                     tx.Commit();
                 }
 

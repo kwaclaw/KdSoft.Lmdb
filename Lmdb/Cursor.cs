@@ -47,17 +47,16 @@ namespace KdSoft.Lmdb
             Dispose();
         }
 
-        // valid operations: MDB_GET_BOTH, MDB_GET_BOTH_RANGE
-        protected bool Get(ref KeyDataPair entry, DbCursorOp op) {
+        // valid operations: MDB_SET_KEY, MDB_SET_RANGE,
+        protected bool Get(in ReadOnlySpan<byte> key, out KeyDataPair entry, DbCursorOp op) {
             DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* keyPtr = &MemoryMarshal.GetReference(entry.Key))
-                    fixed (void* dataPtr = &MemoryMarshal.GetReference(entry.Data)) {
-                        var dbKey = new DbValue(keyPtr, entry.Key.Length);
-                        var dbData = new DbValue(dataPtr, entry.Data.Length);
-                        ret = Lib.mdb_cursor_get(handle, ref dbKey, ref dbData, op);
+                    fixed (void* keyPtr = &MemoryMarshal.GetReference(key)) {
+                        var dbKey = new DbValue(keyPtr, key.Length);
+                        var dbData = default(DbValue);
+                        ret = Lib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
                         entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
                     }
                 }
@@ -68,19 +67,74 @@ namespace KdSoft.Lmdb
             return true;
         }
 
-        // valid operations: MDB_SET, MDB_SET_KEY, MDB_SET_RANGE,
-        // ignores entry.Data on input
-        protected bool GetData(ref KeyDataPair entry, DbCursorOp op) {
+        // valid operations: MDB_GET_BOTH, MDB_GET_BOTH_RANGE
+        protected bool Get(in KeyDataPair keyData, out KeyDataPair entry, DbCursorOp op) {
             DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* keyPtr = &MemoryMarshal.GetReference(entry.Key)) {
-                        var dbKey = new DbValue(keyPtr, entry.Key.Length);
-                        var dbData = default(DbValue);
-                        ret = Lib.mdb_cursor_get(handle, ref dbKey, ref dbData, op);
+                    fixed (void* keyPtr = &MemoryMarshal.GetReference(keyData.Key))
+                    fixed (void* dataPtr = &MemoryMarshal.GetReference(keyData.Data)) {
+                        var dbKey = new DbValue(keyPtr, keyData.Key.Length);
+                        var dbData = new DbValue(dataPtr, keyData.Data.Length);
+                        ret = Lib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
                         entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
                     }
+                }
+            }
+            if (ret == DbRetCode.NOTFOUND)
+                return false;
+            Util.CheckRetCode(ret);
+            return true;
+        }
+
+        // valid operations: MDB_SET, does not return key or data, 
+        protected bool MoveTo(in ReadOnlySpan<byte> key, DbCursorOp op) {
+            DbRetCode ret;
+            lock (rscLock) {
+                var handle = CheckDisposed();
+                unsafe {
+                    fixed (void* keyPtr = &MemoryMarshal.GetReference(key)) {
+                        var dbKey = new DbValue(keyPtr, key.Length);
+                        ret = Lib.mdb_cursor_get(handle, ref dbKey, null, op);
+                    }
+                }
+            }
+            if (ret == DbRetCode.NOTFOUND)
+                return false;
+            Util.CheckRetCode(ret);
+            return true;
+        }
+
+        // valid operations: MDB_SET, does not return key or data, entry.Data only applies to MultiValueDatabase
+        protected bool MoveTo(in KeyDataPair entry, DbCursorOp op) {
+            DbRetCode ret;
+            lock (rscLock) {
+                var handle = CheckDisposed();
+                unsafe {
+                    fixed (void* keyPtr = &MemoryMarshal.GetReference(entry.Key))
+                    fixed (void* dataPtr = &MemoryMarshal.GetReference(entry.Data)) {
+                        var dbKey = new DbValue(keyPtr, entry.Key.Length);
+                        var dbData = new DbValue(dataPtr, entry.Data.Length);
+                        ret = Lib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
+                    }
+                }
+            }
+            if (ret == DbRetCode.NOTFOUND)
+                return false;
+            Util.CheckRetCode(ret);
+            return true;
+        }
+
+        // valid operations: MDB_GET_CURRENT, MDB_FIRST, MDB_NEXT, MDB_PREV, MDB_LAST
+        protected bool Get(out ReadOnlySpan<byte> key, DbCursorOp op) {
+            DbRetCode ret;
+            lock (rscLock) {
+                var handle = CheckDisposed();
+                unsafe {
+                    var dbKey = default(DbValue);
+                    ret = Lib.mdb_cursor_get(handle, ref dbKey, null, op);
+                    key = dbKey.ToReadOnlySpan();
                 }
             }
             if (ret == DbRetCode.NOTFOUND)
@@ -93,15 +147,17 @@ namespace KdSoft.Lmdb
         //                   MDB_NEXT, MDB_NEXT_DUP, MDB_NEXT_NODUP
         //                   MDB_PREV, MDB_PREV_DUP, MDB_PREV_NODUP,
         //                   MDB_LAST, MDB_LAST_DUP,
-        //                   MDB_GET_MULTIPLE, MDB_NEXT_MULTIPLE, MDB_PREV_MULTIPLE
-        protected bool GetAll(out KeyDataPair entry, DbCursorOp op) {
+        //                   MDB_GET_MULTIPLE, MDB_NEXT_MULTIPLE, MDB_PREV_MULTIPLE,
+        protected bool Get(out KeyDataPair entry, DbCursorOp op) {
             DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
-                var dbKey = default(DbValue);
-                var dbData = default(DbValue);
-                ret = Lib.mdb_cursor_get(handle, ref dbKey, ref dbData, op);
-                entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
+                unsafe {
+                    var dbKey = default(DbValue);
+                    var dbData = default(DbValue);
+                    ret = Lib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
+                    entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
+                }
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
@@ -110,16 +166,16 @@ namespace KdSoft.Lmdb
         }
 
         [CLSCompliant(false)]
-        protected bool PutInternal(ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, uint options) {
+        protected bool PutInternal(in KeyDataPair entry, uint options) {
             DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* keyPtr = &MemoryMarshal.GetReference(key))
-                    fixed (void* dataPtr = &MemoryMarshal.GetReference(data)) {
-                        var dbKey = new DbValue(keyPtr, key.Length);
-                        var dbValue = new DbValue(dataPtr, data.Length);
-                        ret = Lib.mdb_cursor_put(handle, ref dbKey, ref dbValue, options);
+                    fixed (void* keyPtr = &MemoryMarshal.GetReference(entry.Key))
+                    fixed (void* dataPtr = &MemoryMarshal.GetReference(entry.Data)) {
+                        var dbKey = new DbValue(keyPtr, entry.Key.Length);
+                        var dbValue = new DbValue(dataPtr, entry.Data.Length);
+                        ret = Lib.mdb_cursor_put(handle, ref dbKey, &dbValue, options);
                     }
                 }
             }
@@ -135,13 +191,12 @@ namespace KdSoft.Lmdb
         /// The cursor is positioned at the new item, or on failure usually near it.
         /// Note: Earlier documentation incorrectly said errors would leave the state of the cursor unchanged.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="data"></param>
+        /// <param name="entry"></param>
         /// <param name="options"></param>
         /// <remarks><c>true</c> if inserted without error, <c>false</c> if <see cref="CursorPutOptions.NoOverwrite"/>
         /// was specified and the key already exists.</remarks>
-        public bool Put(ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, CursorPutOptions options) {
-            return PutInternal(key, data, unchecked((uint)options));
+        public bool Put(in KeyDataPair entry, CursorPutOptions options) {
+            return PutInternal(entry, unchecked((uint)options));
         }
 
         /// <summary>
@@ -240,32 +295,41 @@ namespace KdSoft.Lmdb
 
         #region Enumeration
 
-        public ForwardIterator ItemsForward => new ForwardIterator(this);
+        public ItemsIterator ItemsForward => new ItemsIterator(this, DbCursorOp.MDB_FIRST, DbCursorOp.MDB_NEXT);
+        public ItemsIterator ItemsBackward => new ItemsIterator(this, DbCursorOp.MDB_LAST, DbCursorOp.MDB_PREV);
 
         #endregion
 
         #region Nested types
 
-        public struct ForwardIterator
+        public struct ItemsIterator
         {
             readonly Cursor cursor;
+            readonly DbCursorOp opFirst;
+            readonly DbCursorOp opNext;
 
-            public ForwardIterator(Cursor cursor) {
+            public ItemsIterator(Cursor cursor, DbCursorOp opFirst, DbCursorOp opNext) {
                 this.cursor = cursor;
+                this.opFirst = opFirst;
+                this.opNext = opNext;
             }
 
-            public ItemsForwardEnumerator GetEnumerator() => new ItemsForwardEnumerator(cursor);
+            public ItemsEnumerator GetEnumerator() => new ItemsEnumerator(cursor, opFirst, opNext);
         }
 
-        public ref struct ItemsForwardEnumerator
+        public ref struct ItemsEnumerator
         {
             readonly Cursor cursor;
+            readonly DbCursorOp opFirst;
+            readonly DbCursorOp opNext;
             KeyDataPair current;
             bool isCurrent;
             bool isInitialized;
 
-            public ItemsForwardEnumerator(Cursor cursor) {
+            public ItemsEnumerator(Cursor cursor, DbCursorOp opFirst, DbCursorOp opNext) {
                 this.cursor = cursor;
+                this.opFirst = opFirst;
+                this.opNext = opNext;
                 this.current = default(KeyDataPair);
                 this.isCurrent = false;
                 this.isInitialized = false;
@@ -284,10 +348,10 @@ namespace KdSoft.Lmdb
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool MoveNext() {
                 if (isInitialized)
-                    return isCurrent = cursor.GetAll(out current, DbCursorOp.MDB_NEXT);
+                    return isCurrent = cursor.Get(out current, opNext);
                 else {
                     isInitialized = true;
-                    return isCurrent = cursor.GetAll(out current, DbCursorOp.MDB_FIRST);
+                    return isCurrent = cursor.Get(out current, opFirst);
                 }
             }
         }

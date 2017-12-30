@@ -20,9 +20,9 @@ namespace KdSoft.Lmdb
         /// </summary>
         /// <param name="key"></param>
         /// <returns><c>true</c> if retrieved without error, <c>false</c> if not found.</returns>
-        public bool Get(Span<byte> key, ReadOnlySpan<byte> data, MultiValueCursorOperation operation) {
-            return Get(key, data, (DbCursorOp)operation);
-        }
+        // public bool Get(Span<byte> key, ReadOnlySpan<byte> data, MultiValueCursorOperation operation) {
+        //     return Get(key, data, (DbCursorOp)operation);
+        // }
 
         /// <summary>
         /// Store by cursor.
@@ -35,8 +35,16 @@ namespace KdSoft.Lmdb
         /// <param name="mvOptions"></param>
         /// <returns><c>true</c> if inserted without error, <c>false</c> if <see cref="CursorPutOptions.NoOverwrite"/>
         /// was specified and the key already exists.</returns>
-        public bool Put(ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, MultiValueCursorPutOptions mvOptions) {
-            return PutInternal(key, data, unchecked((uint)mvOptions));
+        //public bool Put(ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, MultiValueCursorPutOptions mvOptions) {
+        //    //return PutInternal(key, data, unchecked((uint)mvOptions));
+        //}
+
+        //TODO remove when not needed to work around compiler bug - crashes Visual Studio
+        [StructLayout(LayoutKind.Sequential, Pack = Compile.PackSize)]
+        ref struct MultiDbValue
+        {
+            public DbValue Val1;
+            public DbValue Val2;
         }
 
         /// <summary>
@@ -51,19 +59,25 @@ namespace KdSoft.Lmdb
         /// <returns><c>true</c> if inserted without error, <c>false</c> if <see cref="CursorPutOptions.NoOverwrite"/>
         /// was specified and the key already exists.</returns>
         public bool PutMultiple(ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, ref int itemCount) {
-            DbRetCode ret;
+            DbRetCode ret = DbRetCode.SUCCESS;
             int firstDataSize = data.Length / itemCount;
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    DbValue* dataPtr = stackalloc DbValue[2];
+                    MultiDbValue multiData;
+                    //var multiData = stackalloc DbValue[2];
                     fixed (void* keyPtr = &MemoryMarshal.GetReference(key))
                     fixed (void* firstDataPtr = &MemoryMarshal.GetReference(data)) {
                         var dbKey = new DbValue(keyPtr, key.Length);
-                        dataPtr[0] = new DbValue(firstDataPtr, firstDataSize);
-                        dataPtr[1] = new DbValue(null, itemCount);
-                        ret = Lib.mdb_cursor_put(handle, ref dbKey, ref dataPtr[0], LibConstants.MDB_MULTIPLE);
-                        itemCount = (int)dataPtr[1].Size;
+                        multiData.Val1 = new DbValue(firstDataPtr, firstDataSize);
+                        multiData.Val2 = new DbValue(null, itemCount);
+                        //TODO change this to use stackalloc once compiler bug is fixed
+                        // multiData[0] = new DbValue(firstDataPtr, firstDataSize);
+                        // multiData[1] = new DbValue(null, itemCount);
+                        // ret = Lib.mdb_cursor_put(handle, ref dbKey, ref dataPtr[0], LibConstants.MDB_MULTIPLE);
+                        // itemCount = (int)dataPtr[1].Size;
+                        ret = Lib.mdb_cursor_put(handle, ref dbKey, &multiData.Val1, LibConstants.MDB_MULTIPLE);
+                        itemCount = (int)multiData.Val2.Size;
                     }
                 }
             }

@@ -7,7 +7,7 @@ namespace KdSoft.Lmdb
     /// <summary>Interface to the LMDB library.</summary>
     [CLSCompliant(false)]
     [SuppressUnmanagedCodeSecurity]
-    public static class Lib
+    public unsafe static class Lib
     {
         const string libName = "lmdb";
 
@@ -181,10 +181,10 @@ namespace KdSoft.Lmdb
         public static extern IntPtr mdb_cursor_dbi(IntPtr cursor);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_cursor_get(IntPtr cursor, [MarshalAs(UnmanagedType.Struct)] ref DbValue key, [MarshalAs(UnmanagedType.Struct)] ref DbValue data, DbCursorOp op);
+        public static extern DbRetCode mdb_cursor_get(IntPtr cursor, [MarshalAs(UnmanagedType.Struct)] ref DbValue key, DbValue* data, DbCursorOp op);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_cursor_put(IntPtr cursor, [MarshalAs(UnmanagedType.Struct), In] ref DbValue key, [MarshalAs(UnmanagedType.Struct), In] ref DbValue value, uint flags);
+        public static extern DbRetCode mdb_cursor_put(IntPtr cursor, [MarshalAs(UnmanagedType.Struct), In] ref DbValue key, DbValue* data, uint flags);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_cursor_del(IntPtr cursor, uint flags);

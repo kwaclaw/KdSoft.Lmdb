@@ -19,13 +19,13 @@ namespace KdSoft.Lmdb.Tests
             this.output = output;
         }
 
-        [Fact]
-        public void BasicIteration() {
-            var cursor = new Cursor(IntPtr.Zero, null);
-            foreach (var entry in cursor.ItemsForward) {
-                entry.Key.CopyTo(new Span<byte>(new byte[255]));
-                entry.Data.CopyTo(new Span<byte>(new byte[2048]));
-            }
-        }
+        //[Fact]
+        //public void BasicIteration() {
+        //    var cursor = new Cursor(IntPtr.Zero, null);
+        //    foreach (var entry in cursor.ItemsForward) {
+        //        entry.Key.CopyTo(new Span<byte>(new byte[255]));
+        //        entry.Data.CopyTo(new Span<byte>(new byte[2048]));
+        //    }
+        //}
     }
 }
