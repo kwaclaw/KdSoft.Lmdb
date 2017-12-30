@@ -321,7 +321,7 @@ namespace KdSoft.Lmdb
         /// <param name="modes">Special options for this transaction..</param>
         /// <param name="parent">If this parameter is non-NULL, the new transaction will be a nested transaction.</param>
         /// <returns>New transaction instance.</returns>
-        public DatabaseTransaction BeginOpenDbTransaction(TransactionModes modes, Transaction parent = null) {
+        public DatabaseTransaction BeginDatabaseTransaction(TransactionModes modes, Transaction parent = null) {
             if ((modes & TransactionModes.ReadOnly) != 0)
                 throw new LmdbException("An OpenDbTransaction must not be read-only");
             lock (dbTxnLock) {
@@ -407,7 +407,10 @@ namespace KdSoft.Lmdb
 
                 // set large fields to null.
                 transactions.Clear();
-                databases.Clear();
+                lock (dbTxnLock) {
+                    activeDbTxn = null;
+                    databases.Clear();
+                }
             }
         }
 

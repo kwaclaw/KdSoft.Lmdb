@@ -23,7 +23,7 @@ namespace KdSoft.Lmdb.Tests
         public void OpenDatabase() {
             var config = new Database.Configuration(DatabaseOptions.Create);
             Database dbase;
-            using (var tx = fixture.Env.BeginOpenDbTransaction(TransactionModes.None)) {
+            using (var tx = fixture.Env.BeginDatabaseTransaction(TransactionModes.None)) {
                 dbase = tx.OpenDatabase("TestDb1", config);
                 tx.Commit();
             }
@@ -47,7 +47,7 @@ namespace KdSoft.Lmdb.Tests
             var config = new Database.Configuration(DatabaseOptions.Create);
             Database dbase;
             Statistics stats;
-            using (var tx = fixture.Env.BeginOpenDbTransaction(TransactionModes.None)) {
+            using (var tx = fixture.Env.BeginDatabaseTransaction(TransactionModes.None)) {
                 dbase = tx.OpenDatabase("TestDb2", config);
                 stats = dbase.GetStats(tx);
                 tx.Commit();
@@ -80,7 +80,7 @@ namespace KdSoft.Lmdb.Tests
             }
             finally {
                 fixture.Buffers.Return(buffer);
-                using (var tx = fixture.Env.BeginOpenDbTransaction(TransactionModes.None)) {
+                using (var tx = fixture.Env.BeginDatabaseTransaction(TransactionModes.None)) {
                     dbase.Drop(tx);
                     tx.Commit();
                 }
