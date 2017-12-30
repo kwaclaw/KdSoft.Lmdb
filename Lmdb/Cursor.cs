@@ -8,9 +8,11 @@ namespace KdSoft.Lmdb
 {
     public class Cursor: IDisposable
     {
-        //TODO make internal
-        public Cursor(IntPtr cursor, Action<Cursor> disposed) {
-            this.cursor = cursor;
+        readonly bool isReadOnly;
+
+        internal Cursor(IntPtr cur, bool isReadOnly, Action<Cursor> disposed = null) {
+            this.cur = cur;
+            this.isReadOnly = isReadOnly;
             this.disposed = disposed;
         }
 
@@ -29,6 +31,8 @@ namespace KdSoft.Lmdb
             }
         }
 
+        public bool IsReadOnly => isReadOnly;
+
         public IntPtr DbiHandle {
             get {
                 lock (rscLock) {
@@ -46,6 +50,19 @@ namespace KdSoft.Lmdb
         public void Close() {
             Dispose();
         }
+
+        public void Renew(ReadOnlyTransaction transaction) {
+            if (!IsReadOnly)
+                throw new InvalidOperationException("Only read-only cursors can be renewed.");
+            DbRetCode ret;
+            lock (rscLock) {
+                var handle = CheckDisposed();
+                ret = Lib.mdb_cursor_renew(transaction.Handle, handle);
+            }
+            Util.CheckRetCode(ret);
+        }
+
+        #region GET operations
 
         // valid operations: MDB_SET_KEY, MDB_SET_RANGE,
         protected bool Get(in ReadOnlySpan<byte> key, out KeyDataPair entry, DbCursorOp op) {
@@ -165,6 +182,10 @@ namespace KdSoft.Lmdb
             return true;
         }
 
+        #endregion
+
+        #region Update operations
+
         [CLSCompliant(false)]
         protected bool PutInternal(in KeyDataPair entry, uint options) {
             DbRetCode ret;
@@ -199,6 +220,7 @@ namespace KdSoft.Lmdb
             return PutInternal(entry, unchecked((uint)options));
         }
 
+
         /// <summary>
         /// Delete current key/data pair.
         /// This function deletes the key/data pair to which the cursor refers.
@@ -212,16 +234,18 @@ namespace KdSoft.Lmdb
             Util.CheckRetCode(ret);
         }
 
+        #endregion
+
         #region Unmanaged Resources
 
         protected readonly object rscLock = new object();
 
-        volatile IntPtr cursor;
-        internal IntPtr Handle => cursor;
+        volatile IntPtr cur;
+        internal IntPtr Handle => cur;
 
         // must be executed under lock, and must not be called multiple times
         void ReleaseUnmanagedResources() {
-            Lib.mdb_cursor_close(cursor);
+            Lib.mdb_cursor_close(cur);
         }
 
         #endregion
@@ -234,7 +258,7 @@ namespace KdSoft.Lmdb
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected IntPtr CheckDisposed() {
             // avoid multiple volatile memory access
-            IntPtr result = this.cursor;
+            IntPtr result = this.cur;
             if (result == IntPtr.Zero)
                 throw new ObjectDisposedException(disposedStr);
             return result;
@@ -242,22 +266,22 @@ namespace KdSoft.Lmdb
 
         internal void ClearHandle() {
             lock (rscLock) {
-                cursor = IntPtr.Zero;
+                cur = IntPtr.Zero;
             }
         }
 
         void SetDisposed() {
-            cursor = IntPtr.Zero;
+            cur = IntPtr.Zero;
             disposed?.Invoke(this);
         }
 
         public bool IsDisposed {
-            get { return cursor == IntPtr.Zero; }
+            get { return cur == IntPtr.Zero; }
         }
 
         protected virtual void Dispose(bool disposing) {
             lock (rscLock) {
-                if (cursor == IntPtr.Zero)  // already disposed
+                if (cur == IntPtr.Zero)  // already disposed
                     return;
                 RuntimeHelpers.PrepareConstrainedRegions();
                 try { /* */ }
@@ -265,7 +289,6 @@ namespace KdSoft.Lmdb
                     if (disposing) {
                         // dispose managed state (managed objects).
                     }
-                    // free unmanaged resources (unmanaged objects) and override a finalizer below.
                     ReleaseUnmanagedResources();
                     if (disposing)
                         SetDisposed();
@@ -295,8 +318,8 @@ namespace KdSoft.Lmdb
 
         #region Enumeration
 
-        public ItemsIterator ItemsForward => new ItemsIterator(this, DbCursorOp.MDB_FIRST, DbCursorOp.MDB_NEXT);
-        public ItemsIterator ItemsBackward => new ItemsIterator(this, DbCursorOp.MDB_LAST, DbCursorOp.MDB_PREV);
+        public ItemsIterator KeysForward => new ItemsIterator(this, DbCursorOp.MDB_FIRST, DbCursorOp.MDB_NEXT);
+        public ItemsIterator KeysReverse => new ItemsIterator(this, DbCursorOp.MDB_LAST, DbCursorOp.MDB_PREV);
 
         #endregion
 

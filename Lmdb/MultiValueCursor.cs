@@ -7,37 +7,9 @@ namespace KdSoft.Lmdb
 {
     public class MultiValueCursor: Cursor
     {
-        internal MultiValueCursor(IntPtr cursor, Action<Cursor> disposed): base(cursor, disposed) {
+        internal MultiValueCursor(IntPtr cur, bool isReadOnly, Action<Cursor> disposed = null) : base(cur, isReadOnly, disposed) {
             //
         }
-
-        /// <summary>
-        /// Retrieve by multi-value cursor.
-        /// This function retrieves key/data pairs from the database.
-        /// The address and length of the key are returned in the object to which key refers,
-        /// and the address and length of the data are returned in the object to which data refers.
-        /// See <see cref="Database.Get(Transaction, ReadOnlySpan{byte})"/> for restrictions on using the output values.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns><c>true</c> if retrieved without error, <c>false</c> if not found.</returns>
-        // public bool Get(Span<byte> key, ReadOnlySpan<byte> data, MultiValueCursorOperation operation) {
-        //     return Get(key, data, (DbCursorOp)operation);
-        // }
-
-        /// <summary>
-        /// Store by cursor.
-        /// This function stores key/data pairs into the database.
-        /// The cursor is positioned at the new item, or on failure usually near it.
-        /// Note: Earlier documentation incorrectly said errors would leave the state of the cursor unchanged.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="data"></param>
-        /// <param name="mvOptions"></param>
-        /// <returns><c>true</c> if inserted without error, <c>false</c> if <see cref="CursorPutOptions.NoOverwrite"/>
-        /// was specified and the key already exists.</returns>
-        //public bool Put(ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, MultiValueCursorPutOptions mvOptions) {
-        //    //return PutInternal(key, data, unchecked((uint)mvOptions));
-        //}
 
         //TODO remove when not needed to work around compiler bug - crashes Visual Studio
         [StructLayout(LayoutKind.Sequential, Pack = Compile.PackSize)]
@@ -59,25 +31,25 @@ namespace KdSoft.Lmdb
         /// <returns><c>true</c> if inserted without error, <c>false</c> if <see cref="CursorPutOptions.NoOverwrite"/>
         /// was specified and the key already exists.</returns>
         public bool PutMultiple(ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, ref int itemCount) {
-            DbRetCode ret = DbRetCode.SUCCESS;
+            DbRetCode ret;
             int firstDataSize = data.Length / itemCount;
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    MultiDbValue multiData;
-                    //var multiData = stackalloc DbValue[2];
+                    MultiDbValue dbMultiData;
+                    //var dbMultiData = stackalloc DbValue[2];  //TODO compiler bug, use once it is fixed
                     fixed (void* keyPtr = &MemoryMarshal.GetReference(key))
                     fixed (void* firstDataPtr = &MemoryMarshal.GetReference(data)) {
                         var dbKey = new DbValue(keyPtr, key.Length);
-                        multiData.Val1 = new DbValue(firstDataPtr, firstDataSize);
-                        multiData.Val2 = new DbValue(null, itemCount);
+                        dbMultiData.Val1 = new DbValue(firstDataPtr, firstDataSize);
+                        dbMultiData.Val2 = new DbValue(null, itemCount);
                         //TODO change this to use stackalloc once compiler bug is fixed
-                        // multiData[0] = new DbValue(firstDataPtr, firstDataSize);
-                        // multiData[1] = new DbValue(null, itemCount);
-                        // ret = Lib.mdb_cursor_put(handle, ref dbKey, ref dataPtr[0], LibConstants.MDB_MULTIPLE);
-                        // itemCount = (int)dataPtr[1].Size;
-                        ret = Lib.mdb_cursor_put(handle, ref dbKey, &multiData.Val1, LibConstants.MDB_MULTIPLE);
-                        itemCount = (int)multiData.Val2.Size;
+                        // dbMultiData[0] = new DbValue(firstDataPtr, firstDataSize);
+                        // dbMultiData[1] = new DbValue(null, itemCount);
+                        // ret = Lib.mdb_cursor_put(handle, ref dbKey, &dbMultiData, LibConstants.MDB_MULTIPLE);
+                        // itemCount = (int)dbMultiData[1].Size;
+                        ret = Lib.mdb_cursor_put(handle, ref dbKey, &dbMultiData.Val1, LibConstants.MDB_MULTIPLE);
+                        itemCount = (int)dbMultiData.Val2.Size;
                     }
                 }
             }
@@ -114,5 +86,13 @@ namespace KdSoft.Lmdb
             Util.CheckRetCode(ret);
             return result;
         }
+
+        #region Enumeration
+
+        public ItemsIterator ValuesForward => new ItemsIterator(this, DbCursorOp.MDB_FIRST_DUP, DbCursorOp.MDB_NEXT_DUP);
+        public ItemsIterator ValuesReverse => new ItemsIterator(this, DbCursorOp.MDB_LAST_DUP, DbCursorOp.MDB_PREV_DUP);
+
+        #endregion
+
     }
 }

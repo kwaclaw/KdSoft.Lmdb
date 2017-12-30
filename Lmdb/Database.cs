@@ -210,6 +210,36 @@ namespace KdSoft.Lmdb
             return true;
         }
 
+        protected IntPtr OpenCursorHandle(Transaction transaction) {
+            DbRetCode ret;
+            IntPtr cur;
+            lock (rscLock) {
+                var handle = CheckDisposed();
+                ret = Lib.mdb_cursor_open(transaction.Handle, handle, out cur);
+            }
+            Util.CheckRetCode(ret);
+            return cur;
+        }
+
+        /// <summary>
+        /// Create a cursor. A cursor is associated with a specific transaction and database.
+        /// A cursor cannot be used when its database handle is closed. Nor when its transaction has ended, except with mdb_cursor_renew().
+        /// It can be discarded with mdb_cursor_close(). A cursor in a write-transaction can be closed before its transaction ends,
+        /// and will otherwise be closed when its transaction ends. A cursor in a read-only transaction must be closed explicitly,
+        /// before or after its transaction ends. It can be reused with mdb_cursor_renew() before finally closing it.
+        /// Note: Earlier documentation said that cursors in every transaction were closed when the transaction committed or aborted.
+        /// Note: If one does not close database handles (leaving that to the environment), then one does not have to worry about
+        ///       closing a cursor before closing its database.
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <returns>Instance of <see cref="Cursor"/>.</returns>
+        public virtual Cursor OpenCursor(Transaction transaction) {
+            var cur = OpenCursorHandle(transaction);
+            var cursor = new Cursor(cur, transaction is ReadOnlyTransaction);
+            transaction.AddCursor(cursor);
+            return cursor;
+        }
+
         //TODO expose mdb_cmp() and mdb_dcmp()
 
         #region Unmanaged Resources

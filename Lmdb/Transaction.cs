@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -70,12 +71,33 @@ namespace KdSoft.Lmdb
         public void Commit() {
             lock (rscLock) {
                 var handle = CheckDisposed();
+                ReleaseManagedResources();
                 var ret = Lib.mdb_txn_commit(handle);
                 SetDisposed();
                 Util.CheckRetCode(ret);
                 Committed();
             }
         }
+
+        #region Cursors
+
+        readonly object cursorLock = new object();
+        readonly HashSet<Cursor> cursors = new HashSet<Cursor>();
+
+        internal bool AddCursor(Cursor cursor) {
+            lock (cursorLock) {
+                cursor.Disposed = CursorDisposed;
+                return cursors.Add(cursor);
+            }
+        }
+
+        void CursorDisposed(Cursor cursor) {
+            lock (cursorLock) {
+                cursors.Remove(cursor);
+            }
+        }
+
+        #endregion
 
         #region IDisposable Support
 
@@ -101,8 +123,25 @@ namespace KdSoft.Lmdb
             get { return txn == IntPtr.Zero; }
         }
 
-        protected virtual void ReleaseManagedResources() { }
-        protected virtual void Cleanup() { }
+        protected virtual void ReleaseManagedResources() {
+            // cursors must not be used after the owning transaction gets disposed
+            lock (cursorLock) {
+                foreach (var cursor in cursors) {
+                    // cursors owned by read-only transactions must be closed explicitly
+                    if (cursor.IsReadOnly)
+                        cursor.Close();
+                    // cursors owned by write transactions are closed by the transaction
+                    else
+                        cursor.ClearHandle();
+                }
+            }
+        }
+
+        protected virtual void Cleanup() {
+            lock (cursorLock) {
+                cursors.Clear();
+            }
+        }
 
         protected virtual void Dispose(bool disposing) {
             lock (rscLock) {
