@@ -286,7 +286,7 @@ namespace KdSoft.Lmdb
         /// mdb_txn_commit and mdb_txn_abort while it has active child transactions.
         /// </param>
         /// <returns>New transaction instance.</returns>
-        public Transaction BeginTransaction(TransactionModes modes, Transaction parent = null) {
+        public Transaction BeginTransaction(TransactionModes modes = TransactionModes.None, Transaction parent = null) {
             var (txn, txnId) = BeginTransactionInternal(modes, parent);
             Transaction result;
             if ((modes & TransactionModes.ReadOnly) == 0)
@@ -304,7 +304,7 @@ namespace KdSoft.Lmdb
         /// Creates a <see cref="ReadOnlyTransaction"/>. The <see cref="TransactionModes.ReadOnly"/> flag will be set automatically.
         /// For details, see <see cref="BeginTransaction(TransactionModes, Transaction)"/>.
         /// </summary>
-        public ReadOnlyTransaction BeginReadOnlyTransaction(TransactionModes modes, Transaction parent = null) {
+        public ReadOnlyTransaction BeginReadOnlyTransaction(TransactionModes modes = TransactionModes.None, Transaction parent = null) {
             modes = modes | TransactionModes.ReadOnly;
             return (ReadOnlyTransaction)BeginTransaction(modes, parent);
         }
