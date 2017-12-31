@@ -132,11 +132,13 @@ namespace KdSoft.Lmdb
         }
 
         // part of Dispose() / Abort()
-        protected override void ReleaseManagedResources() {
-            base.ReleaseManagedResources();
-            lock (dbLock) {
-                foreach (var newDb in newDatabases)
-                    newDb.ClearHandle();
+        protected override void ReleaseManagedResources(bool forCommit = false) {
+            base.ReleaseManagedResources(forCommit);
+            if (!forCommit) {
+                lock (dbLock) {
+                    foreach (var newDb in newDatabases)
+                        newDb.ClearHandle();
+                }
             }
         }
 

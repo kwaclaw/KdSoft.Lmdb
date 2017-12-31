@@ -71,7 +71,7 @@ namespace KdSoft.Lmdb
         public void Commit() {
             lock (rscLock) {
                 var handle = CheckDisposed();
-                ReleaseManagedResources();
+                ReleaseManagedResources(true);
                 var ret = Lib.mdb_txn_commit(handle);
                 SetDisposed();
                 Util.CheckRetCode(ret);
@@ -123,7 +123,7 @@ namespace KdSoft.Lmdb
             get { return txn == IntPtr.Zero; }
         }
 
-        protected virtual void ReleaseManagedResources() {
+        protected virtual void ReleaseManagedResources(bool forCommit = false) {
             // cursors must not be used after the owning transaction gets disposed
             lock (cursorLock) {
                 foreach (var cursor in cursors) {
