@@ -53,6 +53,13 @@ namespace KdSoft.Lmdb.Tests
                 tx.Commit();
             }
 
+            output.WriteLine($"Entries: {stats.Entries}");
+            output.WriteLine($"Depth: {stats.Depth}");
+            output.WriteLine($"PageSize: {stats.PageSize}");
+            output.WriteLine($"BranchPages: {stats.BranchPages}");
+            output.WriteLine($"LeafPages: {stats.LeafPages}");
+            output.WriteLine($"OverflowPages: {stats.OverflowPages}");
+
             var keyBuf1 = Guid.NewGuid().ToByteArray();
             var keyBuf2 = Guid.NewGuid().ToByteArray();
             var buffer = fixture.Buffers.Acquire(1024);
@@ -77,6 +84,51 @@ namespace KdSoft.Lmdb.Tests
 
                 Assert.True(putData1.SequenceEqual(getData1));
                 Assert.Equal(testData, Encoding.UTF8.GetString(getData2.ToArray()));
+            }
+            finally {
+                fixture.Buffers.Return(buffer);
+                using (var tx = fixture.Env.BeginDatabaseTransaction(TransactionModes.None)) {
+                    dbase.Drop(tx);
+                    tx.Commit();
+                }
+            }
+        }
+
+        int IntKeyCompare(in ReadOnlySpan<byte> x, in ReadOnlySpan<byte> y) {
+            var xInt = BitConverter.ToInt32(x.ToArray(), 0);
+            var yInt = BitConverter.ToInt32(y.ToArray(), 0);
+            return Comparer<int>.Default.Compare(xInt, yInt);
+        }
+
+        [Fact]
+        public void UseCompareFunction() {
+            var config = new Database.Configuration(DatabaseOptions.Create, IntKeyCompare);
+            Database dbase;
+            using (var tx = fixture.Env.BeginDatabaseTransaction(TransactionModes.None)) {
+                dbase = tx.OpenDatabase("TestDb3", config);
+                tx.Commit();
+            }
+
+            var buffer = fixture.Buffers.Acquire(1024);
+            try {
+                using (var tx = fixture.Env.BeginTransaction(TransactionModes.None)) {
+                    for (int key = 0; key < 10; key++) {
+                        var putData = $"Test Data {key}";
+                        int byteCount = Encoding.UTF8.GetBytes(putData, 0, putData.Length, buffer, 0);
+                        dbase.Put(tx, BitConverter.GetBytes(key), new ReadOnlySpan<byte>(buffer, 0, byteCount), PutOptions.None);
+                    }
+                    tx.Commit();
+                }
+
+                ReadOnlySpan<byte> getData;
+                using (var tx = fixture.Env.BeginReadOnlyTransaction(TransactionModes.None)) {
+                    for (int key = 0; key < 10; key++) {
+                        var compareData = $"Test Data {key}";
+                        dbase.Get(tx, BitConverter.GetBytes(key), out getData);
+                        Assert.Equal(compareData, Encoding.UTF8.GetString(getData.ToArray()));
+                    }
+                    tx.Commit();
+                }
             }
             finally {
                 fixture.Buffers.Return(buffer);

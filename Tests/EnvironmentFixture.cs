@@ -20,7 +20,7 @@ namespace KdSoft.Lmdb.Tests
 
         public BufferPool Buffers { get; }
 
-        public void Dispose() {
+        public virtual void Dispose() {
             Env.Close();
         }
     }
