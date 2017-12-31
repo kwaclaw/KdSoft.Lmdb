@@ -338,9 +338,17 @@ namespace KdSoft.Lmdb
         public ItemsIterator KeysForward => new ItemsIterator(this, DbCursorOp.MDB_FIRST, DbCursorOp.MDB_NEXT);
         public ItemsIterator KeysReverse => new ItemsIterator(this, DbCursorOp.MDB_LAST, DbCursorOp.MDB_PREV);
 
+        public ItemsFromKeyIterator KeysForwardFrom(in ReadOnlySpan<byte> key) =>
+            new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_KEY, DbCursorOp.MDB_NEXT);
+
+        public ItemsFromKeyIterator KeysForwardFromNearest(in ReadOnlySpan<byte> key) =>
+            new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_RANGE, DbCursorOp.MDB_NEXT);
+
         #endregion
 
         #region Nested types
+
+        public delegate bool GetItem(out KeyDataPair item);
 
         public struct ItemsIterator
         {
@@ -354,23 +362,42 @@ namespace KdSoft.Lmdb
                 this.opNext = opNext;
             }
 
-            public ItemsEnumerator GetEnumerator() => new ItemsEnumerator(cursor, opFirst, opNext);
+            bool GetFirstItem(out KeyDataPair item) => cursor.Get(out item, opFirst);
+            bool GetNextItem(out KeyDataPair item) => cursor.Get(out item, opNext);
+
+            public ItemsEnumerator GetEnumerator() => new ItemsEnumerator(GetFirstItem, GetNextItem);
         }
+
+        public ref struct ItemsFromKeyIterator
+        {
+            readonly Cursor cursor;
+            readonly ReadOnlySpan<byte> key;
+            readonly DbCursorOp keyOp;
+            readonly DbCursorOp nextOp;
+
+            public ItemsFromKeyIterator(Cursor cursor, in ReadOnlySpan<byte> key, DbCursorOp keyOp, DbCursorOp nextOp) {
+                this.cursor = cursor;
+                this.key = key;
+                this.keyOp = keyOp;
+                this.nextOp = nextOp;
+            }
+
+            public ItemsFromKeyEnumerator GetEnumerator() => new ItemsFromKeyEnumerator(cursor, key, keyOp, nextOp);
+        }
+
 
         public ref struct ItemsEnumerator
         {
-            readonly Cursor cursor;
-            readonly DbCursorOp opFirst;
-            readonly DbCursorOp opNext;
+            readonly GetItem getFirst;
+            readonly GetItem getNext;
             KeyDataPair current;
             bool isCurrent;
             bool isInitialized;
 
-            public ItemsEnumerator(Cursor cursor, DbCursorOp opFirst, DbCursorOp opNext) {
-                this.cursor = cursor;
-                this.opFirst = opFirst;
-                this.opNext = opNext;
-                this.current = default(KeyDataPair);
+            public ItemsEnumerator(GetItem getFirst, GetItem getNext) {
+                this.getFirst = getFirst;
+                this.getNext = getNext;
+                this.current = default;
                 this.isCurrent = false;
                 this.isInitialized = false;
             }
@@ -388,10 +415,51 @@ namespace KdSoft.Lmdb
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool MoveNext() {
                 if (isInitialized)
-                    return isCurrent = cursor.Get(out current, opNext);
+                    return isCurrent = getNext(out current);
                 else {
                     isInitialized = true;
-                    return isCurrent = cursor.Get(out current, opFirst);
+                    return isCurrent = getFirst(out current);
+                }
+            }
+        }
+
+        public ref struct ItemsFromKeyEnumerator
+        {
+            readonly Cursor cursor;
+            readonly ReadOnlySpan<byte> key;
+            readonly DbCursorOp keyOp;
+            readonly DbCursorOp nextOp;
+            KeyDataPair current;
+            bool isCurrent;
+            bool isInitialized;
+
+            public ItemsFromKeyEnumerator(Cursor cursor, in ReadOnlySpan<byte> key, DbCursorOp keyOp, DbCursorOp nextOp) {
+                this.cursor = cursor;
+                this.key = key;
+                this.keyOp = keyOp;
+                this.nextOp = nextOp;
+                this.current = default;
+                this.isCurrent = false;
+                this.isInitialized = false;
+            }
+
+            public KeyDataPair Current {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get {
+                    if (isCurrent)
+                        return current;
+                    else
+                        throw new InvalidOperationException("Invalid cursor position.");
+                }
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public bool MoveNext() {
+                if (isInitialized)
+                    return isCurrent = cursor.Get(out current, nextOp);
+                else {
+                    isInitialized = true;
+                    return isCurrent = cursor.Get(in key, out current, keyOp);
                 }
             }
         }

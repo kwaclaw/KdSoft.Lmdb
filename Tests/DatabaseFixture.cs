@@ -9,6 +9,9 @@ namespace KdSoft.Lmdb.Tests
     public class DatabaseFixture: EnvironmentFixture, IDisposable
     {
         public const string dbName = "Test Read Database";
+        public const int FirstCount = 7;
+        public const int Gap = 12;
+        public const int SecondCount = 5;
 
         public int IntKeyCompare(in ReadOnlySpan<byte> x, in ReadOnlySpan<byte> y) {
             var xInt = BitConverter.ToInt32(x.ToArray(), 0);
@@ -35,9 +38,25 @@ namespace KdSoft.Lmdb.Tests
 
             TestData = new Dictionary<int, IList<string>>();
 
-            const int keyCount = 11;
 
-            for (int key = 0; key < keyCount; key++) {
+            for (int key = 0; key < FirstCount; key++) {
+                if (key % 2 == 0) {  // if even key
+                    string putData = $"Test Data {key}";
+                    TestData[key] = new[] { putData };
+                }
+                else {
+                    var putData = new string[key];
+                    char dupLetter = 'a';
+                    for (int indx = 0; indx < key; indx++) {
+                        putData[indx] = $"Test Data {key}{dupLetter}";
+                        dupLetter++;
+                    }
+                    TestData[key] = putData;
+                }
+            }
+
+            int secondStart = FirstCount + Gap;
+            for (int key = secondStart; key < secondStart + SecondCount; key++) {
                 if (key % 2 == 0) {  // if even key
                     string putData = $"Test Data {key}";
                     TestData[key] = new[] { putData };
@@ -55,7 +74,8 @@ namespace KdSoft.Lmdb.Tests
 
             var buffer = new byte[1024];
             using (var tx = Env.BeginTransaction(TransactionModes.None)) {
-                for (int key = 0; key < keyCount; key++) {
+                foreach (var testEntry in TestData) {
+                    var key = testEntry.Key;
                     var putData = TestData[key];
                     var keyBytes = BitConverter.GetBytes(key);
                     for (int indx = 0; indx < putData.Count; indx++) {

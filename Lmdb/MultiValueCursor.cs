@@ -97,8 +97,66 @@ namespace KdSoft.Lmdb
 
         #region Enumeration
 
-        public ItemsIterator ValuesForward => new ItemsIterator(this, DbCursorOp.MDB_FIRST_DUP, DbCursorOp.MDB_NEXT_DUP);
-        public ItemsIterator ValuesReverse => new ItemsIterator(this, DbCursorOp.MDB_LAST_DUP, DbCursorOp.MDB_PREV_DUP);
+        public ValuesIterator ValuesForward => new ValuesIterator(this, DbCursorOp.MDB_FIRST_DUP, DbCursorOp.MDB_NEXT_DUP);
+        public ValuesIterator ValuesReverse => new ValuesIterator(this, DbCursorOp.MDB_LAST_DUP, DbCursorOp.MDB_PREV_DUP);
+
+        #endregion
+
+        #region Nested types
+
+        public struct ValuesIterator
+        {
+            readonly MultiValueCursor cursor;
+            readonly DbCursorOp opFirst;
+            readonly DbCursorOp opNext;
+
+            public ValuesIterator(MultiValueCursor cursor, DbCursorOp opFirst, DbCursorOp opNext) {
+                this.cursor = cursor;
+                this.opFirst = opFirst;
+                this.opNext = opNext;
+            }
+
+            public ValuesEnumerator GetEnumerator() => new ValuesEnumerator(cursor, opFirst, opNext);
+        }
+
+        public ref struct ValuesEnumerator
+        {
+            readonly MultiValueCursor cursor;
+            readonly DbCursorOp opFirst;
+            readonly DbCursorOp opNext;
+            ReadOnlySpan<byte> current;
+            bool isCurrent;
+            bool isInitialized;
+
+            public ValuesEnumerator(MultiValueCursor cursor, DbCursorOp opFirst, DbCursorOp opNext) {
+                this.cursor = cursor;
+                this.opFirst = opFirst;
+                this.opNext = opNext;
+                this.current = default(ReadOnlySpan<byte>);
+                this.isCurrent = false;
+                this.isInitialized = false;
+            }
+
+            public ReadOnlySpan<byte> Current {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get {
+                    if (isCurrent)
+                        return current;
+                    else
+                        throw new InvalidOperationException("Invalid cursor position.");
+                }
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public bool MoveNext() {
+                if (isInitialized)
+                    return isCurrent = cursor.GetData(out current, opNext);
+                else {
+                    isInitialized = true;
+                    return isCurrent = cursor.GetData(out current, opFirst);
+                }
+            }
+        }
 
         #endregion
 
