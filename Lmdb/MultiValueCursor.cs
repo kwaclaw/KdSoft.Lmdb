@@ -11,6 +11,14 @@ namespace KdSoft.Lmdb
             //
         }
 
+        public bool GetAt(in KeyDataPair keyData, out KeyDataPair entry) {
+            return Get(in keyData, out entry, DbCursorOp.MDB_GET_BOTH);
+        }
+
+        public bool GetNearest(in KeyDataPair keyData, out KeyDataPair entry) {
+            return Get(in keyData, out entry, DbCursorOp.MDB_GET_BOTH_RANGE);
+        }
+
         //TODO remove when not needed to work around compiler bug - crashes Visual Studio
         [StructLayout(LayoutKind.Sequential, Pack = Compile.PackSize)]
         ref struct MultiDbValue

@@ -106,7 +106,7 @@ namespace KdSoft.Lmdb
         }
 
         // valid operations: MDB_SET, does not return key or data, 
-        protected bool MoveTo(in ReadOnlySpan<byte> key, DbCursorOp op) {
+        protected bool MoveToKey(in ReadOnlySpan<byte> key, DbCursorOp op) {
             DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
@@ -123,28 +123,8 @@ namespace KdSoft.Lmdb
             return true;
         }
 
-        // valid operations: MDB_SET, does not return key or data, entry.Data only applies to MultiValueDatabase
-        protected bool MoveTo(in KeyDataPair entry, DbCursorOp op) {
-            DbRetCode ret;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                unsafe {
-                    fixed (void* keyPtr = &MemoryMarshal.GetReference(entry.Key))
-                    fixed (void* dataPtr = &MemoryMarshal.GetReference(entry.Data)) {
-                        var dbKey = new DbValue(keyPtr, entry.Key.Length);
-                        var dbData = new DbValue(dataPtr, entry.Data.Length);
-                        ret = Lib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
-                    }
-                }
-            }
-            if (ret == DbRetCode.NOTFOUND)
-                return false;
-            Util.CheckRetCode(ret);
-            return true;
-        }
-
         // valid operations: MDB_GET_CURRENT, MDB_FIRST, MDB_NEXT, MDB_PREV, MDB_LAST
-        protected bool Get(out ReadOnlySpan<byte> key, DbCursorOp op) {
+        protected bool GetKey(out ReadOnlySpan<byte> key, DbCursorOp op) {
             DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
@@ -160,11 +140,7 @@ namespace KdSoft.Lmdb
             return true;
         }
 
-        // valid operations: MDB_GET_CURRENT, MDB_FIRST, MDB_FIRST_DUP,
-        //                   MDB_NEXT, MDB_NEXT_DUP, MDB_NEXT_NODUP
-        //                   MDB_PREV, MDB_PREV_DUP, MDB_PREV_NODUP,
-        //                   MDB_LAST, MDB_LAST_DUP,
-        //                   MDB_GET_MULTIPLE, MDB_NEXT_MULTIPLE, MDB_PREV_MULTIPLE,
+        // valid operations: MDB_GET_CURRENT, MDB_FIRST, MDB_NEXT, MDB_PREV, MDB_LAST
         protected bool Get(out KeyDataPair entry, DbCursorOp op) {
             DbRetCode ret;
             lock (rscLock) {
@@ -182,7 +158,48 @@ namespace KdSoft.Lmdb
             return true;
         }
 
+        // valid operations: MDB_FIRST_DUP, MDB_NEXT_DUP, MDB_NEXT_NODUP,
+        //                   MDB_PREV_DUP, MDB_PREV_NODUP, MDB_LAST_DUP,
+        //                   MDB_GET_MULTIPLE, MDB_NEXT_MULTIPLE, MDB_PREV_MULTIPLE
+        // returns data, but not key
+        protected bool GetData(out ReadOnlySpan<byte> data, DbCursorOp op) {
+            DbRetCode ret;
+            lock (rscLock) {
+                var handle = CheckDisposed();
+                unsafe {
+                    var dbKey = default(DbValue);
+                    var dbData = default(DbValue);
+                    ret = Lib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
+                    data = dbData.ToReadOnlySpan();
+                }
+            }
+            if (ret == DbRetCode.NOTFOUND)
+                return false;
+            Util.CheckRetCode(ret);
+            return true;
+        }
+
         #endregion
+
+        public bool MoveToKey(in ReadOnlySpan<byte> key) {
+            return MoveToKey(in key, DbCursorOp.MDB_SET);
+        }
+
+        public bool GetAt(in ReadOnlySpan<byte> key, out KeyDataPair entry) {
+            return Get(in key, out entry, DbCursorOp.MDB_SET_KEY);
+        }
+
+        public bool GetNearest(in ReadOnlySpan<byte> key, out KeyDataPair entry) {
+            return Get(in key, out entry, DbCursorOp.MDB_SET_RANGE);
+        }
+
+        public bool GetCurrent(out KeyDataPair entry) {
+            return Get(out entry, DbCursorOp.MDB_GET_CURRENT);
+        }
+
+        public bool GetCurrent(out ReadOnlySpan<byte> key) {
+            return GetKey(out key, DbCursorOp.MDB_GET_CURRENT);
+        }
 
         #region Update operations
 
