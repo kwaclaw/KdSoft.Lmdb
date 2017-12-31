@@ -109,14 +109,16 @@ namespace KdSoft.Lmdb
         public new class Configuration: Database.Configuration
         {
             public MultiValueDatabaseOptions DupOptions { get; }
-            public CompareFunction DupCompare { get; }
-            internal Lib.CompareFunction LibDupCompare { get; }
+            public SpanComparison<byte> DupCompare { get; }
+
+            [CLSCompliant(false)]
+            internal protected Lib.CompareFunction LibDupCompare { get; protected set; }
 
             public Configuration(
                 DatabaseOptions options,
-                CompareFunction compare = null,
+                SpanComparison<byte> compare = null,
                 MultiValueDatabaseOptions dupOptions = MultiValueDatabaseOptions.None,
-                CompareFunction dupCompare = null
+                SpanComparison<byte> dupCompare = null
             ) : base(options, compare) {
                 this.DupOptions = dupOptions;
                 this.DupCompare = dupCompare;

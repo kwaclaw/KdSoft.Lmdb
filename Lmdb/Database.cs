@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace KdSoft.Lmdb
 {
-    public delegate int CompareFunction(in ReadOnlySpan<byte> x, in ReadOnlySpan<byte> y);
+    public delegate int SpanComparison<T>(in ReadOnlySpan<T> x, in ReadOnlySpan<T> y);
 
     public class Database: IDisposable
     {
@@ -333,10 +333,12 @@ namespace KdSoft.Lmdb
         public class Configuration
         {
             public DatabaseOptions Options { get; }
-            public CompareFunction Compare { get; }
-            internal Lib.CompareFunction LibCompare { get; }
+            public SpanComparison<byte> Compare { get; }
 
-            public Configuration(DatabaseOptions options, CompareFunction compare = null) {
+            [CLSCompliant(false)]
+            internal protected Lib.CompareFunction LibCompare { get; protected set; }
+
+            public Configuration(DatabaseOptions options, SpanComparison<byte> compare = null) {
                 this.Options = options;
                 this.Compare = compare;
                 if (compare != null)
