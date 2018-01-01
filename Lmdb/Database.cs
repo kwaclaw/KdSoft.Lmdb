@@ -29,7 +29,7 @@ namespace KdSoft.Lmdb
         public Environment Environment {
             get {
                 lock (rscLock) {
-                    var gcHandle = (GCHandle)Lib.mdb_env_get_userctx(env);
+                    var gcHandle = (GCHandle)DbLib.mdb_env_get_userctx(env);
                     return (Environment)gcHandle.Target;
                 }
             }
@@ -81,7 +81,7 @@ namespace KdSoft.Lmdb
         /// Empty a database.
         /// </summary>
         public void Truncate(Transaction transaction) {
-            RunChecked((handle) => Lib.mdb_drop(transaction.Handle, handle, false));
+            RunChecked((handle) => DbLib.mdb_drop(transaction.Handle, handle, false));
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace KdSoft.Lmdb
         public void Drop(Transaction transaction) {
             lock (rscLock) {
                 var handle = CheckDisposed();
-                var ret = Lib.mdb_drop(transaction.Handle, handle, true);
+                var ret = DbLib.mdb_drop(transaction.Handle, handle, true);
                 Util.CheckRetCode(ret);
                 SetDisposed();
             }
@@ -100,14 +100,14 @@ namespace KdSoft.Lmdb
         /// Retrieve statistics for the database.
         /// </summary>
         public Statistics GetStats(Transaction transaction) {
-            return GetChecked((uint handle, out Statistics value) => Lib.mdb_stat(transaction.Handle, handle, out value));
+            return GetChecked((uint handle, out Statistics value) => DbLib.mdb_stat(transaction.Handle, handle, out value));
         }
 
         /// <summary>
         /// Retrieve the options for the database.
         /// </summary>
         public int GetAllOptions(Transaction transaction) {
-            uint opts = GetChecked((uint handle, out uint value) => Lib.mdb_dbi_flags(transaction.Handle, handle, out value));
+            uint opts = GetChecked((uint handle, out uint value) => DbLib.mdb_dbi_flags(transaction.Handle, handle, out value));
             return unchecked((int)opts);
         }
 
@@ -115,7 +115,7 @@ namespace KdSoft.Lmdb
         /// Retrieve the options for the database.
         /// </summary>
         public DatabaseOptions GetOptions(Transaction transaction) {
-            uint opts = GetChecked((uint handle, out uint value) => Lib.mdb_dbi_flags(transaction.Handle, handle, out value));
+            uint opts = GetChecked((uint handle, out uint value) => DbLib.mdb_dbi_flags(transaction.Handle, handle, out value));
             return unchecked((DatabaseOptions)opts);
         }
 
@@ -140,7 +140,7 @@ namespace KdSoft.Lmdb
                     fixed (void* bytePtr = &MemoryMarshal.GetReference(key)) {
                         var dbKey = new DbValue(bytePtr, key.Length);
                         var dbData = default(DbValue);
-                        ret = Lib.mdb_get(transaction.Handle, handle, ref dbKey, ref dbData);
+                        ret = DbLib.mdb_get(transaction.Handle, handle, ref dbKey, ref dbData);
                         data = dbData.ToReadOnlySpan();
                     }
                 }
@@ -161,7 +161,7 @@ namespace KdSoft.Lmdb
                     fixed (void* dataPtr = &MemoryMarshal.GetReference(data)) {
                         var dbKey = new DbValue(keyPtr, key.Length);
                         var dbValue = new DbValue(dataPtr, data.Length);
-                        ret = Lib.mdb_put(transaction.Handle, handle, ref dbKey, ref dbValue, options);
+                        ret = DbLib.mdb_put(transaction.Handle, handle, ref dbKey, ref dbValue, options);
                     }
                 }
             }
@@ -200,7 +200,7 @@ namespace KdSoft.Lmdb
                 unsafe {
                     fixed (void* bytePtr = &MemoryMarshal.GetReference(key)) {
                         var dbKey = new DbValue(bytePtr, key.Length);
-                        ret = Lib.mdb_del(transaction.Handle, handle, ref dbKey, IntPtr.Zero);
+                        ret = DbLib.mdb_del(transaction.Handle, handle, ref dbKey, IntPtr.Zero);
                     }
                 }
             }
@@ -215,7 +215,7 @@ namespace KdSoft.Lmdb
             IntPtr cur;
             lock (rscLock) {
                 var handle = CheckDisposed();
-                ret = Lib.mdb_cursor_open(transaction.Handle, handle, out cur);
+                ret = DbLib.mdb_cursor_open(transaction.Handle, handle, out cur);
             }
             Util.CheckRetCode(ret);
             return cur;
@@ -253,7 +253,7 @@ namespace KdSoft.Lmdb
 
         // must be executed under lock, and must not be called multiple times
         void ReleaseUnmanagedResources() {
-            Lib.mdb_dbi_close(env, dbi);
+            DbLib.mdb_dbi_close(env, dbi);
         }
 
         #endregion
@@ -336,7 +336,7 @@ namespace KdSoft.Lmdb
             public SpanComparison<byte> Compare { get; }
 
             [CLSCompliant(false)]
-            internal protected Lib.CompareFunction LibCompare { get; protected set; }
+            internal protected DbLibCompareFunction LibCompare { get; protected set; }
 
             public Configuration(DatabaseOptions options, SpanComparison<byte> compare = null) {
                 this.Options = options;

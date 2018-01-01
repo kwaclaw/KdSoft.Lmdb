@@ -4,7 +4,9 @@ namespace KdSoft.Lmdb
 {
     /// <summary>Exception class representing errors returned from MLDB API calls,
     /// or inappropriate use of the .NET bindings.</summary>
+#pragma warning disable S3925 // "ISerializable" should be implemented correctly
     public class LmdbException: Exception
+#pragma warning restore S3925 // "ISerializable" should be implemented correctly
     {
         readonly DbRetCode errorCode;
 

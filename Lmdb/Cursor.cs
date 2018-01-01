@@ -26,7 +26,7 @@ namespace KdSoft.Lmdb
             get {
                 lock (rscLock) {
                     var handle = CheckDisposed();
-                    return Lib.mdb_cursor_txn(handle);
+                    return DbLib.mdb_cursor_txn(handle);
                 }
             }
         }
@@ -37,7 +37,7 @@ namespace KdSoft.Lmdb
             get {
                 lock (rscLock) {
                     var handle = CheckDisposed();
-                    return Lib.mdb_cursor_dbi(handle);
+                    return DbLib.mdb_cursor_dbi(handle);
                 }
             }
         }
@@ -57,12 +57,12 @@ namespace KdSoft.Lmdb
             DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
-                ret = Lib.mdb_cursor_renew(transaction.Handle, handle);
+                ret = DbLib.mdb_cursor_renew(transaction.Handle, handle);
             }
             Util.CheckRetCode(ret);
         }
 
-        #region GET operations
+        #region GET implementations
 
         // valid operations: MDB_SET_KEY, MDB_SET_RANGE,
         protected bool Get(in ReadOnlySpan<byte> key, out KeyDataPair entry, DbCursorOp op) {
@@ -73,7 +73,7 @@ namespace KdSoft.Lmdb
                     fixed (void* keyPtr = &MemoryMarshal.GetReference(key)) {
                         var dbKey = new DbValue(keyPtr, key.Length);
                         var dbData = default(DbValue);
-                        ret = Lib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
+                        ret = DbLib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
                         entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
                     }
                 }
@@ -94,7 +94,7 @@ namespace KdSoft.Lmdb
                     fixed (void* dataPtr = &MemoryMarshal.GetReference(keyData.Data)) {
                         var dbKey = new DbValue(keyPtr, keyData.Key.Length);
                         var dbData = new DbValue(dataPtr, keyData.Data.Length);
-                        ret = Lib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
+                        ret = DbLib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
                         entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
                     }
                 }
@@ -113,7 +113,7 @@ namespace KdSoft.Lmdb
                 unsafe {
                     fixed (void* keyPtr = &MemoryMarshal.GetReference(key)) {
                         var dbKey = new DbValue(keyPtr, key.Length);
-                        ret = Lib.mdb_cursor_get(handle, ref dbKey, null, op);
+                        ret = DbLib.mdb_cursor_get(handle, ref dbKey, null, op);
                     }
                 }
             }
@@ -130,7 +130,7 @@ namespace KdSoft.Lmdb
                 var handle = CheckDisposed();
                 unsafe {
                     var dbKey = default(DbValue);
-                    ret = Lib.mdb_cursor_get(handle, ref dbKey, null, op);
+                    ret = DbLib.mdb_cursor_get(handle, ref dbKey, null, op);
                     key = dbKey.ToReadOnlySpan();
                 }
             }
@@ -148,7 +148,7 @@ namespace KdSoft.Lmdb
                 unsafe {
                     var dbKey = default(DbValue);
                     var dbData = default(DbValue);
-                    ret = Lib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
+                    ret = DbLib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
                     entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
                 }
             }
@@ -169,7 +169,7 @@ namespace KdSoft.Lmdb
                 unsafe {
                     var dbKey = default(DbValue);
                     var dbData = default(DbValue);
-                    ret = Lib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
+                    ret = DbLib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
                     data = dbData.ToReadOnlySpan();
                 }
             }
@@ -180,6 +180,8 @@ namespace KdSoft.Lmdb
         }
 
         #endregion
+
+        #region Read and Move Operations
 
         public bool MoveToKey(in ReadOnlySpan<byte> key) {
             return MoveToKey(in key, DbCursorOp.MDB_SET);
@@ -201,10 +203,12 @@ namespace KdSoft.Lmdb
             return GetKey(out key, DbCursorOp.MDB_GET_CURRENT);
         }
 
-        #region Update operations
+        #endregion
+
+        #region Update Operations
 
         [CLSCompliant(false)]
-        protected bool PutInternal(in KeyDataPair entry, uint options) {
+        protected bool PutInternal(in KeyDataPair entry, uint option) {
             DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
@@ -213,7 +217,7 @@ namespace KdSoft.Lmdb
                     fixed (void* dataPtr = &MemoryMarshal.GetReference(entry.Data)) {
                         var dbKey = new DbValue(keyPtr, entry.Key.Length);
                         var dbValue = new DbValue(dataPtr, entry.Data.Length);
-                        ret = Lib.mdb_cursor_put(handle, ref dbKey, &dbValue, options);
+                        ret = DbLib.mdb_cursor_put(handle, ref dbKey, &dbValue, option);
                     }
                 }
             }
@@ -230,23 +234,22 @@ namespace KdSoft.Lmdb
         /// Note: Earlier documentation incorrectly said errors would leave the state of the cursor unchanged.
         /// </summary>
         /// <param name="entry"></param>
-        /// <param name="options"></param>
-        /// <remarks><c>true</c> if inserted without error, <c>false</c> if <see cref="CursorPutOptions.NoOverwrite"/>
+        /// <param name="option"></param>
+        /// <remarks><c>true</c> if inserted without error, <c>false</c> if <see cref="CursorPutOption.NoOverwrite"/>
         /// was specified and the key already exists.</remarks>
-        public bool Put(in KeyDataPair entry, CursorPutOptions options) {
-            return PutInternal(entry, unchecked((uint)options));
+        public bool Put(in KeyDataPair entry, CursorPutOption option) {
+            return PutInternal(in entry, unchecked((uint)option));
         }
-
 
         /// <summary>
         /// Delete current key/data pair.
         /// This function deletes the key/data pair to which the cursor refers.
         /// </summary>
-        public void Delete(CursorDeleteOptions options = CursorDeleteOptions.None) {
+        public void Delete(CursorDeleteOption option = CursorDeleteOption.None) {
             DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
-                ret = Lib.mdb_cursor_del(handle, unchecked((uint)options));
+                ret = DbLib.mdb_cursor_del(handle, unchecked((uint)option));
             }
             Util.CheckRetCode(ret);
         }
@@ -262,7 +265,7 @@ namespace KdSoft.Lmdb
 
         // must be executed under lock, and must not be called multiple times
         void ReleaseUnmanagedResources() {
-            Lib.mdb_cursor_close(cur);
+            DbLib.mdb_cursor_close(cur);
         }
 
         #endregion
@@ -335,13 +338,46 @@ namespace KdSoft.Lmdb
 
         #region Enumeration
 
+        /// <summary>
+        /// Iterates over all records in sort order.
+        /// </summary>
         public ItemsIterator Forward => new ItemsIterator(this, DbCursorOp.MDB_FIRST, DbCursorOp.MDB_NEXT);
-        public ItemsFromKeyIterator ForwardFromKey(in ReadOnlySpan<byte> key) =>
+
+        /// <summary>
+        /// Iterates over all records in sort order, from the given key on.
+        /// If duplicates are allowed, will start from that key's first duplicate in duplicate sort order.
+        /// </summary>
+        public ItemsFromKeyIterator ForwardFrom(in ReadOnlySpan<byte> key) =>
             new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_KEY, DbCursorOp.MDB_NEXT);
-        public ItemsFromKeyIterator ForwardFromNearestKey(in ReadOnlySpan<byte> key) =>
+
+        /// <summary>
+        /// Iterates over all records in sort order, from the given key on, or if there is no matching key,
+        /// from the next key in sort order.
+        /// If duplicates are allowed, will start from that key's first duplicate in duplicate sort order.
+        /// </summary>
+        public ItemsFromKeyIterator ForwardFromNearest(in ReadOnlySpan<byte> key) =>
             new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_RANGE, DbCursorOp.MDB_NEXT);
 
+        /// <summary>
+        /// Iterates over all records in reverse sort order.
+        /// </summary>
         public ItemsIterator Reverse => new ItemsIterator(this, DbCursorOp.MDB_LAST, DbCursorOp.MDB_PREV);
+
+
+        /// <summary>
+        /// Iterates over all records in reverse sort order, from the given key on.
+        /// If duplicates are allowed, will start from that key's first duplicate in duplicate sort order.
+        /// </summary>
+        public ItemsFromKeyIterator ReverseFrom(in ReadOnlySpan<byte> key) =>
+            new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_KEY, DbCursorOp.MDB_PREV);
+
+        /// <summary>
+        /// Iterates over all records in reverse sort order, from the given key on, or if there is no matching key,
+        /// from the next key in sort order.
+        /// If duplicates are allowed, will start from that key's first duplicate in duplicate sort order.
+        /// </summary>
+        public ItemsFromKeyIterator ReverseFromNearest(in ReadOnlySpan<byte> key) =>
+            new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_RANGE, DbCursorOp.MDB_PREV);
 
         #endregion
 

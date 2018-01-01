@@ -59,19 +59,19 @@
     /// <summary>
     /// Special options for cursor put operation in multi-value databases.
     /// </summary>
-    public enum MultiValueCursorPutOptions
+    public enum MultiValueCursorPutOption
     {
        /// <summary>
         /// Only for MDB_DUPSORT
         /// For put: don't write if the key and data pair already exist.
         /// For mdb_cursor_del: remove all duplicate data items.
         /// </summary>
-        NoDuplicateData = (int)LibConstants.MDB_NODUPDATA,
+        NoDuplicateData = (int)DbLibConstants.MDB_NODUPDATA,
 
         /// <summary>
         /// Duplicate data is being appended, don't split full pages.
         /// </summary>
-        AppendDuplicateData = (int)LibConstants.MDB_APPENDDUP,
+        AppendDuplicateData = (int)DbLibConstants.MDB_APPENDDUP,
 
         /// <summary>
         /// Store multiple data items in one call. Only for MDB_DUPFIXED.
@@ -82,13 +82,13 @@
     /// <summary>
     /// Multi-value cursor delete operation options.
     /// </summary>
-    public enum MultiValueCursorDeleteOptions
+    public enum MultiValueCursorDeleteOption
     {
         /// <summary>
         /// Only for MDB_DUPSORT
         /// For put: don't write if the key and data pair already exist.
         /// For mdb_cursor_del: remove all duplicate data items.
         /// </summary>
-        NoDuplicateData = (int)LibConstants.MDB_NODUPDATA
+        NoDuplicateData = (int)DbLibConstants.MDB_NODUPDATA
     }
 }

@@ -25,20 +25,20 @@ namespace KdSoft.Lmdb
 
         readonly object dbLock = new object();
 
-        (uint dbi, IntPtr handle, IntPtr env) OpenDatabaseInternal(string name, uint options, Lib.CompareFunction compare) {
+        (uint dbi, IntPtr handle, IntPtr env) OpenDatabaseInternal(string name, uint options, DbLibCompareFunction compare) {
             // we won't allow database name conflicts, even before the new database is committed
             if (committedDatabases.ContainsKey(name))
                 throw new LmdbException($"Database '{name}' exists already.");
             var handle = CheckDisposed();
-            var ret = Lib.mdb_dbi_open(handle, name, options, out uint dbi);
+            var ret = DbLib.mdb_dbi_open(handle, name, options, out uint dbi);
             Util.CheckRetCode(ret);
 
-            var env = Lib.mdb_txn_env(handle);
+            var env = DbLib.mdb_txn_env(handle);
 
             if (compare != null) {
-                ret = Lib.mdb_set_compare(handle, dbi, compare);
+                ret = DbLib.mdb_set_compare(handle, dbi, compare);
                 if (ret != DbRetCode.SUCCESS)
-                    Lib.mdb_dbi_close(env, dbi);
+                    DbLib.mdb_dbi_close(env, dbi);
                 Util.CheckRetCode(ret);
             }
 
@@ -94,14 +94,14 @@ namespace KdSoft.Lmdb
         /// <param name="config">Database configuration instance.</param>
         /// <returns></returns>
         public MultiValueDatabase OpenMultiValueDatabase(string name, MultiValueDatabase.Configuration config) {
-            uint options = unchecked ((uint)config.Options | (uint)config.DupOptions | LibConstants.MDB_DUPSORT /* to make sure */);
+            uint options = unchecked ((uint)config.Options | (uint)config.DupOptions | DbLibConstants.MDB_DUPSORT /* to make sure */);
             lock (rscLock) {
                 lock (dbLock) {
                     var (dbi, handle, env) = OpenDatabaseInternal(name, options, config.LibCompare);
                     if (config.LibDupCompare != null) {
-                        var ret = Lib.mdb_set_dupsort(handle, dbi, config.LibDupCompare);
+                        var ret = DbLib.mdb_set_dupsort(handle, dbi, config.LibDupCompare);
                         if (ret != DbRetCode.SUCCESS)
-                            Lib.mdb_dbi_close(env, dbi);
+                            DbLib.mdb_dbi_close(env, dbi);
                         Util.CheckRetCode(ret);
                     }
 

@@ -28,7 +28,7 @@ namespace KdSoft.Lmdb
 
         // must be executed under lock, and must not be called multiple times
         void ReleaseUnmanagedResources() {
-            Lib.mdb_txn_abort(this.txn);
+            DbLib.mdb_txn_abort(this.txn);
         }
 
         #endregion
@@ -36,8 +36,8 @@ namespace KdSoft.Lmdb
         public Environment Environment {
             get {
                 lock (rscLock) {
-                    var env = Lib.mdb_txn_env(txn);
-                    var gcHandle = (GCHandle)Lib.mdb_env_get_userctx(env);
+                    var env = DbLib.mdb_txn_env(txn);
+                    var gcHandle = (GCHandle)DbLib.mdb_env_get_userctx(env);
                     return (Environment)gcHandle.Target;
                 }
             }
@@ -47,7 +47,7 @@ namespace KdSoft.Lmdb
             get {
                 lock (rscLock) {
                     var handle = CheckDisposed();
-                    return Lib.mdb_txn_id(handle);
+                    return DbLib.mdb_txn_id(handle);
                 }
             }
         }
@@ -72,7 +72,7 @@ namespace KdSoft.Lmdb
             lock (rscLock) {
                 var handle = CheckDisposed();
                 ReleaseManagedResources(true);
-                var ret = Lib.mdb_txn_commit(handle);
+                var ret = DbLib.mdb_txn_commit(handle);
                 SetDisposed();
                 Util.CheckRetCode(ret);
                 Committed();
@@ -114,7 +114,7 @@ namespace KdSoft.Lmdb
 
         // must only be called once - this is not checked!!!
         void SetDisposed() {
-            var txnId = Lib.mdb_txn_id(txn);
+            var txnId = DbLib.mdb_txn_id(txn);
             txn = IntPtr.Zero;
             disposed?.Invoke(txnId);
         }

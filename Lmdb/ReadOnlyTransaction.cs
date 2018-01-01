@@ -22,7 +22,7 @@ namespace KdSoft.Lmdb
         public void Reset() {
             lock (rscLock) {
                 var handle = CheckDisposed();
-                Lib.mdb_txn_reset(handle);
+                DbLib.mdb_txn_reset(handle);
             }
         }
 
@@ -34,7 +34,7 @@ namespace KdSoft.Lmdb
         public void Renew() {
             lock (rscLock) {
                 var handle = CheckDisposed();
-                var ret = Lib.mdb_txn_renew(handle);
+                var ret = DbLib.mdb_txn_renew(handle);
                 Util.CheckRetCode(ret);
             }
         }

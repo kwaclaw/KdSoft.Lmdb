@@ -17,18 +17,18 @@ namespace KdSoft.Lmdb
         /// MDB_REVERSEKEY. Keys are strings to be compared in reverse order, from the end of the strings to the beginning.
         /// By default, Keys are treated as strings and compared from beginning to end.
         /// </summary>
-        ReverseKey = (int)LibConstants.MDB_REVERSEKEY,
+        ReverseKey = (int)DbLibConstants.MDB_REVERSEKEY,
 
         /// <summary>
         /// MDB_INTEGERKEY. Keys are binary integers in native byte order. 
         /// Setting this option requires all keys to be the same size, typically sizeof(int) or sizeof(size_t).
         /// </summary>
-        IntegerKey = (int)LibConstants.MDB_INTEGERKEY,
+        IntegerKey = (int)DbLibConstants.MDB_INTEGERKEY,
 
         /// <summary>
         /// Create the named database if it doesn't exist. This option is not allowed in a read-only transaction or a read-only environment.
         /// </summary>
-        Create = (int)LibConstants.MDB_CREATE
+        Create = (int)DbLibConstants.MDB_CREATE
     }
 
     /// <summary>
@@ -45,16 +45,16 @@ namespace KdSoft.Lmdb
         /// <summary>
         /// For put: Don't write if the key already exists.
         /// </summary>
-        NoOverwrite = (int)LibConstants.MDB_NOOVERWRITE,
+        NoOverwrite = (int)DbLibConstants.MDB_NOOVERWRITE,
 
         /// <summary>
         /// For put: Just reserve space for data, don't copy it. Return a pointer to the reserved space.
         /// </summary>
-        ReserveSpace = (int)LibConstants.MDB_RESERVE,
+        ReserveSpace = (int)DbLibConstants.MDB_RESERVE,
 
         /// <summary>
         /// Data is being appended, don't split full pages.
         /// </summary>
-        AppendData = (int)LibConstants.MDB_APPEND,
+        AppendData = (int)DbLibConstants.MDB_APPEND,
     }
 }

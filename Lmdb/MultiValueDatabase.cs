@@ -17,7 +17,7 @@ namespace KdSoft.Lmdb
         /// Retrieve the multi-value options for the database.
         /// </summary>
         public MultiValueDatabaseOptions GetMultiValueOptions(Transaction transaction) {
-            uint opts = GetChecked((uint handle, out uint value) => Lib.mdb_dbi_flags(transaction.Handle, handle, out value));
+            uint opts = GetChecked((uint handle, out uint value) => DbLib.mdb_dbi_flags(transaction.Handle, handle, out value));
             return unchecked((MultiValueDatabaseOptions)opts);
         }
 
@@ -56,7 +56,7 @@ namespace KdSoft.Lmdb
                     fixed (void* dataPtr = &MemoryMarshal.GetReference(data)) {
                         var dbKey = new DbValue(keyPtr, key.Length);
                         var dbData = new DbValue(dataPtr, data.Length);
-                        ret = Lib.mdb_del(transaction.Handle, handle, ref dbKey, ref dbData);
+                        ret = DbLib.mdb_del(transaction.Handle, handle, ref dbKey, ref dbData);
                     }
                 }
                 if (ret == DbRetCode.NOTFOUND)
@@ -112,7 +112,7 @@ namespace KdSoft.Lmdb
             public SpanComparison<byte> DupCompare { get; }
 
             [CLSCompliant(false)]
-            internal protected Lib.CompareFunction LibDupCompare { get; protected set; }
+            internal protected DbLibCompareFunction LibDupCompare { get; protected set; }
 
             public Configuration(
                 DatabaseOptions options,

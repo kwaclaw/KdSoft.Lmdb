@@ -77,11 +77,6 @@ namespace KdSoft.Lmdb.Tests
                     }
                 }
             }
-            //foreach (var entry in getData) {
-            //    output.WriteLine($"{entry.Key}:");
-            //    foreach (var val in entry.Value)
-            //        output.WriteLine($"\t\t{val}");
-            //}
 
             Assert.Equal(fixture.TestData, getData);
         }
@@ -167,7 +162,7 @@ namespace KdSoft.Lmdb.Tests
                 using (var cursor = fixture.Db.OpenMultiValueCursor(tx)) {
                     int key = 4;
                     var keyBytes = BitConverter.GetBytes(key);
-                    foreach (var entry in cursor.ForwardByKeyFromKey(keyBytes)) {
+                    foreach (var entry in cursor.ForwardByKeyFrom(keyBytes)) {
                         var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
                         var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
                         output.WriteLine($"{ckey}: {cdata}");
@@ -177,7 +172,7 @@ namespace KdSoft.Lmdb.Tests
 
                     key = DatabaseFixture.FirstCount + 1;
                     keyBytes = BitConverter.GetBytes(key);
-                    foreach (var entry in cursor.ForwardByKeyFromNearestKey(keyBytes)) {
+                    foreach (var entry in cursor.ForwardByKeyFromNearest(keyBytes)) {
                         var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
                         var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
                         output.WriteLine($"{ckey}: {cdata}");
@@ -193,7 +188,7 @@ namespace KdSoft.Lmdb.Tests
                     int key = 3;
                     var keyBytes = BitConverter.GetBytes(key);
                     var data = Encoding.UTF8.GetBytes(fixture.TestData[key][1]);
-                    foreach (var entry in cursor.ForwardFromEntry(new KeyDataPair(keyBytes, data))) {
+                    foreach (var entry in cursor.ForwardFrom(new KeyDataPair(keyBytes, data))) {
                         var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
                         var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
                         output.WriteLine($"{ckey}: {cdata}");
@@ -204,7 +199,34 @@ namespace KdSoft.Lmdb.Tests
                     key = DatabaseFixture.FirstCount + 1;
                     keyBytes = BitConverter.GetBytes(key);
                     // if we used ForwardFromNearestEntry then at least the key would have to match
-                    foreach (var entry in cursor.ForwardFromNearestKey(keyBytes)) {
+                    foreach (var entry in cursor.ForwardFromNearest(keyBytes)) {
+                        var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
+                        var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
+                        output.WriteLine($"{ckey}: {cdata}");
+                    }
+                }
+            }
+        }
+
+        [Fact]
+        public void IterateFromEntryReverse() {
+            using (var tx = fixture.Env.BeginReadOnlyTransaction()) {
+                using (var cursor = fixture.Db.OpenMultiValueCursor(tx)) {
+                    int key = 3;
+                    var keyBytes = BitConverter.GetBytes(key);
+                    var data = Encoding.UTF8.GetBytes(fixture.TestData[key][2]);
+                    foreach (var entry in cursor.ReverseFrom(new KeyDataPair(keyBytes, data))) {
+                        var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
+                        var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
+                        output.WriteLine($"{ckey}: {cdata}");
+                    }
+
+                    output.WriteLine("================================");
+
+                    key = DatabaseFixture.FirstCount + 1;
+                    keyBytes = BitConverter.GetBytes(key);
+                    // if we used ForwardFromNearestEntry then at least the key would have to match
+                    foreach (var entry in cursor.ReverseFromNearest(keyBytes)) {
                         var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
                         var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
                         output.WriteLine($"{ckey}: {cdata}");

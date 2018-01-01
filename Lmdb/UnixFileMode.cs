@@ -3,10 +3,10 @@
 namespace KdSoft.Lmdb
 {
     /// <summary>
-    /// Unix file access privilegies
+    /// Unix file access privilegies.
     /// </summary>
     [Flags]
-    public enum UnixFileMode
+    public enum UnixFileModes
     {
         /// <summary>
         /// S_IRUSR, read permission, owner

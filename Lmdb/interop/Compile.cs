@@ -1,9 +1,8 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace KdSoft.Lmdb
 {
-    public static class Compile
+    static class Compile
     {
         public const int PackSize =
 #if MDB_PACK

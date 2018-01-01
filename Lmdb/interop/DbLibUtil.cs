@@ -5,7 +5,7 @@ using System.Text;
 namespace KdSoft.Lmdb
 {
     [CLSCompliant(false)]
-    public static unsafe class LibUtil
+    public static unsafe class DbLibUtil
     {
         // calculates length of null-terminated byte string
         public static int ByteStrLen(byte* str) {
@@ -42,7 +42,9 @@ namespace KdSoft.Lmdb
                 Array.Resize<byte>(ref buffer, count);
             count = utf8.GetBytes(str, 0, str.Length, buffer, 0);
             // add null terminator - we have space for at least one more byte
+#pragma warning disable S2259 // Null pointers should not be dereferenced
             buffer[count] = 0;
+#pragma warning restore S2259 // Null pointers should not be dereferenced
             return count + 1;
         }
 
@@ -82,7 +84,7 @@ namespace KdSoft.Lmdb
                 bytes[index++] = (byte)(num >> 24);
                 bytes[index++] = (byte)((num & 0x00FF0000) >> 16);
                 bytes[index++] = (byte)((num & 0x0000FF00) >> 8);
-                bytes[index++] = (byte)(num & 0x000000FF);
+                bytes[index] = (byte)(num & 0x000000FF);
             }
         }
 
@@ -94,7 +96,7 @@ namespace KdSoft.Lmdb
                 result |= (UInt32)bytes[index++] << 16;
                 result |= (UInt32)bytes[index++] << 8;
             }
-            result |= bytes[index++];
+            result |= bytes[index];
             return result;
         }
 

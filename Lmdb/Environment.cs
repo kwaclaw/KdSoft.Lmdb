@@ -23,14 +23,14 @@ namespace KdSoft.Lmdb
             try { /* */ }
             finally {
                 IntPtr envHandle;
-                ret = Lib.mdb_env_create(out envHandle);
+                ret = DbLib.mdb_env_create(out envHandle);
                 if (ret == DbRetCode.SUCCESS) {
-                    var ret2 = Lib.mdb_env_set_userctx(envHandle, (IntPtr)instanceHandle);
+                    var ret2 = DbLib.mdb_env_set_userctx(envHandle, (IntPtr)instanceHandle);
                     if (ret2 == DbRetCode.SUCCESS)
                         this.env = envHandle;
                     else {
                         ret = ret2;
-                        Lib.mdb_env_close(envHandle);
+                        DbLib.mdb_env_close(envHandle);
                     }
                 }
             }
@@ -100,7 +100,7 @@ namespace KdSoft.Lmdb
         public void SetMapSize(long newValue) {
             if (autoReduceMapSizeIn32BitProcess && (IntPtr.Size == 4) && (newValue > int.MaxValue))
                 newValue = int.MaxValue;
-            RunChecked((handle) => Lib.mdb_env_set_mapsize(handle, (IntPtr)newValue));
+            RunChecked((handle) => DbLib.mdb_env_set_mapsize(handle, (IntPtr)newValue));
         }
 
         uint maxDatabases;
@@ -118,7 +118,7 @@ namespace KdSoft.Lmdb
                 return unchecked((int)maxDatabases);
             }
             set {
-                RunChecked((handle) => Lib.mdb_env_set_maxdbs(handle, unchecked((uint)value)));
+                RunChecked((handle) => DbLib.mdb_env_set_maxdbs(handle, unchecked((uint)value)));
                 maxDatabases = unchecked((uint)value);
             }
         }
@@ -131,8 +131,8 @@ namespace KdSoft.Lmdb
         /// This function may only be called after mdb_env_create() and before mdb_env_open().
         /// </summary>
         public int MaxReaders {
-            get => unchecked((int)GetChecked((IntPtr handle, out uint value) => Lib.mdb_env_get_maxreaders(handle, out value)));
-            set => RunChecked((handle) => Lib.mdb_env_set_maxreaders(handle, unchecked((uint)value)));
+            get => unchecked((int)GetChecked((IntPtr handle, out uint value) => DbLib.mdb_env_get_maxreaders(handle, out value)));
+            set => RunChecked((handle) => DbLib.mdb_env_set_maxreaders(handle, unchecked((uint)value)));
         }
 
         /// <summary>
@@ -143,21 +143,21 @@ namespace KdSoft.Lmdb
         /// <param name="options">Option flags to set, bitwise OR'ed together.</param>
         /// <param name="onoff">A <c>true</c> value sets the flags, <c>false</c> clears them.</param>
         public void SetOptions(EnvironmentOptions options, bool onoff) {
-            RunChecked((handle) => Lib.mdb_env_set_flags(handle, options, onoff));
+            RunChecked((handle) => DbLib.mdb_env_set_flags(handle, options, onoff));
         }
 
         /// <summary>
         /// Return information about the LMDB environment.
         /// </summary>
         public EnvironmentOptions GetOptions() {
-            return GetChecked((IntPtr handle, out EnvironmentOptions value) => Lib.mdb_env_get_flags(handle, out value));
+            return GetChecked((IntPtr handle, out EnvironmentOptions value) => DbLib.mdb_env_get_flags(handle, out value));
         }
 
         /// <summary>
         /// Return information about the LMDB environment.
         /// </summary>
         public EnvironmentInfo GetInfo() {
-            return GetChecked((IntPtr handle, out EnvironmentInfo value) => Lib.mdb_env_info(handle, out value));
+            return GetChecked((IntPtr handle, out EnvironmentInfo value) => DbLib.mdb_env_info(handle, out value));
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace KdSoft.Lmdb
         /// </summary>
         /// <returns></returns>
         public Statistics GetStats() {
-            return GetChecked((IntPtr handle, out Statistics value) => Lib.mdb_env_stat(handle, out value));
+            return GetChecked((IntPtr handle, out Statistics value) => DbLib.mdb_env_stat(handle, out value));
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace KdSoft.Lmdb
         public int GetMaxKeySize() {
             lock (rscLock) {
                 var handle = CheckDisposed();
-                return Lib.mdb_env_get_maxkeysize(handle);
+                return DbLib.mdb_env_get_maxkeysize(handle);
             }
         }
 
@@ -183,7 +183,7 @@ namespace KdSoft.Lmdb
         /// Return the path that was used in mdb_env_open().
         /// </summary>
         public string GetPath() {
-            return GetChecked((IntPtr handle, out string value) => Lib.mdb_env_get_path(handle, out value));
+            return GetChecked((IntPtr handle, out string value) => DbLib.mdb_env_get_path(handle, out value));
         }
 
         #endregion
@@ -197,8 +197,8 @@ namespace KdSoft.Lmdb
         /// This parameter must be set to 0 or by bitwise OR'ing together one or more of the values.
         /// Flags set by mdb_env_set_flags() are also used.</param>
         /// <param name="fileMode">The UNIX permissions to set on created files and semaphores. This parameter is ignored on Windows.</param>
-        public void Open(string path, EnvironmentOptions options = EnvironmentOptions.None, UnixFileMode fileMode = UnixFileMode.Default) {
-            RunChecked((handle) => Lib.mdb_env_open(handle, path, options, fileMode));
+        public void Open(string path, EnvironmentOptions options = EnvironmentOptions.None, UnixFileModes fileMode = UnixFileModes.Default) {
+            RunChecked((handle) => DbLib.mdb_env_open(handle, path, options, fileMode));
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace KdSoft.Lmdb
         /// the flushes will be omitted, and with MDB_MAPASYNC they will be asynchronous.
         /// </param>
         public void Sync(bool force) {
-            RunChecked((handle) => Lib.mdb_env_sync(handle, force));
+            RunChecked((handle) => DbLib.mdb_env_sync(handle, force));
         }
 
         //TODO expose mdb_reader_list() and mdb_reader_check()
@@ -266,8 +266,8 @@ namespace KdSoft.Lmdb
 
         (IntPtr txn, IntPtr txnId) BeginTransactionInternal(TransactionModes modes, Transaction parent) {
             var parentTxn = parent?.Handle ?? IntPtr.Zero;
-            var txn = GetChecked((IntPtr handle, out IntPtr value) => Lib.mdb_txn_begin(handle, parentTxn, modes, out value));
-            var txnId = Lib.mdb_txn_id(txn);
+            var txn = GetChecked((IntPtr handle, out IntPtr value) => DbLib.mdb_txn_begin(handle, parentTxn, modes, out value));
+            var txnId = DbLib.mdb_txn_id(txn);
             return (txn, txnId);
         }
 
@@ -294,7 +294,7 @@ namespace KdSoft.Lmdb
             else
                 result = new ReadOnlyTransaction(txn, parent, TransactionDisposed);
             if (!transactions.TryAdd(txnId, result)) {
-                Lib.mdb_txn_abort(txn);
+                DbLib.mdb_txn_abort(txn);
                 throw new LmdbException($"Transaction with same Id {txnId} exists already.");
             }
             return result;
@@ -350,7 +350,7 @@ namespace KdSoft.Lmdb
             // CER ensures that we reach LmdbApi.mdb_env_close() without external interruption.
             // This is OK because one must not use the handle after LmdbApi.mdb_env_close() was called
             this.env = IntPtr.Zero;  //  SetDisposed();
-            Lib.mdb_env_close(handle);
+            DbLib.mdb_env_close(handle);
         }
 
         #endregion

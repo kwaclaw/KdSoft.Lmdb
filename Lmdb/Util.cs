@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.CompilerServices;
 
 namespace KdSoft.Lmdb
 {
@@ -10,23 +6,7 @@ namespace KdSoft.Lmdb
     {
         // keep in sync with user defined codes in DbRetCode
         static string[] dotNetStr = {
-          "Key generator callback failed.",
-          "Append record number callback failed.",
-          "Duplicate comparison callback failed.",
-          "BTree key comparison callback failed.",
-          "BTree prefix comparison callback failed.",
-          "Hash function callback failed.",
-          "Feedback callback failed.",
-          "Panic callback failed.",
-          "Application recovery callback failed.",
-          "Verify callback failed.",
-          "Replication send callback failed.",
-          "Cache page-in callback failed.",
-          "Cache page-out callback failed.",
-          "Event notification failed.",
-          "IsAlive callback failed.",
-          "ThreadId callback failed.",
-          "ThreadIdString callback failed."
+          // "Panic callback failed.",
         };
 
         public static string DotNetStr(DbRetCode ret) {
@@ -37,7 +17,7 @@ namespace KdSoft.Lmdb
         }
 
         public static string UnknownStr(DbRetCode ret) {
-            return string.Format("Unknown error code: {0}.", ret);
+            return string.Format("Unknown LMDB error code: {0}.", ret);
         }
 
         public const DbRetCode MdbLowError = (DbRetCode)(-30800);
@@ -47,12 +27,10 @@ namespace KdSoft.Lmdb
         public static void CheckRetCode(DbRetCode ret) {
             if (ret != DbRetCode.SUCCESS) {
                 string errStr;
-                if (ret > MdbLowError)
-                    errStr = Lib.mdb_strerror(ret);
-                else if (ret > DotNetLowError)
+                if (ret > MdbLowError && ret <= DbRetCode.LAST_ERRCODE)
+                    errStr = DbLib.mdb_strerror(ret);
+                else 
                     errStr = DotNetStr(ret);
-                else
-                    errStr = UnknownStr(ret);
                 throw new LmdbException(ret, errStr);
             }
         }
