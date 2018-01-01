@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <CodeAnalysisRuleSet>..\Solution.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Memory" Version="4.5.0-preview1-26031-02" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="6.7.1.4347" />
+    <PackageReference Include="System.Memory" Version="4.5.0-preview1-26101-02" />
   </ItemGroup>
 
 </Project>

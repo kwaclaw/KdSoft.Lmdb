@@ -8,13 +8,14 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <CodeAnalysisRuleSet>..\Solution.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="KdSoft.Utils.Portable" Version="3.5.1" />
-    <PackageReference Include="System.Memory" Version="4.5.0-preview1-26031-02" />
+    <PackageReference Include="System.Memory" Version="4.5.0-preview1-26101-02" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
   </ItemGroup>
