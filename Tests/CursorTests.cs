@@ -20,11 +20,11 @@ namespace KdSoft.Lmdb.Tests
         }
 
         [Fact]
-        public void BasicIteration() {
+        public void BasicIterationByKey() {
             var getData = new Dictionary<int, IList<string>>();
             using (var tx = fixture.Env.BeginTransaction(TransactionModes.None)) {
-                using (var cursor = fixture.Db.OpenCursor(tx)) {
-                    foreach (var entry in cursor.KeysForward) {
+                using (var cursor = fixture.Db.OpenMultiValueCursor(tx)) {
+                    foreach (var entry in cursor.ForwardByKey) {
                         var key = BitConverter.ToInt32(entry.Key.ToArray(), 0);
                         var data = Encoding.UTF8.GetString(entry.Data.ToArray());
                         getData[key] = new[] { data };
@@ -37,11 +37,11 @@ namespace KdSoft.Lmdb.Tests
         }
 
         [Fact]
-        public void MultiValueIteration() {
+        public void MultiValueIterationByKey() {
             var getData = new Dictionary<int, IList<string>>();
             using (var tx = fixture.Env.BeginReadOnlyTransaction()) {
                 using (var cursor = fixture.Db.OpenMultiValueCursor(tx)) {
-                    foreach (var keyEntry in cursor.KeysForward) {
+                    foreach (var keyEntry in cursor.ForwardByKey) {
                         var key = BitConverter.ToInt32(keyEntry.Key.ToArray(), 0);
                         var valueList = new List<string>();
                         foreach (var value in cursor.ValuesForward) {
@@ -60,6 +60,32 @@ namespace KdSoft.Lmdb.Tests
 
             Assert.Equal(fixture.TestData, getData);
         }
+
+        [Fact]
+        public void MultiValueIteration() {
+            var getData = new Dictionary<int, IList<string>>();
+            using (var tx = fixture.Env.BeginReadOnlyTransaction()) {
+                using (var cursor = fixture.Db.OpenMultiValueCursor(tx)) {
+                    foreach (var entry in cursor.Forward) {
+                        var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
+                        var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
+                        output.WriteLine($"{ckey}: {cdata}");
+                        if (getData.TryGetValue(ckey, out IList<string> dataList))
+                            dataList.Add(cdata);
+                        else
+                            getData[ckey] = new List<string> { cdata };
+                    }
+                }
+            }
+            //foreach (var entry in getData) {
+            //    output.WriteLine($"{entry.Key}:");
+            //    foreach (var val in entry.Value)
+            //        output.WriteLine($"\t\t{val}");
+            //}
+
+            Assert.Equal(fixture.TestData, getData);
+        }
+
 
         [Fact]
         public void MoveToKey() {
@@ -136,12 +162,12 @@ namespace KdSoft.Lmdb.Tests
         }
 
         [Fact]
-        public void IterateFromKey() {
+        public void IterateByKeyFromKey() {
             using (var tx = fixture.Env.BeginReadOnlyTransaction()) {
                 using (var cursor = fixture.Db.OpenMultiValueCursor(tx)) {
                     int key = 4;
                     var keyBytes = BitConverter.GetBytes(key);
-                    foreach (var entry in cursor.KeysForwardFrom(keyBytes)) {
+                    foreach (var entry in cursor.ForwardByKeyFromKey(keyBytes)) {
                         var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
                         var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
                         output.WriteLine($"{ckey}: {cdata}");
@@ -151,7 +177,34 @@ namespace KdSoft.Lmdb.Tests
 
                     key = DatabaseFixture.FirstCount + 1;
                     keyBytes = BitConverter.GetBytes(key);
-                    foreach (var entry in cursor.KeysForwardFromNearest(keyBytes)) {
+                    foreach (var entry in cursor.ForwardByKeyFromNearestKey(keyBytes)) {
+                        var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
+                        var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
+                        output.WriteLine($"{ckey}: {cdata}");
+                    }
+                }
+            }
+        }
+
+        [Fact]
+        public void IterateFromEntry() {
+            using (var tx = fixture.Env.BeginReadOnlyTransaction()) {
+                using (var cursor = fixture.Db.OpenMultiValueCursor(tx)) {
+                    int key = 3;
+                    var keyBytes = BitConverter.GetBytes(key);
+                    var data = Encoding.UTF8.GetBytes(fixture.TestData[key][1]);
+                    foreach (var entry in cursor.ForwardFromEntry(new KeyDataPair(keyBytes, data))) {
+                        var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
+                        var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
+                        output.WriteLine($"{ckey}: {cdata}");
+                    }
+
+                    output.WriteLine("================================");
+
+                    key = DatabaseFixture.FirstCount + 1;
+                    keyBytes = BitConverter.GetBytes(key);
+                    // if we used ForwardFromNearestEntry then at least the key would have to match
+                    foreach (var entry in cursor.ForwardFromNearestKey(keyBytes)) {
                         var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
                         var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
                         output.WriteLine($"{ckey}: {cdata}");

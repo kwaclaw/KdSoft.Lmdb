@@ -97,12 +97,83 @@ namespace KdSoft.Lmdb
 
         #region Enumeration
 
+        public ItemsIterator ForwardByKey => new ItemsIterator(this, DbCursorOp.MDB_FIRST, DbCursorOp.MDB_NEXT_NODUP);
+        public ItemsFromKeyIterator ForwardByKeyFromKey(in ReadOnlySpan<byte> key) =>
+            new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_KEY, DbCursorOp.MDB_NEXT_NODUP);
+        public ItemsFromKeyIterator ForwardByKeyFromNearestKey(in ReadOnlySpan<byte> key) =>
+            new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_RANGE, DbCursorOp.MDB_NEXT_NODUP);
+        public ItemsFromEntryIterator ForwardFromEntry(in KeyDataPair entry) =>
+            new ItemsFromEntryIterator(this, entry, DbCursorOp.MDB_GET_BOTH, DbCursorOp.MDB_NEXT);
+        public ItemsFromEntryIterator ForwardFromNearestEntry(in KeyDataPair entry) =>
+            new ItemsFromEntryIterator(this, entry, DbCursorOp.MDB_GET_BOTH_RANGE, DbCursorOp.MDB_NEXT);
+
+
+        public ItemsIterator ReverseByKey => new ItemsIterator(this, DbCursorOp.MDB_LAST, DbCursorOp.MDB_PREV_NODUP);
+
         public ValuesIterator ValuesForward => new ValuesIterator(this, DbCursorOp.MDB_FIRST_DUP, DbCursorOp.MDB_NEXT_DUP);
         public ValuesIterator ValuesReverse => new ValuesIterator(this, DbCursorOp.MDB_LAST_DUP, DbCursorOp.MDB_PREV_DUP);
 
         #endregion
 
         #region Nested types
+
+        public ref struct ItemsFromEntryIterator
+        {
+            readonly MultiValueCursor cursor;
+            readonly KeyDataPair entry;
+            readonly DbCursorOp keyOp;
+            readonly DbCursorOp nextOp;
+
+            public ItemsFromEntryIterator(MultiValueCursor cursor, in KeyDataPair entry, DbCursorOp keyOp, DbCursorOp nextOp) {
+                this.cursor = cursor;
+                this.entry = entry;
+                this.keyOp = keyOp;
+                this.nextOp = nextOp;
+            }
+
+            public ItemsFromEntryEnumerator GetEnumerator() => new ItemsFromEntryEnumerator(cursor, entry, keyOp, nextOp);
+        }
+
+        public ref struct ItemsFromEntryEnumerator
+        {
+            readonly MultiValueCursor cursor;
+            readonly KeyDataPair entry;
+            readonly DbCursorOp keyOp;
+            readonly DbCursorOp nextOp;
+            KeyDataPair current;
+            bool isCurrent;
+            bool isInitialized;
+
+            public ItemsFromEntryEnumerator(MultiValueCursor cursor, in KeyDataPair entry, DbCursorOp keyOp, DbCursorOp nextOp) {
+                this.cursor = cursor;
+                this.entry = entry;
+                this.keyOp = keyOp;
+                this.nextOp = nextOp;
+                this.current = default;
+                this.isCurrent = false;
+                this.isInitialized = false;
+            }
+
+            public KeyDataPair Current {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get {
+                    if (isCurrent)
+                        return current;
+                    else
+                        throw new InvalidOperationException("Invalid cursor position.");
+                }
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public bool MoveNext() {
+                if (isInitialized)
+                    return isCurrent = cursor.Get(out current, nextOp);
+                else {
+                    isInitialized = true;
+                    return isCurrent = cursor.Get(in entry, out current, keyOp);
+                }
+            }
+        }
 
         public struct ValuesIterator
         {

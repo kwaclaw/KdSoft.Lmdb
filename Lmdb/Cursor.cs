@@ -335,14 +335,13 @@ namespace KdSoft.Lmdb
 
         #region Enumeration
 
-        public ItemsIterator KeysForward => new ItemsIterator(this, DbCursorOp.MDB_FIRST, DbCursorOp.MDB_NEXT);
-        public ItemsIterator KeysReverse => new ItemsIterator(this, DbCursorOp.MDB_LAST, DbCursorOp.MDB_PREV);
-
-        public ItemsFromKeyIterator KeysForwardFrom(in ReadOnlySpan<byte> key) =>
+        public ItemsIterator Forward => new ItemsIterator(this, DbCursorOp.MDB_FIRST, DbCursorOp.MDB_NEXT);
+        public ItemsFromKeyIterator ForwardFromKey(in ReadOnlySpan<byte> key) =>
             new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_KEY, DbCursorOp.MDB_NEXT);
-
-        public ItemsFromKeyIterator KeysForwardFromNearest(in ReadOnlySpan<byte> key) =>
+        public ItemsFromKeyIterator ForwardFromNearestKey(in ReadOnlySpan<byte> key) =>
             new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_RANGE, DbCursorOp.MDB_NEXT);
+
+        public ItemsIterator Reverse => new ItemsIterator(this, DbCursorOp.MDB_LAST, DbCursorOp.MDB_PREV);
 
         #endregion
 
@@ -384,7 +383,6 @@ namespace KdSoft.Lmdb
 
             public ItemsFromKeyEnumerator GetEnumerator() => new ItemsFromKeyEnumerator(cursor, key, keyOp, nextOp);
         }
-
 
         public ref struct ItemsEnumerator
         {
