@@ -4,6 +4,7 @@
     /// <remarks>Also includes framework specific custom codes such as those returned from a call-back.</remarks>
     public enum DbRetCode
     {
+#pragma warning disable CA1707 // Identifiers should not contain underscores
         // BerkeleyDB uses -30800 to -30999, we'll go under them
 
         /** key/data pair already exists */
@@ -124,5 +125,6 @@
         ERANGE = 34,
         EILSEQ = 42,
         STRUNCATE = 80
+#pragma warning restore CA1707 // Identifiers should not contain underscores
     };
 }

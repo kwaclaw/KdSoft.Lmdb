@@ -94,7 +94,7 @@ namespace KdSoft.Lmdb.Tests
             }
         }
 
-        int IntKeyCompare(in ReadOnlySpan<byte> x, in ReadOnlySpan<byte> y) {
+        static int IntKeyCompare(in ReadOnlySpan<byte> x, in ReadOnlySpan<byte> y) {
             var xInt = BitConverter.ToInt32(x.ToArray(), 0);
             var yInt = BitConverter.ToInt32(y.ToArray(), 0);
             return Comparer<int>.Default.Compare(xInt, yInt);

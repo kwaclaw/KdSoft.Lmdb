@@ -61,7 +61,7 @@ namespace KdSoft.Lmdb
                 }
                 if (ret == DbRetCode.NOTFOUND)
                     return false;
-                Util.CheckRetCode(ret);
+                ErrorUtil.CheckRetCode(ret);
                 return true;
             }
         }

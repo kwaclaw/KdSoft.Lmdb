@@ -34,7 +34,7 @@ namespace KdSoft.Lmdb
                     }
                 }
             }
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
 
             if (config != null) {
                 this.autoReduceMapSizeIn32BitProcess = config.AutoReduceMapSizeIn32BitProcess;
@@ -56,7 +56,7 @@ namespace KdSoft.Lmdb
                 var handle = CheckDisposed();
                 ret = libFunc(handle);
             }
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
         }
 
         [CLSCompliant(false)]
@@ -70,7 +70,7 @@ namespace KdSoft.Lmdb
                 var handle = CheckDisposed();
                 ret = libFunc(handle, out result);
             }
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
             return result;
         }
 

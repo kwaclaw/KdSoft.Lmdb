@@ -2,7 +2,7 @@
 
 namespace KdSoft.Lmdb
 {
-    public static class Util
+    public static class ErrorUtil
     {
         // keep in sync with user defined codes in DbRetCode
         static string[] dotNetStr = {

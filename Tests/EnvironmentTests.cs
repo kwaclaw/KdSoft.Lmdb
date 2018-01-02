@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
+using Microsoft.DotNet.PlatformAbstractions;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -7,10 +10,12 @@ namespace KdSoft.Lmdb.Tests
     public class EnvironmentTests
     {
         readonly ITestOutputHelper output;
-        const string envPath = @"F:\Work\Private\KdSoft.Lmdb\Tests\TestEnv";
+        const string envDirName = @"TestEnv";
+        readonly string envPath;
 
         public EnvironmentTests(ITestOutputHelper output) {
             this.output = output;
+            envPath = Path.Combine(TestUtils.ProjectDir, envDirName);
         }
 
         [Fact]

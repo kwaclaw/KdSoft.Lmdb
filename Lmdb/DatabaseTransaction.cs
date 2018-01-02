@@ -31,7 +31,7 @@ namespace KdSoft.Lmdb
                 throw new LmdbException($"Database '{name}' exists already.");
             var handle = CheckDisposed();
             var ret = DbLib.mdb_dbi_open(handle, name, options, out uint dbi);
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
 
             var env = DbLib.mdb_txn_env(handle);
 
@@ -39,7 +39,7 @@ namespace KdSoft.Lmdb
                 ret = DbLib.mdb_set_compare(handle, dbi, compare);
                 if (ret != DbRetCode.SUCCESS)
                     DbLib.mdb_dbi_close(env, dbi);
-                Util.CheckRetCode(ret);
+                ErrorUtil.CheckRetCode(ret);
             }
 
             return (dbi, handle, env);
@@ -102,7 +102,7 @@ namespace KdSoft.Lmdb
                         var ret = DbLib.mdb_set_dupsort(handle, dbi, config.LibDupCompare);
                         if (ret != DbRetCode.SUCCESS)
                             DbLib.mdb_dbi_close(env, dbi);
-                        Util.CheckRetCode(ret);
+                        ErrorUtil.CheckRetCode(ret);
                     }
 
                     var result = new MultiValueDatabase(dbi, env, name, NewDatabaseDisposed, config);

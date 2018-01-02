@@ -83,7 +83,7 @@ namespace KdSoft.Lmdb
             }
             if (ret == DbRetCode.KEYEXIST)
                 return false;
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
             return true;
         }
 
@@ -98,7 +98,7 @@ namespace KdSoft.Lmdb
                 var handle = CheckDisposed();
                 ret = DbLib.mdb_cursor_del(handle, opts);
             }
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
         }
 
         #endregion
@@ -113,7 +113,7 @@ namespace KdSoft.Lmdb
                 var handle = CheckDisposed();
                 ret = DbLib.mdb_cursor_count(handle, out result);
             }
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
             return result;
         }
 

@@ -3,7 +3,9 @@
     /// <summary>
     /// Multi-value cursor operation types.
     /// </summary>
+#pragma warning disable CA1008 // Enums should have zero value
     public enum MultiValueCursorOperation
+#pragma warning restore CA1008 // Enums should have zero value
     {
         /// <summary>
         /// Position at first data item of current key. Only for MDB_DUPSORT
@@ -59,7 +61,9 @@
     /// <summary>
     /// Special options for cursor put operation in multi-value databases.
     /// </summary>
+#pragma warning disable CA1008 // Enums should have zero value
     public enum MultiValueCursorPutOption
+#pragma warning restore CA1008 // Enums should have zero value
     {
        /// <summary>
         /// Only for MDB_DUPSORT

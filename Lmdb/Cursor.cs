@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -59,7 +57,7 @@ namespace KdSoft.Lmdb
                 var handle = CheckDisposed();
                 ret = DbLib.mdb_cursor_renew(transaction.Handle, handle);
             }
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
         }
 
         #region GET implementations
@@ -80,7 +78,7 @@ namespace KdSoft.Lmdb
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
             return true;
         }
 
@@ -101,7 +99,7 @@ namespace KdSoft.Lmdb
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
             return true;
         }
 
@@ -119,7 +117,7 @@ namespace KdSoft.Lmdb
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
             return true;
         }
 
@@ -136,7 +134,7 @@ namespace KdSoft.Lmdb
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
             return true;
         }
 
@@ -154,7 +152,7 @@ namespace KdSoft.Lmdb
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
             return true;
         }
 
@@ -175,7 +173,7 @@ namespace KdSoft.Lmdb
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
             return true;
         }
 
@@ -223,7 +221,7 @@ namespace KdSoft.Lmdb
             }
             if (ret == DbRetCode.KEYEXIST)
                 return false;
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
             return true;
         }
 
@@ -251,7 +249,7 @@ namespace KdSoft.Lmdb
                 var handle = CheckDisposed();
                 ret = DbLib.mdb_cursor_del(handle, unchecked((uint)option));
             }
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
         }
 
         #endregion

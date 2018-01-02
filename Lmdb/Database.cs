@@ -44,7 +44,7 @@ namespace KdSoft.Lmdb
                 var handle = CheckDisposed();
                 ret = libFunc(handle);
             }
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
         }
 
         [CLSCompliant(false)]
@@ -58,7 +58,7 @@ namespace KdSoft.Lmdb
                 var handle = CheckDisposed();
                 ret = libFunc(handle, out result);
             }
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
             return result;
         }
 
@@ -91,7 +91,7 @@ namespace KdSoft.Lmdb
             lock (rscLock) {
                 var handle = CheckDisposed();
                 var ret = DbLib.mdb_drop(transaction.Handle, handle, true);
-                Util.CheckRetCode(ret);
+                ErrorUtil.CheckRetCode(ret);
                 SetDisposed();
             }
         }
@@ -147,7 +147,7 @@ namespace KdSoft.Lmdb
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
             return true;
         }
 
@@ -167,7 +167,7 @@ namespace KdSoft.Lmdb
             }
             if (ret == DbRetCode.KEYEXIST)
                 return false;
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
             return true;
         }
 
@@ -206,7 +206,7 @@ namespace KdSoft.Lmdb
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
             return true;
         }
 
@@ -217,7 +217,7 @@ namespace KdSoft.Lmdb
                 var handle = CheckDisposed();
                 ret = DbLib.mdb_cursor_open(transaction.Handle, handle, out cur);
             }
-            Util.CheckRetCode(ret);
+            ErrorUtil.CheckRetCode(ret);
             return cur;
         }
 

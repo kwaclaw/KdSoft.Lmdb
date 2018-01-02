@@ -2,8 +2,9 @@
 {
     public enum DbCursorOp
 	{
-		MDB_FIRST,              /* Position at first key/data item */
-		MDB_FIRST_DUP,          /* Position at first data item of current key. Only for #MDB_DUPSORT */
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+        MDB_FIRST,              /* Position at first key/data item */
+        MDB_FIRST_DUP,          /* Position at first data item of current key. Only for #MDB_DUPSORT */
 		MDB_GET_BOTH,           /* Position at key/data pair. Only for #MDB_DUPSORT */
 		MDB_GET_BOTH_RANGE,     /* position at key, nearest data. Only for #MDB_DUPSORT */
 		MDB_GET_CURRENT,        /* Return key/data at current cursor position */
@@ -23,5 +24,6 @@
 		MDB_SET_KEY,            /* Position at specified key, return key + data */
 		MDB_SET_RANGE,          /* Position at first key greater than or equal to specified key. */
 		MDB_PREV_MULTIPLE		/* Position at previous page and return key and up to a page of duplicate data items. Only for #MDB_DUPFIXED */
+#pragma warning restore CA1707 // Identifiers should not contain underscores
 	}
 }

@@ -74,7 +74,7 @@ namespace KdSoft.Lmdb
                 ReleaseManagedResources(true);
                 var ret = DbLib.mdb_txn_commit(handle);
                 SetDisposed();
-                Util.CheckRetCode(ret);
+                ErrorUtil.CheckRetCode(ret);
                 Committed();
             }
         }

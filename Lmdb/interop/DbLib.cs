@@ -6,7 +6,9 @@ namespace KdSoft.Lmdb
 {
     /// <summary>Interface to the LMDB library.</summary>
     [SuppressUnmanagedCodeSecurity]
+#pragma warning disable CA1060 // Move pinvokes to native methods class
     static unsafe class DbLib
+#pragma warning restore CA1060 // Move pinvokes to native methods class
     {
         const string libName = "lmdb";
 

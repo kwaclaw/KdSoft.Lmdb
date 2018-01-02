@@ -6,20 +6,20 @@ using Xunit;
 
 namespace KdSoft.Lmdb.Tests
 {
-    public class DatabaseFixture: EnvironmentFixture, IDisposable
+    public class DatabaseFixture: EnvironmentFixture
     {
         public const string dbName = "Test Read Database";
         public const int FirstCount = 7;
         public const int Gap = 12;
         public const int SecondCount = 5;
 
-        public int IntKeyCompare(in ReadOnlySpan<byte> x, in ReadOnlySpan<byte> y) {
+        public static int IntKeyCompare(in ReadOnlySpan<byte> x, in ReadOnlySpan<byte> y) {
             var xInt = BitConverter.ToInt32(x.ToArray(), 0);
             var yInt = BitConverter.ToInt32(y.ToArray(), 0);
             return Comparer<int>.Default.Compare(xInt, yInt);
         }
 
-        public int StringDataCompare(in ReadOnlySpan<byte> x, in ReadOnlySpan<byte> y) {
+        public static int StringDataCompare(in ReadOnlySpan<byte> x, in ReadOnlySpan<byte> y) {
             var xStr = Encoding.UTF8.GetString(x.ToArray());
             var yStr = Encoding.UTF8.GetString(y.ToArray());
             return StringComparer.Ordinal.Compare(xStr, yStr);
@@ -102,7 +102,7 @@ namespace KdSoft.Lmdb.Tests
     }
 
     [CollectionDefinition("Database")]
-    public class DatabaseCollection: ICollectionFixture<DatabaseFixture>
+    public class DatabaseGroup: ICollectionFixture<DatabaseFixture>
     {
         // This class has no code, and is never created. Its purpose is simply to be
         // the place to apply [CollectionDefinition] and all the ICollectionFixture<> interfaces. 

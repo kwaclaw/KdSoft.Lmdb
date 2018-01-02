@@ -35,7 +35,7 @@ namespace KdSoft.Lmdb
             lock (rscLock) {
                 var handle = CheckDisposed();
                 var ret = DbLib.mdb_txn_renew(handle);
-                Util.CheckRetCode(ret);
+                ErrorUtil.CheckRetCode(ret);
             }
         }
     }
