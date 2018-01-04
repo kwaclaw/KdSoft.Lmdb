@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -12,6 +11,32 @@ namespace KdSoft.Lmdb
         }
 
         #region Read Operations
+
+        public bool GetNextKey(out ReadOnlySpan<byte> key) {
+            return GetKey(out key, DbCursorOp.MDB_NEXT_NODUP);
+        }
+
+        public bool GetPreviousKey(out ReadOnlySpan<byte> key) {
+            return GetKey(out key, DbCursorOp.MDB_PREV_NODUP);
+        }
+
+        /// <summary>
+        /// Returns first record for next key.
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <returns></returns>
+        public bool GetNextByKey(out KeyDataPair entry) {
+            return Get(out entry, DbCursorOp.MDB_NEXT_NODUP);
+        }
+
+        /// <summary>
+        /// Returns last record for previous key.
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <returns></returns>
+        public bool GetPreviousByKey(out KeyDataPair entry) {
+            return Get(out entry, DbCursorOp.MDB_PREV_NODUP);
+        }
 
         public bool GetAt(in KeyDataPair keyData, out KeyDataPair entry) {
             return Get(in keyData, out entry, DbCursorOp.MDB_GET_BOTH);
@@ -127,36 +152,9 @@ namespace KdSoft.Lmdb
         public ItemsIterator ForwardByKey => new ItemsIterator(this, DbCursorOp.MDB_FIRST, DbCursorOp.MDB_NEXT_NODUP);
 
         /// <summary>
-        /// Iterates over all keys in sort order, from the given key on.
-        /// Retrieves each key's first duplicate record in duplicate sort order.
-        /// One can iterate over the duplicate records separately in a nested loop with <see cref="ValuesForward"/>
-        /// or <see cref="ValuesReverse"/>, or one can iterate including duplicate records with <see cref="Cursor.ForwardFrom"/>.
+        /// Iterates over all keys in sort order, from the next position on.
         /// </summary>
-        public ItemsFromKeyIterator ForwardByKeyFrom(in ReadOnlySpan<byte> key) =>
-            new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_KEY, DbCursorOp.MDB_NEXT_NODUP);
-
-        /// <summary>
-        /// Iterates over all keys in sort order, from the given key on, or if there is no matching key,
-        /// from the next key in sort order. Retrieves each key's first duplicate record in duplicate sort order.
-        /// One can iterate over the duplicate records separately in a nested loop with <see cref="ValuesForward"/>
-        /// or <see cref="ValuesReverse"/>, or one can iterate including duplicate records with <see cref="Cursor.ForwardFromNearest"/>.
-        /// </summary>
-        public ItemsFromKeyIterator ForwardByKeyFromNearest(in ReadOnlySpan<byte> key) =>
-            new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_RANGE, DbCursorOp.MDB_NEXT_NODUP);
-
-        /// <summary>
-        /// Iterates over all records in combined key + duplicate sort order, from the given record (key/data) on.
-        /// </summary>
-        public ItemsFromEntryIterator ForwardFrom(in KeyDataPair entry) =>
-            new ItemsFromEntryIterator(this, entry, DbCursorOp.MDB_GET_BOTH, DbCursorOp.MDB_NEXT);
-
-        /// <summary>
-        /// Iterates over all records in combined key + duplicate sort order, from the given record (key/data) on,
-        /// or if there is no matching key, from the next key and its first duplicate record in combined sort order.
-        /// </summary>
-        public ItemsFromEntryIterator ForwardFromNearest(in KeyDataPair entry) =>
-            new ItemsFromEntryIterator(this, entry, DbCursorOp.MDB_GET_BOTH_RANGE, DbCursorOp.MDB_NEXT);
-
+        public NextItemsIterator ForwardFromByKey => new NextItemsIterator(this, DbCursorOp.MDB_NEXT_NODUP);
 
         /// <summary>
         /// Iterates over all keys in reverse sort order. Retrieves each key's first duplicate record in duplicate sort order.
@@ -166,35 +164,9 @@ namespace KdSoft.Lmdb
         public ItemsIterator ReverseByKey => new ItemsIterator(this, DbCursorOp.MDB_LAST, DbCursorOp.MDB_PREV_NODUP);
 
         /// <summary>
-        /// Iterates over all keys in reverse sort order, from the given key on.
-        /// Retrieves each key's first duplicate record in duplicate sort order.
-        /// One can iterate over the duplicate records separately in a nested loop with <see cref="ValuesForward"/>
-        /// or <see cref="ValuesReverse"/>, or one can iterate including duplicate records with <see cref="Cursor.ReverseFrom"/>.
+        /// Iterates over keys in reverse sort order, from the previous position on.
         /// </summary>
-        public ItemsFromKeyIterator ReverseByKeyFrom(in ReadOnlySpan<byte> key) =>
-            new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_KEY, DbCursorOp.MDB_PREV_NODUP);
-
-        /// <summary>
-        /// Iterates over all keys in reverse sort order, from the given key on, or if there is no matching key,
-        /// from the next key in sort order. Retrieves each key's first duplicate record in duplicate sort order.
-        /// One can iterate over the duplicate records separately in a nested loop with <see cref="ValuesForward"/>
-        /// or <see cref="ValuesReverse"/>, or one can iterate including duplicate records with <see cref="Cursor.ReverseFromNearest"/>.
-        /// </summary>
-        public ItemsFromKeyIterator ReverseByKeyFromNearest(in ReadOnlySpan<byte> key) =>
-            new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_RANGE, DbCursorOp.MDB_PREV_NODUP);
-
-        /// <summary>
-        /// Iterates over all records in reverse combined key + duplicate sort order, from the given record (key/data) on.
-        /// </summary>
-        public ItemsFromEntryIterator ReverseFrom(in KeyDataPair entry) =>
-            new ItemsFromEntryIterator(this, entry, DbCursorOp.MDB_GET_BOTH, DbCursorOp.MDB_PREV);
-
-        /// <summary>
-        /// Iterates over all records in reverse combined key + duplicate sort order, from the given record (key/data) on,
-        /// or if there is no matching key, from the next key and its first duplicate record in combined sort order.
-        /// </summary>
-        public ItemsFromEntryIterator ReverseFromNearest(in KeyDataPair entry) =>
-            new ItemsFromEntryIterator(this, entry, DbCursorOp.MDB_GET_BOTH_RANGE, DbCursorOp.MDB_PREV);
+        public NextItemsIterator ReverseFromByKey => new NextItemsIterator(this, DbCursorOp.MDB_PREV_NODUP);
 
         /// <summary>
         /// Iterates over all duplicate records for the current key.
@@ -202,71 +174,25 @@ namespace KdSoft.Lmdb
         public ValuesIterator ValuesForward => new ValuesIterator(this, DbCursorOp.MDB_FIRST_DUP, DbCursorOp.MDB_NEXT_DUP);
 
         /// <summary>
+        /// Iterates over duplicate records for the current key, in duplicate sort order from the next position on.
+        /// </summary>
+        public ValuesNextIterator ValuesForwardFrom => new ValuesNextIterator(this, DbCursorOp.MDB_NEXT_DUP);
+
+        /// <summary>
         /// Iterates in reverse over all duplicate records for the current key.
         /// </summary>
         public ValuesIterator ValuesReverse => new ValuesIterator(this, DbCursorOp.MDB_LAST_DUP, DbCursorOp.MDB_PREV_DUP);
 
+        /// <summary>
+        /// Iterates in reverse over duplicate records for the current key, in reverse duplicate sort order from the previous position on.
+        /// </summary>
+        public ValuesNextIterator ValuesReverseFrom => new ValuesNextIterator(this, DbCursorOp.MDB_PREV_DUP);
+
         #endregion
 
         #region Nested types
-
-        public ref struct ItemsFromEntryIterator
-        {
-            readonly MultiValueCursor cursor;
-            readonly KeyDataPair entry;
-            readonly DbCursorOp keyOp;
-            readonly DbCursorOp nextOp;
-
-            public ItemsFromEntryIterator(MultiValueCursor cursor, in KeyDataPair entry, DbCursorOp keyOp, DbCursorOp nextOp) {
-                this.cursor = cursor;
-                this.entry = entry;
-                this.keyOp = keyOp;
-                this.nextOp = nextOp;
-            }
-
-            public ItemsFromEntryEnumerator GetEnumerator() => new ItemsFromEntryEnumerator(cursor, entry, keyOp, nextOp);
-        }
-
-        public ref struct ItemsFromEntryEnumerator
-        {
-            readonly MultiValueCursor cursor;
-            readonly KeyDataPair entry;
-            readonly DbCursorOp keyOp;
-            readonly DbCursorOp nextOp;
-            KeyDataPair current;
-            bool isCurrent;
-            bool isInitialized;
-
-            public ItemsFromEntryEnumerator(MultiValueCursor cursor, in KeyDataPair entry, DbCursorOp keyOp, DbCursorOp nextOp) {
-                this.cursor = cursor;
-                this.entry = entry;
-                this.keyOp = keyOp;
-                this.nextOp = nextOp;
-                this.current = default;
-                this.isCurrent = false;
-                this.isInitialized = false;
-            }
-
-            public KeyDataPair Current {
-                [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get {
-                    if (isCurrent)
-                        return current;
-                    else
-                        throw new InvalidOperationException("Invalid cursor position.");
-                }
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public bool MoveNext() {
-                if (isInitialized)
-                    return isCurrent = cursor.Get(out current, nextOp);
-                else {
-                    isInitialized = true;
-                    return isCurrent = cursor.Get(in entry, out current, keyOp);
-                }
-            }
-        }
+#pragma warning disable CA1815 // Override equals and operator equals on value types
+#pragma warning disable CA1034 // Nested types should not be visible
 
         public struct ValuesIterator
         {
@@ -274,13 +200,26 @@ namespace KdSoft.Lmdb
             readonly DbCursorOp opFirst;
             readonly DbCursorOp opNext;
 
-            public ValuesIterator(MultiValueCursor cursor, DbCursorOp opFirst, DbCursorOp opNext) {
+            internal ValuesIterator(MultiValueCursor cursor, DbCursorOp opFirst, DbCursorOp opNext) {
                 this.cursor = cursor;
                 this.opFirst = opFirst;
                 this.opNext = opNext;
             }
 
             public ValuesEnumerator GetEnumerator() => new ValuesEnumerator(cursor, opFirst, opNext);
+        }
+
+        public struct ValuesNextIterator
+        {
+            readonly MultiValueCursor cursor;
+            readonly DbCursorOp opNext;
+
+            internal ValuesNextIterator(MultiValueCursor cursor, DbCursorOp opNext) {
+                this.cursor = cursor;
+                this.opNext = opNext;
+            }
+
+            public ValuesNextEnumerator GetEnumerator() => new ValuesNextEnumerator(cursor, opNext);
         }
 
         public ref struct ValuesEnumerator
@@ -292,7 +231,7 @@ namespace KdSoft.Lmdb
             bool isCurrent;
             bool isInitialized;
 
-            public ValuesEnumerator(MultiValueCursor cursor, DbCursorOp opFirst, DbCursorOp opNext) {
+            internal ValuesEnumerator(MultiValueCursor cursor, DbCursorOp opFirst, DbCursorOp opNext) {
                 this.cursor = cursor;
                 this.opFirst = opFirst;
                 this.opNext = opNext;
@@ -322,6 +261,38 @@ namespace KdSoft.Lmdb
             }
         }
 
+        public ref struct ValuesNextEnumerator
+        {
+            readonly MultiValueCursor cursor;
+            readonly DbCursorOp opNext;
+            ReadOnlySpan<byte> current;
+            bool isCurrent;
+
+            internal ValuesNextEnumerator(MultiValueCursor cursor, DbCursorOp opNext) {
+                this.cursor = cursor;
+                this.opNext = opNext;
+                this.current = default;
+                this.isCurrent = false;
+            }
+
+            public ReadOnlySpan<byte> Current {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get {
+                    if (isCurrent)
+                        return current;
+                    else
+                        throw new InvalidOperationException("Invalid cursor position.");
+                }
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public bool MoveNext() {
+                return isCurrent = cursor.GetData(out current, opNext);
+            }
+        }
+
+#pragma warning restore CA1034 // Nested types should not be visible
+#pragma warning restore CA1815 // Override equals and operator equals on value types
         #endregion
 
     }

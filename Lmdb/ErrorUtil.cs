@@ -17,7 +17,7 @@ namespace KdSoft.Lmdb
         }
 
         public static string UnknownStr(DbRetCode ret) {
-            return string.Format("Unknown LMDB error code: {0}.", ret);
+            return $"Unknown LMDB error code: {ret}.";
         }
 
         public const DbRetCode MdbLowError = (DbRetCode)(-30800);

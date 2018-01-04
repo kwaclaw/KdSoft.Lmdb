@@ -193,12 +193,20 @@ namespace KdSoft.Lmdb
             return Get(in key, out entry, DbCursorOp.MDB_SET_RANGE);
         }
 
+        public bool GetCurrent(out ReadOnlySpan<byte> key) {
+            return GetKey(out key, DbCursorOp.MDB_GET_CURRENT);
+        }
+
         public bool GetCurrent(out KeyDataPair entry) {
             return Get(out entry, DbCursorOp.MDB_GET_CURRENT);
         }
 
-        public bool GetCurrent(out ReadOnlySpan<byte> key) {
-            return GetKey(out key, DbCursorOp.MDB_GET_CURRENT);
+        public bool GetNext(out KeyDataPair entry) {
+            return Get(out entry, DbCursorOp.MDB_NEXT);
+        }
+
+        public bool GetPrevious(out KeyDataPair entry) {
+            return Get(out entry, DbCursorOp.MDB_PREV);
         }
 
         #endregion
@@ -342,44 +350,27 @@ namespace KdSoft.Lmdb
         public ItemsIterator Forward => new ItemsIterator(this, DbCursorOp.MDB_FIRST, DbCursorOp.MDB_NEXT);
 
         /// <summary>
-        /// Iterates over all records in sort order, from the given key on.
-        /// If duplicates are allowed, will start from that key's first duplicate in duplicate sort order.
+        /// Iterates over records in sort order, from the next position on.
+        /// If duplicates are allowed, then the next position may be on the same key, in duplicate sort order.
         /// </summary>
-        public ItemsFromKeyIterator ForwardFrom(in ReadOnlySpan<byte> key) =>
-            new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_KEY, DbCursorOp.MDB_NEXT);
-
-        /// <summary>
-        /// Iterates over all records in sort order, from the given key on, or if there is no matching key,
-        /// from the next key in sort order.
-        /// If duplicates are allowed, will start from that key's first duplicate in duplicate sort order.
-        /// </summary>
-        public ItemsFromKeyIterator ForwardFromNearest(in ReadOnlySpan<byte> key) =>
-            new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_RANGE, DbCursorOp.MDB_NEXT);
+        public NextItemsIterator ForwardFrom => new NextItemsIterator(this, DbCursorOp.MDB_NEXT);
 
         /// <summary>
         /// Iterates over all records in reverse sort order.
         /// </summary>
         public ItemsIterator Reverse => new ItemsIterator(this, DbCursorOp.MDB_LAST, DbCursorOp.MDB_PREV);
 
-
         /// <summary>
-        /// Iterates over all records in reverse sort order, from the given key on.
-        /// If duplicates are allowed, will start from that key's first duplicate in duplicate sort order.
+        /// Iterates over records in reverse sort order, from the previous position on.
+        /// If duplicates are allowed, then the previous position may be on the same key, in reverse duplicate sort order.
         /// </summary>
-        public ItemsFromKeyIterator ReverseFrom(in ReadOnlySpan<byte> key) =>
-            new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_KEY, DbCursorOp.MDB_PREV);
-
-        /// <summary>
-        /// Iterates over all records in reverse sort order, from the given key on, or if there is no matching key,
-        /// from the next key in sort order.
-        /// If duplicates are allowed, will start from that key's first duplicate in duplicate sort order.
-        /// </summary>
-        public ItemsFromKeyIterator ReverseFromNearest(in ReadOnlySpan<byte> key) =>
-            new ItemsFromKeyIterator(this, key, DbCursorOp.MDB_SET_RANGE, DbCursorOp.MDB_PREV);
+        public NextItemsIterator ReverseFrom => new NextItemsIterator(this, DbCursorOp.MDB_PREV);
 
         #endregion
 
         #region Nested types
+#pragma warning disable CA1815 // Override equals and operator equals on value types
+#pragma warning disable CA1034 // Nested types should not be visible
 
         public delegate bool GetItem(out KeyDataPair item);
 
@@ -389,7 +380,7 @@ namespace KdSoft.Lmdb
             readonly DbCursorOp opFirst;
             readonly DbCursorOp opNext;
 
-            public ItemsIterator(Cursor cursor, DbCursorOp opFirst, DbCursorOp opNext) {
+            internal ItemsIterator(Cursor cursor, DbCursorOp opFirst, DbCursorOp opNext) {
                 this.cursor = cursor;
                 this.opFirst = opFirst;
                 this.opNext = opNext;
@@ -401,21 +392,17 @@ namespace KdSoft.Lmdb
             public ItemsEnumerator GetEnumerator() => new ItemsEnumerator(GetFirstItem, GetNextItem);
         }
 
-        public ref struct ItemsFromKeyIterator
+        public ref struct NextItemsIterator
         {
             readonly Cursor cursor;
-            readonly ReadOnlySpan<byte> key;
-            readonly DbCursorOp keyOp;
             readonly DbCursorOp nextOp;
 
-            public ItemsFromKeyIterator(Cursor cursor, in ReadOnlySpan<byte> key, DbCursorOp keyOp, DbCursorOp nextOp) {
+            internal NextItemsIterator(Cursor cursor, DbCursorOp nextOp) {
                 this.cursor = cursor;
-                this.key = key;
-                this.keyOp = keyOp;
                 this.nextOp = nextOp;
             }
 
-            public ItemsFromKeyEnumerator GetEnumerator() => new ItemsFromKeyEnumerator(cursor, key, keyOp, nextOp);
+            public NextItemsEnumerator GetEnumerator() => new NextItemsEnumerator(cursor, nextOp);
         }
 
         public ref struct ItemsEnumerator
@@ -426,7 +413,7 @@ namespace KdSoft.Lmdb
             bool isCurrent;
             bool isInitialized;
 
-            public ItemsEnumerator(GetItem getFirst, GetItem getNext) {
+            internal ItemsEnumerator(GetItem getFirst, GetItem getNext) {
                 this.getFirst = getFirst;
                 this.getNext = getNext;
                 this.current = default;
@@ -455,24 +442,18 @@ namespace KdSoft.Lmdb
             }
         }
 
-        public ref struct ItemsFromKeyEnumerator
+        public ref struct NextItemsEnumerator
         {
             readonly Cursor cursor;
-            readonly ReadOnlySpan<byte> key;
-            readonly DbCursorOp keyOp;
             readonly DbCursorOp nextOp;
             KeyDataPair current;
             bool isCurrent;
-            bool isInitialized;
 
-            public ItemsFromKeyEnumerator(Cursor cursor, in ReadOnlySpan<byte> key, DbCursorOp keyOp, DbCursorOp nextOp) {
+            internal NextItemsEnumerator(Cursor cursor, DbCursorOp nextOp) {
                 this.cursor = cursor;
-                this.key = key;
-                this.keyOp = keyOp;
                 this.nextOp = nextOp;
                 this.current = default;
                 this.isCurrent = false;
-                this.isInitialized = false;
             }
 
             public KeyDataPair Current {
@@ -487,15 +468,12 @@ namespace KdSoft.Lmdb
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool MoveNext() {
-                if (isInitialized)
-                    return isCurrent = cursor.Get(out current, nextOp);
-                else {
-                    isInitialized = true;
-                    return isCurrent = cursor.Get(in key, out current, keyOp);
-                }
+                return isCurrent = cursor.Get(out current, nextOp);
             }
         }
 
+#pragma warning restore CA1034 // Nested types should not be visible
+#pragma warning restore CA1815 // Override equals and operator equals on value types
         #endregion
     }
 }
