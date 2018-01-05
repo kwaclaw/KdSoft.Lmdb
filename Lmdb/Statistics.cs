@@ -7,7 +7,11 @@ namespace KdSoft.Lmdb
     /// Statistics for a database or the environment.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = Compile.PackSize)]
+    // This struct does not have reference type fields, so the default equality comparison
+    // does not use reflection and is therefore efficient, no need to override it.
+#pragma warning disable CA1815 // Override equals and operator equals on value types
     public struct Statistics
+#pragma warning restore CA1815 // Override equals and operator equals on value types
     {
         /// <summary>
         /// Size of a database page. This is currently the same for all databases.

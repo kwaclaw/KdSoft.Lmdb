@@ -7,12 +7,15 @@ namespace KdSoft.Lmdb
 {
     public delegate int SpanComparison<T>(in ReadOnlySpan<T> x, in ReadOnlySpan<T> y);
 
+    /// <summary>
+    /// LMDB Database that allows unique (by key) records only.
+    /// </summary>
     public class Database: IDisposable
     {
         public string Name { get; }
-        public Configuration Config { get; }
+        public DatabaseConfiguration Config { get; }
 
-        internal Database(uint dbi, IntPtr env, string name, Action<Database> disposed, Configuration config) {
+        internal Database(uint dbi, IntPtr env, string name, Action<Database> disposed, DatabaseConfiguration config) {
             this.dbi = dbi;
             this.env = env;
             this.Name = name;
@@ -321,56 +324,6 @@ namespace KdSoft.Lmdb
         public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        #endregion
-
-        #region Nested Types
-
-        /// <summary>
-        /// Database configuration
-        /// </summary>
-        public class Configuration
-        {
-            public DatabaseOptions Options { get; }
-            public SpanComparison<byte> Compare { get; }
-
-            [CLSCompliant(false)]
-            internal protected DbLibCompareFunction LibCompare { get; protected set; }
-
-            public Configuration(DatabaseOptions options, SpanComparison<byte> compare = null) {
-                this.Options = options;
-                this.Compare = compare;
-                if (compare != null)
-                    this.LibCompare = CompareWrapper;
-            }
-
-            // no check for Compare == null
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            int CompareWrapper(in DbValue x, in DbValue y) {
-                return Compare(x.ToReadOnlySpan(), y.ToReadOnlySpan());
-            }
-        }
-
-        public class EqualityComparer : IEqualityComparer<Database>, IComparer<Database>
-        {
-            readonly StringComparer comparer;
-
-            public EqualityComparer(StringComparer comparer) {
-                this.comparer = comparer;
-            }
-
-            public int Compare(Database x, Database y) {
-                return comparer.Compare(x.Name, y.Name);
-            }
-
-            public bool Equals(Database x, Database y) {
-                return comparer.Equals(x.Name, y.Name);
-            }
-
-            public int GetHashCode(Database obj) {
-                return obj?.Name?.GetHashCode() ?? 0;
-            }
         }
 
         #endregion

@@ -86,7 +86,9 @@
     /// <summary>
     /// Multi-value cursor delete operation options.
     /// </summary>
+#pragma warning disable CA1008 // Enums should have zero value
     public enum MultiValueCursorDeleteOption
+#pragma warning restore CA1008 // Enums should have zero value
     {
         /// <summary>
         /// Only for MDB_DUPSORT

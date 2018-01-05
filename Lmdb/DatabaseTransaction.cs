@@ -63,7 +63,7 @@ namespace KdSoft.Lmdb
         /// <param name="name">Database name. Can be <c>null</c> for the default database.</param>
         /// <param name="config">Database configuration instance.</param>
         /// <returns></returns>
-        public Database OpenDatabase(string name, Database.Configuration config) {
+        public Database OpenDatabase(string name, DatabaseConfiguration config) {
             lock (rscLock) {
                 lock (dbLock) {
                     var (dbi, handle, env) = OpenDatabaseInternal(name, unchecked((uint)config.Options), config.LibCompare);
@@ -93,7 +93,7 @@ namespace KdSoft.Lmdb
         /// <param name="name">Database name. Can be <c>null</c> for the default database.</param>
         /// <param name="config">Database configuration instance.</param>
         /// <returns></returns>
-        public MultiValueDatabase OpenMultiValueDatabase(string name, MultiValueDatabase.Configuration config) {
+        public MultiValueDatabase OpenMultiValueDatabase(string name, MultiValueDatabaseConfiguration config) {
             uint options = unchecked ((uint)config.Options | (uint)config.DupOptions | DbLibConstants.MDB_DUPSORT /* to make sure */);
             lock (rscLock) {
                 lock (dbLock) {

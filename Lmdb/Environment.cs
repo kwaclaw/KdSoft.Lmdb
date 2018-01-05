@@ -14,7 +14,7 @@ namespace KdSoft.Lmdb
         //TODO we do not have to close transactions and cursors, but we must invalidate their handles, so we still need to track them
         readonly bool autoReduceMapSizeIn32BitProcess;
 
-        public Environment(Configuration config = null) {
+        public Environment(EnvironmentConfiguration config = null) {
             // so that we can refer back to the Environment instance
             instanceHandle = GCHandle.Alloc(this, GCHandleType.WeakTrackResurrection);
 
@@ -242,9 +242,11 @@ namespace KdSoft.Lmdb
             }
         }
 
-        public IEnumerable<Database> GetDatabases() {
-            lock (dbTxnLock) {
-                return databases.Values;
+        public IEnumerable<Database> Databases {
+            get {
+                lock (dbTxnLock) {
+                    return databases.Values;
+                }
             }
         }
 
@@ -427,28 +429,6 @@ namespace KdSoft.Lmdb
         public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        #endregion
-
-        #region Nested Types
-
-        /// <summary>
-        /// Basic environment configuration
-        /// </summary>
-        public class Configuration
-        {
-            public long? MapSize { get; }
-            public int? MaxReaders { get; }
-            public int? MaxDatabases { get; }
-            public bool AutoReduceMapSizeIn32BitProcess { get; }
-
-            public Configuration(int? maxDatabases = null, int? maxReaders = null, long? mapSize = null, bool autoReduceMapSizeIn32BitProcess = false) {
-                this.MaxDatabases = maxDatabases;
-                this.MaxReaders = maxReaders;
-                this.MapSize = mapSize;
-                this.AutoReduceMapSizeIn32BitProcess = autoReduceMapSizeIn32BitProcess;
-            }
         }
 
         #endregion

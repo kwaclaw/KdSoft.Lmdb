@@ -20,12 +20,12 @@ namespace KdSoft.Lmdb
 
         // Copies null-terminated byte string into byte buffer.
         // Will resize buffer, if necessary, does nothing if ptr == null.
-        public static int PtrToBuffer(byte* ptr, ref byte[] buffer) {
-            int size = ByteStrLen(ptr);
+        public static int PtrToBuffer(byte* bytePtr, ref byte[] buffer) {
+            int size = ByteStrLen(bytePtr);
             if (size > (buffer == null ? 0 : buffer.Length))
                 Array.Resize<byte>(ref buffer, size);
-            if (ptr != null)
-                Marshal.Copy((IntPtr)ptr, buffer, 0, size);
+            if (bytePtr != null)
+                Marshal.Copy((IntPtr)bytePtr, buffer, 0, size);
             return size;
         }
 
@@ -56,21 +56,21 @@ namespace KdSoft.Lmdb
 
         // Converts null-terminated UTF-8 byte string to .NET string .
         // Will re-allocate buffer if necessary, buffer can be null.
-        public static string Utf8PtrToString(byte* ptr, ref byte[] buffer) {
-            int count = PtrToBuffer(ptr, ref buffer);
+        public static string Utf8PtrToString(byte* utf8, ref byte[] buffer) {
+            int count = PtrToBuffer(utf8, ref buffer);
             if (count > 0)
                 return new UTF8Encoding().GetString(buffer, 0, count);
             else
                 return string.Empty;
         }
 
-        public static string Utf8PtrToString(byte* ptr) {
+        public static string Utf8PtrToString(byte* utf8) {
             byte[] buffer = null;
-            return Utf8PtrToString(ptr, ref buffer);
+            return Utf8PtrToString(utf8, ref buffer);
         }
 
-        public static DateTime UnixToDateTime(IntPtr time_t) {
-            return new System.DateTime(1970, 1, 1).AddSeconds((long)time_t);
+        public static DateTime UnixToDateTime(IntPtr unixTime) {
+            return new System.DateTime(1970, 1, 1).AddSeconds((long)unixTime);
         }
 
         public static IntPtr DateTimeToUnix(DateTime dt) {

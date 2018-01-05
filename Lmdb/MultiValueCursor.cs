@@ -4,6 +4,9 @@ using System.Runtime.InteropServices;
 
 namespace KdSoft.Lmdb
 {
+    /// <summary>
+    /// Cursor for multi-value database.
+    /// </summary>
     public class MultiValueCursor: Cursor
     {
         internal MultiValueCursor(IntPtr cur, bool isReadOnly, Action<Cursor> disposed = null) : base(cur, isReadOnly, disposed) {

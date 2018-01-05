@@ -27,7 +27,7 @@ namespace KdSoft.Lmdb.Tests
 
         public DatabaseFixture() {
             using (var tx = Env.BeginDatabaseTransaction(TransactionModes.None)) {
-                var config = new MultiValueDatabase.Configuration(
+                var config = new MultiValueDatabaseConfiguration(
                     DatabaseOptions.Create,
                     IntKeyCompare,
                     MultiValueDatabaseOptions.None,
@@ -92,12 +92,14 @@ namespace KdSoft.Lmdb.Tests
 
         public MultiValueDatabase Db { get; }
 
-        public override void Dispose() {
-            using (var tx = Env.BeginTransaction(TransactionModes.None)) {
-                Db.Drop(tx);
-                tx.Commit();
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
+                using (var tx = Env.BeginTransaction(TransactionModes.None)) {
+                    Db.Drop(tx);
+                    tx.Commit();
+                }
             }
-            base.Dispose();
+            base.Dispose(disposing);
         }
     }
 

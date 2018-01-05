@@ -5,9 +5,10 @@ using System.Runtime.InteropServices;
 
 namespace KdSoft.Lmdb
 {
+    /// LMDB Database that allows duplicate (by key) records - multi-value database.
     public class MultiValueDatabase: Database
     {
-        internal MultiValueDatabase(uint dbi, IntPtr env, string name, Action<Database> disposed, MultiValueDatabase.Configuration config):
+        internal MultiValueDatabase(uint dbi, IntPtr env, string name, Action<Database> disposed, MultiValueDatabaseConfiguration config):
             base(dbi, env, name, disposed, config)
         {
             //
@@ -100,39 +101,5 @@ namespace KdSoft.Lmdb
             transaction.AddCursor(cursor);
             return cursor;
         }
-
-        #region Nested Types
-
-        /// <summary>
-        /// Database configuration
-        /// </summary>
-        public new class Configuration: Database.Configuration
-        {
-            public MultiValueDatabaseOptions DupOptions { get; }
-            public SpanComparison<byte> DupCompare { get; }
-
-            [CLSCompliant(false)]
-            internal protected DbLibCompareFunction LibDupCompare { get; protected set; }
-
-            public Configuration(
-                DatabaseOptions options,
-                SpanComparison<byte> compare = null,
-                MultiValueDatabaseOptions dupOptions = MultiValueDatabaseOptions.None,
-                SpanComparison<byte> dupCompare = null
-            ) : base(options, compare) {
-                this.DupOptions = dupOptions;
-                this.DupCompare = dupCompare;
-                if (dupCompare != null)
-                    this.LibDupCompare = DupCompareWrapper;
-            }
-
-            // no check for Compare == null
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            int DupCompareWrapper(in DbValue x, in DbValue y) {
-                return DupCompare(x.ToReadOnlySpan(), y.ToReadOnlySpan());
-            }
-        }
-
-        #endregion
     }
 }

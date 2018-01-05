@@ -5,9 +5,11 @@ namespace KdSoft.Lmdb
     public static class ErrorUtil
     {
         // keep in sync with user defined codes in DbRetCode
+#pragma warning disable CA1825 // Avoid zero-length array allocations.
         static string[] dotNetStr = {
           // "Panic callback failed.",
         };
+#pragma warning restore CA1825 // Avoid zero-length array allocations.
 
         public static string DotNetStr(DbRetCode ret) {
             if (ret > DotNetLowError && ret <= (DotNetLowError + dotNetStr.Length))

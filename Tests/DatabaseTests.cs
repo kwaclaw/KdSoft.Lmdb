@@ -21,14 +21,14 @@ namespace KdSoft.Lmdb.Tests
 
         [Fact]
         public void OpenDatabase() {
-            var config = new Database.Configuration(DatabaseOptions.Create);
+            var config = new DatabaseConfiguration(DatabaseOptions.Create);
             Database dbase;
             using (var tx = fixture.Env.BeginDatabaseTransaction(TransactionModes.None)) {
                 dbase = tx.OpenDatabase("TestDb1", config);
                 tx.Commit();
             }
 
-            var dbs = fixture.Env.GetDatabases();
+            var dbs = fixture.Env.Databases;
             foreach (var db in dbs)
                 output.WriteLine($"Database '{db.Name}'");
 
@@ -37,14 +37,14 @@ namespace KdSoft.Lmdb.Tests
                 tx.Commit();
             }
 
-            Assert.Empty(fixture.Env.GetDatabases());
+            Assert.Empty(fixture.Env.Databases);
         }
 
         const string testData = "Test Data";
 
         [Fact]
         public void SimpleStoreRetrieve() {
-            var config = new Database.Configuration(DatabaseOptions.Create);
+            var config = new DatabaseConfiguration(DatabaseOptions.Create);
             Database dbase;
             Statistics stats;
             using (var tx = fixture.Env.BeginDatabaseTransaction(TransactionModes.None)) {
@@ -102,7 +102,7 @@ namespace KdSoft.Lmdb.Tests
 
         [Fact]
         public void UseCompareFunction() {
-            var config = new Database.Configuration(DatabaseOptions.Create, IntKeyCompare);
+            var config = new DatabaseConfiguration(DatabaseOptions.Create, IntKeyCompare);
             Database dbase;
             using (var tx = fixture.Env.BeginDatabaseTransaction(TransactionModes.None)) {
                 dbase = tx.OpenDatabase("TestDb3", config);

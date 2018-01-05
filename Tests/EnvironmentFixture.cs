@@ -13,7 +13,7 @@ namespace KdSoft.Lmdb.Tests
         public EnvironmentFixture() {
             envPath = Path.Combine(TestUtils.ProjectDir, envDirName);
 
-            var config = new Environment.Configuration(10);
+            var config = new EnvironmentConfiguration(10);
             var env = new Environment(config);
             env.Open(envPath);
 
@@ -25,8 +25,13 @@ namespace KdSoft.Lmdb.Tests
 
         public BufferPool Buffers { get; }
 
-        public virtual void Dispose() {
-            Env.Close();
+        protected virtual void Dispose(bool disposing) {
+            if (disposing)
+                Env.Close();
+        }
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 

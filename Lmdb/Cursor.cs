@@ -4,6 +4,9 @@ using System.Runtime.InteropServices;
 
 namespace KdSoft.Lmdb
 {
+    /// <summary>
+    /// Cursor for LMDB database.
+    /// </summary>
     public class Cursor: IDisposable
     {
         readonly bool isReadOnly;
