@@ -1,0 +1,22 @@
+﻿syntax = "proto3";
+package lmdb;
+
+option csharp_namespace = "KdSoft.Lmdb.Tests";
+
+import "google/protobuf/timestamp.proto";
+
+message LineItemKey {
+    string prodCode = 1;
+    int32 orderId = 2;
+}
+
+message LineItem {
+    LineItemKey key = 1;
+    int32 quantity = 2;
+};
+
+message Order {
+    int32 id = 1;
+    google.protobuf.Timestamp time = 2;
+    int32 customerId = 3;
+}; 
