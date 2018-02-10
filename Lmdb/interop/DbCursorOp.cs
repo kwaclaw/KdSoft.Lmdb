@@ -1,5 +1,8 @@
 ﻿namespace KdSoft.Lmdb
 {
+    /// <summary>
+    /// Cursor operation types.
+    /// </summary>
     public enum DbCursorOp
 	{
 #pragma warning disable CA1707 // Identifiers should not contain underscores

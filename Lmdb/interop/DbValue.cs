@@ -10,6 +10,9 @@ namespace KdSoft.Lmdb
     [UnmanagedFunctionPointer(Compile.CallConv), SuppressUnmanagedCodeSecurity]
     public delegate int DbLibCompareFunction(in DbValue x, in DbValue y);
 
+    /// <summary>
+    /// Fundamental data-exchange structure for native interop.
+    /// </summary>
     [CLSCompliant(false)]
     [StructLayout(LayoutKind.Sequential, Pack = Compile.PackSize)]
 #pragma warning disable CA1066 // Type {0} should implement IEquatable<T> because it overrides Equals
@@ -53,12 +56,12 @@ namespace KdSoft.Lmdb
             return new Span<byte>(Data, unchecked((int)Size));
         }
 
-        public static bool Equals(in DbValue x, in DbValue y) {
+        public static bool Equals(DbValue x, DbValue y) {
             return x.Data == y.Data && x.Size == y.Size;
         }
 
         public static bool operator ==(DbValue left, DbValue right) {
-            return Equals(in left, in right);
+            return Equals(left, right);
         }
 
         public static bool operator !=(DbValue left, DbValue right) {

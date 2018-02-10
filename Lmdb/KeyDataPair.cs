@@ -3,6 +3,9 @@ using System.ComponentModel;
 
 namespace KdSoft.Lmdb
 {
+    /// <summary>
+    /// Represents a database entry/record as a stack-only data structure (ref struct).
+    /// </summary>
 #pragma warning disable CA1066 // Type {0} should implement IEquatable<T> because it overrides Equals
     public readonly ref struct KeyDataPair  // bogus warninsg: ref structs cannot implement interfaces!
 #pragma warning restore CA1066 // Type {0} should implement IEquatable<T> because it overrides Equals
