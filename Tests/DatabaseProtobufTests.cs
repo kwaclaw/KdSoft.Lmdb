@@ -48,7 +48,7 @@ namespace KdSoft.Lmdb.Tests
                     var dataSpan = new ReadOnlySpan<byte>(buffer, likPos, liPos - likPos);
                     dbase.Put(tx, keySpan, dataSpan, PutOptions.None);
 
-                    // CodedOutputStream isnatnces cannot be reused
+                    // CodedOutputStream intances cannot be reused
                     outStream = new CodedOutputStream(buffer);
                     lik2.WriteTo(outStream);
                     likPos = (int)outStream.Position;
