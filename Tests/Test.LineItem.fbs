@@ -1,0 +1,25 @@
+﻿
+namespace KdSoft.Lmdb.Tests.fbs;
+
+struct Timestamp {
+    seconds: long;
+    nanos: int;
+}
+
+table LineItemKey {
+    prodCode: string;
+    orderId: int;
+}
+
+table LineItem {
+    key: LineItemKey;
+    quantity: int;
+}
+
+table Order {
+    id: int;
+    time: Timestamp;
+    customerId: int;
+}
+
+root_type LineItem;

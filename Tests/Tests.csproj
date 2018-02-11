@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Libraries\OpenSource\flatbuffers\net\FlatBuffers\FlatBuffers.csproj" />
     <ProjectReference Include="..\Lmdb\Lmdb.csproj" />
   </ItemGroup>
 

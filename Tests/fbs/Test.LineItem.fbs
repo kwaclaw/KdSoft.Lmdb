@@ -1,0 +1,11 @@
+﻿
+include "Test.LineItemKey.fbs";
+
+namespace KdSoft.Lmdb.Tests.fbs;
+
+table LineItem {
+    key: LineItemKey;
+    quantity: int;
+}
+
+root_type LineItem;

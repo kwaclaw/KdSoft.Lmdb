@@ -1,0 +1,9 @@
+﻿
+namespace KdSoft.Lmdb.Tests.fbs;
+
+table LineItemKey {
+    prodCode: string;
+    orderId: int;
+}
+
+root_type LineItemKey;
