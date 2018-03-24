@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace KdSoft.Lmdb.Tests {
+namespace KdSoft.Lmdb.Tests.proto {
 
   /// <summary>Holder for reflection information generated from proto/Test.proto</summary>
   public static partial class TestReflection {
@@ -29,14 +29,14 @@ namespace KdSoft.Lmdb.Tests {
             "Eg8KB29yZGVySWQYAiABKAUiPAoITGluZUl0ZW0SHgoDa2V5GAEgASgLMhEu",
             "bG1kYi5MaW5lSXRlbUtleRIQCghxdWFudGl0eRgCIAEoBSJRCgVPcmRlchIK",
             "CgJpZBgBIAEoBRIoCgR0aW1lGAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRp",
-            "bWVzdGFtcBISCgpjdXN0b21lcklkGAMgASgFQhSqAhFLZFNvZnQuTG1kYi5U",
-            "ZXN0c2IGcHJvdG8z"));
+            "bWVzdGFtcBISCgpjdXN0b21lcklkGAMgASgFQhqqAhdLZFNvZnQuTG1kYi5U",
+            "ZXN0cy5wcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::KdSoft.Lmdb.Tests.LineItemKey), global::KdSoft.Lmdb.Tests.LineItemKey.Parser, new[]{ "ProdCode", "OrderId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::KdSoft.Lmdb.Tests.LineItem), global::KdSoft.Lmdb.Tests.LineItem.Parser, new[]{ "Key", "Quantity" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::KdSoft.Lmdb.Tests.Order), global::KdSoft.Lmdb.Tests.Order.Parser, new[]{ "Id", "Time", "CustomerId" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::KdSoft.Lmdb.Tests.proto.LineItemKey), global::KdSoft.Lmdb.Tests.proto.LineItemKey.Parser, new[]{ "ProdCode", "OrderId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::KdSoft.Lmdb.Tests.proto.LineItem), global::KdSoft.Lmdb.Tests.proto.LineItem.Parser, new[]{ "Key", "Quantity" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::KdSoft.Lmdb.Tests.proto.Order), global::KdSoft.Lmdb.Tests.proto.Order.Parser, new[]{ "Id", "Time", "CustomerId" }, null, null, null)
           }));
     }
     #endregion
@@ -51,7 +51,7 @@ namespace KdSoft.Lmdb.Tests {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::KdSoft.Lmdb.Tests.TestReflection.Descriptor.MessageTypes[0]; }
+      get { return global::KdSoft.Lmdb.Tests.proto.TestReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -208,7 +208,7 @@ namespace KdSoft.Lmdb.Tests {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::KdSoft.Lmdb.Tests.TestReflection.Descriptor.MessageTypes[1]; }
+      get { return global::KdSoft.Lmdb.Tests.proto.TestReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -237,9 +237,9 @@ namespace KdSoft.Lmdb.Tests {
 
     /// <summary>Field number for the "key" field.</summary>
     public const int KeyFieldNumber = 1;
-    private global::KdSoft.Lmdb.Tests.LineItemKey key_;
+    private global::KdSoft.Lmdb.Tests.proto.LineItemKey key_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::KdSoft.Lmdb.Tests.LineItemKey Key {
+    public global::KdSoft.Lmdb.Tests.proto.LineItemKey Key {
       get { return key_; }
       set {
         key_ = value;
@@ -328,7 +328,7 @@ namespace KdSoft.Lmdb.Tests {
       }
       if (other.key_ != null) {
         if (key_ == null) {
-          key_ = new global::KdSoft.Lmdb.Tests.LineItemKey();
+          key_ = new global::KdSoft.Lmdb.Tests.proto.LineItemKey();
         }
         Key.MergeFrom(other.Key);
       }
@@ -348,7 +348,7 @@ namespace KdSoft.Lmdb.Tests {
             break;
           case 10: {
             if (key_ == null) {
-              key_ = new global::KdSoft.Lmdb.Tests.LineItemKey();
+              key_ = new global::KdSoft.Lmdb.Tests.proto.LineItemKey();
             }
             input.ReadMessage(key_);
             break;
@@ -371,7 +371,7 @@ namespace KdSoft.Lmdb.Tests {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::KdSoft.Lmdb.Tests.TestReflection.Descriptor.MessageTypes[2]; }
+      get { return global::KdSoft.Lmdb.Tests.proto.TestReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

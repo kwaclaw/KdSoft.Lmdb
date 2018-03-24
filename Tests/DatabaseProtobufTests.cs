@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Google.Protobuf;
+using KdSoft.Lmdb.Tests.proto;
 using Xunit;
 using Xunit.Abstractions;
-using Google.Protobuf;
 
 namespace KdSoft.Lmdb.Tests
 {
