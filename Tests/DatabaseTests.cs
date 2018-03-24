@@ -64,7 +64,7 @@ namespace KdSoft.Lmdb.Tests
             var keyBuf2 = Guid.NewGuid().ToByteArray();
             var buffer = fixture.Buffers.Acquire(1024);
             try {
-                var putData1 = testData.AsReadOnlySpan().AsBytes();
+                var putData1 = testData.AsSpan().AsBytes();
                 int byteCount = Encoding.UTF8.GetBytes(testData, 0, testData.Length, buffer, 0);
                 var putData2 = new ReadOnlySpan<byte>(buffer, 0, byteCount);
 

@@ -16,14 +16,13 @@
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.5.1" />
     <PackageReference Include="Google.Protobuf.Tools" Version="3.5.1" />
-    <PackageReference Include="KdSoft.Utils.Portable" Version="3.5.1" />
+    <PackageReference Include="KdSoft.Serialization" Version="2.0.0-beta-2018-03-11T2030" />
+    <PackageReference Include="KdSoft.Utils.Portable" Version="3.6.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0" />
     <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="2.0.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
     <PackageReference Include="MsBuild.ProtocolBuffers" Version="1.1.0" />
-    <PackageReference Include="System.Memory" Version="4.5.0-preview2-26210-01" />
-    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0-preview2-26210-01" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
   </ItemGroup>
