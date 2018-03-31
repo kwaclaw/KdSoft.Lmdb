@@ -74,11 +74,8 @@
         /** The specified DBI was changed unexpectedly */
         BAD_DBI = -30780,
 
-        /** Unexpected problem - txn should abort */
-        PROBLEM = -30779,
-
         /** The last defined error code */
-        LAST_ERRCODE = PROBLEM,
+        LAST_ERRCODE = BAD_DBI,
 
         /**	Successful result */
         SUCCESS = 0,
