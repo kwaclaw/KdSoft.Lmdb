@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0" />
-    <PackageReference Include="System.Memory" Version="4.5.0-preview3-26324-02" />
+    <PackageReference Include="System.Memory" Version="4.5.0-preview3-26414-12" />
   </ItemGroup>
 
 </Project>

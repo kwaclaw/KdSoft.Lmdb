@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using Xunit;
 using Xunit.Abstractions;
@@ -63,7 +64,7 @@ namespace KdSoft.Lmdb.Tests
             var keyBuf2 = Guid.NewGuid().ToByteArray();
             var buffer = fixture.Buffers.Acquire(1024);
             try {
-                var putData1 = testData.AsSpan().AsBytes();
+                var putData1 = MemoryMarshal.AsBytes(testData.AsSpan());
                 int byteCount = Encoding.UTF8.GetBytes(testData, 0, testData.Length, buffer, 0);
                 var putData2 = new ReadOnlySpan<byte>(buffer, 0, byteCount);
 
@@ -125,6 +126,12 @@ namespace KdSoft.Lmdb.Tests
                         var compareData = $"Test Data {key}";
                         dbase.Get(tx, BitConverter.GetBytes(key), out getData);
                         Assert.Equal(compareData, Encoding.UTF8.GetString(getData.ToArray()));
+
+                        // check if two adjacent keys are comparing correctly when using the database's compare function
+                        if (key > 0) {
+                            int compResult = dbase.Compare(tx, BitConverter.GetBytes(key), BitConverter.GetBytes(key - 1));
+                            Assert.True(compResult > 0);
+                        }
                     }
                     tx.Commit();
                 }

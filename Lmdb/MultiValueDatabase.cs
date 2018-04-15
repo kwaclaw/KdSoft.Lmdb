@@ -8,9 +8,8 @@ namespace KdSoft.Lmdb
     /// LMDB Database that allows duplicate (by key) records - multi-value database.
     public class MultiValueDatabase: Database
     {
-        internal MultiValueDatabase(uint dbi, IntPtr env, string name, Action<Database> disposed, MultiValueDatabaseConfiguration config):
-            base(dbi, env, name, disposed, config)
-        {
+        internal MultiValueDatabase(uint dbi, IntPtr env, string name, Action<Database> disposed, MultiValueDatabaseConfiguration config) :
+            base(dbi, env, name, disposed, config) {
             //
         }
 
@@ -65,6 +64,30 @@ namespace KdSoft.Lmdb
                 ErrorUtil.CheckRetCode(ret);
                 return true;
             }
+        }
+
+        /// <summary>
+        /// Compare two data items according to a particular database.
+        /// This returns a comparison as if the two data items were keys in the specified database.
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns>&lt; 0 if x &lt; y, 0 if x == y, &gt; 0 if x &gt; y</returns>
+        public int DupCompare(Transaction transaction, ReadOnlySpan<byte> x, ReadOnlySpan<byte> y) {
+            int result;
+            lock (rscLock) {
+                var handle = CheckDisposed();
+                unsafe {
+                    fixed (void* xPtr = &MemoryMarshal.GetReference(x))
+                    fixed (void* yPtr = &MemoryMarshal.GetReference(y)) {
+                        var dbx = new DbValue(xPtr, x.Length);
+                        var dby = new DbValue(yPtr, y.Length);
+                        result = DbLib.mdb_dcmp(transaction.Handle, handle, ref dbx, ref dby);
+                    }
+                }
+            }
+            return result;
         }
 
         /// <summary>

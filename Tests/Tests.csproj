@@ -23,7 +23,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.1" />
     <PackageReference Include="MsBuild.ProtocolBuffers" Version="1.1.0" />
-    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0-preview1-26216-02" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0-preview3-26414-12" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
   </ItemGroup>

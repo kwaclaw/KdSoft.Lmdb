@@ -159,6 +159,12 @@ namespace KdSoft.Lmdb
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_del(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref DbValue key, IntPtr data);
 
+        [DllImport(libName, CallingConvention = Compile.CallConv)]
+        public static extern int mdb_cmp(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref DbValue x, [MarshalAs(UnmanagedType.Struct), In] ref DbValue y);
+
+        [DllImport(libName, CallingConvention = Compile.CallConv)]
+        public static extern int mdb_dcmp(IntPtr txn, uint dbi, [MarshalAs(UnmanagedType.Struct), In] ref DbValue x, [MarshalAs(UnmanagedType.Struct), In] ref DbValue y);
+
         #endregion
 
         #region Cursor

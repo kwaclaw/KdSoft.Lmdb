@@ -213,6 +213,30 @@ namespace KdSoft.Lmdb
             return true;
         }
 
+        /// <summary>
+        /// Compare two data items according to a particular database.
+        /// This returns a comparison as if the two data items were keys in the specified database.
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns>&lt; 0 if x &lt; y, 0 if x == y, &gt; 0 if x &gt; y</returns>
+        public int Compare(Transaction transaction, ReadOnlySpan<byte> x, ReadOnlySpan<byte> y) {
+            int result;
+            lock (rscLock) {
+                var handle = CheckDisposed();
+                unsafe {
+                    fixed (void* xPtr = &MemoryMarshal.GetReference(x))
+                    fixed (void* yPtr = &MemoryMarshal.GetReference(y)) {
+                        var dbx = new DbValue(xPtr, x.Length);
+                        var dby = new DbValue(yPtr, y.Length);
+                        result = DbLib.mdb_cmp(transaction.Handle, handle, ref dbx, ref dby);
+                    }
+                }
+            }
+            return result;
+        }
+
         protected IntPtr OpenCursorHandle(Transaction transaction) {
             DbRetCode ret;
             IntPtr cur;
@@ -242,8 +266,6 @@ namespace KdSoft.Lmdb
             transaction.AddCursor(cursor);
             return cursor;
         }
-
-        //TODO expose mdb_cmp() and mdb_dcmp()
 
         #region Unmanaged Resources
 
