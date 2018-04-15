@@ -6,7 +6,7 @@ namespace KdSoft.Lmdb.Tests.fbs
 {
 
 using global::System;
-using global::FlatBuffers;
+using global::Google.FlatBuffers;
 
 public struct LineItemKey : IFlatbufferObject
 {
@@ -38,6 +38,7 @@ public struct LineItemKey : IFlatbufferObject
     return new Offset<LineItemKey>(o);
   }
   public static void FinishLineItemKeyBuffer(FlatBufferBuilder builder, Offset<LineItemKey> offset) { builder.Finish(offset.Value); }
+  public static void FinishSizePrefixedLineItemKeyBuffer(FlatBufferBuilder builder, Offset<LineItemKey> offset) { builder.FinishSizePrefixed(offset.Value); }
 };
 
 

@@ -14,8 +14,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lmdb", "Lmdb\Lmdb.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{13CD5C97-3F94-4874-9D49-50C5A40090B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlatBuffers", "..\..\Libraries\OpenSource\flatbuffers\net\FlatBuffers\FlatBuffers.csproj", "{28C00774-1E73-4A75-AD8F-844CD21A064D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,18 +48,6 @@ Global
 		{13CD5C97-3F94-4874-9D49-50C5A40090B7}.Release|x64.Build.0 = Release|x64
 		{13CD5C97-3F94-4874-9D49-50C5A40090B7}.Release|x86.ActiveCfg = Release|x86
 		{13CD5C97-3F94-4874-9D49-50C5A40090B7}.Release|x86.Build.0 = Release|x86
-		{28C00774-1E73-4A75-AD8F-844CD21A064D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28C00774-1E73-4A75-AD8F-844CD21A064D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28C00774-1E73-4A75-AD8F-844CD21A064D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{28C00774-1E73-4A75-AD8F-844CD21A064D}.Debug|x64.Build.0 = Debug|Any CPU
-		{28C00774-1E73-4A75-AD8F-844CD21A064D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{28C00774-1E73-4A75-AD8F-844CD21A064D}.Debug|x86.Build.0 = Debug|Any CPU
-		{28C00774-1E73-4A75-AD8F-844CD21A064D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28C00774-1E73-4A75-AD8F-844CD21A064D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28C00774-1E73-4A75-AD8F-844CD21A064D}.Release|x64.ActiveCfg = Release|Any CPU
-		{28C00774-1E73-4A75-AD8F-844CD21A064D}.Release|x64.Build.0 = Release|Any CPU
-		{28C00774-1E73-4A75-AD8F-844CD21A064D}.Release|x86.ActiveCfg = Release|Any CPU
-		{28C00774-1E73-4A75-AD8F-844CD21A064D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
