@@ -94,7 +94,7 @@ namespace KdSoft.Lmdb
         /// <param name="config">Database configuration instance.</param>
         /// <returns></returns>
         public MultiValueDatabase OpenMultiValueDatabase(string name, MultiValueDatabaseConfiguration config) {
-            uint options = unchecked ((uint)config.Options | (uint)config.DupOptions | DbLibConstants.MDB_DUPSORT /* to make sure */);
+            uint options = unchecked((uint)config.Options | (uint)config.DupOptions | DbLibConstants.MDB_DUPSORT /* to make sure */);
             lock (rscLock) {
                 lock (dbLock) {
                     var (dbi, handle, env) = OpenDatabaseInternal(name, options, config.LibCompare);

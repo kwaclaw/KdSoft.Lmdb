@@ -12,7 +12,8 @@ namespace KdSoft.Lmdb
             byte* tmp = str;
             int len = 0;
             if (tmp != null) {
-                while (*tmp != 0) tmp++;
+                while (*tmp != 0)
+                    tmp++;
                 len = (int)(tmp - str);
             }
             return len;

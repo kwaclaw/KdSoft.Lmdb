@@ -98,7 +98,8 @@ namespace KdSoft.Lmdb.Tests
                     output.WriteLine($"{ckey}: {cdata}");
 
                     int secondIndx = DatabaseFixture.FirstCount + DatabaseFixture.Gap;
-                    if (secondIndx % 2 == 0) secondIndx++;  // make sure it is odd
+                    if (secondIndx % 2 == 0)
+                        secondIndx++;  // make sure it is odd
 
                     keyBytes = BitConverter.GetBytes(secondIndx);
                     Assert.True(cursor.MoveToKey(keyBytes));
@@ -119,7 +120,8 @@ namespace KdSoft.Lmdb.Tests
             using (var tx = fixture.Env.BeginReadOnlyTransaction()) {
                 using (var cursor = fixture.Db.OpenMultiValueCursor(tx)) {
                     int secondIndx = DatabaseFixture.FirstCount + DatabaseFixture.Gap;
-                    if (secondIndx % 2 == 0) secondIndx++;  // make sure it is odd
+                    if (secondIndx % 2 == 0)
+                        secondIndx++;  // make sure it is odd
 
                     var keyBytes = BitConverter.GetBytes(secondIndx);
                     Assert.True(cursor.MoveToKey(keyBytes));
@@ -154,7 +156,8 @@ namespace KdSoft.Lmdb.Tests
                     output.WriteLine($"{ckey}: {cdata}");
 
                     int secondIndx = DatabaseFixture.FirstCount + DatabaseFixture.Gap;
-                    if (secondIndx % 2 == 0) secondIndx++;  // make sure it is odd
+                    if (secondIndx % 2 == 0)
+                        secondIndx++;  // make sure it is odd
 
                     keyBytes = BitConverter.GetBytes(secondIndx);
                     dataString = $"Test Data {secondIndx}bty"; // this is between the second and third duplicate (b, c)
@@ -332,7 +335,8 @@ namespace KdSoft.Lmdb.Tests
                     output.WriteLine("================================");
 
                     key = DatabaseFixture.FirstCount + DatabaseFixture.Gap + 1;
-                    if (key % 2 == 0) key++;  // make sure it is odd
+                    if (key % 2 == 0)
+                        key++;  // make sure it is odd
 
                     keyBytes = BitConverter.GetBytes(key);
                     var dataStr = fixture.TestData[key][5] + "zz";
@@ -367,7 +371,8 @@ namespace KdSoft.Lmdb.Tests
             Assert.Equal(expectedList, entryList);
 
             startKey = (DatabaseFixture.FirstCount + DatabaseFixture.Gap + 1);
-            if (startKey % 2 == 0) startKey++;  // make sure it is odd
+            if (startKey % 2 == 0)
+                startKey++;  // make sure it is odd
             var fromNearestKeys = fixture.TestData.Keys.Where(k => k <= startKey).OrderByDescending(k => k).ToList();
             expectedList.Clear();
             foreach (var key in fromNearestKeys) {

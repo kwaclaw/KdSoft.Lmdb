@@ -7,7 +7,7 @@
     public enum MultiValueCursorPutOption
 #pragma warning restore CA1008 // Enums should have zero value
     {
-       /// <summary>
+        /// <summary>
         /// Only for MDB_DUPSORT
         /// For put: don't write if the key and data pair already exist.
         /// For mdb_cursor_del: remove all duplicate data items.

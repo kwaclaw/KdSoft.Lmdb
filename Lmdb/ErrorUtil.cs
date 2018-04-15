@@ -31,7 +31,7 @@ namespace KdSoft.Lmdb
                 string errStr;
                 if (ret > MdbLowError && ret <= DbRetCode.LAST_ERRCODE)
                     errStr = DbLib.mdb_strerror(ret);
-                else 
+                else
                     errStr = DotNetStr(ret);
                 throw new LmdbException(ret, errStr);
             }
