@@ -17,7 +17,7 @@ namespace KdSoft.Lmdb.Tests.kds
         }
 
         public override int GetHashCode() {
-            return (ProdCode?.GetHashCode() ?? 0) ^ OrderId.GetHashCode();
+            return (ProdCode?.GetHashCode(StringComparison.Ordinal) ?? 0) ^ OrderId.GetHashCode();
         }
     }
 
