@@ -4,7 +4,6 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <AssemblyName>KdSoft.Lmdb.Tests</AssemblyName>
     <RootNamespace>KdSoft.Lmdb.Tests</RootNamespace>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -29,8 +28,9 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0-beta.2.build4010" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(RuntimeIdentifier)' == 'win-x64'">
-    <!-- This native binary reference has to match the runtime identifier of the project-->
+  <ItemGroup>
+    <!-- This native binary reference is meant for running tests on win-x64;
+         on other platforms, the installed LMDB library will be used. -->
     <None Include="..\Lmdb\runtimes\win-x64\native\lmdb.dll" Link="lmdb.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

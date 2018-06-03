@@ -20,7 +20,8 @@ Depending on the size of the project, if it is small and simple enough the refer
 
 ## Tests
 
-Describe and show how to run the tests with code examples.
+On non-Windows platforms, LMDB must already be installed so that it can be looked up
+by DLLImport using the platform-typical name.
 
 ## Contributors
 
