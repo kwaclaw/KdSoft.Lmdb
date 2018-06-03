@@ -16,6 +16,7 @@ namespace KdSoft.Lmdb.Tests
         public EnvironmentTests(ITestOutputHelper output) {
             this.output = output;
             envPath = Path.Combine(TestUtils.ProjectDir, envDirName);
+            Directory.CreateDirectory(envPath);
         }
 
         [Fact]
