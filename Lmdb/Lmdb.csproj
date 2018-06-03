@@ -1,32 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="build/KdSoft.Lmdb.targets" />
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>KdSoft.Lmdb</AssemblyName>
     <RootNamespace>KdSoft.Lmdb</RootNamespace>
-    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <RuntimeIdentifiers>win-x86;win-x64;osx-x64;linux-arm</RuntimeIdentifiers>
   </PropertyGroup>
 
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\Solution.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
+
   <ItemGroup>
-    <Content Include="build/**/*">
-      <PackagePath>build</PackagePath>
-    </Content>
+    <!-- Package the native dependencies into the appropriate Nuget folder structure
+         so that they can be picked up correctly by consuming libraries/applications. -->
+    <None Include="runtimes/**/*">
+      <Pack>true</Pack>
+      <PackagePath>runtimes</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0" />
-    <PackageReference Include="System.Buffers" Version="4.5.0-rc1" />
-    <PackageReference Include="System.Memory" Version="4.5.0-rc1" />
-    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0-rc1" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.0-rc1" />
+    <PackageReference Include="System.Buffers" Version="4.5.0" />
+    <PackageReference Include="System.Memory" Version="4.5.0" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.0" />
   </ItemGroup>
 
 </Project>
