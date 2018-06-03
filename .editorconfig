@@ -1,7 +1,7 @@
 # editorconfig.org
 
 # top-most EditorConfig file
-root = true
+# root = true
 
 # Don't use tabs for indentation.
 [*]
