@@ -12,6 +12,7 @@ namespace KdSoft.Lmdb.Tests
 
         public EnvironmentFixture() {
             envPath = Path.Combine(TestUtils.ProjectDir, envDirName);
+            Directory.CreateDirectory(envPath);
 
             var config = new EnvironmentConfiguration(10);
             var env = new Environment(config);

@@ -29,11 +29,7 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0-beta.2.build4010" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="TestEnv\" />
-  </ItemGroup>
-
-  <ItemGroup>
+  <ItemGroup Condition="'$(RuntimeIdentifier)' == 'win-x64'">
     <!-- This native binary reference has to match the runtime identifier of the project-->
     <None Include="..\Lmdb\runtimes\win-x64\native\lmdb.dll" Link="lmdb.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
