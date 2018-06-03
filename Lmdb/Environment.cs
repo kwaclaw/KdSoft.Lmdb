@@ -291,11 +291,19 @@ namespace KdSoft.Lmdb
         public Transaction BeginTransaction(TransactionModes modes = TransactionModes.None, Transaction parent = null) {
             var (txn, txnId) = BeginTransactionInternal(modes, parent);
             Transaction result;
-            if ((modes & TransactionModes.ReadOnly) == 0)
+
+            bool checkConcurrent = true;
+            if ((modes & TransactionModes.ReadOnly) == 0) {
                 result = new Transaction(txn, parent, TransactionDisposed);
-            else
+            }
+            else {
                 result = new ReadOnlyTransaction(txn, parent, TransactionDisposed);
-            if (!transactions.TryAdd(txnId, result)) {
+                var opts = GetOptions();
+                if (opts.HasFlag(EnvironmentOptions.NoThreadLocalStorage))
+                    checkConcurrent = false;
+            }
+
+            if (!transactions.TryAdd(txnId, result) & checkConcurrent) {  // no smart boolean evaluation!
                 DbLib.mdb_txn_abort(txn);
                 throw new LmdbException($"Transaction with same Id {txnId} exists already.");
             }
