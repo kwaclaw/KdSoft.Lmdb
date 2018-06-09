@@ -1,10 +1,9 @@
 ﻿using System;
-using KdSoft.Lmdb.Tests.kds;
 using KdSoft.Serialization;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace KdSoft.Lmdb.Tests
+namespace KdSoft.Lmdb.Tests.kds
 {
     [Collection("Environment")]
     public class DatabaseKdsTests

@@ -1,10 +1,9 @@
 ﻿using System;
 using Google.Protobuf;
-using KdSoft.Lmdb.Tests.proto;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace KdSoft.Lmdb.Tests
+namespace KdSoft.Lmdb.Tests.proto
 {
     [Collection("Environment")]
     public class DatabaseProtobufTests
@@ -45,7 +44,7 @@ namespace KdSoft.Lmdb.Tests
                     var dataSpan = new ReadOnlySpan<byte>(buffer, likPos, liPos - likPos);
                     dbase.Put(tx, keySpan, dataSpan, PutOptions.None);
 
-                    // CodedOutputStream intances cannot be reused
+                    // CodedOutputStream instances cannot be reused
                     outStream = new CodedOutputStream(buffer);
                     lik2.WriteTo(outStream);
                     likPos = (int)outStream.Position;

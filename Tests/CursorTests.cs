@@ -25,8 +25,8 @@ namespace KdSoft.Lmdb.Tests
             using (var tx = fixture.Env.BeginTransaction(TransactionModes.None)) {
                 using (var cursor = fixture.Db.OpenMultiValueCursor(tx)) {
                     foreach (var entry in cursor.ForwardByKey) {
-                        var key = BitConverter.ToInt32(entry.Key.ToArray(), 0);
-                        var data = Encoding.UTF8.GetString(entry.Data.ToArray());
+                        var key = BitConverter.ToInt32(entry.Key);
+                        var data = Encoding.UTF8.GetString(entry.Data);
                         Assert.Equal(fixture.TestData[key][0], data);
                         getData[key] = new[] { data };
                     }
@@ -43,10 +43,10 @@ namespace KdSoft.Lmdb.Tests
             using (var tx = fixture.Env.BeginReadOnlyTransaction()) {
                 using (var cursor = fixture.Db.OpenMultiValueCursor(tx)) {
                     foreach (var keyEntry in cursor.ForwardByKey) {
-                        var key = BitConverter.ToInt32(keyEntry.Key.ToArray(), 0);
+                        var key = BitConverter.ToInt32(keyEntry.Key);
                         var valueList = new List<string>();
                         foreach (var value in cursor.ValuesForward) {
-                            var data = Encoding.UTF8.GetString(value.ToArray());
+                            var data = Encoding.UTF8.GetString(value);
                             valueList.Add(data);
                         }
                         getData[key] = valueList;
@@ -68,8 +68,8 @@ namespace KdSoft.Lmdb.Tests
             using (var tx = fixture.Env.BeginReadOnlyTransaction()) {
                 using (var cursor = fixture.Db.OpenMultiValueCursor(tx)) {
                     foreach (var entry in cursor.Forward) {
-                        var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
-                        var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
+                        var ckey = BitConverter.ToInt32(entry.Key);
+                        var cdata = Encoding.UTF8.GetString(entry.Data);
                         output.WriteLine($"{ckey}: {cdata}");
                         if (getData.TryGetValue(ckey, out IList<string> dataList))
                             dataList.Add(cdata);
@@ -90,9 +90,9 @@ namespace KdSoft.Lmdb.Tests
                     Assert.True(cursor.MoveToKey(keyBytes));
                     Assert.True(cursor.GetCurrent(out KeyDataPair entry));
 
-                    var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
+                    var ckey = BitConverter.ToInt32(entry.Key);
                     Assert.Equal(4, ckey);
-                    var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
+                    var cdata = Encoding.UTF8.GetString(entry.Data);
                     Assert.Equal(fixture.TestData[4][0], cdata);
 
                     output.WriteLine($"{ckey}: {cdata}");
@@ -105,9 +105,9 @@ namespace KdSoft.Lmdb.Tests
                     Assert.True(cursor.MoveToKey(keyBytes));
                     Assert.True(cursor.GetCurrent(out entry));
 
-                    ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
+                    ckey = BitConverter.ToInt32(entry.Key);
                     Assert.Equal(secondIndx, ckey);
-                    cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
+                    cdata = Encoding.UTF8.GetString(entry.Data);
                     Assert.Equal(fixture.TestData[secondIndx][0], cdata);
 
                     output.WriteLine($"{ckey}: {cdata}");
@@ -128,12 +128,23 @@ namespace KdSoft.Lmdb.Tests
 
                     int indx = 0;
                     foreach (var value in cursor.ValuesForward) {
-                        var cdata = Encoding.UTF8.GetString(value.ToArray());
+                        var cdata = Encoding.UTF8.GetString(value);
                         Assert.Equal(fixture.TestData[secondIndx][indx], cdata);
 
                         indx++;
                         output.WriteLine($"{secondIndx}: {cdata}");
                     }
+                }
+            }
+        }
+
+        [Fact]
+        public void MoveToDataSimple() {
+            using (var tx = fixture.Env.BeginReadOnlyTransaction()) {
+                using (var cursor = fixture.Db.OpenMultiValueCursor(tx)) {
+                    var keyData = new KeyDataPair(BitConverter.GetBytes(4), Encoding.UTF8.GetBytes("Test Data"));
+                    KeyDataPair entry;
+                    Assert.True(cursor.GetNearest(keyData, out entry));
                 }
             }
         }
@@ -149,9 +160,9 @@ namespace KdSoft.Lmdb.Tests
                     var keyData = new KeyDataPair(keyBytes, new ReadOnlySpan<byte>(buffer, 0, byteCount));
                     Assert.True(cursor.GetAt(keyData, out KeyDataPair entry));
 
-                    var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
+                    var ckey = BitConverter.ToInt32(entry.Key);
                     Assert.Equal(4, ckey);
-                    var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
+                    var cdata = Encoding.UTF8.GetString(entry.Data);
                     Assert.Equal(fixture.TestData[4][0], cdata);
                     output.WriteLine($"{ckey}: {cdata}");
 
@@ -165,9 +176,9 @@ namespace KdSoft.Lmdb.Tests
                     keyData = new KeyDataPair(keyBytes, new ReadOnlySpan<byte>(buffer, 0, byteCount));
                     Assert.True(cursor.GetNearest(keyData, out entry));
 
-                    ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
+                    ckey = BitConverter.ToInt32(entry.Key);
                     Assert.Equal(secondIndx, ckey);
-                    cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
+                    cdata = Encoding.UTF8.GetString(entry.Data);
                     Assert.Equal(fixture.TestData[secondIndx][2], cdata);  // we should be positioned at the third duplicate
                     output.WriteLine($"{ckey}: {cdata}");
                 }
@@ -186,14 +197,14 @@ namespace KdSoft.Lmdb.Tests
                     var keyBytes = BitConverter.GetBytes(key);
 
                     Assert.True(cursor.GetAt(keyBytes, out entry));
-                    var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
-                    var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
+                    var ckey = BitConverter.ToInt32(entry.Key);
+                    var cdata = Encoding.UTF8.GetString(entry.Data);
                     byKeyList.Add((ckey, cdata));
                     output.WriteLine($"{ckey}: {cdata}");
 
                     foreach (var fwEntry in cursor.ForwardFromByKey) {
-                        ckey = BitConverter.ToInt32(fwEntry.Key.ToArray(), 0);
-                        cdata = Encoding.UTF8.GetString(fwEntry.Data.ToArray());
+                        ckey = BitConverter.ToInt32(fwEntry.Key);
+                        cdata = Encoding.UTF8.GetString(fwEntry.Data);
                         byKeyList.Add((ckey, cdata));
                         output.WriteLine($"{ckey}: {cdata}");
                     }
@@ -204,14 +215,14 @@ namespace KdSoft.Lmdb.Tests
                     keyBytes = BitConverter.GetBytes(key);
 
                     Assert.True(cursor.GetNearest(keyBytes, out entry));
-                    ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
-                    cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
+                    ckey = BitConverter.ToInt32(entry.Key);
+                    cdata = Encoding.UTF8.GetString(entry.Data);
                     fromNearestList.Add((ckey, cdata));
                     output.WriteLine($"{ckey}: {cdata}");
 
                     foreach (var fwEntry in cursor.ForwardFromByKey) {
-                        ckey = BitConverter.ToInt32(fwEntry.Key.ToArray(), 0);
-                        cdata = Encoding.UTF8.GetString(fwEntry.Data.ToArray());
+                        ckey = BitConverter.ToInt32(fwEntry.Key);
+                        cdata = Encoding.UTF8.GetString(fwEntry.Data);
                         fromNearestList.Add((ckey, cdata));
                         output.WriteLine($"{ckey}: {cdata}");
                     }
@@ -249,14 +260,14 @@ namespace KdSoft.Lmdb.Tests
                     var data = Encoding.UTF8.GetBytes(fixture.TestData[key][1]);
 
                     Assert.True(cursor.GetAt(new KeyDataPair(keyBytes, data), out entry));
-                    var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
-                    var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
+                    var ckey = BitConverter.ToInt32(entry.Key);
+                    var cdata = Encoding.UTF8.GetString(entry.Data);
                     entryList.Add((ckey, cdata));
                     output.WriteLine($"{ckey}: {cdata}");
 
                     foreach (var fwEntry in cursor.ForwardFrom) {
-                        ckey = BitConverter.ToInt32(fwEntry.Key.ToArray(), 0);
-                        cdata = Encoding.UTF8.GetString(fwEntry.Data.ToArray());
+                        ckey = BitConverter.ToInt32(fwEntry.Key);
+                        cdata = Encoding.UTF8.GetString(fwEntry.Data);
                         entryList.Add((ckey, cdata));
                         output.WriteLine($"{ckey}: {cdata}");
                     }
@@ -267,15 +278,15 @@ namespace KdSoft.Lmdb.Tests
                     keyBytes = BitConverter.GetBytes(key);
 
                     Assert.True(cursor.GetNearest(keyBytes, out entry));
-                    ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
-                    cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
+                    ckey = BitConverter.ToInt32(entry.Key);
+                    cdata = Encoding.UTF8.GetString(entry.Data);
                     fromNearestList.Add((ckey, cdata));
                     output.WriteLine($"{ckey}: {cdata}");
 
                     // if we used ForwardFromNearest(in KeyDataPair) then we would need to start at an existing key
                     foreach (var fwEntry in cursor.ForwardFrom) {
-                        ckey = BitConverter.ToInt32(fwEntry.Key.ToArray(), 0);
-                        cdata = Encoding.UTF8.GetString(fwEntry.Data.ToArray());
+                        ckey = BitConverter.ToInt32(fwEntry.Key);
+                        cdata = Encoding.UTF8.GetString(fwEntry.Data);
                         fromNearestList.Add((ckey, cdata));
                         output.WriteLine($"{ckey}: {cdata}");
                     }
@@ -320,14 +331,14 @@ namespace KdSoft.Lmdb.Tests
                     var data = Encoding.UTF8.GetBytes(fixture.TestData[key][2]);
 
                     Assert.True(cursor.GetAt(new KeyDataPair(keyBytes, data), out entry));
-                    var ckey = BitConverter.ToInt32(entry.Key.ToArray(), 0);
-                    var cdata = Encoding.UTF8.GetString(entry.Data.ToArray());
+                    var ckey = BitConverter.ToInt32(entry.Key);
+                    var cdata = Encoding.UTF8.GetString(entry.Data);
                     entryList.Add((ckey, cdata));
                     output.WriteLine($"{ckey}: {cdata}");
 
                     foreach (var rvEntry in cursor.ReverseFrom) {
-                        ckey = BitConverter.ToInt32(rvEntry.Key.ToArray(), 0);
-                        cdata = Encoding.UTF8.GetString(rvEntry.Data.ToArray());
+                        ckey = BitConverter.ToInt32(rvEntry.Key);
+                        cdata = Encoding.UTF8.GetString(rvEntry.Data);
                         entryList.Add((ckey, cdata));
                         output.WriteLine($"{ckey}: {cdata}");
                     }
@@ -348,8 +359,8 @@ namespace KdSoft.Lmdb.Tests
 
                     // if we used ForwardFromNearestEntry then at least the key would have to match
                     foreach (var rvEntry in cursor.ReverseFrom) {
-                        ckey = BitConverter.ToInt32(rvEntry.Key.ToArray(), 0);
-                        cdata = Encoding.UTF8.GetString(rvEntry.Data.ToArray());
+                        ckey = BitConverter.ToInt32(rvEntry.Key);
+                        cdata = Encoding.UTF8.GetString(rvEntry.Data);
                         fromNearestList.Add((ckey, cdata));
                         output.WriteLine($"{ckey}: {cdata}");
                     }

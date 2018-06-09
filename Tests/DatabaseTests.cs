@@ -43,6 +43,40 @@ namespace KdSoft.Lmdb.Tests
         const string testData = "Test Data";
 
         [Fact]
+        public void BasicStoreRetrieve() {
+            var config = new DatabaseConfiguration(DatabaseOptions.Create);
+            Database dbase;
+            using (var tx = fixture.Env.BeginDatabaseTransaction(TransactionModes.None)) {
+                dbase = tx.OpenDatabase("SimpleStoreRetrieve", config);
+                tx.Commit();
+            }
+
+            int key = 234;
+            var keyBuf = BitConverter.GetBytes(key);
+            string putData = testData;
+            try {
+                using (var tx = fixture.Env.BeginTransaction(TransactionModes.None)) {
+                    dbase.Put(tx, keyBuf, Encoding.UTF8.GetBytes(putData), PutOptions.None);
+                    tx.Commit();
+                }
+
+                ReadOnlySpan<byte> getData;
+                using (var tx = fixture.Env.BeginReadOnlyTransaction(TransactionModes.None)) {
+                    Assert.True(dbase.Get(tx, keyBuf, out getData));
+                    tx.Commit();
+                }
+
+                Assert.Equal(putData, Encoding.UTF8.GetString(getData));
+            }
+            finally {
+                using (var tx = fixture.Env.BeginDatabaseTransaction(TransactionModes.None)) {
+                    dbase.Drop(tx);
+                    tx.Commit();
+                }
+            }
+        }
+
+        [Fact]
         public void SimpleStoreRetrieve() {
             var config = new DatabaseConfiguration(DatabaseOptions.Create);
             Database dbase;
@@ -60,30 +94,41 @@ namespace KdSoft.Lmdb.Tests
             output.WriteLine($"LeafPages: {stats.LeafPages}");
             output.WriteLine($"OverflowPages: {stats.OverflowPages}");
 
-            var keyBuf1 = Guid.NewGuid().ToByteArray();
-            var keyBuf2 = Guid.NewGuid().ToByteArray();
-            var buffer = fixture.Buffers.Acquire(1024);
+            var buffer = fixture.Buffers.Acquire(1024);  // re-usable buffer
+
+            var key1 = Guid.NewGuid();
+            var key2 = Guid.NewGuid();
             try {
+                // use the same buffer for some keys and data
+                int bufPos = 0;
+                var keySpan1 = new Span<byte>(buffer, bufPos, 16);
+                key1.TryWriteBytes(keySpan1);
+                bufPos += 16;
+                var keySpan2 = new Span<byte>(buffer, bufPos, 16);
+                key2.TryWriteBytes(keySpan2);
+                bufPos += 16;
+                // this one encoded as UTF-8
+                int byteCount = Encoding.UTF8.GetBytes(testData, 0, testData.Length, buffer, bufPos);
+                var putData2 = new ReadOnlySpan<byte>(buffer, bufPos, byteCount);
+                // this one encoded as UTF-16, we can access the memory directly
                 var putData1 = MemoryMarshal.AsBytes(testData.AsSpan());
-                int byteCount = Encoding.UTF8.GetBytes(testData, 0, testData.Length, buffer, 0);
-                var putData2 = new ReadOnlySpan<byte>(buffer, 0, byteCount);
 
                 using (var tx = fixture.Env.BeginTransaction(TransactionModes.None)) {
-                    dbase.Put(tx, keyBuf1, putData1, PutOptions.None);
-                    dbase.Put(tx, keyBuf2, putData2, PutOptions.None);
+                    dbase.Put(tx, keySpan1, putData1, PutOptions.None);
+                    dbase.Put(tx, keySpan2, putData2, PutOptions.None);
                     tx.Commit();
                 }
 
                 ReadOnlySpan<byte> getData1;
                 ReadOnlySpan<byte> getData2;
                 using (var tx = fixture.Env.BeginReadOnlyTransaction(TransactionModes.None)) {
-                    Assert.True(dbase.Get(tx, keyBuf1, out getData1));
-                    Assert.True(dbase.Get(tx, keyBuf2, out getData2));
+                    Assert.True(dbase.Get(tx, key1.ToByteArray(), out getData1));
+                    Assert.True(dbase.Get(tx, key2.ToByteArray(), out getData2));
                     tx.Commit();
                 }
 
                 Assert.True(putData1.SequenceEqual(getData1));
-                Assert.Equal(testData, Encoding.UTF8.GetString(getData2.ToArray()));
+                Assert.Equal(testData, Encoding.UTF8.GetString(getData2));
             }
             finally {
                 fixture.Buffers.Return(buffer);
@@ -125,7 +170,7 @@ namespace KdSoft.Lmdb.Tests
                     for (int key = 0; key < 10; key++) {
                         var compareData = $"Test Data {key}";
                         dbase.Get(tx, BitConverter.GetBytes(key), out getData);
-                        Assert.Equal(compareData, Encoding.UTF8.GetString(getData.ToArray()));
+                        Assert.Equal(compareData, Encoding.UTF8.GetString(getData));
 
                         // check if two adjacent keys are comparing correctly when using the database's compare function
                         if (key > 0) {

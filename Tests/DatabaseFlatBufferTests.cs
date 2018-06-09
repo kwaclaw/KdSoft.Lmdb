@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Google.FlatBuffers;
 using Xunit;
 using Xunit.Abstractions;
-using Google.FlatBuffers;
 
 namespace KdSoft.Lmdb.Tests.fbs
 {
@@ -35,6 +32,7 @@ namespace KdSoft.Lmdb.Tests.fbs
             try {
                 FlatBufferBuilder liBuilder = new FlatBufferBuilder(64);
                 FlatBufferBuilder liKeyBuilder = new FlatBufferBuilder(32);
+
                 // in FlatBuffers, each serializable item is backed by a byte buffer, the item itself is a struct
                 byte[] liBytes;
                 byte[] li2Bytes;
