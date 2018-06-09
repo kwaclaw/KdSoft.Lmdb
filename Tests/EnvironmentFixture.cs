@@ -16,7 +16,7 @@ namespace KdSoft.Lmdb.Tests
 
             var config = new EnvironmentConfiguration(10);
             var env = new Environment(config);
-            env.Open(envPath);
+            env.Open(envPath, EnvironmentOptions.NoThreadLocalStorage);
 
             this.Env = env;
             this.Buffers = new BufferPool();
