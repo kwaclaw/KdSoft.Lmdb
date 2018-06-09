@@ -14,6 +14,20 @@ A short description of the motivation behind the creation and maintenance of the
 
 Provide code examples and explanations of how to get the project.
 
+### Installing the native libraries
+* Windows: A recent x64 build is included in this project.
+
+* Linux-like: 
+
+  * Install package, Example for Ubuntu: `sudo apt-get install liblmdb-dev`
+  * Install from source, like in this example
+
+  ```
+  git clone https://github.com/LMDB/lmdb
+  cd lmdb/libraries/liblmdb
+  make && make install
+  ```
+
 ## API Reference
 
 Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
