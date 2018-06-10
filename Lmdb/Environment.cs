@@ -11,7 +11,6 @@ namespace KdSoft.Lmdb
 
     public class Environment: CriticalFinalizerObject, IDisposable
     {
-        //TODO we do not have to close transactions and cursors, but we must invalidate their handles, so we still need to track them
         readonly bool autoReduceMapSizeIn32BitProcess;
 
         public Environment(EnvironmentConfiguration config = null) {

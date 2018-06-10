@@ -72,6 +72,10 @@ namespace KdSoft.Lmdb
             return Get(in keyData, out entry, DbCursorOp.MDB_GET_BOTH_RANGE);
         }
 
+        //TODO implement GetMultiple, GetNextMultiple and GetPreviousMultiple (check DbCursorOp)
+        //TODO Maybe implement FixedMultiValueDatabase for GetMultiple and PutMultiple APIs
+        //TODO write tests for GetMultiple and PutMultiple
+
         #endregion
 
         #region Update Operations
