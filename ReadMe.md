@@ -1,10 +1,106 @@
-## Synopsis
+## KdSoft.Lmdb
 
-At the top of the file there should be a short introduction and/ or overview that explains **what** the project is. This description should match descriptions added for package managers (Gemspec, package.json, etc.)
+A .NET wrapper for  OpenLDAP's [LMDB](https://github.com/LMDB/lmdb) key-value store. It introduces the use of the `Span<byte>` type for interacting with the native LMDB library to reduce the need for copying byte buffers between native and managed scope.
+
+The native C-API is exposed in a .NET typical way, so its use should be familiar to .NET developers.
+
+It requires the .NET Core SDK 2.1 (or later) installed.
 
 ## Code Example
 
-Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
+#### Create a database
+
+```c#
+var envConfig = new EnvironmentConfiguration(10);
+using (var env = new Environment(envConfig)) {
+    env.Open(envPath);
+    
+    Database dbase;
+    var dbConfig = new DatabaseConfiguration(DatabaseOptions.Create);
+    using (var tx = env.BeginDatabaseTransaction(TransactionModes.None)) {
+        dbase = tx.OpenDatabase("TestDb1", dbConfig);
+        tx.Commit();
+    }
+}
+```
+
+#### Simple Store and Retrieve
+
+```c#
+<Env points to an open Environment handle>
+...  
+var config = new DatabaseConfiguration(DatabaseOptions.Create);
+Database dbase;
+using (var tx = Env.BeginDatabaseTransaction(TransactionModes.None)) {
+    dbase = tx.OpenDatabase("SimpleStoreRetrieve", config);
+    tx.Commit();
+}
+
+int key = 234;
+var keyBuf = BitConverter.GetBytes(key);
+string putData = "Test Data";
+
+using (var tx = Env.BeginTransaction(TransactionModes.None)) {
+    dbase.Put(tx, keyBuf, Encoding.UTF8.GetBytes(putData), PutOptions.None);
+    tx.Commit();
+}
+
+ReadOnlySpan<byte> getData;
+using (var tx = Env.BeginReadOnlyTransaction(TransactionModes.None)) {
+    Assert.True(dbase.Get(tx, keyBuf, out getData));
+    tx.Commit();
+}
+
+Assert.Equal(putData, Encoding.UTF8.GetString(getData));
+```
+
+#### Cursor Operations
+
+```c#
+<Dbase points to an open Database handle, tx is an open transaction>
+...
+// basic iteration over single-value database
+using (var cursor = Dbase.OpenCursor(tx)) {
+    foreach (var entry in cursor.Forward) {
+        var key = BitConverter.ToInt32(entry.Key);
+        var data = Encoding.UTF8.GetString(entry.Data);
+    }
+}
+
+// iteration over multi-value database
+using (var cursor = Dbase.OpenMultiValueCursor(tx)) {
+    foreach (var keyEntry in cursor.ForwardByKey) {
+        var key = BitConverter.ToInt32(keyEntry.Key);
+        var valueList = new List<string>();
+        // iterate over the values in the same key
+        foreach (var value in cursor.ValuesForward) {
+            var data = Encoding.UTF8.GetString(value);
+            valueList.Add(data);
+        }
+    }
+}
+
+// move to key, iterate over multiple values for key
+using (var cursor = Dbase.OpenMultiValueCursor(tx)) {
+    Assert.True(cursor.MoveToKey(BitConverter.GetBytes(234));
+    var valueList = new List<string>();
+    foreach (var value in cursor.ValuesForward) {
+        var data = Encoding.UTF8.GetString(value);
+        valueList.Add(data);
+    }
+}
+
+// Move to key *and* nearest data in multi-value database
+using (var cursor = Dbase.OpenMultiValueCursor(tx)) {
+    var dataBytes = Encoding.UTF8.GetBytes("Test Data");
+    var keyData = new KeyDataPair(BitConverter.GetBytes(4), dataBytes);
+    KeyDataPair entry;  // the key-value pair nearest to keyData
+    Assert.True(cursor.GetNearest(keyData, out entry));
+    var dataString = Encoding.UTF8.GetString(entry.Data);
+}
+```
+
+The unit tests have more examples, especially for cursor operations.
 
 ## Motivation
 
@@ -12,9 +108,9 @@ A short description of the motivation behind the creation and maintenance of the
 
 ## Installation
 
-Provide code examples and explanations of how to get the project.
+Include as Nuget package from https://www.nuget.org/packages/KdSoft.Lmdb/ . This is not quite sufficient on platforms other than Windows:
 
-### Installing the native libraries
+#### Installing the native libraries
 * Windows: A recent x64 build is included in this project.
 
 * Linux-like: 
@@ -31,6 +127,10 @@ Provide code examples and explanations of how to get the project.
 ## API Reference
 
 Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
+
+
+
+The native API is documented here: http://www.lmdb.tech/doc/ .
 
 ## Tests
 
