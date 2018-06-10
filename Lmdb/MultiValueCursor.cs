@@ -90,14 +90,6 @@ namespace KdSoft.Lmdb
             return PutInternal(in entry, unchecked((uint)option));
         }
 
-        //TODO remove when not needed to work around compiler bug - crashes Visual Studio
-        [StructLayout(LayoutKind.Sequential, Pack = Compile.PackSize)]
-        ref struct MultiDbValue
-        {
-            public DbValue Val1;
-            public DbValue Val2;
-        }
-
         /// <summary>
         /// Store multiple contiguous data elements by cursor.
         /// This is only valid for <see cref="MultiValueDatabase"/> instances opened with <see cref="MultiValueDatabaseOptions.DuplicatesFixed"/>.
@@ -115,20 +107,14 @@ namespace KdSoft.Lmdb
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    MultiDbValue dbMultiData;
-                    //var dbMultiData = stackalloc DbValue[2];  //TODO compiler bug, use once it is fixed
+                    var dbMultiData = stackalloc DbValue[2];
                     fixed (void* keyPtr = &MemoryMarshal.GetReference(key))
                     fixed (void* firstDataPtr = &MemoryMarshal.GetReference(data)) {
                         var dbKey = new DbValue(keyPtr, key.Length);
-                        dbMultiData.Val1 = new DbValue(firstDataPtr, firstDataSize);
-                        dbMultiData.Val2 = new DbValue(null, itemCount);
-                        //TODO change this to use stackalloc once compiler bug is fixed
-                        // dbMultiData[0] = new DbValue(firstDataPtr, firstDataSize);
-                        // dbMultiData[1] = new DbValue(null, itemCount);
-                        // ret = Lib.mdb_cursor_put(handle, ref dbKey, &dbMultiData, LibConstants.MDB_MULTIPLE);
-                        // itemCount = (int)dbMultiData[1].Size;
-                        ret = DbLib.mdb_cursor_put(handle, ref dbKey, &dbMultiData.Val1, DbLibConstants.MDB_MULTIPLE);
-                        itemCount = (int)dbMultiData.Val2.Size;
+                        dbMultiData[0] = new DbValue(firstDataPtr, firstDataSize);
+                        dbMultiData[1] = new DbValue(null, itemCount);
+                        ret = DbLib.mdb_cursor_put(handle, ref dbKey, dbMultiData, DbLibConstants.MDB_MULTIPLE);
+                        itemCount = (int)dbMultiData[1].Size;
                     }
                 }
             }
