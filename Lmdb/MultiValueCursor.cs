@@ -15,36 +15,59 @@ namespace KdSoft.Lmdb
 
         #region Read Operations
 
+        /// <summary>
+        /// Move cursor to first data position of next key and get the key.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns><c>true</c> if next key exists, false otherwise.</returns>
         public bool GetNextKey(out ReadOnlySpan<byte> key) {
             return GetKey(out key, DbCursorOp.MDB_NEXT_NODUP);
         }
 
+        /// <summary>
+        /// Move cursor to last data position of previous key and get the key.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns><c>true</c> if previous key exists, false otherwise.</returns>
         public bool GetPreviousKey(out ReadOnlySpan<byte> key) {
             return GetKey(out key, DbCursorOp.MDB_PREV_NODUP);
         }
 
         /// <summary>
-        /// Returns first record for next key.
+        /// Move cursor to first data position of next key and get the record (key and data).
         /// </summary>
         /// <param name="entry"></param>
-        /// <returns></returns>
+        /// <returns><c>true</c> if next key exists, false otherwise.</returns>
         public bool GetNextByKey(out KeyDataPair entry) {
             return Get(out entry, DbCursorOp.MDB_NEXT_NODUP);
         }
 
         /// <summary>
-        /// Returns last record for previous key.
+        /// Move cursor to last data position of previous key and get the record (key and data).
         /// </summary>
         /// <param name="entry"></param>
-        /// <returns></returns>
+        /// <returns><c>true</c> if previous key exists, false otherwise.</returns>
         public bool GetPreviousByKey(out KeyDataPair entry) {
             return Get(out entry, DbCursorOp.MDB_PREV_NODUP);
         }
 
+        /// <summary>
+        /// Move cursor to position of key/data pair and get the record (key and data).
+        /// </summary>
+        /// <param name="keyData"></param>
+        /// <param name="entry"></param>
+        /// <returns><c>true</c> if key/data pair exists, false otherwise.</returns>
         public bool GetAt(in KeyDataPair keyData, out KeyDataPair entry) {
             return Get(in keyData, out entry, DbCursorOp.MDB_GET_BOTH);
         }
 
+        /// <summary>
+        /// Move cursor to key and nearest data position. key must match, data position must
+        /// be greater than or equal to specified data. Then get the record (key and data).
+        /// </summary>
+        /// <param name="keyData"></param>
+        /// <param name="entry"></param>
+        /// <returns><c>true</c> if nearest key/data pair exists, false otherwise.</returns>
         public bool GetNearest(in KeyDataPair keyData, out KeyDataPair entry) {
             return Get(in keyData, out entry, DbCursorOp.MDB_GET_BOTH_RANGE);
         }
