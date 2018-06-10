@@ -13,14 +13,14 @@ It requires the .NET Core SDK 2.1 (or later) installed.
 ```c#
 var envConfig = new EnvironmentConfiguration(10);
 using (var env = new Environment(envConfig)) {
-    env.Open(envPath);
-    
+    env.Open(envPath);    
     Database dbase;
     var dbConfig = new DatabaseConfiguration(DatabaseOptions.Create);
     using (var tx = env.BeginDatabaseTransaction(TransactionModes.None)) {
         dbase = tx.OpenDatabase("TestDb1", dbConfig);
         tx.Commit();
     }
+    // use dbase from here on
 }
 ```
 
@@ -54,19 +54,30 @@ using (var tx = Env.BeginReadOnlyTransaction(TransactionModes.None)) {
 Assert.Equal(putData, Encoding.UTF8.GetString(getData));
 ```
 
-#### Cursor Operations
+#### Cursor Operations - Single-Value Database
 
 ```c#
 <Dbase points to an open Database handle, tx is an open transaction>
 ...
-// basic iteration over single-value database
+// basic iteration
 using (var cursor = Dbase.OpenCursor(tx)) {
-    foreach (var entry in cursor.Forward) {
+    foreach (var entry in cursor.Forward) {  // cursor.Reverse goes the other way
         var key = BitConverter.ToInt32(entry.Key);
         var data = Encoding.UTF8.GetString(entry.Data);
     }
 }
 
+// move cursor to key position and get data
+using (var cursor = Dbase.OpenCursor(tx)) {
+    var keyBytes = BitConverter.GetBytes(4);
+    if (cursor.MoveToKey(keyBytes)) {
+        Assert.True(cursor.GetCurrent(out KeyDataPair entry));
+        var dataString = Encoding.UTF8.GetString(entry.Data);
+    }
+}
+```
+#### Cursor Operations - Multi-Value Database
+```c#
 // iteration over multi-value database
 using (var cursor = Dbase.OpenMultiValueCursor(tx)) {
     foreach (var keyEntry in cursor.ForwardByKey) {
