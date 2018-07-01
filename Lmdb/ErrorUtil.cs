@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using KdSoft.Lmdb.Interop;
 
 namespace KdSoft.Lmdb
 {
