@@ -7,77 +7,78 @@
 #pragma warning disable CA1707 // Identifiers should not contain underscores
         // BerkeleyDB uses -30800 to -30999, we'll go under them
 
-        /** key/data pair already exists */
+        /// <summary> key/data pair already exists </summary>
         KEYEXIST = -30799,
 
-        /** key/data pair not found (EOF) */
+        /// <summary> key/data pair not found (EOF) </summary>
         NOTFOUND = -30798,
 
-        /** Requested page not found - this usually indicates corruption */
+        /// <summary> Requested page not found - this usually indicates corruption </summary>
         PAGE_NOTFOUND = -30797,
 
-        /** Located page was wrong type */
+        /// <summary> Located page was wrong type </summary>
         CORRUPTED = -30796,
 
-        /** Update of meta page failed or environment had fatal error */
+        /// <summary> Update of meta page failed or environment had fatal error </summary>
         PANIC = -30795,
 
-        /** Environment version mismatch */
+        /// <summary> Environment version mismatch </summary>
         VERSION_MISMATCH = -30794,
 
-        /** File is not a valid LMDB file */
+        /// <summary> File is not a valid LMDB file </summary>
         INVALID = -30793,
 
-        /** Environment mapsize reached */
+        /// <summary> Environment mapsize reached </summary>
         MAP_FULL = -30792,
 
-        /** Environment maxdbs reached */
+        /// <summary> Environment maxdbs reached </summary>
         DBS_FULL = -30791,
 
-        /** Environment maxreaders reached */
+        /// <summary> Environment maxreaders reached </summary>
         READERS_FULL = -30790,
 
-        /** Too many TLS keys in use - Windows only */
+        /// <summary> Too many TLS keys in use - Windows only </summary>
         TLS_FULL = -30789,
 
-        /** Txn has too many dirty pages */
+        /// <summary> Txn has too many dirty pages </summary>
         TXN_FULL = -30788,
 
-        /** Cursor stack too deep - internal error */
+        /// <summary> Cursor stack too deep - internal error </summary>
         CURSOR_FULL = -30787,
 
-        /** Page has not enough space - internal error */
+        /// <summary> Page has not enough space - internal error </summary>
         PAGE_FULL = -30786,
 
-        /** Database contents grew beyond environment mapsize */
+        /// <summary> Database contents grew beyond environment mapsize </summary>
         MAP_RESIZED = -30785,
 
-        /** Operation and DB incompatible, or DB type changed. This can mean:
+        /** <summary> Operation and DB incompatible, or DB type changed. This can mean:
          *	<ul>
-         *	<li>The operation expects an #MDB_DUPSORT / #MDB_DUPFIXED database.
-         *	<li>Opening a named DB when the unnamed DB has #MDB_DUPSORT / #MDB_INTEGERKEY.
-         *	<li>Accessing a data record as a database, or vice versa.
-         *	<li>The database was dropped and recreated with different flags.
+         *	<li>The operation expects an #MDB_DUPSORT / #MDB_DUPFIXED database.</li>
+         *	<li>Opening a named DB when the unnamed DB has #MDB_DUPSORT / #MDB_INTEGERKEY.</li>
+         *	<li>Accessing a data record as a database, or vice versa.</li>
+         *	<li>The database was dropped and recreated with different flags.</li>
          *	</ul>
+         *	</summary>
          */
         INCOMPATIBLE = -30784,
 
-        /** Invalid reuse of reader locktable slot */
+        /// <summary> Invalid reuse of reader locktable slot </summary>
         BAD_RSLOT = -30783,
 
-        /** Transaction must abort, has a child, or is invalid */
+        /// <summary> Transaction must abort, has a child, or is invalid </summary>
         BAD_TXN = -30782,
 
-        /** Unsupported size of key/DB name/data, or wrong DUPFIXED size */
+        /// <summary> Unsupported size of key/DB name/data, or wrong DUPFIXED size </summary>
         BAD_VALSIZE = -30781,
 
-        /** The specified DBI was changed unexpectedly */
+        /// <summary> The specified DBI was changed unexpectedly </summary>
         BAD_DBI = -30780,
 
-        /** The last defined error code */
+        /// <summary> The last defined error code </summary>
         LAST_ERRCODE = BAD_DBI,
 
-        /**	Successful result */
+        /// <summary> Successful result </summary>
         SUCCESS = 0,
 
         /* Error Codes defined in C runtime (errno.h) */

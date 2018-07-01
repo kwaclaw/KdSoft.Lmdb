@@ -7,7 +7,9 @@ namespace KdSoft.Lmdb.Interop
     [CLSCompliant(false)]
     public static unsafe class DbLibUtil
     {
-        // calculates length of null-terminated byte string
+        /// <summary>
+        /// calculates length of null-terminated byte string
+        /// </summary>
         public static int ByteStrLen(byte* str) {
             byte* tmp = str;
             int len = 0;
@@ -19,8 +21,13 @@ namespace KdSoft.Lmdb.Interop
             return len;
         }
 
-        // Copies null-terminated byte string into byte buffer.
-        // Will resize buffer, if necessary, does nothing if ptr == null.
+        /// <summary>
+        /// Copies null-terminated byte string into byte buffer.
+        /// Will resize buffer, if necessary, does nothing if ptr == null.
+        /// </summary>
+        /// <param name="bytePtr">Null terminated bye string to copy.</param>
+        /// <param name="buffer">Byte buffer to copy to.</param>
+        /// <returns>New size of buffer.</returns>
         public static int PtrToBuffer(byte* bytePtr, ref byte[] buffer) {
             int size = ByteStrLen(bytePtr);
             if (size > (buffer == null ? 0 : buffer.Length))
@@ -30,9 +37,14 @@ namespace KdSoft.Lmdb.Interop
             return size;
         }
 
-        // Creates null-terminated UTF8 string in buffer.
-        // Returns length, including null-terminator.
-        // Will re-allocate buffer, if necessary.
+        /// <summary>
+        /// Creates null-terminated UTF8 string in buffer. Will re-allocate buffer, if necessary.
+        /// If str == null then the buffer will be ignored.
+        /// </summary>
+        /// <param name="str">String to convert to UTF-8 encoding.</param>
+        /// <param name="utf8">Configured UTF-8 encoder.</param>
+        /// <param name="buffer"></param>
+        /// <returns>Byte length of UTF-8 encoded string, including null-terminator</returns>
         public static int StrToUtf8(string str, UTF8Encoding utf8, ref byte[] buffer) {
             if (str == null)
                 return 0;
@@ -49,22 +61,37 @@ namespace KdSoft.Lmdb.Interop
             return count + 1;
         }
 
-        // if str == null, then the buffer argument will be ignored
+        /// <summary>
+        /// Creates null-terminated UTF8 string in buffer. Will re-allocate buffer, if necessary.
+        /// If str == null then the buffer will be ignored.
+        /// </summary>
+        /// <param name="str">String to convert to UTF-8 encoding.</param>
+        /// <param name="buffer"></param>
+        /// <returns>Byte length of UTF-8 encoded string, including null-terminator</returns>
         public static int StrToUtf8(string str, ref byte[] buffer) {
-            UTF8Encoding utf8 = new UTF8Encoding();
-            return StrToUtf8(str, utf8, ref buffer);
+            return StrToUtf8(str, (UTF8Encoding)Encoding.UTF8, ref buffer);
         }
 
-        // Converts null-terminated UTF-8 byte string to .NET string .
-        // Will re-allocate buffer if necessary, buffer can be null.
+        /// <summary>
+        /// Converts null-terminated UTF-8 byte string to .NET string .
+        /// Will re-allocate buffer if necessary, buffer can be null.
+        /// </summary>
+        /// <param name="utf8">Pointer to a null-terminated UTF-8 string.</param>
+        /// <param name="buffer">Byte buffer to use for the decoding process.</param>
+        /// <returns>.NET string.</returns>
         public static string Utf8PtrToString(byte* utf8, ref byte[] buffer) {
             int count = PtrToBuffer(utf8, ref buffer);
             if (count > 0)
-                return new UTF8Encoding().GetString(buffer, 0, count);
+                return Encoding.UTF8.GetString(buffer, 0, count);
             else
                 return string.Empty;
         }
 
+        /// <summary>
+        /// Converts null-terminated UTF-8 byte string to .NET string .
+        /// </summary>
+        /// <param name="utf8">Pointer to a null-terminated UTF-8 string.</param>
+        /// <returns>.NET string.</returns>
         public static string Utf8PtrToString(byte* utf8) {
             byte[] buffer = null;
             return Utf8PtrToString(utf8, ref buffer);
@@ -79,7 +106,12 @@ namespace KdSoft.Lmdb.Interop
             return new IntPtr((long)delta.TotalSeconds);
         }
 
-        // writes UInt32 value to byte array at given index, in big-endian byte order
+        /// <summary>
+        /// Writes UInt32 value to byte array at given index, in big-endian byte order.
+        /// </summary>
+        /// <param name="num">UInt32 value to write.</param>
+        /// <param name="bytes">Byte buffer to write the value into.</param>
+        /// <param name="index">Index in byte buffer to start writing at.</param>
         public static void UInt32ToBEBytes(UInt32 num, byte[] bytes, int index) {
             unchecked {
                 bytes[index++] = (byte)(num >> 24);
@@ -89,7 +121,12 @@ namespace KdSoft.Lmdb.Interop
             }
         }
 
-        // reads UInt32 value from byte array at given index, in big-endian byte order
+        /// <summary>
+        /// Reads UInt32 value from byte array at given index, in big-endian byte order.
+        /// </summary>
+        /// <param name="bytes">Byte buffer to read from.</param>
+        /// <param name="index">Index in byte buffer to start reading from.</param>
+        /// <returns>UInt32 value read from byte buffer.</returns>
         public static UInt32 BEBytesToUInt32(byte[] bytes, int index) {
             UInt32 result;
             unchecked {
@@ -100,6 +137,5 @@ namespace KdSoft.Lmdb.Interop
             result |= bytes[index];
             return result;
         }
-
     }
 }

@@ -6,27 +6,50 @@
     public enum DbCursorOp
     {
 #pragma warning disable CA1707 // Identifiers should not contain underscores
-        MDB_FIRST,              /* Position at first key/data item */
-        MDB_FIRST_DUP,          /* Position at first data item of current key. Only for #MDB_DUPSORT */
-        MDB_GET_BOTH,           /* Position at key/data pair. Only for #MDB_DUPSORT */
-        MDB_GET_BOTH_RANGE,     /* position at key, nearest data. Only for #MDB_DUPSORT */
-        MDB_GET_CURRENT,        /* Return key/data at current cursor position */
-        MDB_GET_MULTIPLE,       /* Return key and up to a page of duplicate data items from current cursor position.
-								   Move cursor to prepare for #MDB_NEXT_MULTIPLE. Only for #MDB_DUPFIXED */
-        MDB_LAST,               /* Position at last key/data item */
-        MDB_LAST_DUP,           /* Position at last data item of current key. Only for #MDB_DUPSORT */
-        MDB_NEXT,               /* Position at next data item */
-        MDB_NEXT_DUP,           /* Position at next data item of current key. Only for #MDB_DUPSORT */
-        MDB_NEXT_MULTIPLE,      /* Return key and up to a page of duplicate data items from next cursor position.
-                                   Move cursor to prepare for #MDB_NEXT_MULTIPLE. Only for #MDB_DUPFIXED */
-        MDB_NEXT_NODUP,         /* Position at first data item of next key */
-        MDB_PREV,               /* Position at previous data item */
-        MDB_PREV_DUP,           /* Position at previous data item of current key. Only for #MDB_DUPSORT */
-        MDB_PREV_NODUP,         /* Position at last data item of previous key */
-        MDB_SET,                /* Position at specified key */
-        MDB_SET_KEY,            /* Position at specified key, return key + data */
-        MDB_SET_RANGE,          /* Position at first key greater than or equal to specified key. */
-        MDB_PREV_MULTIPLE       /* Position at previous page and return key and up to a page of duplicate data items. Only for #MDB_DUPFIXED */
+        /// <summary>Position at first key/data item</summary>
+        MDB_FIRST,
+        /// <summary> Position at first data item of current key. Only for <see cref="DbLibConstants.MDB_DUPSORT"/>. </summary>
+        MDB_FIRST_DUP,
+        /// <summary> Position at key/data pair. Only for <see cref="DbLibConstants.MDB_DUPSORT"/>. </summary>
+        MDB_GET_BOTH,
+        /// <summary> position at key, nearest data. Only for <see cref="DbLibConstants.MDB_DUPSORT"/>. </summary>
+        MDB_GET_BOTH_RANGE,
+        /// <summary> Return key/data at current cursor position</summary>
+        MDB_GET_CURRENT,
+        /// <summary>
+        /// Return key and up to a page of duplicate data items from current cursor position.
+        /// Move cursor to prepare for <see cref="MDB_NEXT_MULTIPLE"/>. Only for <see cref="DbLibConstants.MDB_DUPSORT"/>.
+        /// </summary>
+        MDB_GET_MULTIPLE,
+        /// <summary> Position at last key/data item </summary>
+        MDB_LAST,
+        /// <summary> Position at last data item of current key. Only for <see cref="DbLibConstants.MDB_DUPSORT"/>. </summary>
+        MDB_LAST_DUP,
+        /// <summary> Position at next data item </summary>
+        MDB_NEXT,
+        /// <summary> Position at next data item of current key. Only for <see cref="DbLibConstants.MDB_DUPSORT"/>. </summary>
+        MDB_NEXT_DUP,
+        /// <summary>
+        /// Return key and up to a page of duplicate data items from next cursor position.
+        /// Move cursor to prepare for <see cref="MDB_NEXT_MULTIPLE"/>. Only for <see cref="DbLibConstants.MDB_DUPFIXED"/>.
+        /// </summary>
+        MDB_NEXT_MULTIPLE,
+        /// <summary> Position at first data item of next key </summary>
+        MDB_NEXT_NODUP,
+        /// <summary> Position at previous data item </summary>
+        MDB_PREV,
+        /// <summary> Position at previous data item of current key. Only for <see cref="DbLibConstants.MDB_DUPSORT"/>. </summary>
+        MDB_PREV_DUP,
+        /// <summary> Position at last data item of previous key </summary>
+        MDB_PREV_NODUP,
+        /// <summary> Position at specified key </summary>
+        MDB_SET,
+        /// <summary> Position at specified key, return key + data </summary>
+        MDB_SET_KEY,
+        /// <summary> Position at first key greater than or equal to specified key. </summary>
+        MDB_SET_RANGE,
+        /// <summary> Position at previous page and return key and up to a page of duplicate data items. Only for <see cref="DbLibConstants.MDB_DUPFIXED"/>. </summary>
+        MDB_PREV_MULTIPLE
 #pragma warning restore CA1707 // Identifiers should not contain underscores
     }
 }

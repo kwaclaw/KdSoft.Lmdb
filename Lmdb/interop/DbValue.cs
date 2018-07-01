@@ -22,35 +22,61 @@ namespace KdSoft.Lmdb.Interop
         public readonly IntPtr Size;
         public readonly void* Data;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="data">Pointer to value.</param>
+        /// <param name="size">Size of value in bytes.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DbValue(void* data, long size) {
             this.Data = data;
             this.Size = (IntPtr)size;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="data">Pointer to value.</param>
+        /// <param name="size">Size of value in bytes.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DbValue(void* data, int size) {
             this.Data = data;
             this.Size = (IntPtr)size;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="data">Pointer to value.</param>
+        /// <param name="size">Size of value in bytes.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DbValue(void* data, ulong size) {
             this.Data = data;
             this.Size = (IntPtr)size;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="data">Pointer to value.</param>
+        /// <param name="size">Size of value in bytes.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DbValue(void* data, uint size) {
             this.Data = data;
             this.Size = (IntPtr)size;
         }
 
+        /// <summary>
+        /// Converts to <see cref="ReadOnlySpan{byte}"/>.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ReadOnlySpan<byte> ToReadOnlySpan() {
             return new ReadOnlySpan<byte>(Data, unchecked((int)Size));
         }
 
+        /// <summary>
+        /// Converts to <see cref="Span{byte}"/>.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Span<byte> ToSpan() {
             return new Span<byte>(Data, unchecked((int)Size));
