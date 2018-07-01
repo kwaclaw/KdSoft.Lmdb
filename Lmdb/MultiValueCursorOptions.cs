@@ -1,4 +1,6 @@
-﻿namespace KdSoft.Lmdb
+﻿using KdSoft.Lmdb.Interop;
+
+namespace KdSoft.Lmdb
 {
     /// <summary>
     /// Special options for cursor put operation in multi-value databases.

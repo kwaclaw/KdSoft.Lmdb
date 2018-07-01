@@ -1,4 +1,5 @@
 ﻿using System;
+using KdSoft.Lmdb.Interop;
 
 namespace KdSoft.Lmdb
 {

@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace KdSoft.Lmdb
+namespace KdSoft.Lmdb.Interop
 {
     [CLSCompliant(false)]
     [UnmanagedFunctionPointer(Compile.CallConv), SuppressUnmanagedCodeSecurity]

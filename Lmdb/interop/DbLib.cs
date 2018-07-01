@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace KdSoft.Lmdb
+namespace KdSoft.Lmdb.Interop
 {
     /// <summary>Interface to the LMDB library.</summary>
     [SuppressUnmanagedCodeSecurity]

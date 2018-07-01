@@ -1,4 +1,4 @@
-﻿namespace KdSoft.Lmdb
+﻿namespace KdSoft.Lmdb.Interop
 {
     /// <summary>
     /// Cursor operation types.

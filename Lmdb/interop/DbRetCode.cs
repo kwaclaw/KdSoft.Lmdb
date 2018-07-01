@@ -1,4 +1,4 @@
-﻿namespace KdSoft.Lmdb
+﻿namespace KdSoft.Lmdb.Interop
 {
     /// <summary>General LMDB API return code.</summary>
     /// <remarks>Also includes framework specific custom codes such as those returned from a call-back.</remarks>

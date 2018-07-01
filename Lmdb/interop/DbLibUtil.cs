@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace KdSoft.Lmdb
+namespace KdSoft.Lmdb.Interop
 {
     [CLSCompliant(false)]
     public static unsafe class DbLibUtil

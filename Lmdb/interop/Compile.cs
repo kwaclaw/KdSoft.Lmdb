@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace KdSoft.Lmdb
+namespace KdSoft.Lmdb.Interop
 {
     static class Compile
     {
