@@ -225,7 +225,7 @@ namespace KdSoft.Lmdb.Tests.proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public LineItem(LineItem other) : this() {
-      Key = other.key_ != null ? other.Key.Clone() : null;
+      key_ = other.key_ != null ? other.key_.Clone() : null;
       quantity_ = other.quantity_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -389,7 +389,7 @@ namespace KdSoft.Lmdb.Tests.proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Order(Order other) : this() {
       id_ = other.id_;
-      Time = other.time_ != null ? other.Time.Clone() : null;
+      time_ = other.time_ != null ? other.time_.Clone() : null;
       customerId_ = other.customerId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
