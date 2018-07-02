@@ -67,12 +67,15 @@ using (var cursor = Dbase.OpenCursor(tx)) {
     }
 }
 
-// move cursor to key position and get data
+// move cursor to key position and get data forward from that key
 using (var cursor = Dbase.OpenCursor(tx)) {
     var keyBytes = BitConverter.GetBytes(4);
     if (cursor.MoveToKey(keyBytes)) {
         Assert.True(cursor.GetCurrent(out KeyDataPair entry));
         var dataString = Encoding.UTF8.GetString(entry.Data);
+        while (cursor.GetNext(...)) {
+            //
+        }
     }
 }
 ```
