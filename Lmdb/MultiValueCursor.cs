@@ -73,10 +73,6 @@ namespace KdSoft.Lmdb
             return Get(in keyData, out entry, DbCursorOp.MDB_GET_BOTH_RANGE);
         }
 
-        //TODO implement GetMultiple, GetNextMultiple and GetPreviousMultiple (check DbCursorOp)
-        //TODO Maybe implement FixedMultiValueDatabase for GetMultiple and PutMultiple APIs
-        //TODO write tests for GetMultiple and PutMultiple
-
         #endregion
 
         #region Update Operations
@@ -93,40 +89,6 @@ namespace KdSoft.Lmdb
         /// was specified and the key/data pair already exists.</remarks>
         public bool Put(in KeyDataPair entry, MultiValueCursorPutOption option) {
             return PutInternal(in entry, unchecked((uint)option));
-        }
-
-        /// <summary>
-        /// Store multiple contiguous data elements by cursor.
-        /// This is only valid for <see cref="MultiValueDatabase"/> instances opened with <see cref="MultiValueDatabaseOptions.DuplicatesFixed"/>.
-        /// The cursor is positioned at the new item, or on failure usually near it.
-        /// Note: Earlier documentation incorrectly said errors would leave the state of the cursor unchanged.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="data"></param>
-        /// <param name="itemCount">On input, # of items to store, on output, number of items actually stored.</param>
-        /// <returns><c>true</c> if inserted without error, <c>false</c> if <see cref="CursorPutOption.NoOverwrite"/>
-        /// was specified and the key already exists.</returns>
-        public bool PutMultiple(ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, ref int itemCount) {
-            DbRetCode ret;
-            int firstDataSize = data.Length / itemCount;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                unsafe {
-                    var dbMultiData = stackalloc DbValue[2];
-                    fixed (void* keyPtr = &MemoryMarshal.GetReference(key))
-                    fixed (void* firstDataPtr = &MemoryMarshal.GetReference(data)) {
-                        var dbKey = new DbValue(keyPtr, key.Length);
-                        dbMultiData[0] = new DbValue(firstDataPtr, firstDataSize);
-                        dbMultiData[1] = new DbValue(null, itemCount);
-                        ret = DbLib.mdb_cursor_put(handle, ref dbKey, dbMultiData, DbLibConstants.MDB_MULTIPLE);
-                        itemCount = (int)dbMultiData[1].Size;
-                    }
-                }
-            }
-            if (ret == DbRetCode.KEYEXIST)
-                return false;
-            ErrorUtil.CheckRetCode(ret);
-            return true;
         }
 
         /// <summary>
@@ -311,6 +273,5 @@ namespace KdSoft.Lmdb
 #pragma warning restore CA1034 // Nested types should not be visible
 #pragma warning restore CA1815 // Override equals and operator equals on value types
         #endregion
-
     }
 }

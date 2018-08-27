@@ -14,7 +14,7 @@ namespace KdSoft.Lmdb.Tests
             envPath = Path.Combine(TestUtils.ProjectDir, envDirName);
             Directory.CreateDirectory(envPath);
 
-            var config = new EnvironmentConfiguration(10);
+            var config = new EnvironmentConfiguration(10, 10, 1000000000);
             var env = new Environment(config);
             env.Open(envPath, EnvironmentOptions.NoThreadLocalStorage);
 

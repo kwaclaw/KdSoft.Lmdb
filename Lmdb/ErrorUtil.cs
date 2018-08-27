@@ -8,7 +8,7 @@ namespace KdSoft.Lmdb
         // keep in sync with user defined codes in DbRetCode
 #pragma warning disable CA1825 // Avoid zero-length array allocations.
         static string[] dotNetStr = {
-          // "Panic callback failed.",
+           "Item count for PutMultiple exceeds buffer size.",
         };
 #pragma warning restore CA1825 // Avoid zero-length array allocations.
 
@@ -25,6 +25,7 @@ namespace KdSoft.Lmdb
 
         public const DbRetCode MdbLowError = (DbRetCode)(-30800);
         public const DbRetCode DotNetLowError = (DbRetCode)(-41000);
+        public const DbRetCode TooManyFixedItems = DotNetLowError + 1;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void CheckRetCode(DbRetCode ret) {
