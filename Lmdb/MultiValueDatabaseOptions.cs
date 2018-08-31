@@ -10,28 +10,23 @@ namespace KdSoft.Lmdb
     public enum MultiValueDatabaseOptions
     {
         /// <summary>
-        /// No special options. Equivalent to <see cref="DuplicatesSort"/>.
-        /// </summary>
-        None = (int)DbLibConstants.MDB_DUPSORT,
-
-        /// <summary>
-        /// MDB_DUPSORT. Duplicate keys may be used in the database.
+        /// Duplicate keys may be used in the database. Equivalent to <see cref="DbLibConstants.MDB_DUPSORT"/>.
         /// (Or, from another perspective, keys may have multiple data items, stored in sorted order.)
         /// By default keys must be unique and may have only a single data item.
         /// </summary>
-        DuplicatesSort = (int)DbLibConstants.MDB_DUPSORT,
+        None = (int)DbLibConstants.MDB_DUPSORT,
 
         /// <summary>
         /// MDB_DUPFIXED. This flag may only be used in combination with MDB_DUPSORT.
         /// This option tells the library that the data items for this database are all the same size, which allows further optimizations in storage and retrieval.
         /// When all data items are the same size, the MDB_GET_MULTIPLE and MDB_NEXT_MULTIPLE cursor operations may be used to retrieve multiple items at once.
         /// </summary>
-        DuplicatesFixed = (int)DbLibConstants.MDB_DUPFIXED,
+        DuplicatesFixed = None | (int)DbLibConstants.MDB_DUPFIXED,
 
         /// <summary>
         /// MDB_REVERSEDUP. This option specifies that duplicate data items should be compared as strings in reverse order.
         /// </summary>
-        ReverseDuplicates = (int)DbLibConstants.MDB_REVERSEDUP,
+        ReverseDuplicates = None | (int)DbLibConstants.MDB_REVERSEDUP,
     }
 
     /// <summary>

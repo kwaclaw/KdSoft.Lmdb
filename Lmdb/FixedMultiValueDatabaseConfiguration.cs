@@ -25,7 +25,7 @@ namespace KdSoft.Lmdb
             SpanComparison<byte> compare = null,
             MultiValueDatabaseOptions dupOptions = MultiValueDatabaseOptions.None,
             SpanComparison<byte> dupCompare = null
-        ) : base(options, compare, dupOptions & MultiValueDatabaseOptions.DuplicatesFixed, dupCompare) {
+        ) : base(options, compare, dupOptions | MultiValueDatabaseOptions.DuplicatesFixed, dupCompare) {
             this.FixedDataSize = fixedDataSize;
         }
     }
