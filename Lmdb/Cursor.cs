@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using KdSoft.Lmdb.Interop;
@@ -347,6 +348,7 @@ namespace KdSoft.Lmdb
 
         #region Unmanaged Resources
 
+        /// <summary>Resource lock object.</summary>
         protected readonly object rscLock = new object();
 
         volatile IntPtr cur;
@@ -361,15 +363,17 @@ namespace KdSoft.Lmdb
 
         #region IDisposable Support
 
-        public const string disposedStr = "Database handle closed.";
-
+        /// <summary>
+        /// Returns Cursor handle.
+        /// Throws if Cursor handle is already closed/disposed of.
+        /// </summary>
         [CLSCompliant(false)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected IntPtr CheckDisposed() {
             // avoid multiple volatile memory access
             IntPtr result = this.cur;
             if (result == IntPtr.Zero)
-                throw new ObjectDisposedException(disposedStr);
+                throw new ObjectDisposedException(this.GetType().Name);
             return result;
         }
 
@@ -384,10 +388,17 @@ namespace KdSoft.Lmdb
             disposed?.Invoke(this);
         }
 
+        /// <summary>
+        /// Returns if Cursor handle is closed/disposed.
+        /// </summary>
         public bool IsDisposed {
             get { return cur == IntPtr.Zero; }
         }
 
+        /// <summary>
+        /// Implementation of Dispose() pattern.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> if explicity disposing (finalizer not run), <c>false</c> if disposed from finalizer.</param>
         protected virtual void Dispose(bool disposing) {
             lock (rscLock) {
                 if (cur == IntPtr.Zero)  // already disposed
@@ -405,6 +416,9 @@ namespace KdSoft.Lmdb
             }
         }
 
+        /// <summary>
+        /// Finalizer. Releases unmanaged resources.
+        /// </summary>
         ~Cursor() {
             Dispose(false);
         }
@@ -455,12 +469,12 @@ namespace KdSoft.Lmdb
 #pragma warning disable CA1815 // Override equals and operator equals on value types
 #pragma warning disable CA1034 // Nested types should not be visible
 
-        public delegate bool GetItem(out KeyDataPair item);
+        internal delegate bool GetItem(out KeyDataPair item);
 
         /// <summary>
         /// Implements the Enumerable pattern for use with foreach loops when the items to be iterated over
         /// can only live on the stack. This works because the foreach loop does not require an explicit
-        /// implementaion of the <see cref="System.Collections.IEnumerable"/> interface.
+        /// implementaion of the <see cref="IEnumerable"/> interface.
         /// </summary>
         /// <remarks><a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.ienumerable#remarks">
         /// See Remarks in the <c>IEnumerable</c> documentation.
@@ -480,6 +494,7 @@ namespace KdSoft.Lmdb
             bool GetFirstItem(out KeyDataPair item) => cursor.Get(out item, opFirst);
             bool GetNextItem(out KeyDataPair item) => cursor.Get(out item, opNext);
 
+            /// <summary>Equivalent to <see cref="IEnumerable.GetEnumerator()"/>.</summary>
             public ItemsEnumerator GetEnumerator() => new ItemsEnumerator(GetFirstItem, GetNextItem);
         }
 
@@ -501,6 +516,7 @@ namespace KdSoft.Lmdb
                 this.nextOp = nextOp;
             }
 
+            /// <summary>Equivalent to <see cref="IEnumerable.GetEnumerator()"/>.</summary>
             public NextItemsEnumerator GetEnumerator() => new NextItemsEnumerator(cursor, nextOp);
         }
 
@@ -528,6 +544,7 @@ namespace KdSoft.Lmdb
                 this.isInitialized = false;
             }
 
+            /// <summary>Equivalent to <see cref="IEnumerator.Current"/>.</summary>
             public KeyDataPair Current {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get {
@@ -538,6 +555,7 @@ namespace KdSoft.Lmdb
                 }
             }
 
+            /// <summary>Equivalent to <see cref="IEnumerator.MoveNext()"/>.</summary>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool MoveNext() {
                 if (isInitialized)
@@ -571,6 +589,7 @@ namespace KdSoft.Lmdb
                 this.isCurrent = false;
             }
 
+            /// <summary>Equivalent to <see cref="IEnumerator.Current"/>.</summary>
             public KeyDataPair Current {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get {
@@ -581,6 +600,7 @@ namespace KdSoft.Lmdb
                 }
             }
 
+            /// <summary>Equivalent to <see cref="IEnumerator.MoveNext()"/>.</summary>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool MoveNext() {
                 return isCurrent = cursor.Get(out current, nextOp);

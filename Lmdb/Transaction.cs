@@ -132,7 +132,6 @@ namespace KdSoft.Lmdb
         /// Returns Transaction handle.
         /// Throws if Transaction handle is already closed/disposed of.
         /// </summary>
-        /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected IntPtr CheckDisposed() {
             // avoid multiple volatile memory access
@@ -210,7 +209,7 @@ namespace KdSoft.Lmdb
         }
 
         /// <summary>
-        /// Finalizer. Releaases unmanaged resources.
+        /// Finalizer. Releases unmanaged resources.
         /// </summary>
         ~Transaction() {
             Dispose(false);

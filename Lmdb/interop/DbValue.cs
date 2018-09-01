@@ -7,7 +7,7 @@ using System.Security;
 namespace KdSoft.Lmdb.Interop
 {
     /// <summary>
-    /// Definition of comparison delegate that wraps native compare function pointer.
+    /// Defines wrapper siganture for managed comparison functions that can be called from native code.
     /// </summary>
     /// <param name="x">Left <see cref="DbValue"/> to use in comparison.</param>
     /// <param name="y">Right <see cref="DbValue"/> to use in comparison.</param>
@@ -76,7 +76,7 @@ namespace KdSoft.Lmdb.Interop
         }
 
         /// <summary>
-        /// Converts to <see cref="ReadOnlySpan{byte}"/>.
+        /// Converts to <see cref="ReadOnlySpan{T}">ReadOnlySpan&lt;byte></see>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ReadOnlySpan<byte> ToReadOnlySpan() {
@@ -84,7 +84,7 @@ namespace KdSoft.Lmdb.Interop
         }
 
         /// <summary>
-        /// Converts to <see cref="Span{byte}"/>.
+        /// Converts to <see cref="Span{T}">Span&lt;byte></see>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Span<byte> ToSpan() {

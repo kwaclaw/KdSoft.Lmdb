@@ -11,16 +11,23 @@ namespace KdSoft.Lmdb
     {
         readonly DbRetCode errorCode;
 
+        /// <summary>Constructor.</summary>
         public LmdbException() { }
 
+        /// <summary>Constructor.</summary>
         public LmdbException(string message) : base(message) { }
 
+        /// <summary>Constructor.</summary>
         public LmdbException(string message, Exception e) : base(message, e) { }
 
+        /// <summary>Constructor.</summary>
+        /// <param name="errorCode">Native error code.</param>
         public LmdbException(DbRetCode errorCode) {
             this.errorCode = errorCode;
         }
 
+        /// <summary>Constructor.</summary>
+        /// <param name="errorCode">Native error code.</param>
         public LmdbException(DbRetCode errorCode, string message) : base(message) {
             this.errorCode = errorCode;
         }

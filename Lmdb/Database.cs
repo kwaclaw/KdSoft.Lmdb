@@ -6,6 +6,12 @@ using KdSoft.Lmdb.Interop;
 
 namespace KdSoft.Lmdb
 {
+    /// <summary>Delegate type for compare functions.</summary>
+    /// <typeparam name="T">Type of <see cref="Span{T}"/> items.</typeparam>
+    /// <param name="x">Left item to use for comparison.</param>
+    /// <param name="y">Right item to use for comparison.</param>
+    /// <returns><c>0</c> if items are equal, <c>&lt; 0</c> if left item is less, and <c>&gt; 0</c>
+    /// if left item is greater then the right item.</returns>
     public delegate int SpanComparison<T>(in ReadOnlySpan<T> x, in ReadOnlySpan<T> y);
 
     /// <summary>
@@ -13,7 +19,10 @@ namespace KdSoft.Lmdb
     /// </summary>
     public class Database: IDisposable
     {
+        /// <summary>Database name.</summary>
         public string Name { get; }
+
+        /// <summary>Database configuration.</summary>
         public DatabaseConfiguration Config { get; }
 
         internal Database(uint dbi, IntPtr env, string name, Action<Database> disposed, DatabaseConfiguration config) {
@@ -30,6 +39,7 @@ namespace KdSoft.Lmdb
             set => disposed = value;
         }
 
+        /// <summary>Environment the database was created in.</summary>
         public Environment Environment {
             get {
                 lock (rscLock) {
@@ -133,8 +143,9 @@ namespace KdSoft.Lmdb
         /// and may not modify it in any way. For values returned in a read-only transaction any modification attempts will cause a SIGSEGV.
         /// Values returned from the database are valid only until a subsequent update operation, or the end of the transaction.
         /// </summary>
-        /// <param name="transaction"></param>
-        /// <param name="key"></param>
+        /// <param name="transaction">Transaction under which the Get operation is performed.</param>
+        /// <param name="key">Key to specify which data item / record to retrieve.</param>
+        /// <param name="data">Data / record to be returned.</param>
         /// <returns><c>true</c> if data for key retrieved without error, <c>false</c> if key does not exist.</returns>
         public bool Get(Transaction transaction, ReadOnlySpan<byte> key, out ReadOnlySpan<byte> data) {
             DbRetCode ret;
@@ -270,6 +281,7 @@ namespace KdSoft.Lmdb
 
         #region Unmanaged Resources
 
+        /// <summary>Resource lock object.</summary>
         protected readonly object rscLock = new object();
 
         readonly IntPtr env;
@@ -286,15 +298,17 @@ namespace KdSoft.Lmdb
 
         #region IDisposable Support
 
-        public const string disposedStr = "Database handle closed.";
-
+        /// <summary>
+        /// Returns Database handle.
+        /// Throws if Database handle is already closed/disposed of.
+        /// </summary>
         [CLSCompliant(false)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected uint CheckDisposed() {
             // avoid multiple volatile memory access
             uint result = this.dbi;
             if (result == 0)
-                throw new ObjectDisposedException(disposedStr);
+                throw new ObjectDisposedException($"{GetType().Name} '{Name}'");
             return result;
         }
 
@@ -309,10 +323,17 @@ namespace KdSoft.Lmdb
             disposed?.Invoke(this);
         }
 
+        /// <summary>
+        /// Returns if Database handle is closed/disposed.
+        /// </summary>
         public bool IsDisposed {
             get { return dbi == 0; }
         }
 
+        /// <summary>
+        /// Implementation of Dispose() pattern.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> if explicity disposing (finalizer not run), <c>false</c> if disposed from finalizer.</param>
         protected virtual void Dispose(bool disposing) {
             lock (rscLock) {
                 if (dbi == 0)  // already disposed
@@ -331,6 +352,9 @@ namespace KdSoft.Lmdb
             }
         }
 
+        /// <summary>
+        /// Finalizer. Releases unmanaged resources.
+        /// </summary>
         ~Database() {
             Dispose(false);
         }

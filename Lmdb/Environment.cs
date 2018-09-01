@@ -10,10 +10,15 @@ namespace KdSoft.Lmdb
 {
     public delegate void AssertFunction(Environment env, string msg);
 
+    /// <summary>
+    /// LMDB environment.
+    /// </summary>
     public class Environment: CriticalFinalizerObject, IDisposable
     {
         readonly bool autoReduceMapSizeIn32BitProcess;
 
+        /// <summary>Constructor.</summary>
+        /// <param name="config">Configuration to use.</param>
         public Environment(EnvironmentConfiguration config = null) {
             // so that we can refer back to the Environment instance
             instanceHandle = GCHandle.Alloc(this, GCHandleType.WeakTrackResurrection);
@@ -234,6 +239,7 @@ namespace KdSoft.Lmdb
         readonly ConcurrentDictionary<IntPtr, Transaction> transactions = new ConcurrentDictionary<IntPtr, Transaction>();
         readonly Dictionary<string, Database> databases = new Dictionary<string, Database>(StringComparer.OrdinalIgnoreCase);
 
+        /// <summary>Returns database by name.</summary>
         public Database this[string name] {
             get {
                 lock (dbTxnLock) {
@@ -242,6 +248,7 @@ namespace KdSoft.Lmdb
             }
         }
 
+        /// <summary>Enumerates databases in the environment.</summary>
         public IEnumerable<Database> Databases {
             get {
                 lock (dbTxnLock) {
@@ -367,14 +374,16 @@ namespace KdSoft.Lmdb
 
         #region IDisposable Support
 
-        public const string disposedStr = "Environment handle closed.";
-
+        /// <summary>
+        /// Returns Environment handle.
+        /// Throws if Environment handle is already closed/disposed of.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected IntPtr CheckDisposed() {
             // avoid multiple volatile memory access
             IntPtr result = this.env;
             if (result == IntPtr.Zero)
-                throw new ObjectDisposedException(disposedStr);
+                throw new ObjectDisposedException(GetType().Name);
             return result;
         }
 
@@ -382,10 +391,17 @@ namespace KdSoft.Lmdb
             env = IntPtr.Zero;
         }
 
+        /// <summary>
+        /// Returns if Environment handle is closed/disposed.
+        /// </summary>
         public bool IsDisposed {
             get { return env == IntPtr.Zero; }
         }
 
+        /// <summary>
+        /// Implementation of Dispose() pattern.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> if explicity disposing (finalizer not run), <c>false</c> if disposed from finalizer.</param>
         protected virtual void Dispose(bool disposing) {
             lock (rscLock) {
                 if (env == IntPtr.Zero)  // already disposed
@@ -424,6 +440,9 @@ namespace KdSoft.Lmdb
             }
         }
 
+        /// <summary>
+        /// Finalizer. Releases unmanaged resources.
+        /// </summary>
         ~Environment() {
             Dispose(false);
         }

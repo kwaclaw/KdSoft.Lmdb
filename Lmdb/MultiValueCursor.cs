@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using KdSoft.Lmdb.Interop;
 
 namespace KdSoft.Lmdb
@@ -173,6 +173,11 @@ namespace KdSoft.Lmdb
 #pragma warning disable CA1815 // Override equals and operator equals on value types
 #pragma warning disable CA1034 // Nested types should not be visible
 
+        /// <summary>
+        /// Iterator class that iterates over all values in a key.
+        /// Equivalent to, but not an implementation of, <see cref="IEnumerable"/>.
+        /// Can be used in foreach statements as if it was an implementation of <see cref="IEnumerable"/>.
+        /// </summary>
         public struct ValuesIterator
         {
             readonly MultiValueCursor cursor;
@@ -185,9 +190,15 @@ namespace KdSoft.Lmdb
                 this.opNext = opNext;
             }
 
+            /// <summary>Equivalent to <see cref="IEnumerable.GetEnumerator()"/>.</summary>
             public ValuesEnumerator GetEnumerator() => new ValuesEnumerator(cursor, opFirst, opNext);
         }
 
+        /// <summary>
+        /// Iterator class that iterates over the values forward from the current duplicate position.
+        /// Equivalent to, but not an implementation of, <see cref="IEnumerable"/>.
+        /// Can be used in foreach statements as if it was an implementation of <see cref="IEnumerable"/>.
+        /// </summary>
         public struct ValuesNextIterator
         {
             readonly MultiValueCursor cursor;
@@ -198,9 +209,15 @@ namespace KdSoft.Lmdb
                 this.opNext = opNext;
             }
 
+            /// <summary>Equivalent to <see cref="IEnumerable.GetEnumerator()"/>.</summary>
             public ValuesNextEnumerator GetEnumerator() => new ValuesNextEnumerator(cursor, opNext);
         }
 
+        /// <summary>
+        /// Enumerator class that iterates over all values in a key. See <see cref="ValuesIterator"/>.
+        /// Equivalent to, but not an implementation of, <see cref="IEnumerator"/>.
+        /// Will be be used in foreach statements as if it was an implementation of <see cref="IEnumerator"/>.
+        /// </summary>
         public ref struct ValuesEnumerator
         {
             readonly MultiValueCursor cursor;
@@ -219,6 +236,7 @@ namespace KdSoft.Lmdb
                 this.isInitialized = false;
             }
 
+            /// <summary>Equivalent to <see cref="IEnumerator.Current"/>.</summary>
             public ReadOnlySpan<byte> Current {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get {
@@ -229,6 +247,7 @@ namespace KdSoft.Lmdb
                 }
             }
 
+            /// <summary>Equivalent to <see cref="IEnumerator.MoveNext()"/>.</summary>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool MoveNext() {
                 if (isInitialized)
@@ -240,6 +259,11 @@ namespace KdSoft.Lmdb
             }
         }
 
+        /// <summary>
+        /// Enumerator class that iterates over the values forward from the current duplicate position.
+        /// See <see cref="ValuesNextIterator"/>. Equivalent to, but not an implementation of, <see cref="IEnumerator"/>.
+        /// Will be be used in foreach statements as if it was an implementation of <see cref="IEnumerator"/>.
+        /// </summary>
         public ref struct ValuesNextEnumerator
         {
             readonly MultiValueCursor cursor;
@@ -254,6 +278,7 @@ namespace KdSoft.Lmdb
                 this.isCurrent = false;
             }
 
+            /// <summary>Equivalent to <see cref="IEnumerator.Current"/>.</summary>
             public ReadOnlySpan<byte> Current {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get {
@@ -264,6 +289,7 @@ namespace KdSoft.Lmdb
                 }
             }
 
+            /// <summary>Equivalent to <see cref="IEnumerator.MoveNext()"/>.</summary>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool MoveNext() {
                 return isCurrent = cursor.GetData(out current, opNext);

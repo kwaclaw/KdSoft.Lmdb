@@ -19,6 +19,7 @@ namespace KdSoft.Lmdb
         /// </summary>
         public SpanComparison<byte> DupCompare { get; }
 
+        /// <summary>Wraps managed data compare function to be called from native code.</summary>
         [CLSCompliant(false)]
         internal protected DbLibCompareFunction LibDupCompare { get; protected set; }
 

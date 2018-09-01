@@ -10,27 +10,39 @@ namespace KdSoft.Lmdb
     public readonly ref struct KeyDataPair  // bogus warninsg: ref structs cannot implement interfaces!
 #pragma warning restore CA1066 // Type {0} should implement IEquatable<T> because it overrides Equals
     {
+        /// <summary>Key bytes.</summary>
         public ReadOnlySpan<byte> Key { get; }
+
+
+        /// <summary>Data bytes.</summary>
         public ReadOnlySpan<byte> Data { get; }
 
+        /// <summary>Constructor.</summary>
+        /// <param name="key">Key bytes.</param>
+        /// <param name="data">Data bytes.</param>
         public KeyDataPair(ReadOnlySpan<byte> key, ReadOnlySpan<byte> data) {
             this.Key = key;
             this.Data = data;
         }
 
+        /// <summary>Constructor with empty data.</summary>
+        /// <param name="key">Key bytes.</param>
         public KeyDataPair(ReadOnlySpan<byte> key) {
             this.Key = key;
             this.Data = default(ReadOnlySpan<byte>);
         }
 
+        /// <summary>Equality comparison.</summary>
         public static bool Equals(KeyDataPair x, KeyDataPair y) {
             return x.Key == y.Key && x.Data == y.Data;
         }
 
+        /// <summary>Equality operator.</summary>
         public static bool operator ==(KeyDataPair left, KeyDataPair right) {
             return Equals(left, right);
         }
 
+        /// <summary>Inequality operator.</summary>
         public static bool operator !=(KeyDataPair left, KeyDataPair right) {
             return !(left == right);
         }
