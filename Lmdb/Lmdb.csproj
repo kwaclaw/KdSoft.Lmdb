@@ -7,7 +7,7 @@
     <AssemblyName>KdSoft.Lmdb</AssemblyName>
     <RootNamespace>KdSoft.Lmdb</RootNamespace>
     <VersionPrefix>1.0.0</VersionPrefix>
-    <VersionSuffix>beta1</VersionSuffix>
+    <VersionSuffix>beta-$(DateStamp)</VersionSuffix>
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
   </PropertyGroup>
   
