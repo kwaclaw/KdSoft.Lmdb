@@ -18,7 +18,7 @@
         MDB_GET_CURRENT,
         /// <summary>
         /// Return up to a page of duplicate data items from current cursor position.
-        /// Move cursor to prepare for <see cref="DbLibConstants.MDB_NEXT_MULTIPLE"/>.
+        /// Move cursor to prepare for <see cref="MDB_NEXT_MULTIPLE"/>.
         /// Only for <see cref="DbLibConstants.MDB_DUPFIXED"/>.
         /// </summary>
         MDB_GET_MULTIPLE,
@@ -32,7 +32,7 @@
         MDB_NEXT_DUP,
         /// <summary>
         /// Return up to a page of duplicate data items from next cursor position.
-        /// Move cursor to prepare for <see cref="DbLibConstants.MDB_NEXT_MULTIPLE"/>.
+        /// Move cursor to prepare for <see cref="MDB_NEXT_MULTIPLE"/>.
         /// Only for <see cref="DbLibConstants.MDB_DUPFIXED"/>.
         /// </summary>
         MDB_NEXT_MULTIPLE,

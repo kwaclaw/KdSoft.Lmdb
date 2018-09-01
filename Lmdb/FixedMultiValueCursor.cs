@@ -22,7 +22,7 @@ namespace KdSoft.Lmdb
 
         /// <summary>
         /// Return up to a page of duplicate data items from current cursor position.
-        /// Move cursor to prepare for <see cref="DbLibConstants.MDB_NEXT_MULTIPLE"/>.
+        /// Move cursor to prepare for <see cref="DbCursorOp.MDB_NEXT_MULTIPLE"/>.
         /// Only for <see cref="DbLibConstants.MDB_DUPFIXED"/>.
         /// </summary>
         /// <param name="data"></param>
@@ -33,7 +33,7 @@ namespace KdSoft.Lmdb
 
         /// <summary>
         /// Return up to a page of duplicate data items from next cursor position.
-        /// Move cursor to prepare for <see cref="DbLibConstants.MDB_NEXT_MULTIPLE"/>.
+        /// Move cursor to prepare for <see cref="DbCursorOp.MDB_NEXT_MULTIPLE"/>.
         /// Only for <see cref="DbLibConstants.MDB_DUPFIXED"/>.
         /// </summary>
         /// <param name="data"></param>
