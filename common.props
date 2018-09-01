@@ -8,6 +8,7 @@
     <Authors>Karl Waclawek</Authors>
     <Product>KD Soft Lmdb for .NET</Product>
     <Company>KD Soft</Company>
+    <Description>A zero-copy .NET wrapper for LMDB.</Description>
   </PropertyGroup>
   
   <PropertyGroup>

@@ -1,6 +1,6 @@
 ## KdSoft.Lmdb
 
-A .NET wrapper for  OpenLDAP's [LMDB](https://github.com/LMDB/lmdb) key-value store. It introduces the use of the `Span<byte>` type for interacting with the native LMDB library to reduce the need for copying byte buffers between native and managed scope.
+A .NET wrapper for  OpenLDAP's [LMDB](https://github.com/LMDB/lmdb) key-value store. It introduces the use of the `Span<byte>` type for interacting with the native LMDB library in order to reduce the need for copying byte buffers between native and managed scope.
 
 The native C-API is exposed in a .NET typical way, so its use should be familiar to .NET developers.
 
