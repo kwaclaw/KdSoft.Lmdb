@@ -6,6 +6,12 @@ using System.Security;
 
 namespace KdSoft.Lmdb.Interop
 {
+    /// <summary>
+    /// Definition of comparison delegate that wraps native compare function pointer.
+    /// </summary>
+    /// <param name="x">Left <see cref="DbValue"/> to use in comparison.</param>
+    /// <param name="y">Right <see cref="DbValue"/> to use in comparison.</param>
+    /// <returns></returns>
     [CLSCompliant(false)]
     [UnmanagedFunctionPointer(Compile.CallConv), SuppressUnmanagedCodeSecurity]
     public delegate int DbLibCompareFunction(in DbValue x, in DbValue y);
@@ -19,7 +25,10 @@ namespace KdSoft.Lmdb.Interop
     public unsafe readonly ref struct DbValue  // bogus warning: ref structs cannot implement interfaces!
 #pragma warning restore CA1066 // Type {0} should implement IEquatable<T> because it overrides Equals
     {
+        /// <summary>Data size in bytes.</summary>
         public readonly IntPtr Size;
+
+        /// <summary>Native data pointer</summary>
         public readonly void* Data;
 
         /// <summary>
@@ -82,14 +91,17 @@ namespace KdSoft.Lmdb.Interop
             return new Span<byte>(Data, unchecked((int)Size));
         }
 
+        /// <summary>Equality comparison.</summary>
         public static bool Equals(DbValue x, DbValue y) {
             return x.Data == y.Data && x.Size == y.Size;
         }
 
+        /// <summary>Equality operator.</summary>
         public static bool operator ==(DbValue left, DbValue right) {
             return Equals(left, right);
         }
 
+        /// <summary>Inequality operator.</summary>
         public static bool operator !=(DbValue left, DbValue right) {
             return !(left == right);
         }

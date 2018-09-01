@@ -5,7 +5,8 @@ using KdSoft.Lmdb.Interop;
 namespace KdSoft.Lmdb
 {
     /// <summary>
-    /// Transaction that allows creation/opening of databases. Only one of these can be active at a time.
+    /// LMDB Transaction that allows creating or opening databases.
+    /// Only one of these can be active in the environment at a time.
     /// </summary>
     public class DatabaseTransaction: Transaction
     {
@@ -114,7 +115,7 @@ namespace KdSoft.Lmdb
         }
 
         /// <summary>
-        /// Open a fixed multi-value database in the environment.
+        /// Open a fixed multi-value database in the environment. Each value must have the same size.
         /// A database handle denotes the name and parameters of a database, independently of whether such a database exists.
         /// The database handle may be discarded by calling mdb_dbi_close().
         /// The old database handle is returned if the database was already open.
@@ -156,7 +157,7 @@ namespace KdSoft.Lmdb
             }
         }
 
-        // part of Commit()
+        /// <inheritdoc/>
         protected override void Committed() {
             base.Committed();
             lock (dbLock) {
@@ -169,7 +170,7 @@ namespace KdSoft.Lmdb
 
         }
 
-        // part of Dispose() / Abort()
+        /// <inheritdoc/>
         protected override void ReleaseManagedResources(bool forCommit = false) {
             base.ReleaseManagedResources(forCommit);
             if (!forCommit) {
@@ -180,7 +181,7 @@ namespace KdSoft.Lmdb
             }
         }
 
-        // part of Dispose() / Abort()
+        /// <inheritdoc/>
         protected override void Cleanup() {
             base.Cleanup();
             lock (dbLock) {

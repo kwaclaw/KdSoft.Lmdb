@@ -25,6 +25,7 @@ namespace KdSoft.Lmdb
             this.errorCode = errorCode;
         }
 
+        /// <summary>Native error code.</summary>
         public DbRetCode ErrorCode {
             get { return errorCode; }
         }

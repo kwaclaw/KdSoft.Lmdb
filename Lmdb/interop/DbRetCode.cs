@@ -1,6 +1,6 @@
 ﻿namespace KdSoft.Lmdb.Interop
 {
-    /// <summary>General LMDB API return code.</summary>
+    /// <summary>General native LMDB API return codes.</summary>
     /// <remarks>Also includes framework specific custom codes such as those returned from a call-back.</remarks>
     public enum DbRetCode
     {

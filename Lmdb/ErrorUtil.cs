@@ -3,6 +3,9 @@ using KdSoft.Lmdb.Interop;
 
 namespace KdSoft.Lmdb
 {
+    /// <summary>
+    /// Helpers for native error handling.
+    /// </summary>
     public static class ErrorUtil
     {
         // keep in sync with user defined codes in DbRetCode

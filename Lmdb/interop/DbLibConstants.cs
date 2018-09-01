@@ -2,6 +2,9 @@
 
 namespace KdSoft.Lmdb.Interop
 {
+    /// <summary>
+    /// Native constants.
+    /// </summary>
     [CLSCompliant(false)]
     public static class DbLibConstants
     {

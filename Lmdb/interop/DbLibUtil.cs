@@ -4,6 +4,9 @@ using System.Text;
 
 namespace KdSoft.Lmdb.Interop
 {
+    /// <summary>
+    /// Helpers for native interop.
+    /// </summary>
     [CLSCompliant(false)]
     public static unsafe class DbLibUtil
     {

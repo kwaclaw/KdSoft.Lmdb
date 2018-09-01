@@ -6,21 +6,36 @@ using KdSoft.Lmdb.Interop;
 
 namespace KdSoft.Lmdb
 {
+    /// <summary>
+    /// LMDB Transaction.
+    /// </summary>
     public class Transaction: IDisposable
     {
         readonly Transaction parent;
         readonly Action<IntPtr> disposed;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="txn">Native transaction handle.</param>
+        /// <param name="parent">Parent transaction. Can be <c>null</c>.</param>
+        /// <param name="disposed">Callback when transaction gets disposed.</param>
         internal protected Transaction(IntPtr txn, Transaction parent, Action<IntPtr> disposed) {
             this.txn = txn;
             this.parent = parent;
             this.disposed = disposed;
         }
 
+        /// <summary>
+        /// Parent transaction.
+        /// </summary>
         public Transaction Parent => this.parent;
 
         #region Unmanaged Resources
 
+        /// <summary>
+        /// Resource lock object.
+        /// </summary>
         protected readonly object rscLock = new object();
 
         // access to properly aligned types of size "native int" is atomic!
@@ -34,6 +49,9 @@ namespace KdSoft.Lmdb
 
         #endregion
 
+        /// <summary>
+        /// Environment that owns the transaction.
+        /// </summary>
         public Environment Environment {
             get {
                 lock (rscLock) {
@@ -45,6 +63,9 @@ namespace KdSoft.Lmdb
             }
         }
 
+        /// <summary>
+        /// Transaction Id.
+        /// </summary>
         public IntPtr Id {
             get {
                 lock (rscLock) {
@@ -63,6 +84,10 @@ namespace KdSoft.Lmdb
             Dispose();
         }
 
+        /// <summary>
+        /// Called at end of commit, while still under a resource lock.
+        /// At this point the transaction is already closed/disposed.
+        /// </summary>
         protected virtual void Committed() { }
 
         /// <summary>
@@ -103,6 +128,11 @@ namespace KdSoft.Lmdb
 
         #region IDisposable Support
 
+        /// <summary>
+        /// Returns Transaction handle.
+        /// Throws if Transaction handle is already closed/disposed of.
+        /// </summary>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected IntPtr CheckDisposed() {
             // avoid multiple volatile memory access
@@ -119,10 +149,18 @@ namespace KdSoft.Lmdb
             disposed?.Invoke(txnId);
         }
 
+        /// <summary>
+        /// Returns if Transaction handle is closed/disposed.
+        /// </summary>
         public bool IsDisposed {
             get { return txn == IntPtr.Zero; }
         }
 
+        /// <summary>
+        /// Releases/closes managed resources - like cursors - owned by the transaction. Thread-safe.
+        /// Part of Dispose() pattern.
+        /// </summary>
+        /// <param name="forCommit"><c>true</c> if transaction is closed/disposed due to a commit, <c>false</c> otherwise.</param>
         protected virtual void ReleaseManagedResources(bool forCommit = false) {
             // cursors must not be used after the owning transaction gets disposed
             lock (cursorLock) {
@@ -137,12 +175,19 @@ namespace KdSoft.Lmdb
             }
         }
 
+        /// <summary>
+        /// Thread-safe cleanup of cursor references.
+        /// </summary>
         protected virtual void Cleanup() {
             lock (cursorLock) {
                 cursors.Clear();
             }
         }
 
+        /// <summary>
+        /// Implementation of Dispose() pattern.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> if explicity disposing (finalizer not run), <c>false</c> if disposed from finalizer.</param>
         protected virtual void Dispose(bool disposing) {
             lock (rscLock) {
                 if (txn == IntPtr.Zero)  // already disposed
@@ -164,6 +209,9 @@ namespace KdSoft.Lmdb
             }
         }
 
+        /// <summary>
+        /// Finalizer. Releaases unmanaged resources.
+        /// </summary>
         ~Transaction() {
             Dispose(false);
         }

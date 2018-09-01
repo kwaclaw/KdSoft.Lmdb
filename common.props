@@ -1,0 +1,23 @@
+<Project>
+
+  <PropertyGroup>
+    <Copyright>Copyright © Karl Waclawek 2018</Copyright>
+    <PackageLicenseUrl>https://github.com/kwaclaw/KdSoft.Lmdb/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/kwaclaw/KdSoft.Lmdb</PackageProjectUrl>
+
+    <Authors>Karl Waclawek</Authors>
+    <Product>KD Soft Lmdb for .NET</Product>
+    <Company>KD Soft</Company>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\Solution.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Datestamp>$([System.DateTime]::Now.ToString("yyyy-MM-dd"))</Datestamp>
+    <Timestamp>$([System.DateTime]::Now.ToString("yyyy-MM-ddTHHmm"))</Timestamp>
+  </PropertyGroup>
+
+</Project>
