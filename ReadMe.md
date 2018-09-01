@@ -118,7 +118,7 @@ The unit tests have more examples, especially for cursor operations.
 
 ## Motivation
 
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+Provide a .NET/C# friendly API and add support for zero-copy access to the native library.
 
 ## Installation
 
