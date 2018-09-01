@@ -150,11 +150,3 @@ The native API is documented here: http://www.lmdb.tech/doc/ .
 
 On non-Windows platforms, LMDB must already be installed so that it can be looked up
 by DLLImport using the platform-typical name.
-
-## Contributors
-
-Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable.
-
-## License
-
-A short snippet describing the license (MIT, Apache, etc.)
