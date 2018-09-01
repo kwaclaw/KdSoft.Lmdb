@@ -37,7 +37,8 @@ namespace KdSoft.Lmdb
         public Environment Environment {
             get {
                 lock (rscLock) {
-                    var env = DbLib.mdb_txn_env(txn);
+                    var handle = CheckDisposed();
+                    var env = DbLib.mdb_txn_env(handle);
                     var gcHandle = (GCHandle)DbLib.mdb_env_get_userctx(env);
                     return (Environment)gcHandle.Target;
                 }
@@ -102,14 +103,12 @@ namespace KdSoft.Lmdb
 
         #region IDisposable Support
 
-        public const string disposedStr = "Transaction handle closed.";
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected IntPtr CheckDisposed() {
             // avoid multiple volatile memory access
             IntPtr result = this.txn;
             if (result == IntPtr.Zero)
-                throw new ObjectDisposedException(disposedStr);
+                throw new ObjectDisposedException(this.GetType().Name);
             return result;
         }
 
