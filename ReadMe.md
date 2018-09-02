@@ -6,7 +6,7 @@ Cursor iteration (even with foreach) is allocation free.
 
 The native C-API is exposed in a .NET typical way, so its use should be familiar to .NET developers.
 
-It requires the .NET Core SDK 2.1 (or later) installed.
+It requires the .NET Core SDK 2.1 (or later) installed. There are no third-party dependencies.
 
 ## Code Example
 
