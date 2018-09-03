@@ -10,9 +10,11 @@ namespace KdSoft.Lmdb
 {
     public delegate void AssertFunction(Environment env, string msg);
 
-    /// <summary>
-    /// LMDB environment.
-    /// </summary>
+    /// <summary>LMDB environment.</summary>
+    /// <remarks>
+    /// We make Environment the only <see cref="CriticalFinalizerObject"/> because it can
+    /// clean up all resources it owns (databases, transactions, cursors) in its finalizer.
+    /// </remarks>
     public class Environment: CriticalFinalizerObject, IDisposable
     {
         readonly bool autoReduceMapSizeIn32BitProcess;
@@ -54,6 +56,10 @@ namespace KdSoft.Lmdb
 
         #region Helpers
 
+        /// <summary>
+        /// Helper method to run a native library function with disposed checking and exception processing.
+        /// </summary>
+        /// <param name="libFunc">Native function delegate that does not return a result.</param>
         [CLSCompliant(false)]
         protected void RunChecked(Func<IntPtr, DbRetCode> libFunc) {
             DbRetCode ret;
@@ -64,9 +70,23 @@ namespace KdSoft.Lmdb
             ErrorUtil.CheckRetCode(ret);
         }
 
+        /// <summary>
+        /// Helper delegate for calling library functions with a common signature.
+        /// </summary>
+        /// <typeparam name="T">Result type.</typeparam>
+        /// <typeparam name="R">Return code type.</typeparam>
+        /// <param name="handle">Native handle to pass to the library function.</param>
+        /// <param name="result">Result returned from the library function call.</param>
+        /// <returns>Code returned by the native liv=brary function call.</returns>
         [CLSCompliant(false)]
         protected delegate R LibFunc<T, out R>(IntPtr handle, out T result);
 
+        /// <summary>
+        /// Helper method to run a native library function with disposed checking and exception processing.
+        /// </summary>
+        /// <typeparam name="T">Result type returned by native function.</typeparam>
+        /// <param name="libFunc">Native function delegate that resturns a result.</param>
+        /// <returns>Result returned from the native library function call.</returns>
         [CLSCompliant(false)]
         protected T GetChecked<T>(LibFunc<T, DbRetCode> libFunc) {
             DbRetCode ret;
@@ -361,6 +381,10 @@ namespace KdSoft.Lmdb
 
         internal IntPtr Handle => env;
 
+        /// <summary>
+        /// Releasaes the environment handle. All transactions, databases, and cursors must already be closed
+        /// before calling this function. Attempts to use any such handles after calling this function will cause a SIGSEGV.
+        /// </summary>
         void ReleaseUnmanagedResources() {
             IntPtr handle = this.env;
             // LmdbApi.mdb_env_close() could be a lengthy call, so we call SetDisposed() first, and the
@@ -412,7 +436,7 @@ namespace KdSoft.Lmdb
                     if (disposing) {
                         // dispose managed state (managed objects).
                         foreach (var txEntry in transactions) {
-                            txEntry.Value.Dispose();
+                            txEntry.Value.Dispose(); // this will also close the cursors owened by the transaction
                         }
                         lock (dbTxnLock) {
                             activeDbTxn?.Dispose();
@@ -449,8 +473,7 @@ namespace KdSoft.Lmdb
 
         /// <summary>
         /// Close the environment and release the memory map. Same as Close().
-        /// Only a single thread may call this function. All transactions, databases, and cursors must already be closed
-        /// before calling this function. Attempts to use any such handles after calling this function will cause a SIGSEGV.
+        /// Only a single thread may call this function.
         /// The environment handle will be freed and must not be used again after this call.
         /// </summary>
         public void Dispose() {
