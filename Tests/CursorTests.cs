@@ -139,6 +139,118 @@ namespace KdSoft.Lmdb.Tests
         }
 
         [Fact]
+        public void IterateOverKeyRange1() {
+            int startKey = DatabaseFixture.FirstCount - 2;
+            int endKey = DatabaseFixture.FirstCount + DatabaseFixture.Gap;
+            if (endKey % 2 == 0)
+                endKey++;  // make sure it is odd
+
+            using (var tx = fixture.Env.BeginReadOnlyTransaction()) {
+                using (var cursor = fixture.Db.OpenCursor(tx)) {
+                    var startKeyBytes = BitConverter.GetBytes(startKey);
+                    Assert.True(cursor.GetAt(startKeyBytes, out var firstEntry));
+                    var cdata = Encoding.UTF8.GetString(firstEntry.Data);
+
+                    Assert.Equal(fixture.TestData[startKey][0], cdata);
+
+                    output.WriteLine($"{startKey}: {cdata}");
+
+                    int dupIndex = 1;  // initialize to 1, as we alread retrieved the entry at index 0
+                    int previousKey = startKey;
+                    var endKeyBytes = BitConverter.GetBytes(endKey);
+                    foreach (var entry in cursor.ForwardFromNext) {
+                        if (fixture.Db.Compare(tx, entry.Key, endKeyBytes) > 0) // end of range test
+                            break;
+
+                        var ckey = BitConverter.ToInt32(entry.Key);
+                        // when the key changes then we re-start the duplicates index
+                        if (ckey != previousKey) {
+                            previousKey = ckey;
+                            dupIndex = 0;
+                        }
+
+                        cdata = Encoding.UTF8.GetString(entry.Data);
+                        Assert.Equal(fixture.TestData[ckey][dupIndex], cdata);
+
+                        dupIndex++;
+
+                        output.WriteLine($"{ckey}: {cdata}");
+                    }
+                }
+            }
+        }
+
+        [Fact]
+        public void IterateOverKeyRange2() {
+            int startKey = DatabaseFixture.FirstCount - 2;
+            int endKey = DatabaseFixture.FirstCount + DatabaseFixture.Gap;
+            if (endKey % 2 == 0)
+                endKey++;  // make sure it is odd
+
+            using (var tx = fixture.Env.BeginReadOnlyTransaction()) {
+                using (var cursor = fixture.Db.OpenCursor(tx)) {
+                    var startKeyBytes = BitConverter.GetBytes(startKey);
+                    Assert.True(cursor.MoveToKey(startKeyBytes));
+
+                    int dupIndex = 0;  // initialize to 1, as we alread retrieved the entry at index 0
+                    int previousKey = startKey;
+                    var endKeyBytes = BitConverter.GetBytes(endKey);
+                    foreach (var entry in cursor.ForwardFromCurrent) {
+                        if (fixture.Db.Compare(tx, entry.Key, endKeyBytes) > 0) // end of range test
+                            break;
+
+                        var ckey = BitConverter.ToInt32(entry.Key);
+                        // when the key changes then we re-start the duplicates index
+                        if (ckey != previousKey) {
+                            previousKey = ckey;
+                            dupIndex = 0;
+                        }
+
+                        var cdata = Encoding.UTF8.GetString(entry.Data);
+                        Assert.Equal(fixture.TestData[ckey][dupIndex], cdata);
+
+                        dupIndex++;
+
+                        output.WriteLine($"{ckey}: {cdata}");
+                    }
+                }
+            }
+        }
+
+        [Fact]
+        public void IterateOverDuplicatesRange() {
+            int key = DatabaseFixture.FirstCount + DatabaseFixture.Gap;
+            if (key % 2 == 0)
+                key++;  // make sure it is odd
+            var keyBytes = BitConverter.GetBytes(key);
+
+            int dupIndex = 2;
+            string startData = fixture.TestData[key][dupIndex];
+            var startDataBytes = Encoding.UTF8.GetBytes(startData);
+            string endData = fixture.TestData[key][DatabaseFixture.SecondCount - 1];
+            var endDataBytes = Encoding.UTF8.GetBytes(endData);
+
+            var startEntry = new KeyDataPair(keyBytes, startDataBytes);
+            var endEntry = new KeyDataPair(keyBytes, endDataBytes);
+
+            using (var tx = fixture.Env.BeginReadOnlyTransaction()) {
+                using (var cursor = fixture.Db.OpenMultiValueCursor(tx)) {
+                    Assert.True(cursor.GetAt(startEntry, out var tmpEntry));
+                    foreach (var dataBytes in cursor.ValuesForwardFromCurrent) {
+                        if (fixture.Db.DupCompare(tx, dataBytes, endDataBytes) > 0) // end of range test
+                            break;
+
+                        var cdata = Encoding.UTF8.GetString(dataBytes);
+                        Assert.Equal(fixture.TestData[key][dupIndex], cdata);
+                        dupIndex++;
+
+                        output.WriteLine($"{key}: {cdata}");
+                    }
+                }
+            }
+        }
+
+        [Fact]
         public void MoveToDataSimple() {
             using (var tx = fixture.Env.BeginReadOnlyTransaction()) {
                 using (var cursor = fixture.Db.OpenMultiValueCursor(tx)) {
@@ -202,7 +314,7 @@ namespace KdSoft.Lmdb.Tests
                     byKeyList.Add((ckey, cdata));
                     output.WriteLine($"{ckey}: {cdata}");
 
-                    foreach (var fwEntry in cursor.ForwardFromByKey) {
+                    foreach (var fwEntry in cursor.ForwardFromNextByKey) {
                         ckey = BitConverter.ToInt32(fwEntry.Key);
                         cdata = Encoding.UTF8.GetString(fwEntry.Data);
                         byKeyList.Add((ckey, cdata));
@@ -220,7 +332,7 @@ namespace KdSoft.Lmdb.Tests
                     fromNearestList.Add((ckey, cdata));
                     output.WriteLine($"{ckey}: {cdata}");
 
-                    foreach (var fwEntry in cursor.ForwardFromByKey) {
+                    foreach (var fwEntry in cursor.ForwardFromNextByKey) {
                         ckey = BitConverter.ToInt32(fwEntry.Key);
                         cdata = Encoding.UTF8.GetString(fwEntry.Data);
                         fromNearestList.Add((ckey, cdata));
@@ -265,7 +377,7 @@ namespace KdSoft.Lmdb.Tests
                     entryList.Add((ckey, cdata));
                     output.WriteLine($"{ckey}: {cdata}");
 
-                    foreach (var fwEntry in cursor.ForwardFrom) {
+                    foreach (var fwEntry in cursor.ForwardFromNext) {
                         ckey = BitConverter.ToInt32(fwEntry.Key);
                         cdata = Encoding.UTF8.GetString(fwEntry.Data);
                         entryList.Add((ckey, cdata));
@@ -284,7 +396,7 @@ namespace KdSoft.Lmdb.Tests
                     output.WriteLine($"{ckey}: {cdata}");
 
                     // if we used ForwardFromNearest(in KeyDataPair) then we would need to start at an existing key
-                    foreach (var fwEntry in cursor.ForwardFrom) {
+                    foreach (var fwEntry in cursor.ForwardFromNext) {
                         ckey = BitConverter.ToInt32(fwEntry.Key);
                         cdata = Encoding.UTF8.GetString(fwEntry.Data);
                         fromNearestList.Add((ckey, cdata));
@@ -336,7 +448,7 @@ namespace KdSoft.Lmdb.Tests
                     entryList.Add((ckey, cdata));
                     output.WriteLine($"{ckey}: {cdata}");
 
-                    foreach (var rvEntry in cursor.ReverseFrom) {
+                    foreach (var rvEntry in cursor.ReverseFromPrevious) {
                         ckey = BitConverter.ToInt32(rvEntry.Key);
                         cdata = Encoding.UTF8.GetString(rvEntry.Data);
                         entryList.Add((ckey, cdata));
@@ -354,11 +466,11 @@ namespace KdSoft.Lmdb.Tests
                     data = Encoding.UTF8.GetBytes(dataStr);
 
                     Assert.True(cursor.GetNearest(new KeyDataPair(keyBytes, data), out entry));
-                    // this got as the next *after* data, but since we want to start with the one before,
+                    // this got us the next record *after* data, but since we want to start with the one before,
                     // we ignore the current entry and just use the loop, as it will start with the record we want
 
                     // if we used ForwardFromNearestEntry then at least the key would have to match
-                    foreach (var rvEntry in cursor.ReverseFrom) {
+                    foreach (var rvEntry in cursor.ReverseFromPrevious) {
                         ckey = BitConverter.ToInt32(rvEntry.Key);
                         cdata = Encoding.UTF8.GetString(rvEntry.Data);
                         fromNearestList.Add((ckey, cdata));

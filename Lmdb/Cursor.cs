@@ -232,7 +232,7 @@ namespace KdSoft.Lmdb
         }
 
         /// <summary>
-        /// Gets record (key and data) at key position.
+        /// Move cursor to key position and get the record (key and data).
         /// </summary>
         /// <param name="key"></param>
         /// <param name="entry"></param>
@@ -252,7 +252,7 @@ namespace KdSoft.Lmdb
         }
 
         /// <summary>
-        /// Gets key at current position.
+        /// Get key at current position.
         /// </summary>
         /// <param name="key"></param>
         /// <returns><c>true</c> if successful (key exists), false otherwise.</returns>
@@ -450,7 +450,13 @@ namespace KdSoft.Lmdb
         /// Iterates over records in sort order, from the next position on. For use in foreach loops.
         /// If duplicates are allowed, then the next position may be on the same key, in duplicate sort order.
         /// </summary>
-        public NextItemsIterator ForwardFrom => new NextItemsIterator(this, DbCursorOp.MDB_NEXT);
+        public NextItemsIterator ForwardFromNext => new NextItemsIterator(this, DbCursorOp.MDB_NEXT);
+
+        /// <summary>
+        /// Iterates over records in sort order, from the current position on. For use in foreach loops.
+        /// If duplicates are allowed, then the next position may be on the same key, in duplicate sort order.
+        /// </summary>
+        public ItemsIterator ForwardFromCurrent => new ItemsIterator(this, DbCursorOp.MDB_GET_CURRENT, DbCursorOp.MDB_NEXT);
 
         /// <summary>
         /// Iterates over all records in reverse sort order. For use in foreach loops.
@@ -461,7 +467,13 @@ namespace KdSoft.Lmdb
         /// Iterates over records in reverse sort order, from the previous position on. For use in foreach loops.
         /// If duplicates are allowed, then the previous position may be on the same key, in reverse duplicate sort order.
         /// </summary>
-        public NextItemsIterator ReverseFrom => new NextItemsIterator(this, DbCursorOp.MDB_PREV);
+        public NextItemsIterator ReverseFromPrevious => new NextItemsIterator(this, DbCursorOp.MDB_PREV);
+
+        /// <summary>
+        /// Iterates over records in reverse sort order, from the current position on. For use in foreach loops.
+        /// If duplicates are allowed, then the previous position may be on the same key, in reverse duplicate sort order.
+        /// </summary>
+        public ItemsIterator ReverseFromCurrent => new ItemsIterator(this, DbCursorOp.MDB_GET_CURRENT, DbCursorOp.MDB_PREV);
 
         #endregion
 

@@ -131,9 +131,14 @@ namespace KdSoft.Lmdb
         public ItemsIterator ForwardByKey => new ItemsIterator(this, DbCursorOp.MDB_FIRST, DbCursorOp.MDB_NEXT_NODUP);
 
         /// <summary>
-        /// Iterates over all keys in sort order, from the next position on.
+        /// Iterates over keys in sort order, from the next position on.
         /// </summary>
-        public NextItemsIterator ForwardFromByKey => new NextItemsIterator(this, DbCursorOp.MDB_NEXT_NODUP);
+        public NextItemsIterator ForwardFromNextByKey => new NextItemsIterator(this, DbCursorOp.MDB_NEXT_NODUP);
+
+        /// <summary>
+        /// Iterates over keys in sort order, from the current position on.
+        /// </summary>
+        public ItemsIterator ForwardFromCurrentByKey => new ItemsIterator(this, DbCursorOp.MDB_GET_CURRENT, DbCursorOp.MDB_NEXT_NODUP);
 
         /// <summary>
         /// Iterates over all keys in reverse sort order. Retrieves each key's first duplicate record in duplicate sort order.
@@ -145,7 +150,12 @@ namespace KdSoft.Lmdb
         /// <summary>
         /// Iterates over keys in reverse sort order, from the previous position on.
         /// </summary>
-        public NextItemsIterator ReverseFromByKey => new NextItemsIterator(this, DbCursorOp.MDB_PREV_NODUP);
+        public NextItemsIterator ReverseFromNextByKey => new NextItemsIterator(this, DbCursorOp.MDB_PREV_NODUP);
+
+        /// <summary>
+        /// Iterates over keys in reverse sort order, from the current position on.
+        /// </summary>
+        public ItemsIterator ReverseFromCurrentByKey => new ItemsIterator(this, DbCursorOp.MDB_GET_CURRENT, DbCursorOp.MDB_PREV_NODUP);
 
         /// <summary>
         /// Iterates over all duplicate records for the current key.
@@ -155,19 +165,29 @@ namespace KdSoft.Lmdb
         /// <summary>
         /// Iterates over duplicate records for the current key, in duplicate sort order from the next position on.
         /// </summary>
-        public ValuesNextIterator ValuesForwardFrom => new ValuesNextIterator(this, DbCursorOp.MDB_NEXT_DUP);
+        public ValuesNextIterator ValuesForwardFromNext => new ValuesNextIterator(this, DbCursorOp.MDB_NEXT_DUP);
 
         /// <summary>
-        /// Iterates in reverse over all duplicate records for the current key.
+        /// Iterates over duplicate records for the current key, in duplicate sort order from the current position on.
+        /// </summary>
+        public ValuesIterator ValuesForwardFromCurrent => new ValuesIterator(this, DbCursorOp.MDB_GET_CURRENT, DbCursorOp.MDB_NEXT_DUP);
+
+        /// <summary>
+        /// Iterates over all duplicate records for the current key, in reverse duplicate sort order.
         /// </summary>
         public ValuesIterator ValuesReverse => new ValuesIterator(this, DbCursorOp.MDB_LAST_DUP, DbCursorOp.MDB_PREV_DUP);
 
         /// <summary>
-        /// Iterates in reverse over duplicate records for the current key, in reverse duplicate sort order from the previous position on.
+        /// Iterates over duplicate records for the current key, in reverse duplicate sort order from the previous position on.
         /// </summary>
-        public ValuesNextIterator ValuesReverseFrom => new ValuesNextIterator(this, DbCursorOp.MDB_PREV_DUP);
+        public ValuesNextIterator ValuesReverseFromPrevious => new ValuesNextIterator(this, DbCursorOp.MDB_PREV_DUP);
 
-        #endregion
+         /// <summary>
+        /// Iterates over duplicate records for the current key, in reverse duplicate sort order from the current position on.
+        /// </summary>
+        public ValuesIterator ValuesReverseFromCurrent => new ValuesIterator(this, DbCursorOp.MDB_GET_CURRENT, DbCursorOp.MDB_PREV_DUP);
+
+       #endregion
 
         #region Nested types
 #pragma warning disable CA1815 // Override equals and operator equals on value types
