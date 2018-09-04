@@ -71,7 +71,7 @@ using (var cursor = Dbase.OpenCursor(tx)) {
 
 // move cursor to key position and get data forward from that key
 using (var cursor = Dbase.OpenCursor(tx)) {
-    var keyBytes = BitConverter.GetBytes(4);
+    var keyBytes = BitConverter.GetBytes(1874);
     if (cursor.MoveToKey(keyBytes)) {
         Assert.True(cursor.GetCurrent(out KeyDataPair entry));
         var dataString = Encoding.UTF8.GetString(entry.Data);
@@ -80,6 +80,25 @@ using (var cursor = Dbase.OpenCursor(tx)) {
         }
     }
 }
+
+// iterate over key range (using foreach)
+using (var cursor = Dbase.OpenCursor(tx)) {
+    var startKeyBytes = BitConverter.GetBytes(33);
+    Assert.True(cursor.MoveToKey(startKeyBytes));
+
+    var endKeyBytes = BitConverter.GetBytes(99);
+    foreach (var entry in cursor.ForwardFromCurrent) {
+        // test for end of range (> 0 or >=0)
+        if (Dbase.Compare(tx, entry.Key, endKeyBytes) > 0)
+            break;
+
+        var ckey = BitConverter.ToInt32(entry.Key);
+        var cdata = Encoding.UTF8.GetString(entry.Data);
+                        
+        Console.WriteLine($"{ckey}: {cdata}");
+    }
+}
+
 ```
 #### Cursor Operations - Multi-Value Database
 ```c#
