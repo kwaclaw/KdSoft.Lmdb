@@ -161,9 +161,7 @@ Include as Nuget package from https://www.nuget.org/packages/KdSoft.Lmdb/ . This
 
 ## API Reference
 
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
-
-
+Currently, only XML doc comments in the source are available.
 
 The native API is documented here: http://www.lmdb.tech/doc/ .
 
