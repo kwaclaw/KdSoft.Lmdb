@@ -1,0 +1,1455 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Cursor
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Cursor
+   ">
+    <meta name="generator" content="docfx 2.39.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="KdSoft.Lmdb.Cursor">
+  
+  
+  <h1 id="KdSoft_Lmdb_Cursor" data-uid="KdSoft.Lmdb.Cursor" class="text-break">Class Cursor
+  </h1>
+  <div class="markdown level0 summary"><p>Cursor for LMDB database.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level1"><span class="xref">Cursor</span></div>
+      <div class="level2"><a class="xref" href="KdSoft.Lmdb.MultiValueCursor.html">MultiValueCursor</a></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#System_Object_Equals_System_Object_">Object.Equals(Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#System_Object_Equals_System_Object_System_Object_">Object.Equals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.gethashcode#System_Object_GetHashCode">Object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.gettype#System_Object_GetType">Object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.memberwiseclone#System_Object_MemberwiseClone">Object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.referenceequals#System_Object_ReferenceEquals_System_Object_System_Object_">Object.ReferenceEquals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.tostring#System_Object_ToString">Object.ToString()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="KdSoft.Lmdb.html">KdSoft.Lmdb</a></h6>
+  <h6><strong>Assembly</strong>: KdSoft.Lmdb.dll</h6>
+  <h5 id="KdSoft_Lmdb_Cursor_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Cursor : IDisposable</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  
+  
+  <h4 id="KdSoft_Lmdb_Cursor_rscLock" data-uid="KdSoft.Lmdb.Cursor.rscLock">rscLock</h4>
+  <div class="markdown level1 summary"><p>Resource lock object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected readonly object rscLock</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_DbiHandle_" data-uid="KdSoft.Lmdb.Cursor.DbiHandle*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_DbiHandle" data-uid="KdSoft.Lmdb.Cursor.DbiHandle">DbiHandle</h4>
+  <div class="markdown level1 summary"><p>Native database handle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IntPtr DbiHandle { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.intptr">IntPtr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_Forward_" data-uid="KdSoft.Lmdb.Cursor.Forward*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_Forward" data-uid="KdSoft.Lmdb.Cursor.Forward">Forward</h4>
+  <div class="markdown level1 summary"><p>Iterates over all records in sort order. For use in foreach loop.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Cursor.ItemsIterator Forward { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Cursor.ItemsIterator.html">Cursor.ItemsIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_ForwardFromCurrent_" data-uid="KdSoft.Lmdb.Cursor.ForwardFromCurrent*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_ForwardFromCurrent" data-uid="KdSoft.Lmdb.Cursor.ForwardFromCurrent">ForwardFromCurrent</h4>
+  <div class="markdown level1 summary"><p>Iterates over records in sort order, from the current position on. For use in foreach loops.
+If duplicates are allowed, then the next position may be on the same key, in duplicate sort order.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Cursor.ItemsIterator ForwardFromCurrent { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Cursor.ItemsIterator.html">Cursor.ItemsIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_ForwardFromNext_" data-uid="KdSoft.Lmdb.Cursor.ForwardFromNext*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_ForwardFromNext" data-uid="KdSoft.Lmdb.Cursor.ForwardFromNext">ForwardFromNext</h4>
+  <div class="markdown level1 summary"><p>Iterates over records in sort order, from the next position on. For use in foreach loops.
+If duplicates are allowed, then the next position may be on the same key, in duplicate sort order.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Cursor.NextItemsIterator ForwardFromNext { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Cursor.NextItemsIterator.html">Cursor.NextItemsIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_IsDisposed_" data-uid="KdSoft.Lmdb.Cursor.IsDisposed*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_IsDisposed" data-uid="KdSoft.Lmdb.Cursor.IsDisposed">IsDisposed</h4>
+  <div class="markdown level1 summary"><p>Returns if Cursor handle is closed/disposed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsDisposed { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_IsReadOnly_" data-uid="KdSoft.Lmdb.Cursor.IsReadOnly*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_IsReadOnly" data-uid="KdSoft.Lmdb.Cursor.IsReadOnly">IsReadOnly</h4>
+  <div class="markdown level1 summary"><p>Indicates if cursor is read-only.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsReadOnly { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_Reverse_" data-uid="KdSoft.Lmdb.Cursor.Reverse*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_Reverse" data-uid="KdSoft.Lmdb.Cursor.Reverse">Reverse</h4>
+  <div class="markdown level1 summary"><p>Iterates over all records in reverse sort order. For use in foreach loops.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Cursor.ItemsIterator Reverse { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Cursor.ItemsIterator.html">Cursor.ItemsIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_ReverseFromCurrent_" data-uid="KdSoft.Lmdb.Cursor.ReverseFromCurrent*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_ReverseFromCurrent" data-uid="KdSoft.Lmdb.Cursor.ReverseFromCurrent">ReverseFromCurrent</h4>
+  <div class="markdown level1 summary"><p>Iterates over records in reverse sort order, from the current position on. For use in foreach loops.
+If duplicates are allowed, then the previous position may be on the same key, in reverse duplicate sort order.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Cursor.ItemsIterator ReverseFromCurrent { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Cursor.ItemsIterator.html">Cursor.ItemsIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_ReverseFromPrevious_" data-uid="KdSoft.Lmdb.Cursor.ReverseFromPrevious*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_ReverseFromPrevious" data-uid="KdSoft.Lmdb.Cursor.ReverseFromPrevious">ReverseFromPrevious</h4>
+  <div class="markdown level1 summary"><p>Iterates over records in reverse sort order, from the previous position on. For use in foreach loops.
+If duplicates are allowed, then the previous position may be on the same key, in reverse duplicate sort order.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Cursor.NextItemsIterator ReverseFromPrevious { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Cursor.NextItemsIterator.html">Cursor.NextItemsIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_TxnHandle_" data-uid="KdSoft.Lmdb.Cursor.TxnHandle*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_TxnHandle" data-uid="KdSoft.Lmdb.Cursor.TxnHandle">TxnHandle</h4>
+  <div class="markdown level1 summary"><p>Native transaction handle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IntPtr TxnHandle { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.intptr">IntPtr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_CheckDisposed_" data-uid="KdSoft.Lmdb.Cursor.CheckDisposed*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_CheckDisposed" data-uid="KdSoft.Lmdb.Cursor.CheckDisposed">CheckDisposed()</h4>
+  <div class="markdown level1 summary"><p>Returns Cursor handle.
+Throws if Cursor handle is already closed/disposed of.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
+protected IntPtr CheckDisposed()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.intptr">IntPtr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_Close_" data-uid="KdSoft.Lmdb.Cursor.Close*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_Close" data-uid="KdSoft.Lmdb.Cursor.Close">Close()</h4>
+  <div class="markdown level1 summary"><p>Same as <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Dispose">Dispose()</a>. Close a cursor handle.
+The cursor handle will be freed and must not be used again after this call.
+Its transaction must still be live if it is a write-transaction.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Close()</code></pre>
+  </div>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_Delete_" data-uid="KdSoft.Lmdb.Cursor.Delete*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_Delete_KdSoft_Lmdb_CursorDeleteOption_" data-uid="KdSoft.Lmdb.Cursor.Delete(KdSoft.Lmdb.CursorDeleteOption)">Delete(CursorDeleteOption)</h4>
+  <div class="markdown level1 summary"><p>Delete current key/data pair.
+This function deletes the key/data pair to which the cursor refers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Delete(CursorDeleteOption option = CursorDeleteOption.None)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.CursorDeleteOption.html">CursorDeleteOption</a></td>
+        <td><span class="parametername">option</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_Dispose_" data-uid="KdSoft.Lmdb.Cursor.Dispose*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_Dispose" data-uid="KdSoft.Lmdb.Cursor.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"><p>Same as <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Close">Close()</a>. Close a database handle. Normally unnecessary. Use with care:
+This call is not mutex protected. Handles should only be closed by a single thread, and only
+if no other threads are going to reference the database handle or one of its cursors any further.
+Do not close a handle if an existing transaction has modified its database.
+Doing so can cause misbehavior from database corruption to errors like MDB_BAD_VALSIZE(since the DB name is gone).
+Closing a database handle is not necessary, but lets mdb_dbi_open() reuse the handle value.
+Usually it's better to set a bigger mdb_env_set_maxdbs(), unless that value would be large.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_Dispose_" data-uid="KdSoft.Lmdb.Cursor.Dispose*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_Dispose_System_Boolean_" data-uid="KdSoft.Lmdb.Cursor.Dispose(System.Boolean)">Dispose(Boolean)</h4>
+  <div class="markdown level1 summary"><p>Implementation of Dispose() pattern.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">disposing</span></td>
+        <td><p><code>true</code> if explicity disposing (finalizer not run), <code>false</code> if disposed from finalizer.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_Finalize_" data-uid="KdSoft.Lmdb.Cursor.Finalize*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_Finalize" data-uid="KdSoft.Lmdb.Cursor.Finalize">Finalize()</h4>
+  <div class="markdown level1 summary"><p>Finalizer. Releases unmanaged resources.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void Finalize()</code></pre>
+  </div>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_Get_" data-uid="KdSoft.Lmdb.Cursor.Get*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_Get_KdSoft_Lmdb_KeyDataPair__KdSoft_Lmdb_Interop_DbCursorOp_" data-uid="KdSoft.Lmdb.Cursor.Get(KdSoft.Lmdb.KeyDataPair@,KdSoft.Lmdb.Interop.DbCursorOp)">Get(out KeyDataPair, DbCursorOp)</h4>
+  <div class="markdown level1 summary"><p>Internal GET operation. Valid for <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_GET_CURRENT">MDB_GET_CURRENT</a>,
+<a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_FIRST">MDB_FIRST</a>, <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_NEXT">MDB_NEXT</a>, <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_PREV">MDB_PREV</a>
+and <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_LAST">MDB_LAST</a>. Returns both, key and data.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool Get(out KeyDataPair entry, DbCursorOp op)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">entry</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html">DbCursorOp</a></td>
+        <td><span class="parametername">op</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code>if record was found, <code>false</code> otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.LmdbException.html">LmdbException</a></td>
+        <td><p>Exception based on native return code.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_Get_" data-uid="KdSoft.Lmdb.Cursor.Get*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_Get_KdSoft_Lmdb_KeyDataPair__KdSoft_Lmdb_KeyDataPair__KdSoft_Lmdb_Interop_DbCursorOp_" data-uid="KdSoft.Lmdb.Cursor.Get(KdSoft.Lmdb.KeyDataPair@,KdSoft.Lmdb.KeyDataPair@,KdSoft.Lmdb.Interop.DbCursorOp)">Get(KeyDataPair, out KeyDataPair, DbCursorOp)</h4>
+  <div class="markdown level1 summary"><p>Internal GET operation. Valid for <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_GET_BOTH">MDB_GET_BOTH</a> and <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_GET_BOTH_RANGE">MDB_GET_BOTH_RANGE</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool Get(in KeyDataPair keyData, out KeyDataPair entry, DbCursorOp op)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">keyData</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">entry</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html">DbCursorOp</a></td>
+        <td><span class="parametername">op</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code>if record was found, <code>false</code> otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.LmdbException.html">LmdbException</a></td>
+        <td><p>Exception based on native return code.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_Get_" data-uid="KdSoft.Lmdb.Cursor.Get*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_Get_System_ReadOnlySpan_System_Byte___KdSoft_Lmdb_KeyDataPair__KdSoft_Lmdb_Interop_DbCursorOp_" data-uid="KdSoft.Lmdb.Cursor.Get(System.ReadOnlySpan{System.Byte}@,KdSoft.Lmdb.KeyDataPair@,KdSoft.Lmdb.Interop.DbCursorOp)">Get(ReadOnlySpan&lt;Byte&gt;, out KeyDataPair, DbCursorOp)</h4>
+  <div class="markdown level1 summary"><p>Internal GET operation. Valid for <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_SET_KEY">MDB_SET_KEY</a> and <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_SET_RANGE">MDB_SET_RANGE</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool Get(in ReadOnlySpan&lt;byte&gt; key, out KeyDataPair entry, DbCursorOp op)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">key</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">entry</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html">DbCursorOp</a></td>
+        <td><span class="parametername">op</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code>if record was found, <code>false</code> otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.LmdbException.html">LmdbException</a></td>
+        <td><p>Exception based on native return code.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_GetAt_" data-uid="KdSoft.Lmdb.Cursor.GetAt*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_GetAt_System_ReadOnlySpan_System_Byte___KdSoft_Lmdb_KeyDataPair__" data-uid="KdSoft.Lmdb.Cursor.GetAt(System.ReadOnlySpan{System.Byte}@,KdSoft.Lmdb.KeyDataPair@)">GetAt(ReadOnlySpan&lt;Byte&gt;, out KeyDataPair)</h4>
+  <div class="markdown level1 summary"><p>Move cursor to key position and get the record (key and data).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool GetAt(in ReadOnlySpan&lt;byte&gt; key, out KeyDataPair entry)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">key</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">entry</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if successful (key exists), false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_GetCurrent_" data-uid="KdSoft.Lmdb.Cursor.GetCurrent*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_GetCurrent_KdSoft_Lmdb_KeyDataPair__" data-uid="KdSoft.Lmdb.Cursor.GetCurrent(KdSoft.Lmdb.KeyDataPair@)">GetCurrent(out KeyDataPair)</h4>
+  <div class="markdown level1 summary"><p>Get record (key and data) at current position.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool GetCurrent(out KeyDataPair entry)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">entry</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if successful (key exists), false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_GetCurrent_" data-uid="KdSoft.Lmdb.Cursor.GetCurrent*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_GetCurrent_System_ReadOnlySpan_System_Byte___" data-uid="KdSoft.Lmdb.Cursor.GetCurrent(System.ReadOnlySpan{System.Byte}@)">GetCurrent(out ReadOnlySpan&lt;Byte&gt;)</h4>
+  <div class="markdown level1 summary"><p>Get key at current position.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool GetCurrent(out ReadOnlySpan&lt;byte&gt; key)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">key</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if successful (key exists), false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_GetData_" data-uid="KdSoft.Lmdb.Cursor.GetData*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_GetData_System_ReadOnlySpan_System_Byte___KdSoft_Lmdb_Interop_DbCursorOp_" data-uid="KdSoft.Lmdb.Cursor.GetData(System.ReadOnlySpan{System.Byte}@,KdSoft.Lmdb.Interop.DbCursorOp)">GetData(out ReadOnlySpan&lt;Byte&gt;, DbCursorOp)</h4>
+  <div class="markdown level1 summary"><p>Internal GET DATA operation. Valid for <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_FIRST_DUP">MDB_FIRST_DUP</a>, <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_NEXT_DUP">MDB_NEXT_DUP</a>,
+<a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_NEXT_NODUP">MDB_NEXT_NODUP</a>, <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_PREV_DUP">MDB_PREV_DUP</a>, <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_PREV_NODUP">MDB_PREV_NODUP</a>
+<a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_LAST_DUP">MDB_LAST_DUP</a>, <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_GET_MULTIPLE">MDB_GET_MULTIPLE</a>, <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_NEXT_MULTIPLE">MDB_NEXT_MULTIPLE</a>
+and <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_PREV_MULTIPLE">MDB_PREV_MULTIPLE</a>. Returns data, but not key.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool GetData(out ReadOnlySpan&lt;byte&gt; data, DbCursorOp op)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">data</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html">DbCursorOp</a></td>
+        <td><span class="parametername">op</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code>if record was found, <code>false</code> otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.LmdbException.html">LmdbException</a></td>
+        <td><p>Exception based on native return code.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_GetKey_" data-uid="KdSoft.Lmdb.Cursor.GetKey*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_GetKey_System_ReadOnlySpan_System_Byte___KdSoft_Lmdb_Interop_DbCursorOp_" data-uid="KdSoft.Lmdb.Cursor.GetKey(System.ReadOnlySpan{System.Byte}@,KdSoft.Lmdb.Interop.DbCursorOp)">GetKey(out ReadOnlySpan&lt;Byte&gt;, DbCursorOp)</h4>
+  <div class="markdown level1 summary"><p>Internal GET KEY operation. Valid for <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_GET_CURRENT">MDB_GET_CURRENT</a>,
+<a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_FIRST">MDB_FIRST</a>, <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_NEXT">MDB_NEXT</a>, <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_PREV">MDB_PREV</a>
+and <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_LAST">MDB_LAST</a>. Returns key, but not data.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool GetKey(out ReadOnlySpan&lt;byte&gt; key, DbCursorOp op)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">key</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html">DbCursorOp</a></td>
+        <td><span class="parametername">op</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code>if record was found, <code>false</code> otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.LmdbException.html">LmdbException</a></td>
+        <td><p>Exception based on native return code.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_GetNearest_" data-uid="KdSoft.Lmdb.Cursor.GetNearest*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_GetNearest_System_ReadOnlySpan_System_Byte___KdSoft_Lmdb_KeyDataPair__" data-uid="KdSoft.Lmdb.Cursor.GetNearest(System.ReadOnlySpan{System.Byte}@,KdSoft.Lmdb.KeyDataPair@)">GetNearest(ReadOnlySpan&lt;Byte&gt;, out KeyDataPair)</h4>
+  <div class="markdown level1 summary"><p>Move cursor to first position greater than or equal to specified key and get the record (key and data).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool GetNearest(in ReadOnlySpan&lt;byte&gt; key, out KeyDataPair entry)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">key</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">entry</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if successful (nearest key exists), false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_GetNext_" data-uid="KdSoft.Lmdb.Cursor.GetNext*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_GetNext_KdSoft_Lmdb_KeyDataPair__" data-uid="KdSoft.Lmdb.Cursor.GetNext(KdSoft.Lmdb.KeyDataPair@)">GetNext(out KeyDataPair)</h4>
+  <div class="markdown level1 summary"><p>Move cursor to next position and get the record (key and data).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool GetNext(out KeyDataPair entry)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">entry</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if successful (next key exists), false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_GetPrevious_" data-uid="KdSoft.Lmdb.Cursor.GetPrevious*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_GetPrevious_KdSoft_Lmdb_KeyDataPair__" data-uid="KdSoft.Lmdb.Cursor.GetPrevious(KdSoft.Lmdb.KeyDataPair@)">GetPrevious(out KeyDataPair)</h4>
+  <div class="markdown level1 summary"><p>Move cursor to previous position and get the record (key and data).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool GetPrevious(out KeyDataPair entry)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">entry</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if successful (previous key exists), false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_MoveToKey_" data-uid="KdSoft.Lmdb.Cursor.MoveToKey*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_MoveToKey_System_ReadOnlySpan_System_Byte___" data-uid="KdSoft.Lmdb.Cursor.MoveToKey(System.ReadOnlySpan{System.Byte}@)">MoveToKey(ReadOnlySpan&lt;Byte&gt;)</h4>
+  <div class="markdown level1 summary"><p>Moves cursor to key position.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool MoveToKey(in ReadOnlySpan&lt;byte&gt; key)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">key</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if successful (key exists), false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_MoveToKey_" data-uid="KdSoft.Lmdb.Cursor.MoveToKey*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_MoveToKey_System_ReadOnlySpan_System_Byte___KdSoft_Lmdb_Interop_DbCursorOp_" data-uid="KdSoft.Lmdb.Cursor.MoveToKey(System.ReadOnlySpan{System.Byte}@,KdSoft.Lmdb.Interop.DbCursorOp)">MoveToKey(ReadOnlySpan&lt;Byte&gt;, DbCursorOp)</h4>
+  <div class="markdown level1 summary"><p>Internal MOVE TO KEY operation. Valid for <a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html#KdSoft_Lmdb_Interop_DbCursorOp_MDB_SET">MDB_SET</a>.
+Does not return key or data.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool MoveToKey(in ReadOnlySpan&lt;byte&gt; key, DbCursorOp op)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">key</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Interop.DbCursorOp.html">DbCursorOp</a></td>
+        <td><span class="parametername">op</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code>if record was found, <code>false</code> otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.LmdbException.html">LmdbException</a></td>
+        <td><p>Exception based on native return code.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_Put_" data-uid="KdSoft.Lmdb.Cursor.Put*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_Put_KdSoft_Lmdb_KeyDataPair__KdSoft_Lmdb_CursorPutOption_" data-uid="KdSoft.Lmdb.Cursor.Put(KdSoft.Lmdb.KeyDataPair@,KdSoft.Lmdb.CursorPutOption)">Put(KeyDataPair, CursorPutOption)</h4>
+  <div class="markdown level1 summary"><p>Store by cursor.
+This function stores key/data pairs into the database.
+The cursor is positioned at the new item, or on failure usually near it.
+Note: Earlier documentation incorrectly said errors would leave the state of the cursor unchanged.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Put(in KeyDataPair entry, CursorPutOption option)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">entry</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.CursorPutOption.html">CursorPutOption</a></td>
+        <td><span class="parametername">option</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if inserted or updated without error, <code>false</code> if <a class="xref" href="KdSoft.Lmdb.CursorPutOption.html#KdSoft_Lmdb_CursorPutOption_NoOverwrite">NoOverwrite</a>
+was specified and the key already exists.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_PutInternal_" data-uid="KdSoft.Lmdb.Cursor.PutInternal*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_PutInternal_KdSoft_Lmdb_KeyDataPair__System_UInt32_" data-uid="KdSoft.Lmdb.Cursor.PutInternal(KdSoft.Lmdb.KeyDataPair@,System.UInt32)">PutInternal(KeyDataPair, UInt32)</h4>
+  <div class="markdown level1 summary"><p>Internal PUT operation. Inserts or updates data at key position.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
+protected bool PutInternal(in KeyDataPair entry, uint option)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">entry</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.uint32">UInt32</a></td>
+        <td><span class="parametername">option</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if inserted or updated without error, <code>false</code> if
+<a class="xref" href="KdSoft.Lmdb.CursorPutOption.html#KdSoft_Lmdb_CursorPutOption_NoOverwrite">NoOverwrite</a> was specified and the key already exists.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.LmdbException.html">LmdbException</a></td>
+        <td><p>Exception based on native return code.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Cursor_Renew_" data-uid="KdSoft.Lmdb.Cursor.Renew*"></a>
+  <h4 id="KdSoft_Lmdb_Cursor_Renew_KdSoft_Lmdb_ReadOnlyTransaction_" data-uid="KdSoft.Lmdb.Cursor.Renew(KdSoft.Lmdb.ReadOnlyTransaction)">Renew(ReadOnlyTransaction)</h4>
+  <div class="markdown level1 summary"><p>Renews cursor, allows re-use without re-allocation.
+Only valid for read-only cursors.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Renew(ReadOnlyTransaction transaction)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.ReadOnlyTransaction.html">ReadOnlyTransaction</a></td>
+        <td><span class="parametername">transaction</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.idisposable">System.IDisposable</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

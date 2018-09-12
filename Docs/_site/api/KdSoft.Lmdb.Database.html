@@ -1,0 +1,1048 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Database
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Database
+   ">
+    <meta name="generator" content="docfx 2.39.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="KdSoft.Lmdb.Database">
+  
+  
+  <h1 id="KdSoft_Lmdb_Database" data-uid="KdSoft.Lmdb.Database" class="text-break">Class Database
+  </h1>
+  <div class="markdown level0 summary"><p>LMDB Database that allows unique (by key) records only.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level1"><span class="xref">Database</span></div>
+      <div class="level2"><a class="xref" href="KdSoft.Lmdb.MultiValueDatabase.html">MultiValueDatabase</a></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#System_Object_Equals_System_Object_">Object.Equals(Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#System_Object_Equals_System_Object_System_Object_">Object.Equals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.gethashcode#System_Object_GetHashCode">Object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.gettype#System_Object_GetType">Object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.memberwiseclone#System_Object_MemberwiseClone">Object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.referenceequals#System_Object_ReferenceEquals_System_Object_System_Object_">Object.ReferenceEquals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.tostring#System_Object_ToString">Object.ToString()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="KdSoft.Lmdb.html">KdSoft.Lmdb</a></h6>
+  <h6><strong>Assembly</strong>: KdSoft.Lmdb.dll</h6>
+  <h5 id="KdSoft_Lmdb_Database_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Database : IDisposable</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  
+  
+  <h4 id="KdSoft_Lmdb_Database_rscLock" data-uid="KdSoft.Lmdb.Database.rscLock">rscLock</h4>
+  <div class="markdown level1 summary"><p>Resource lock object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected readonly object rscLock</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="KdSoft_Lmdb_Database_Config_" data-uid="KdSoft.Lmdb.Database.Config*"></a>
+  <h4 id="KdSoft_Lmdb_Database_Config" data-uid="KdSoft.Lmdb.Database.Config">Config</h4>
+  <div class="markdown level1 summary"><p>Database configuration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DatabaseConfiguration Config { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.DatabaseConfiguration.html">DatabaseConfiguration</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_Environment_" data-uid="KdSoft.Lmdb.Database.Environment*"></a>
+  <h4 id="KdSoft_Lmdb_Database_Environment" data-uid="KdSoft.Lmdb.Database.Environment">Environment</h4>
+  <div class="markdown level1 summary"><p>Environment the database was created in.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Environment Environment { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Environment.html">Environment</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_IsDisposed_" data-uid="KdSoft.Lmdb.Database.IsDisposed*"></a>
+  <h4 id="KdSoft_Lmdb_Database_IsDisposed" data-uid="KdSoft.Lmdb.Database.IsDisposed">IsDisposed</h4>
+  <div class="markdown level1 summary"><p>Returns if Database handle is closed/disposed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsDisposed { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_Name_" data-uid="KdSoft.Lmdb.Database.Name*"></a>
+  <h4 id="KdSoft_Lmdb_Database_Name" data-uid="KdSoft.Lmdb.Database.Name">Name</h4>
+  <div class="markdown level1 summary"><p>Database name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Name { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="KdSoft_Lmdb_Database_CheckDisposed_" data-uid="KdSoft.Lmdb.Database.CheckDisposed*"></a>
+  <h4 id="KdSoft_Lmdb_Database_CheckDisposed" data-uid="KdSoft.Lmdb.Database.CheckDisposed">CheckDisposed()</h4>
+  <div class="markdown level1 summary"><p>Returns Database handle.
+Throws if Database handle is already closed/disposed of.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
+protected uint CheckDisposed()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.uint32">UInt32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_Close_" data-uid="KdSoft.Lmdb.Database.Close*"></a>
+  <h4 id="KdSoft_Lmdb_Database_Close" data-uid="KdSoft.Lmdb.Database.Close">Close()</h4>
+  <div class="markdown level1 summary"><p>Same as <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Dispose">Dispose()</a>. Close a database handle. Normally unnecessary. Use with care:
+This call is not mutex protected. Handles should only be closed by a single thread, and only
+if no other threads are going to reference the database handle or one of its cursors any further.
+Do not close a handle if an existing transaction has modified its database.
+Doing so can cause misbehavior from database corruption to errors like MDB_BAD_VALSIZE(since the DB name is gone).
+Closing a database handle is not necessary, but lets mdb_dbi_open() reuse the handle value.
+Usually it's better to set a bigger mdb_env_set_maxdbs(), unless that value would be large.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Close()</code></pre>
+  </div>
+  
+  
+  <a id="KdSoft_Lmdb_Database_Compare_" data-uid="KdSoft.Lmdb.Database.Compare*"></a>
+  <h4 id="KdSoft_Lmdb_Database_Compare_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__" data-uid="KdSoft.Lmdb.Database.Compare(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte})">Compare(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;)</h4>
+  <div class="markdown level1 summary"><p>Compare two data items according to a particular database.
+This returns a comparison as if the two data items were keys in the specified database.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Compare(Transaction transaction, ReadOnlySpan&lt;byte&gt; x, ReadOnlySpan&lt;byte&gt; y)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></td>
+        <td><span class="parametername">transaction</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">x</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">y</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><p>&lt; 0 if x &lt; y, 0 if x == y, &gt; 0 if x &gt; y</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_Delete_" data-uid="KdSoft.Lmdb.Database.Delete*"></a>
+  <h4 id="KdSoft_Lmdb_Database_Delete_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__" data-uid="KdSoft.Lmdb.Database.Delete(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte})">Delete(Transaction, ReadOnlySpan&lt;Byte&gt;)</h4>
+  <div class="markdown level1 summary"><p>Delete items from a database. This function removes key/data pairs from the database.
+If this instance is a <a class="xref" href="KdSoft.Lmdb.MultiValueDatabase.html">MultiValueDatabase</a> then all of the duplicate data items for the key will be deleted.
+This function will return MDB_NOTFOUND if the specified key/data pair is not in the database.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Delete(Transaction transaction, ReadOnlySpan&lt;byte&gt; key)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></td>
+        <td><span class="parametername">transaction</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">key</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_Dispose_" data-uid="KdSoft.Lmdb.Database.Dispose*"></a>
+  <h4 id="KdSoft_Lmdb_Database_Dispose" data-uid="KdSoft.Lmdb.Database.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"><p>Same as <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Close">Close()</a>. Close a database handle. Normally unnecessary. Use with care:
+This call is not mutex protected. Handles should only be closed by a single thread, and only
+if no other threads are going to reference the database handle or one of its cursors any further.
+Do not close a handle if an existing transaction has modified its database.
+Doing so can cause misbehavior from database corruption to errors like MDB_BAD_VALSIZE(since the DB name is gone).
+Closing a database handle is not necessary, but lets mdb_dbi_open() reuse the handle value.
+Usually it's better to set a bigger mdb_env_set_maxdbs(), unless that value would be large.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  
+  
+  <a id="KdSoft_Lmdb_Database_Dispose_" data-uid="KdSoft.Lmdb.Database.Dispose*"></a>
+  <h4 id="KdSoft_Lmdb_Database_Dispose_System_Boolean_" data-uid="KdSoft.Lmdb.Database.Dispose(System.Boolean)">Dispose(Boolean)</h4>
+  <div class="markdown level1 summary"><p>Implementation of Dispose() pattern.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">disposing</span></td>
+        <td><p><code>true</code> if explicity disposing (finalizer not run), <code>false</code> if disposed from finalizer.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_Drop_" data-uid="KdSoft.Lmdb.Database.Drop*"></a>
+  <h4 id="KdSoft_Lmdb_Database_Drop_KdSoft_Lmdb_Transaction_" data-uid="KdSoft.Lmdb.Database.Drop(KdSoft.Lmdb.Transaction)">Drop(Transaction)</h4>
+  <div class="markdown level1 summary"><p>Delete and close a database. See <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Close">Close()</a> for restrictions.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Drop(Transaction transaction)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></td>
+        <td><span class="parametername">transaction</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_Finalize_" data-uid="KdSoft.Lmdb.Database.Finalize*"></a>
+  <h4 id="KdSoft_Lmdb_Database_Finalize" data-uid="KdSoft.Lmdb.Database.Finalize">Finalize()</h4>
+  <div class="markdown level1 summary"><p>Finalizer. Releases unmanaged resources.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void Finalize()</code></pre>
+  </div>
+  
+  
+  <a id="KdSoft_Lmdb_Database_Get_" data-uid="KdSoft.Lmdb.Database.Get*"></a>
+  <h4 id="KdSoft_Lmdb_Database_Get_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte___" data-uid="KdSoft.Lmdb.Database.Get(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte}@)">Get(Transaction, ReadOnlySpan&lt;Byte&gt;, out ReadOnlySpan&lt;Byte&gt;)</h4>
+  <div class="markdown level1 summary"><p>Get items from a database.
+This function retrieves key/data pairs from the database. The address and length of the data associated with
+the specified key are returned in the structure to which data refers.
+If the database supports duplicate keys (MDB_DUPSORT) then the first data item for the key will be returned.
+Retrieval of other items requires the use of mdb_cursor_get().
+Note: The memory pointed to by the returned values is owned by the database. The caller need not dispose of the memory,
+and may not modify it in any way. For values returned in a read-only transaction any modification attempts will cause a SIGSEGV.
+Values returned from the database are valid only until a subsequent update operation, or the end of the transaction.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Get(Transaction transaction, ReadOnlySpan&lt;byte&gt; key, out ReadOnlySpan&lt;byte&gt; data)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></td>
+        <td><span class="parametername">transaction</span></td>
+        <td><p>Transaction under which the Get operation is performed.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">key</span></td>
+        <td><p>Key to specify which data item / record to retrieve.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>Data / record to be returned.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if data for key retrieved without error, <code>false</code> if key does not exist.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_GetAllOptions_" data-uid="KdSoft.Lmdb.Database.GetAllOptions*"></a>
+  <h4 id="KdSoft_Lmdb_Database_GetAllOptions_KdSoft_Lmdb_Transaction_" data-uid="KdSoft.Lmdb.Database.GetAllOptions(KdSoft.Lmdb.Transaction)">GetAllOptions(Transaction)</h4>
+  <div class="markdown level1 summary"><p>Retrieve the options for the database.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetAllOptions(Transaction transaction)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></td>
+        <td><span class="parametername">transaction</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_GetChecked_" data-uid="KdSoft.Lmdb.Database.GetChecked*"></a>
+  <h4 id="KdSoft_Lmdb_Database_GetChecked__1_KdSoft_Lmdb_Database_LibFunc___0_KdSoft_Lmdb_Interop_DbRetCode__" data-uid="KdSoft.Lmdb.Database.GetChecked``1(KdSoft.Lmdb.Database.LibFunc{``0,KdSoft.Lmdb.Interop.DbRetCode})">GetChecked&lt;T&gt;(Database.LibFunc&lt;T, DbRetCode&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
+protected T GetChecked&lt;T&gt;(Database.LibFunc&lt;T, DbRetCode&gt; libFunc)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Database.LibFunc-2.html">Database.LibFunc</a>&lt;T, <a class="xref" href="KdSoft.Lmdb.Interop.DbRetCode.html">DbRetCode</a>&gt;</td>
+        <td><span class="parametername">libFunc</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_GetOptions_" data-uid="KdSoft.Lmdb.Database.GetOptions*"></a>
+  <h4 id="KdSoft_Lmdb_Database_GetOptions_KdSoft_Lmdb_Transaction_" data-uid="KdSoft.Lmdb.Database.GetOptions(KdSoft.Lmdb.Transaction)">GetOptions(Transaction)</h4>
+  <div class="markdown level1 summary"><p>Retrieve the options for the database.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DatabaseOptions GetOptions(Transaction transaction)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></td>
+        <td><span class="parametername">transaction</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.DatabaseOptions.html">DatabaseOptions</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_GetStats_" data-uid="KdSoft.Lmdb.Database.GetStats*"></a>
+  <h4 id="KdSoft_Lmdb_Database_GetStats_KdSoft_Lmdb_Transaction_" data-uid="KdSoft.Lmdb.Database.GetStats(KdSoft.Lmdb.Transaction)">GetStats(Transaction)</h4>
+  <div class="markdown level1 summary"><p>Retrieve statistics for the database.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Statistics GetStats(Transaction transaction)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></td>
+        <td><span class="parametername">transaction</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Statistics.html">Statistics</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_OpenCursor_" data-uid="KdSoft.Lmdb.Database.OpenCursor*"></a>
+  <h4 id="KdSoft_Lmdb_Database_OpenCursor_KdSoft_Lmdb_Transaction_" data-uid="KdSoft.Lmdb.Database.OpenCursor(KdSoft.Lmdb.Transaction)">OpenCursor(Transaction)</h4>
+  <div class="markdown level1 summary"><p>Create a cursor. A cursor is associated with a specific transaction and database.
+A cursor cannot be used when its database handle is closed. Nor when its transaction has ended, except with mdb_cursor_renew().
+It can be discarded with mdb_cursor_close(). A cursor in a write-transaction can be closed before its transaction ends,
+and will otherwise be closed when its transaction ends. A cursor in a read-only transaction must be closed explicitly,
+before or after its transaction ends. It can be reused with mdb_cursor_renew() before finally closing it.
+Note: Earlier documentation said that cursors in every transaction were closed when the transaction committed or aborted.
+Note: If one does not close database handles (leaving that to the environment), then one does not have to worry about
+closing a cursor before closing its database.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual Cursor OpenCursor(Transaction transaction)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></td>
+        <td><span class="parametername">transaction</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Cursor.html">Cursor</a></td>
+        <td><p>Instance of <a class="xref" href="KdSoft.Lmdb.Cursor.html">Cursor</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_OpenCursorHandle_" data-uid="KdSoft.Lmdb.Database.OpenCursorHandle*"></a>
+  <h4 id="KdSoft_Lmdb_Database_OpenCursorHandle_KdSoft_Lmdb_Transaction_" data-uid="KdSoft.Lmdb.Database.OpenCursorHandle(KdSoft.Lmdb.Transaction)">OpenCursorHandle(Transaction)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected IntPtr OpenCursorHandle(Transaction transaction)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></td>
+        <td><span class="parametername">transaction</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.intptr">IntPtr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_Put_" data-uid="KdSoft.Lmdb.Database.Put*"></a>
+  <h4 id="KdSoft_Lmdb_Database_Put_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__KdSoft_Lmdb_PutOptions_" data-uid="KdSoft.Lmdb.Database.Put(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte},KdSoft.Lmdb.PutOptions)">Put(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;, PutOptions)</h4>
+  <div class="markdown level1 summary"><p>Store items into a database.
+This function stores key/data pairs in the database. The default behavior is to enter
+the new key/data pair, replacing any previously existing key.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Put(Transaction transaction, ReadOnlySpan&lt;byte&gt; key, ReadOnlySpan&lt;byte&gt; data, PutOptions options)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></td>
+        <td><span class="parametername">transaction</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">key</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">data</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.PutOptions.html">PutOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if inserted without error, <code>false</code> if <a class="xref" href="KdSoft.Lmdb.PutOptions.html#KdSoft_Lmdb_PutOptions_NoOverwrite">NoOverwrite</a>
+was specified and the key already exists.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_PutInternal_" data-uid="KdSoft.Lmdb.Database.PutInternal*"></a>
+  <h4 id="KdSoft_Lmdb_Database_PutInternal_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__System_UInt32_" data-uid="KdSoft.Lmdb.Database.PutInternal(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte},System.UInt32)">PutInternal(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;, UInt32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
+protected bool PutInternal(Transaction transaction, ReadOnlySpan&lt;byte&gt; key, ReadOnlySpan&lt;byte&gt; data, uint options)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></td>
+        <td><span class="parametername">transaction</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">key</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">data</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.uint32">UInt32</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_RunChecked_" data-uid="KdSoft.Lmdb.Database.RunChecked*"></a>
+  <h4 id="KdSoft_Lmdb_Database_RunChecked_System_Func_System_UInt32_KdSoft_Lmdb_Interop_DbRetCode__" data-uid="KdSoft.Lmdb.Database.RunChecked(System.Func{System.UInt32,KdSoft.Lmdb.Interop.DbRetCode})">RunChecked(Func&lt;UInt32, DbRetCode&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
+protected void RunChecked(Func&lt;uint, DbRetCode&gt; libFunc)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.uint32">UInt32</a>, <a class="xref" href="KdSoft.Lmdb.Interop.DbRetCode.html">DbRetCode</a>&gt;</td>
+        <td><span class="parametername">libFunc</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_Database_Truncate_" data-uid="KdSoft.Lmdb.Database.Truncate*"></a>
+  <h4 id="KdSoft_Lmdb_Database_Truncate_KdSoft_Lmdb_Transaction_" data-uid="KdSoft.Lmdb.Database.Truncate(KdSoft.Lmdb.Transaction)">Truncate(Transaction)</h4>
+  <div class="markdown level1 summary"><p>Empty a database.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Truncate(Transaction transaction)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></td>
+        <td><span class="parametername">transaction</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.idisposable">System.IDisposable</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

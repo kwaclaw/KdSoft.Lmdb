@@ -1,0 +1,728 @@
+{
+  "homepages": [],
+  "source_base_path": "F:/Work/Private/KdSoft.Lmdb/Docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.AssertFunction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.AssertFunction.html",
+          "hash": "q6jGXWRS9D+2suIewir9kw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Cursor.ItemsEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Cursor.ItemsEnumerator.html",
+          "hash": "wSK6tMfnPex73/t/BThaRw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Cursor.ItemsIterator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Cursor.ItemsIterator.html",
+          "hash": "IkO6aWxRmcdXhAVARSfnhg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Cursor.NextItemsEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Cursor.NextItemsEnumerator.html",
+          "hash": "M07NnYAMVr+zlLlAIBnCdQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Cursor.NextItemsIterator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Cursor.NextItemsIterator.html",
+          "hash": "PdVMtupUYYN1aFDoL+POeQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Cursor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Cursor.html",
+          "hash": "qNRN7Fte+mUOH6PrEZkXsQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.CursorDeleteOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.CursorDeleteOption.html",
+          "hash": "v68v60UA7GkM15K7G9u60w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.CursorPutOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.CursorPutOption.html",
+          "hash": "PgZ5TvYHyWO4vkgesYXqPA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Database.LibFunc-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Database.LibFunc-2.html",
+          "hash": "kBSIEwdPAGDDuZX+2BzDgw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Database.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Database.html",
+          "hash": "S7DWYF2iI6KxRYu47nQ5vg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.DatabaseConfiguration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.DatabaseConfiguration.html",
+          "hash": "ppIJB/0By+Gpay9PwC9tLw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.DatabaseOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.DatabaseOptions.html",
+          "hash": "YAJiz19S0n6/vL8BNVoa7g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.DatabaseTransaction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.DatabaseTransaction.html",
+          "hash": "0cnUzd5oArUfONjHQ5QYGw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Environment.LibFunc-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Environment.LibFunc-2.html",
+          "hash": "zLSNT9ok3FlnBnCnK512Xg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Environment.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Environment.html",
+          "hash": "y831rpZsf5kszmBv2fMhQA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.EnvironmentConfiguration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.EnvironmentConfiguration.html",
+          "hash": "BLLALBCereMDiMZ4QRDGrw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.EnvironmentCopyOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.EnvironmentCopyOptions.html",
+          "hash": "D7gdWUmdXfhPo71bAQlEpw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.EnvironmentInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.EnvironmentInfo.html",
+          "hash": "i4mBDYmHltgUDsOgZmjobw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.EnvironmentOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.EnvironmentOptions.html",
+          "hash": "gDHmk/8MfWwMvbGywodiCA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.ErrorUtil.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.ErrorUtil.html",
+          "hash": "z618OfU1mI+5iMQtL8YI6Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.FixedMultiValueCursor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.FixedMultiValueCursor.html",
+          "hash": "ElTvYU0lyJ20vF5f6xkYuA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.FixedMultiValueDatabase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.FixedMultiValueDatabase.html",
+          "hash": "VTGTx8JYtDG9bfBr2N1zFQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.FixedMultiValueDatabaseConfiguration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.FixedMultiValueDatabaseConfiguration.html",
+          "hash": "lKJEsx0SbXqlE61c81U7ZA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Interop.DbCursorOp.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Interop.DbCursorOp.html",
+          "hash": "DzoKDJPNQSSwbrXLV7B6LA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Interop.DbLibCompareFunction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Interop.DbLibCompareFunction.html",
+          "hash": "HaSpxm8OQV2akcedNNkWPQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Interop.DbLibConstants.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Interop.DbLibConstants.html",
+          "hash": "Wwt3V4DQFD5SHa5WvCdswg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Interop.DbLibUtil.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Interop.DbLibUtil.html",
+          "hash": "MLRP5UyBovqWtK+xlLwQoQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Interop.DbRetCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Interop.DbRetCode.html",
+          "hash": "qD5GOmu6iXMu7Tq3MEvyLg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Interop.DbValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Interop.DbValue.html",
+          "hash": "ECiF4jJOgngsGRqiQoE8Fg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Interop.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Interop.html",
+          "hash": "HDTZzPeuWWKmn5nX+OYiyQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.KeyDataPair.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.KeyDataPair.html",
+          "hash": "+ySpfqOytGRJco84O6qaBw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.LmdbException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.LmdbException.html",
+          "hash": "jtqQFituKs00OcbUcCiq7Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.MultiValueCursor.ValuesEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.MultiValueCursor.ValuesEnumerator.html",
+          "hash": "n3/rQ6ncev4jPuVzjEbFEA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.MultiValueCursor.ValuesIterator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.MultiValueCursor.ValuesIterator.html",
+          "hash": "4px+hM8mNi0Aa5hc+KDlZQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.MultiValueCursor.ValuesNextEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.MultiValueCursor.ValuesNextEnumerator.html",
+          "hash": "M1ND7DdIHJjbrSox1ApGHg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.MultiValueCursor.ValuesNextIterator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.MultiValueCursor.ValuesNextIterator.html",
+          "hash": "OMgWpVHpmEUqkRBD7mFFWg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.MultiValueCursor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.MultiValueCursor.html",
+          "hash": "EgQZjUJHc4jF7I39Fx1T5A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.MultiValueCursorDeleteOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.MultiValueCursorDeleteOption.html",
+          "hash": "ax093ZmOSv4OCP8daVo1ag=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.MultiValueCursorPutOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.MultiValueCursorPutOption.html",
+          "hash": "9KEb8AVGQhnjl3jkCDB/4Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.MultiValueDatabase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.MultiValueDatabase.html",
+          "hash": "oCQzoZ0bRJhrzGPtmGUtdw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.MultiValueDatabaseConfiguration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.MultiValueDatabaseConfiguration.html",
+          "hash": "fCzXfEI7/0JwnKTjCB6+ZQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.MultiValueDatabaseOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.MultiValueDatabaseOptions.html",
+          "hash": "fH/KKSMNIOcJTv7bJ9pyOg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.MultiValuePutOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.MultiValuePutOptions.html",
+          "hash": "11QJ8PkO3erxM/uKxIWDBg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.PutOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.PutOptions.html",
+          "hash": "p4IWx7Hi9Hf/0EV+lW0FWA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.ReadOnlyTransaction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.ReadOnlyTransaction.html",
+          "hash": "xuzgYvPbsyjrFyPjehyddA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.SpanComparison-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.SpanComparison-1.html",
+          "hash": "VnayGaLoWOvmN+KeGY24bg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Statistics.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Statistics.html",
+          "hash": "dCqbRBv2GQP28/G9kxVg5A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.Transaction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.Transaction.html",
+          "hash": "BuNWNkakFvBOXNIrCW+j2w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.TransactionModes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.TransactionModes.html",
+          "hash": "gFJh/UHKQBs68VeWP4n8lQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.UnixFileModes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.UnixFileModes.html",
+          "hash": "BJ1Z42pXAT6XFxuYylYFWQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.html",
+          "hash": "g6hwNZxMOUIWNRO4dAJcIQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "NnLWM/f0bt/C6yZMachTHg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "QPSgmO3r1GqewzEKKHeSFw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/builddocs.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/builddocs.html",
+          "hash": "8pbNyD45xCPbZLo5WRaV4g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "joQcd0eeujsSAUqe1FqF+A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "0vNQzxF+wHeSZbzAt4CH6A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "g4HCkht5hH5Aveupq+XF6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build"
+      },
+      "processors": {
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build"
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build"
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing"
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

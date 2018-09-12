@@ -1,0 +1,239 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>KdSoft.Lmdb Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="KdSoft.Lmdb Documentation ">
+    <meta name="generator" content="docfx 2.39.2.0">
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="kdsoftlmdb-documentation">KdSoft.Lmdb Documentation</h1>
+
+<p>A .NET wrapper for  OpenLDAP's <a href="https://github.com/LMDB/lmdb">LMDB</a> key-value store.
+Provides a .NET/C# friendly API and supports zero-copy access to the native library.</p>
+<h2 id="overview">Overview</h2>
+<h4 id="create-a-database">Create a database</h4>
+<pre><code class="lang-c#">var envConfig = new EnvironmentConfiguration(10);
+using (var env = new Environment(envConfig)) {
+    env.Open(envPath);    
+    Database dbase;
+    var dbConfig = new DatabaseConfiguration(DatabaseOptions.Create);
+    using (var tx = env.BeginDatabaseTransaction(TransactionModes.None)) {
+        dbase = tx.OpenDatabase(&quot;TestDb1&quot;, dbConfig);
+        tx.Commit();
+    }
+    // use dbase from here on
+}
+</code></pre>
+<h4 id="simple-store-and-retrieve">Simple Store and Retrieve</h4>
+<pre><code class="lang-c#">&lt;Env points to an open Environment handle&gt;
+...  
+var config = new DatabaseConfiguration(DatabaseOptions.Create);
+Database dbase;
+using (var tx = Env.BeginDatabaseTransaction(TransactionModes.None)) {
+    dbase = tx.OpenDatabase(&quot;SimpleStoreRetrieve&quot;, config);
+    tx.Commit();
+}
+
+int key = 234;
+var keyBuf = BitConverter.GetBytes(key);
+string putData = &quot;Test Data&quot;;
+
+using (var tx = Env.BeginTransaction(TransactionModes.None)) {
+    dbase.Put(tx, keyBuf, Encoding.UTF8.GetBytes(putData), PutOptions.None);
+    tx.Commit();
+}
+
+ReadOnlySpan&lt;byte&gt; getData;
+using (var tx = Env.BeginReadOnlyTransaction(TransactionModes.None)) {
+    Assert.True(dbase.Get(tx, keyBuf, out getData));
+    tx.Commit();
+}
+
+Assert.Equal(putData, Encoding.UTF8.GetString(getData));
+</code></pre>
+<h4 id="cursor-operations---single-value-database">Cursor Operations - Single-Value Database</h4>
+<pre><code class="lang-c#">&lt;Dbase points to an open Database handle, tx is an open transaction&gt;
+...
+// basic iteration
+using (var cursor = Dbase.OpenCursor(tx)) {
+    foreach (var entry in cursor.Forward) {  // cursor.Reverse goes the other way
+        var key = BitConverter.ToInt32(entry.Key);
+        var data = Encoding.UTF8.GetString(entry.Data);
+    }
+}
+
+// move cursor to key position and get data forward from that key
+using (var cursor = Dbase.OpenCursor(tx)) {
+    var keyBytes = BitConverter.GetBytes(1874);
+    if (cursor.MoveToKey(keyBytes)) {
+        Assert.True(cursor.GetCurrent(out KeyDataPair entry));
+        var dataString = Encoding.UTF8.GetString(entry.Data);
+        while (cursor.GetNext(...)) {
+            //
+        }
+    }
+}
+
+// iterate over key range (using foreach)
+using (var cursor = Dbase.OpenCursor(tx)) {
+    var startKeyBytes = BitConverter.GetBytes(33);
+    Assert.True(cursor.MoveToKey(startKeyBytes));
+
+    var endKeyBytes = BitConverter.GetBytes(99);
+    foreach (var entry in cursor.ForwardFromCurrent) {
+        // test for end of range (&gt; 0 or &gt;=0)
+        if (Dbase.Compare(tx, entry.Key, endKeyBytes) &gt; 0)
+            break;
+
+        var ckey = BitConverter.ToInt32(entry.Key);
+        var cdata = Encoding.UTF8.GetString(entry.Data);
+                        
+        Console.WriteLine($&quot;{ckey}: {cdata}&quot;);
+    }
+}
+
+</code></pre>
+<h4 id="cursor-operations---multi-value-database">Cursor Operations - Multi-Value Database</h4>
+<pre><code class="lang-c#">// iteration over multi-value database
+using (var cursor = Dbase.OpenMultiValueCursor(tx)) {
+    foreach (var keyEntry in cursor.ForwardByKey) {
+        var key = BitConverter.ToInt32(keyEntry.Key);
+        var valueList = new List&lt;string&gt;();
+        // iterate over the values in the same key
+        foreach (var value in cursor.ValuesForward) {
+            var data = Encoding.UTF8.GetString(value);
+            valueList.Add(data);
+        }
+    }
+}
+
+// move to key, iterate over multiple values for key
+using (var cursor = Dbase.OpenMultiValueCursor(tx)) {
+    Assert.True(cursor.MoveToKey(BitConverter.GetBytes(234));
+    var valueList = new List&lt;string&gt;();
+    foreach (var value in cursor.ValuesForward) {
+        var data = Encoding.UTF8.GetString(value);
+        valueList.Add(data);
+    }
+}
+
+// Move to key *and* nearest data in multi-value database
+using (var cursor = Dbase.OpenMultiValueCursor(tx)) {
+    var dataBytes = Encoding.UTF8.GetBytes(&quot;Test Data&quot;);
+    var keyData = new KeyDataPair(BitConverter.GetBytes(4), dataBytes);
+    KeyDataPair entry;  // the key-value pair nearest to keyData
+    Assert.True(cursor.GetNearest(keyData, out entry));
+    var dataString = Encoding.UTF8.GetString(entry.Data);
+}
+</code></pre>
+<p>The unit tests have more examples, especially for cursor operations.</p>
+<h2 id="installation">Installation</h2>
+<p>Include as Nuget package from <a href="https://www.nuget.org/packages/KdSoft.Lmdb/">https://www.nuget.org/packages/KdSoft.Lmdb/</a> . This is not quite sufficient on platforms other than Windows:</p>
+<h4 id="installing-the-native-libraries">Installing the native libraries</h4>
+<ul>
+<li><p>Windows: A recent x64 build is included in this project.</p>
+</li>
+<li><p>Linux-like:</p>
+<ul>
+<li>Install package, Example for Ubuntu: <code>sudo apt-get install liblmdb-dev</code></li>
+<li>Install from source, like in this example</li>
+</ul>
+<pre><code>git clone https://github.com/LMDB/lmdb
+cd lmdb/libraries/liblmdb
+make &amp;&amp; make install
+</code></pre>
+</li>
+</ul>
+<h2 id="tests">Tests</h2>
+<p>On non-Windows platforms, LMDB must already be installed so that it can be looked up
+by DLLImport using the platform-typical name.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>
