@@ -161,7 +161,7 @@ Include as Nuget package from https://www.nuget.org/packages/KdSoft.Lmdb/ . This
 
 ## API Reference
 
-Currently, only XML doc comments in the source are available.
+API documentation can be found at  https://kwaclaw.github.io/KdSoft.Lmdb/.
 
 The native API is documented here: http://www.lmdb.tech/doc/ .
 

@@ -153,7 +153,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.DatabaseTransaction.html",
-          "hash": "0cnUzd5oArUfONjHQ5QYGw=="
+          "hash": "+/BqS5LDH9lkeME4sMN8jQ=="
         }
       },
       "is_incremental": true,
@@ -645,10 +645,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/builddocs.html",
-          "hash": "8pbNyD45xCPbZLo5WRaV4g=="
+          "hash": "UVY6fTKINbDXsCSNjmE56A=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -700,11 +700,11 @@
           "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
-        "ManagedReferenceDocumentProcessor": {
+        "ConceptualDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build"
         },
-        "ConceptualDocumentProcessor": {
+        "ManagedReferenceDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build"
         }
