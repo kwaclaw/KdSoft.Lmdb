@@ -39,7 +39,7 @@ namespace KdSoft.Lmdb.Interop
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DbValue(void* data, long size) {
             this.Data = data;
-            this.Size = (IntPtr)size;
+            this.Size = unchecked((IntPtr)size);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace KdSoft.Lmdb.Interop
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DbValue(void* data, int size) {
             this.Data = data;
-            this.Size = (IntPtr)size;
+            this.Size = unchecked((IntPtr)size);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace KdSoft.Lmdb.Interop
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DbValue(void* data, ulong size) {
             this.Data = data;
-            this.Size = (IntPtr)size;
+            this.Size = unchecked((IntPtr)size);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace KdSoft.Lmdb.Interop
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DbValue(void* data, uint size) {
             this.Data = data;
-            this.Size = (IntPtr)size;
+            this.Size = unchecked((IntPtr)size);
         }
 
         /// <summary>

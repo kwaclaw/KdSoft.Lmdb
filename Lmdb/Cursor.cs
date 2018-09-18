@@ -84,10 +84,10 @@ namespace KdSoft.Lmdb
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* keyPtr = &MemoryMarshal.GetReference(key)) {
+                    fixed (void* keyPtr = key) {
                         var dbKey = new DbValue(keyPtr, key.Length);
                         var dbData = default(DbValue);
-                        ret = DbLib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
+                        ret = DbLib.mdb_cursor_get(handle, in dbKey, &dbData, op);
                         entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
                     }
                 }
@@ -108,11 +108,11 @@ namespace KdSoft.Lmdb
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* keyPtr = &MemoryMarshal.GetReference(keyData.Key))
-                    fixed (void* dataPtr = &MemoryMarshal.GetReference(keyData.Data)) {
+                    fixed (void* keyPtr = keyData.Key)
+                    fixed (void* dataPtr = keyData.Data) {
                         var dbKey = new DbValue(keyPtr, keyData.Key.Length);
                         var dbData = new DbValue(dataPtr, keyData.Data.Length);
-                        ret = DbLib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
+                        ret = DbLib.mdb_cursor_get(handle, in dbKey, &dbData, op);
                         entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
                     }
                 }
@@ -134,9 +134,9 @@ namespace KdSoft.Lmdb
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* keyPtr = &MemoryMarshal.GetReference(key)) {
+                    fixed (void* keyPtr = key) {
                         var dbKey = new DbValue(keyPtr, key.Length);
-                        ret = DbLib.mdb_cursor_get(handle, ref dbKey, null, op);
+                        ret = DbLib.mdb_cursor_get(handle, in dbKey, null, op);
                     }
                 }
             }
@@ -159,7 +159,7 @@ namespace KdSoft.Lmdb
                 var handle = CheckDisposed();
                 unsafe {
                     var dbKey = default(DbValue);
-                    ret = DbLib.mdb_cursor_get(handle, ref dbKey, null, op);
+                    ret = DbLib.mdb_cursor_get(handle, in dbKey, null, op);
                     key = dbKey.ToReadOnlySpan();
                 }
             }
@@ -183,7 +183,7 @@ namespace KdSoft.Lmdb
                 unsafe {
                     var dbKey = default(DbValue);
                     var dbData = default(DbValue);
-                    ret = DbLib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
+                    ret = DbLib.mdb_cursor_get(handle, in dbKey, &dbData, op);
                     entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
                 }
             }
@@ -208,7 +208,7 @@ namespace KdSoft.Lmdb
                 unsafe {
                     var dbKey = default(DbValue);
                     var dbData = default(DbValue);
-                    ret = DbLib.mdb_cursor_get(handle, ref dbKey, &dbData, op);
+                    ret = DbLib.mdb_cursor_get(handle, in dbKey, &dbData, op);
                     data = dbData.ToReadOnlySpan();
                 }
             }
@@ -303,11 +303,11 @@ namespace KdSoft.Lmdb
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* keyPtr = &MemoryMarshal.GetReference(entry.Key))
-                    fixed (void* dataPtr = &MemoryMarshal.GetReference(entry.Data)) {
+                    fixed (void* keyPtr = entry.Key)
+                    fixed (void* dataPtr = entry.Data) {
                         var dbKey = new DbValue(keyPtr, entry.Key.Length);
                         var dbValue = new DbValue(dataPtr, entry.Data.Length);
-                        ret = DbLib.mdb_cursor_put(handle, ref dbKey, &dbValue, option);
+                        ret = DbLib.mdb_cursor_put(handle, in dbKey, &dbValue, option);
                     }
                 }
             }

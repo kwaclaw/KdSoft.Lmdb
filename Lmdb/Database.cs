@@ -147,15 +147,15 @@ namespace KdSoft.Lmdb
         /// <param name="key">Key to specify which data item / record to retrieve.</param>
         /// <param name="data">Data / record to be returned.</param>
         /// <returns><c>true</c> if data for key retrieved without error, <c>false</c> if key does not exist.</returns>
-        public bool Get(Transaction transaction, ReadOnlySpan<byte> key, out ReadOnlySpan<byte> data) {
+        public bool Get(Transaction transaction, in ReadOnlySpan<byte> key, out ReadOnlySpan<byte> data) {
             DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* bytePtr = &MemoryMarshal.GetReference(key)) {
+                    fixed (void* bytePtr = key) {
                         var dbKey = new DbValue(bytePtr, key.Length);
                         var dbData = default(DbValue);
-                        ret = DbLib.mdb_get(transaction.Handle, handle, ref dbKey, ref dbData);
+                        ret = DbLib.mdb_get(transaction.Handle, handle, in dbKey, in dbData);
                         data = dbData.ToReadOnlySpan();
                     }
                 }
@@ -166,17 +166,25 @@ namespace KdSoft.Lmdb
             return true;
         }
 
+        /// <summary>
+        /// Internal implementation of the Put operation for use by public operations.
+        /// </summary>
+        /// <param name="transaction">Transaction under which the Put operation is performed.</param>
+        /// <param name="key">Key to identify the Data item to be stored.</param>
+        /// <param name="data">Data / record to be stored.</param>
+        /// <param name="options">Options to specify how the Put operation should be performed.</param>
+        /// <returns><c>true</c> if data for key could be stored without error, <c>false</c> if key already exists (depending on options).</returns>
         [CLSCompliant(false)]
-        protected bool PutInternal(Transaction transaction, ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, uint options) {
+        protected bool PutInternal(Transaction transaction, in ReadOnlySpan<byte> key, in ReadOnlySpan<byte> data, uint options) {
             DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* keyPtr = &MemoryMarshal.GetReference(key))
-                    fixed (void* dataPtr = &MemoryMarshal.GetReference(data)) {
+                    fixed (void* keyPtr = key)
+                    fixed (void* dataPtr = data) {
                         var dbKey = new DbValue(keyPtr, key.Length);
                         var dbValue = new DbValue(dataPtr, data.Length);
-                        ret = DbLib.mdb_put(transaction.Handle, handle, ref dbKey, ref dbValue, options);
+                        ret = DbLib.mdb_put(transaction.Handle, handle, in dbKey, in dbValue, options);
                     }
                 }
             }
@@ -191,14 +199,14 @@ namespace KdSoft.Lmdb
         /// This function stores key/data pairs in the database. The default behavior is to enter
         /// the new key/data pair, replacing any previously existing key.
         /// </summary>
-        /// <param name="transaction"></param>
-        /// <param name="key"></param>
-        /// <param name="data"></param>
-        /// <param name="options"></param>
+        /// <param name="transaction">Transaction under which the Put operation is performed.</param>
+        /// <param name="key">Key to identify the Data item to be stored.</param>
+        /// <param name="data">Data / record to be stored.</param>
+        /// <param name="options">Options to specify how the Put operation should be performed.</param>
         /// <returns><c>true</c> if inserted without error, <c>false</c> if <see cref="PutOptions.NoOverwrite"/>
         /// was specified and the key already exists.</returns>
-        public bool Put(Transaction transaction, ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, PutOptions options) {
-            return PutInternal(transaction, key, data, unchecked((uint)options));
+        public bool Put(Transaction transaction, in ReadOnlySpan<byte> key, in ReadOnlySpan<byte> data, PutOptions options) {
+            return PutInternal(transaction, in key, in data, unchecked((uint)options));
         }
 
         /// <summary>
@@ -208,14 +216,14 @@ namespace KdSoft.Lmdb
         /// </summary>
         /// <param name="transaction"></param>
         /// <param name="key"></param>
-        public bool Delete(Transaction transaction, ReadOnlySpan<byte> key) {
+        public bool Delete(Transaction transaction, in ReadOnlySpan<byte> key) {
             DbRetCode ret;
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* bytePtr = &MemoryMarshal.GetReference(key)) {
+                    fixed (void* bytePtr = key) {
                         var dbKey = new DbValue(bytePtr, key.Length);
-                        ret = DbLib.mdb_del(transaction.Handle, handle, ref dbKey, IntPtr.Zero);
+                        ret = DbLib.mdb_del(transaction.Handle, handle, in dbKey, IntPtr.Zero);
                     }
                 }
             }
@@ -233,16 +241,16 @@ namespace KdSoft.Lmdb
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns>&lt; 0 if x &lt; y, 0 if x == y, &gt; 0 if x &gt; y</returns>
-        public int Compare(Transaction transaction, ReadOnlySpan<byte> x, ReadOnlySpan<byte> y) {
+        public int Compare(Transaction transaction, in ReadOnlySpan<byte> x, in ReadOnlySpan<byte> y) {
             int result;
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* xPtr = &MemoryMarshal.GetReference(x))
-                    fixed (void* yPtr = &MemoryMarshal.GetReference(y)) {
+                    fixed (void* xPtr = x)
+                    fixed (void* yPtr = y) {
                         var dbx = new DbValue(xPtr, x.Length);
                         var dby = new DbValue(yPtr, y.Length);
-                        result = DbLib.mdb_cmp(transaction.Handle, handle, ref dbx, ref dby);
+                        result = DbLib.mdb_cmp(transaction.Handle, handle, in dbx, in dby);
                     }
                 }
             }

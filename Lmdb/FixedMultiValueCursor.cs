@@ -68,7 +68,7 @@ namespace KdSoft.Lmdb
         /// <param name="itemCount">On input, # of items to store, on output, number of items actually stored.</param>
         /// <returns><c>true</c> if inserted without error, <c>false</c> if <see cref="CursorPutOption.NoOverwrite"/>
         /// was specified and the key already exists.</returns>
-        public bool PutMultiple(ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, ref int itemCount) {
+        public bool PutMultiple(in ReadOnlySpan<byte> key, in ReadOnlySpan<byte> data, ref int itemCount) {
             if (DataSize * itemCount > data.Length)
                 ErrorUtil.CheckRetCode(ErrorUtil.TooManyFixedItems);
 
@@ -77,12 +77,12 @@ namespace KdSoft.Lmdb
                 var handle = CheckDisposed();
                 unsafe {
                     var dbMultiData = stackalloc DbValue[2];
-                    fixed (void* keyPtr = &MemoryMarshal.GetReference(key))
-                    fixed (void* firstDataPtr = &MemoryMarshal.GetReference(data)) {
+                    fixed (void* keyPtr = key)
+                    fixed (void* firstDataPtr = data) {
                         var dbKey = new DbValue(keyPtr, key.Length);
                         dbMultiData[0] = new DbValue(firstDataPtr, DataSize);
                         dbMultiData[1] = new DbValue(null, itemCount);
-                        ret = DbLib.mdb_cursor_put(handle, ref dbKey, dbMultiData, DbLibConstants.MDB_MULTIPLE);
+                        ret = DbLib.mdb_cursor_put(handle, in dbKey, dbMultiData, DbLibConstants.MDB_MULTIPLE);
                         itemCount = (int)dbMultiData[1].Size;
                     }
                 }

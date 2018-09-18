@@ -35,9 +35,9 @@ namespace KdSoft.Lmdb
         /// <param name="mvOptions"></param>
         /// <returns><c>true</c> if inserted without error, <c>false</c> if <see cref="PutOptions.NoOverwrite"/>
         /// was specified and the key already exists.</returns>
-        public bool Put(Transaction transaction, ReadOnlySpan<byte> key, ReadOnlySpan<byte> data, PutOptions options, MultiValuePutOptions mvOptions) {
+        public bool Put(Transaction transaction, in ReadOnlySpan<byte> key, in ReadOnlySpan<byte> data, PutOptions options, MultiValuePutOptions mvOptions) {
             uint opts = unchecked((uint)options | (uint)mvOptions);
-            return PutInternal(transaction, key, data, opts);
+            return PutInternal(transaction, in key, in data, opts);
         }
 
         /// <summary>
@@ -48,16 +48,16 @@ namespace KdSoft.Lmdb
         /// <param name="transaction"></param>
         /// <param name="key"></param>
         /// <param name="data"></param>
-        public bool Delete(Transaction transaction, ReadOnlySpan<byte> key, ReadOnlySpan<byte> data) {
+        public bool Delete(Transaction transaction, in ReadOnlySpan<byte> key, in ReadOnlySpan<byte> data) {
             lock (rscLock) {
                 var handle = CheckDisposed();
                 DbRetCode ret;
                 unsafe {
-                    fixed (void* keyPtr = &MemoryMarshal.GetReference(key))
-                    fixed (void* dataPtr = &MemoryMarshal.GetReference(data)) {
+                    fixed (void* keyPtr = key)
+                    fixed (void* dataPtr = data) {
                         var dbKey = new DbValue(keyPtr, key.Length);
                         var dbData = new DbValue(dataPtr, data.Length);
-                        ret = DbLib.mdb_del(transaction.Handle, handle, ref dbKey, ref dbData);
+                        ret = DbLib.mdb_del(transaction.Handle, handle, in dbKey, in dbData);
                     }
                 }
                 if (ret == DbRetCode.NOTFOUND)
@@ -75,16 +75,16 @@ namespace KdSoft.Lmdb
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns>&lt; 0 if x &lt; y, 0 if x == y, &gt; 0 if x &gt; y</returns>
-        public int DupCompare(Transaction transaction, ReadOnlySpan<byte> x, ReadOnlySpan<byte> y) {
+        public int DupCompare(Transaction transaction, in ReadOnlySpan<byte> x, in ReadOnlySpan<byte> y) {
             int result;
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* xPtr = &MemoryMarshal.GetReference(x))
-                    fixed (void* yPtr = &MemoryMarshal.GetReference(y)) {
+                    fixed (void* xPtr = x)
+                    fixed (void* yPtr = y) {
                         var dbx = new DbValue(xPtr, x.Length);
                         var dby = new DbValue(yPtr, y.Length);
-                        result = DbLib.mdb_dcmp(transaction.Handle, handle, ref dbx, ref dby);
+                        result = DbLib.mdb_dcmp(transaction.Handle, handle, in dbx, in dby);
                     }
                 }
             }

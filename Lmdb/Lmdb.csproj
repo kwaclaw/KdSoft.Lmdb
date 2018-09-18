@@ -6,8 +6,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>KdSoft.Lmdb</AssemblyName>
     <RootNamespace>KdSoft.Lmdb</RootNamespace>
-    <VersionPrefix>1.0.0</VersionPrefix>
     <!--<VersionSuffix>beta-$(DateStamp)</VersionSuffix>-->
+    <VersionPrefix>1.0.1</VersionPrefix>
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
   </PropertyGroup>
   

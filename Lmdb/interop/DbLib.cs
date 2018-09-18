@@ -149,22 +149,22 @@ namespace KdSoft.Lmdb.Interop
         public static extern DbRetCode mdb_set_dupsort(IntPtr txn, uint dbi, DbLibCompareFunction cmp);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_get(IntPtr txn, uint dbi, [In] ref DbValue key, ref DbValue data);
+        public static extern DbRetCode mdb_get(IntPtr txn, uint dbi, in DbValue key, in DbValue data);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_put(IntPtr txn, uint dbi, [In] ref DbValue key, ref DbValue data, uint flags);
+        public static extern DbRetCode mdb_put(IntPtr txn, uint dbi, in DbValue key, in DbValue data, uint flags);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_del(IntPtr txn, uint dbi, [In] ref DbValue key, [In] ref DbValue data);
+        public static extern DbRetCode mdb_del(IntPtr txn, uint dbi, in DbValue key, in DbValue data);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_del(IntPtr txn, uint dbi, [In] ref DbValue key, IntPtr data);
+        public static extern DbRetCode mdb_del(IntPtr txn, uint dbi, in DbValue key, IntPtr data);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern int mdb_cmp(IntPtr txn, uint dbi, [In] ref DbValue x, [In] ref DbValue y);
+        public static extern int mdb_cmp(IntPtr txn, uint dbi, in DbValue x, in DbValue y);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern int mdb_dcmp(IntPtr txn, uint dbi, [In] ref DbValue x, [In] ref DbValue y);
+        public static extern int mdb_dcmp(IntPtr txn, uint dbi, in DbValue x, in DbValue y);
 
         #endregion
 
@@ -186,10 +186,10 @@ namespace KdSoft.Lmdb.Interop
         public static extern IntPtr mdb_cursor_dbi(IntPtr cursor);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_cursor_get(IntPtr cursor, ref DbValue key, DbValue* data, DbCursorOp op);
+        public static extern DbRetCode mdb_cursor_get(IntPtr cursor, in DbValue key, DbValue* data, DbCursorOp op);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_cursor_put(IntPtr cursor, [In] ref DbValue key, DbValue* data, uint flags);
+        public static extern DbRetCode mdb_cursor_put(IntPtr cursor, in DbValue key, DbValue* data, uint flags);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_cursor_del(IntPtr cursor, uint flags);
