@@ -152,12 +152,10 @@ namespace KdSoft.Lmdb
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* bytePtr = key) {
-                        var dbKey = new DbValue(bytePtr, key.Length);
-                        var dbData = default(DbValue);
-                        ret = DbLib.mdb_get(transaction.Handle, handle, in dbKey, in dbData);
-                        data = dbData.ToReadOnlySpan();
-                    }
+                    var dbKey = DbValue.From(key);
+                    var dbData = default(DbValue);
+                    ret = DbLib.mdb_get(transaction.Handle, handle, in dbKey, in dbData);
+                    data = dbData.ToReadOnlySpan();
                 }
             }
             if (ret == DbRetCode.NOTFOUND)
@@ -180,12 +178,9 @@ namespace KdSoft.Lmdb
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* keyPtr = key)
-                    fixed (void* dataPtr = data) {
-                        var dbKey = new DbValue(keyPtr, key.Length);
-                        var dbValue = new DbValue(dataPtr, data.Length);
-                        ret = DbLib.mdb_put(transaction.Handle, handle, in dbKey, in dbValue, options);
-                    }
+                    var dbKey = DbValue.From(key);
+                    var dbData = DbValue.From(data);
+                    ret = DbLib.mdb_put(transaction.Handle, handle, in dbKey, in dbData, options);
                 }
             }
             if (ret == DbRetCode.KEYEXIST)
@@ -221,10 +216,8 @@ namespace KdSoft.Lmdb
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* bytePtr = key) {
-                        var dbKey = new DbValue(bytePtr, key.Length);
-                        ret = DbLib.mdb_del(transaction.Handle, handle, in dbKey, IntPtr.Zero);
-                    }
+                    var dbKey = DbValue.From(key);
+                    ret = DbLib.mdb_del(transaction.Handle, handle, in dbKey, IntPtr.Zero);
                 }
             }
             if (ret == DbRetCode.NOTFOUND)
@@ -246,12 +239,9 @@ namespace KdSoft.Lmdb
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* xPtr = x)
-                    fixed (void* yPtr = y) {
-                        var dbx = new DbValue(xPtr, x.Length);
-                        var dby = new DbValue(yPtr, y.Length);
-                        result = DbLib.mdb_cmp(transaction.Handle, handle, in dbx, in dby);
-                    }
+                    var dbx = DbValue.From(x);
+                    var dby = DbValue.From(y);
+                    result = DbLib.mdb_cmp(transaction.Handle, handle, in dbx, in dby);
                 }
             }
             return result;

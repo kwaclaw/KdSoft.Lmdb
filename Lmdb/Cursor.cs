@@ -84,12 +84,10 @@ namespace KdSoft.Lmdb
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* keyPtr = key) {
-                        var dbKey = new DbValue(keyPtr, key.Length);
-                        var dbData = default(DbValue);
-                        ret = DbLib.mdb_cursor_get(handle, in dbKey, &dbData, op);
-                        entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
-                    }
+                    var dbKey = DbValue.From(key);
+                    var dbData = default(DbValue);
+                    ret = DbLib.mdb_cursor_get(handle, in dbKey, &dbData, op);
+                    entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
                 }
             }
             if (ret == DbRetCode.NOTFOUND)
@@ -108,13 +106,10 @@ namespace KdSoft.Lmdb
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* keyPtr = keyData.Key)
-                    fixed (void* dataPtr = keyData.Data) {
-                        var dbKey = new DbValue(keyPtr, keyData.Key.Length);
-                        var dbData = new DbValue(dataPtr, keyData.Data.Length);
-                        ret = DbLib.mdb_cursor_get(handle, in dbKey, &dbData, op);
-                        entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
-                    }
+                    var dbKey = DbValue.From(keyData.Key);
+                    var dbData = DbValue.From(keyData.Data);
+                    ret = DbLib.mdb_cursor_get(handle, in dbKey, &dbData, op);
+                    entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
                 }
             }
             if (ret == DbRetCode.NOTFOUND)
@@ -303,12 +298,9 @@ namespace KdSoft.Lmdb
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* keyPtr = entry.Key)
-                    fixed (void* dataPtr = entry.Data) {
-                        var dbKey = new DbValue(keyPtr, entry.Key.Length);
-                        var dbValue = new DbValue(dataPtr, entry.Data.Length);
-                        ret = DbLib.mdb_cursor_put(handle, in dbKey, &dbValue, option);
-                    }
+                    var dbKey = DbValue.From(entry.Key);
+                    var dbData = DbValue.From(entry.Data);
+                    ret = DbLib.mdb_cursor_put(handle, in dbKey, &dbData, option);
                 }
             }
             if (ret == DbRetCode.KEYEXIST)

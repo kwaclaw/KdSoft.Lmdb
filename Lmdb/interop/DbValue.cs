@@ -76,6 +76,54 @@ namespace KdSoft.Lmdb.Interop
         }
 
         /// <summary>
+        /// Creates <see cref="DbValue"/> from <see cref="ReadOnlySpan{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">Type of <c>Span</c> element.</typeparam>
+        /// <param name="span"><c>Span</c> instance to create the <c>DbValue</c> from.</param>
+        /// <returns>New <c>DbValue</c> instance.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static DbValue From<T>(ReadOnlySpan<T> span) where T: struct {
+            return new DbValue(
+                Unsafe.AsPointer(ref MemoryMarshal.GetReference(span)),
+                span.Length * Unsafe.SizeOf<T>()
+            );
+        }
+
+        /// <summary>
+        /// Creates <see cref="DbValue"/> from <see cref="Span{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">Type of <c>Span</c> element.</typeparam>
+        /// <param name="span"><c>Span</c> instance to create the <c>DbValue</c> from.</param>
+        /// <returns>New <c>DbValue</c> instance.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static DbValue From<T>(Span<T> span) where T: struct {
+            return new DbValue(
+                Unsafe.AsPointer(ref MemoryMarshal.GetReference(span)),
+                span.Length * Unsafe.SizeOf<T>()
+            );
+        }
+
+        /// <summary>
+        /// Creates <see cref="DbValue"/> from <see cref="ReadOnlySpan{T}">ReadOnlySpan&lt;byte></see>..
+        /// </summary>
+        /// <param name="span"><c>Span</c> instance to create the <c>DbValue</c> from.</param>
+        /// <returns>New <c>DbValue</c> instance.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static DbValue From(ReadOnlySpan<byte> span) {
+            return new DbValue(Unsafe.AsPointer(ref MemoryMarshal.GetReference(span)), span.Length);
+        }
+
+        /// <summary>
+        /// Creates <see cref="DbValue"/> from <see cref="Span{T}">Span&lt;byte></see>.
+        /// </summary>
+        /// <param name="span"><c>Span</c> instance to create the <c>DbValue</c> from.</param>
+        /// <returns>New <c>DbValue</c> instance.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static DbValue From(Span<byte> span) {
+            return new DbValue(Unsafe.AsPointer(ref MemoryMarshal.GetReference(span)), span.Length);
+        }
+
+        /// <summary>
         /// Converts to <see cref="ReadOnlySpan{T}">ReadOnlySpan&lt;byte></see>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

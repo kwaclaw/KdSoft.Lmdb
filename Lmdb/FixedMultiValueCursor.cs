@@ -77,9 +77,8 @@ namespace KdSoft.Lmdb
                 var handle = CheckDisposed();
                 unsafe {
                     var dbMultiData = stackalloc DbValue[2];
-                    fixed (void* keyPtr = key)
                     fixed (void* firstDataPtr = data) {
-                        var dbKey = new DbValue(keyPtr, key.Length);
+                        var dbKey = DbValue.From(key);
                         dbMultiData[0] = new DbValue(firstDataPtr, DataSize);
                         dbMultiData[1] = new DbValue(null, itemCount);
                         ret = DbLib.mdb_cursor_put(handle, in dbKey, dbMultiData, DbLibConstants.MDB_MULTIPLE);

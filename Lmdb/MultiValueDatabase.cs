@@ -53,12 +53,9 @@ namespace KdSoft.Lmdb
                 var handle = CheckDisposed();
                 DbRetCode ret;
                 unsafe {
-                    fixed (void* keyPtr = key)
-                    fixed (void* dataPtr = data) {
-                        var dbKey = new DbValue(keyPtr, key.Length);
-                        var dbData = new DbValue(dataPtr, data.Length);
-                        ret = DbLib.mdb_del(transaction.Handle, handle, in dbKey, in dbData);
-                    }
+                    var dbKey = DbValue.From(key);
+                    var dbData = DbValue.From(data);
+                    ret = DbLib.mdb_del(transaction.Handle, handle, in dbKey, in dbData);
                 }
                 if (ret == DbRetCode.NOTFOUND)
                     return false;
@@ -80,12 +77,9 @@ namespace KdSoft.Lmdb
             lock (rscLock) {
                 var handle = CheckDisposed();
                 unsafe {
-                    fixed (void* xPtr = x)
-                    fixed (void* yPtr = y) {
-                        var dbx = new DbValue(xPtr, x.Length);
-                        var dby = new DbValue(yPtr, y.Length);
-                        result = DbLib.mdb_dcmp(transaction.Handle, handle, in dbx, in dby);
-                    }
+                    var dbx = DbValue.From(x);
+                    var dby = DbValue.From(y);
+                    result = DbLib.mdb_dcmp(transaction.Handle, handle, in dbx, in dby);
                 }
             }
             return result;
