@@ -21,10 +21,8 @@ namespace KdSoft.Lmdb
         /// the database size may grow much more rapidly than otherwise.
         /// </summary>
         public void Reset() {
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                DbLib.mdb_txn_reset(handle);
-            }
+            var handle = CheckDisposed();
+            DbLib.mdb_txn_reset(handle);
         }
 
         /// <summary>
@@ -33,11 +31,9 @@ namespace KdSoft.Lmdb
         /// It must be called before a reset transaction may be used again.
         /// </summary>
         public void Renew() {
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                var ret = DbLib.mdb_txn_renew(handle);
-                ErrorUtil.CheckRetCode(ret);
-            }
+            var handle = CheckDisposed();
+            var ret = DbLib.mdb_txn_renew(handle);
+            ErrorUtil.CheckRetCode(ret);
         }
     }
 }

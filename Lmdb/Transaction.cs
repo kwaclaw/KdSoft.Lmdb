@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading;
 using KdSoft.Lmdb.Interop;
 
 namespace KdSoft.Lmdb
@@ -33,19 +34,9 @@ namespace KdSoft.Lmdb
 
         #region Unmanaged Resources
 
-        /// <summary>
-        /// Resource lock object.
-        /// </summary>
-        protected readonly object rscLock = new object();
-
         // access to properly aligned types of size "native int" is atomic!
-        volatile IntPtr txn;
+        IntPtr txn;
         internal IntPtr Handle => txn;
-
-        // must be executed under lock, and must not be called multiple times
-        void ReleaseUnmanagedResources() {
-            DbLib.mdb_txn_abort(this.txn);
-        }
 
         #endregion
 
@@ -54,12 +45,10 @@ namespace KdSoft.Lmdb
         /// </summary>
         public Environment Environment {
             get {
-                lock (rscLock) {
-                    var handle = CheckDisposed();
-                    var env = DbLib.mdb_txn_env(handle);
-                    var gcHandle = (GCHandle)DbLib.mdb_env_get_userctx(env);
-                    return (Environment)gcHandle.Target;
-                }
+                var handle = CheckDisposed();
+                var env = DbLib.mdb_txn_env(handle);
+                var gcHandle = (GCHandle)DbLib.mdb_env_get_userctx(env);
+                return (Environment)gcHandle.Target;
             }
         }
 
@@ -68,10 +57,8 @@ namespace KdSoft.Lmdb
         /// </summary>
         public IntPtr Id {
             get {
-                lock (rscLock) {
-                    var handle = CheckDisposed();
-                    return DbLib.mdb_txn_id(handle);
-                }
+                var handle = CheckDisposed();
+                return DbLib.mdb_txn_id(handle);
             }
         }
 
@@ -85,8 +72,7 @@ namespace KdSoft.Lmdb
         }
 
         /// <summary>
-        /// Called at end of commit, while still under a resource lock.
-        /// At this point the transaction is already closed/disposed.
+        /// Called at end of commit, at this point the transaction is already closed/disposed.
         /// </summary>
         protected virtual void Committed() { }
 
@@ -96,14 +82,20 @@ namespace KdSoft.Lmdb
         /// Note: Earlier documentation incorrectly said all cursors would be freed.Only write-transactions free cursors.
         /// </summary>
         public void Commit() {
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                ReleaseManagedResources(true);
-                var ret = DbLib.mdb_txn_commit(handle);
-                SetDisposed();
-                ErrorUtil.CheckRetCode(ret);
-                Committed();
-            }
+            var handle = CheckDisposed();
+
+            ReleaseManagedResources(true);
+
+            var ret = DbLib.mdb_txn_commit(handle);
+
+            var txnId = DbLib.mdb_txn_id(txn);
+            Interlocked.MemoryBarrier();
+            txn = IntPtr.Zero;
+            Interlocked.MemoryBarrier();
+            disposed?.Invoke(txnId);
+
+            ErrorUtil.CheckRetCode(ret);
+            Committed();
         }
 
         #region Cursors
@@ -128,6 +120,10 @@ namespace KdSoft.Lmdb
 
         #region IDisposable Support
 
+        void ThrowDisposed() {
+            throw new ObjectDisposedException(this.GetType().Name);
+        }
+
         /// <summary>
         /// Returns Transaction handle.
         /// Throws if Transaction handle is already closed/disposed of.
@@ -135,24 +131,24 @@ namespace KdSoft.Lmdb
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected IntPtr CheckDisposed() {
             // avoid multiple volatile memory access
+            Interlocked.MemoryBarrier();
             IntPtr result = this.txn;
+            Interlocked.MemoryBarrier();
             if (result == IntPtr.Zero)
-                throw new ObjectDisposedException(this.GetType().Name);
+                ThrowDisposed();
             return result;
-        }
-
-        // must only be called once - this is not checked!!!
-        void SetDisposed() {
-            var txnId = DbLib.mdb_txn_id(txn);
-            txn = IntPtr.Zero;
-            disposed?.Invoke(txnId);
         }
 
         /// <summary>
         /// Returns if Transaction handle is closed/disposed.
         /// </summary>
         public bool IsDisposed {
-            get { return txn == IntPtr.Zero; }
+            get {
+                Interlocked.MemoryBarrier();
+                bool result = txn == IntPtr.Zero;
+                Interlocked.MemoryBarrier();
+                return result;
+            }
         }
 
         /// <summary>
@@ -184,45 +180,33 @@ namespace KdSoft.Lmdb
         }
 
         /// <summary>
-        /// Implementation of Dispose() pattern.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> if explicity disposing (finalizer not run), <c>false</c> if disposed from finalizer.</param>
-        protected virtual void Dispose(bool disposing) {
-            lock (rscLock) {
-                if (txn == IntPtr.Zero)  // already disposed
-                    return;
-                RuntimeHelpers.PrepareConstrainedRegions();
-                try { /* */ }
-                finally {
-                    if (disposing) {
-                        // dispose managed state (managed objects)
-                        ReleaseManagedResources();
-                    }
-                    // free unmanaged resources (unmanaged objects) and override a finalizer below.
-                    ReleaseUnmanagedResources();
-                    if (disposing)
-                        SetDisposed();
-
-                    Cleanup();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Finalizer. Releases unmanaged resources.
-        /// </summary>
-        ~Transaction() {
-            Dispose(false);
-        }
-
-        /// <summary>
-        /// Abandon all the operations of the transaction instead of saving them. Same as Abort().
+        /// Abandon all the operations of the transaction instead of saving them. Same as <see cref="Abort"/>.
         /// The transaction handle is freed.It and its cursors must not be used again after this call, except with mdb_cursor_renew().
-        /// Note: Earlier documentation incorrectly said all cursors would be freed.Only write-transactions free cursors.
+        /// Note: Earlier documentation incorrectly said all cursors would be freed. Only write-transactions free cursors.
         /// </summary>
         public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            IntPtr handle = IntPtr.Zero;
+            IntPtr txnId = IntPtr.Zero;
+            RuntimeHelpers.PrepareConstrainedRegions();
+            try { /* */ }
+            finally {
+                Interlocked.MemoryBarrier();
+                handle = txn;
+                Interlocked.MemoryBarrier();
+                txn = IntPtr.Zero;
+                Interlocked.MemoryBarrier();
+                if (handle != IntPtr.Zero) {
+                    txnId = DbLib.mdb_txn_id(txn);
+                    DbLib.mdb_txn_abort(handle);
+                }
+            }
+
+            if (handle != IntPtr.Zero) {
+                ReleaseManagedResources();
+                disposed?.Invoke(txnId);
+            }
+
+            Cleanup();
         }
 
         #endregion
