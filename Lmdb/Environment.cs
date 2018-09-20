@@ -214,7 +214,7 @@ namespace KdSoft.Lmdb
         #endregion
 
         /// <summary>
-        /// Open an environment handle.
+        /// Open an environment handle. Do not open multiple times in the same process.
         /// If this function fails, mdb_env_close() must be called to discard the MDB_env handle.
         /// </summary>
         /// <param name="path">The directory in which the database files reside. This directory must already exist and be writable.</param>
