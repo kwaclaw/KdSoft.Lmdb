@@ -49,19 +49,17 @@ namespace KdSoft.Lmdb
         /// <param name="key"></param>
         /// <param name="data"></param>
         public bool Delete(Transaction transaction, in ReadOnlySpan<byte> key, in ReadOnlySpan<byte> data) {
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                DbRetCode ret;
-                unsafe {
-                    var dbKey = DbValue.From(key);
-                    var dbData = DbValue.From(data);
-                    ret = DbLib.mdb_del(transaction.Handle, handle, in dbKey, in dbData);
-                }
-                if (ret == DbRetCode.NOTFOUND)
-                    return false;
-                ErrorUtil.CheckRetCode(ret);
-                return true;
+            var handle = CheckDisposed();
+            DbRetCode ret;
+            unsafe {
+                var dbKey = DbValue.From(key);
+                var dbData = DbValue.From(data);
+                ret = DbLib.mdb_del(transaction.Handle, handle, in dbKey, in dbData);
             }
+            if (ret == DbRetCode.NOTFOUND)
+                return false;
+            ErrorUtil.CheckRetCode(ret);
+            return true;
         }
 
         /// <summary>
@@ -74,13 +72,11 @@ namespace KdSoft.Lmdb
         /// <returns>&lt; 0 if x &lt; y, 0 if x == y, &gt; 0 if x &gt; y</returns>
         public int DupCompare(Transaction transaction, in ReadOnlySpan<byte> x, in ReadOnlySpan<byte> y) {
             int result;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                unsafe {
-                    var dbx = DbValue.From(x);
-                    var dby = DbValue.From(y);
-                    result = DbLib.mdb_dcmp(transaction.Handle, handle, in dbx, in dby);
-                }
+            var handle = CheckDisposed();
+            unsafe {
+                var dbx = DbValue.From(x);
+                var dby = DbValue.From(y);
+                result = DbLib.mdb_dcmp(transaction.Handle, handle, in dbx, in dby);
             }
             return result;
         }

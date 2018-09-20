@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading;
 using KdSoft.Lmdb.Interop;
 
 namespace KdSoft.Lmdb
@@ -42,10 +42,8 @@ namespace KdSoft.Lmdb
         /// <summary>Environment the database was created in.</summary>
         public Environment Environment {
             get {
-                lock (rscLock) {
-                    var gcHandle = (GCHandle)DbLib.mdb_env_get_userctx(env);
-                    return (Environment)gcHandle.Target;
-                }
+                var gcHandle = (GCHandle)DbLib.mdb_env_get_userctx(env);
+                return (Environment)gcHandle.Target;
             }
         }
 
@@ -53,11 +51,8 @@ namespace KdSoft.Lmdb
 
         [CLSCompliant(false)]
         protected void RunChecked(Func<uint, DbRetCode> libFunc) {
-            DbRetCode ret;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                ret = libFunc(handle);
-            }
+            var handle = CheckDisposed();
+            DbRetCode ret = libFunc(handle);
             ErrorUtil.CheckRetCode(ret);
         }
 
@@ -66,12 +61,8 @@ namespace KdSoft.Lmdb
 
         [CLSCompliant(false)]
         protected T GetChecked<T>(LibFunc<T, DbRetCode> libFunc) {
-            DbRetCode ret;
-            T result;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                ret = libFunc(handle, out result);
-            }
+            var handle = CheckDisposed();
+            DbRetCode ret = libFunc(handle, out T result);
             ErrorUtil.CheckRetCode(ret);
             return result;
         }
@@ -102,12 +93,10 @@ namespace KdSoft.Lmdb
         /// Delete and close a database. See <see cref="Close()"/> for restrictions.
         /// </summary>
         public void Drop(Transaction transaction) {
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                var ret = DbLib.mdb_drop(transaction.Handle, handle, true);
-                ErrorUtil.CheckRetCode(ret);
-                SetDisposed();
-            }
+            var handle = CheckDisposed();
+            var ret = DbLib.mdb_drop(transaction.Handle, handle, true);
+            ErrorUtil.CheckRetCode(ret);
+            SetDisposed();
         }
 
         /// <summary>
@@ -149,14 +138,12 @@ namespace KdSoft.Lmdb
         /// <returns><c>true</c> if data for key retrieved without error, <c>false</c> if key does not exist.</returns>
         public bool Get(Transaction transaction, in ReadOnlySpan<byte> key, out ReadOnlySpan<byte> data) {
             DbRetCode ret;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                unsafe {
-                    var dbKey = DbValue.From(key);
-                    var dbData = default(DbValue);
-                    ret = DbLib.mdb_get(transaction.Handle, handle, in dbKey, in dbData);
-                    data = dbData.ToReadOnlySpan();
-                }
+            var handle = CheckDisposed();
+            unsafe {
+                var dbKey = DbValue.From(key);
+                var dbData = default(DbValue);
+                ret = DbLib.mdb_get(transaction.Handle, handle, in dbKey, in dbData);
+                data = dbData.ToReadOnlySpan();
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
@@ -175,13 +162,11 @@ namespace KdSoft.Lmdb
         [CLSCompliant(false)]
         protected bool PutInternal(Transaction transaction, in ReadOnlySpan<byte> key, in ReadOnlySpan<byte> data, uint options) {
             DbRetCode ret;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                unsafe {
-                    var dbKey = DbValue.From(key);
-                    var dbData = DbValue.From(data);
-                    ret = DbLib.mdb_put(transaction.Handle, handle, in dbKey, in dbData, options);
-                }
+            var handle = CheckDisposed();
+            unsafe {
+                var dbKey = DbValue.From(key);
+                var dbData = DbValue.From(data);
+                ret = DbLib.mdb_put(transaction.Handle, handle, in dbKey, in dbData, options);
             }
             if (ret == DbRetCode.KEYEXIST)
                 return false;
@@ -213,12 +198,10 @@ namespace KdSoft.Lmdb
         /// <param name="key"></param>
         public bool Delete(Transaction transaction, in ReadOnlySpan<byte> key) {
             DbRetCode ret;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                unsafe {
-                    var dbKey = DbValue.From(key);
-                    ret = DbLib.mdb_del(transaction.Handle, handle, in dbKey, IntPtr.Zero);
-                }
+            var handle = CheckDisposed();
+            unsafe {
+                var dbKey = DbValue.From(key);
+                ret = DbLib.mdb_del(transaction.Handle, handle, in dbKey, IntPtr.Zero);
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
@@ -236,24 +219,19 @@ namespace KdSoft.Lmdb
         /// <returns>&lt; 0 if x &lt; y, 0 if x == y, &gt; 0 if x &gt; y</returns>
         public int Compare(Transaction transaction, in ReadOnlySpan<byte> x, in ReadOnlySpan<byte> y) {
             int result;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                unsafe {
-                    var dbx = DbValue.From(x);
-                    var dby = DbValue.From(y);
-                    result = DbLib.mdb_cmp(transaction.Handle, handle, in dbx, in dby);
-                }
+            var handle = CheckDisposed();
+            unsafe {
+                var dbx = DbValue.From(x);
+                var dby = DbValue.From(y);
+                result = DbLib.mdb_cmp(transaction.Handle, handle, in dbx, in dby);
             }
             return result;
         }
 
         protected IntPtr OpenCursorHandle(Transaction transaction) {
-            DbRetCode ret;
             IntPtr cur;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                ret = DbLib.mdb_cursor_open(transaction.Handle, handle, out cur);
-            }
+            var handle = CheckDisposed();
+            DbRetCode ret = DbLib.mdb_cursor_open(transaction.Handle, handle, out cur);
             ErrorUtil.CheckRetCode(ret);
             return cur;
         }
@@ -279,22 +257,25 @@ namespace KdSoft.Lmdb
 
         #region Unmanaged Resources
 
-        /// <summary>Resource lock object.</summary>
-        protected readonly object rscLock = new object();
-
         readonly IntPtr env;
 
-        volatile uint dbi;
-        internal uint Handle => dbi;
-
-        // must be executed under lock, and must not be called multiple times
-        void ReleaseUnmanagedResources() {
-            DbLib.mdb_dbi_close(env, dbi);
+        uint dbi;
+        internal uint Handle {
+            get {
+                Interlocked.MemoryBarrier();
+                uint result = dbi;
+                Interlocked.MemoryBarrier();
+                return result;
+            }
         }
 
         #endregion
 
         #region IDisposable Support
+
+        void ThrowDisposed() {
+            throw new ObjectDisposedException($"{GetType().Name} '{Name}'");
+        }
 
         /// <summary>
         /// Returns Database handle.
@@ -304,20 +285,22 @@ namespace KdSoft.Lmdb
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected uint CheckDisposed() {
             // avoid multiple volatile memory access
+            Interlocked.MemoryBarrier();
             uint result = this.dbi;
+            Interlocked.MemoryBarrier();
             if (result == 0)
-                throw new ObjectDisposedException($"{GetType().Name} '{Name}'");
+                ThrowDisposed();
             return result;
         }
 
         internal void ClearHandle() {
-            lock (rscLock) {
-                dbi = 0;
-            }
+            Interlocked.MemoryBarrier();
+            dbi = 0;
+            Interlocked.MemoryBarrier();
         }
 
         void SetDisposed() {
-            dbi = 0;
+            ClearHandle();
             disposed?.Invoke(this);
         }
 
@@ -325,50 +308,44 @@ namespace KdSoft.Lmdb
         /// Returns if Database handle is closed/disposed.
         /// </summary>
         public bool IsDisposed {
-            get { return dbi == 0; }
-        }
-
-        /// <summary>
-        /// Implementation of Dispose() pattern.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> if explicity disposing (finalizer not run), <c>false</c> if disposed from finalizer.</param>
-        protected virtual void Dispose(bool disposing) {
-            lock (rscLock) {
-                if (dbi == 0)  // already disposed
-                    return;
-                RuntimeHelpers.PrepareConstrainedRegions();
-                try { /* */ }
-                finally {
-                    if (disposing) {
-                        // dispose managed state (managed objects).
-                    }
-                    // free unmanaged resources (unmanaged objects) and override a finalizer below.
-                    ReleaseUnmanagedResources();
-                    if (disposing)
-                        SetDisposed();
-                }
+            get {
+                Interlocked.MemoryBarrier();
+                bool result = dbi == 0;
+                Interlocked.MemoryBarrier();
+                return result;
             }
         }
 
         /// <summary>
-        /// Finalizer. Releases unmanaged resources.
+        /// Same as <see cref="Close"/>. Close a database handle. Normally unnecessary, as databases dont have unmanaged
+        /// resources that can be cleaned up independently of the environment. Database handles should only be disposed if one
+        /// wants to reuse them so that the limit of database handles is not exceeded.
         /// </summary>
-        ~Database() {
-            Dispose(false);
-        }
-
-        /// <summary>
-        /// Same as <see cref="Close"/>. Close a database handle. Normally unnecessary. Use with care:
+        /// <remarks>Use with care:
         /// This call is not mutex protected. Handles should only be closed by a single thread, and only
         /// if no other threads are going to reference the database handle or one of its cursors any further.
         /// Do not close a handle if an existing transaction has modified its database.
         /// Doing so can cause misbehavior from database corruption to errors like MDB_BAD_VALSIZE(since the DB name is gone).
         /// Closing a database handle is not necessary, but lets mdb_dbi_open() reuse the handle value.
         /// Usually it's better to set a bigger mdb_env_set_maxdbs(), unless that value would be large.
-        /// </summary>
+        /// </remarks>
         public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            uint handle = 0;
+            RuntimeHelpers.PrepareConstrainedRegions();
+            try { /* */ }
+            finally {
+                Interlocked.MemoryBarrier();
+                handle = dbi;
+                Interlocked.MemoryBarrier();
+                dbi = 0;
+                Interlocked.MemoryBarrier();
+                if (handle != 0) {
+                    DbLib.mdb_dbi_close(env, handle);
+                }
+            }
+
+            if (handle != 0)
+                disposed?.Invoke(this);
         }
 
         #endregion
