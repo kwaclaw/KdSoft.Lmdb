@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System.Threading;
 using KdSoft.Lmdb.Interop;
 
 namespace KdSoft.Lmdb
@@ -11,11 +11,9 @@ namespace KdSoft.Lmdb
     /// </summary>
     public class Cursor: IDisposable
     {
-        readonly bool isReadOnly;
-
         internal Cursor(IntPtr cur, bool isReadOnly, Action<Cursor> disposed = null) {
             this.cur = cur;
-            this.isReadOnly = isReadOnly;
+            this.IsReadOnly = isReadOnly;
             this.disposed = disposed;
         }
 
@@ -28,23 +26,19 @@ namespace KdSoft.Lmdb
         /// <summary>Native transaction handle. </summary>
         public IntPtr TxnHandle {
             get {
-                lock (rscLock) {
-                    var handle = CheckDisposed();
-                    return DbLib.mdb_cursor_txn(handle);
-                }
+                var handle = CheckDisposed();
+                return DbLib.mdb_cursor_txn(handle);
             }
         }
 
         /// <summary>Indicates if cursor is read-only. </summary>
-        public bool IsReadOnly => isReadOnly;
+        public bool IsReadOnly { get; }
 
         /// <summary>Native database handle. </summary>
         public IntPtr DbiHandle {
             get {
-                lock (rscLock) {
-                    var handle = CheckDisposed();
-                    return DbLib.mdb_cursor_dbi(handle);
-                }
+                var handle = CheckDisposed();
+                return DbLib.mdb_cursor_dbi(handle);
             }
         }
 
@@ -53,6 +47,10 @@ namespace KdSoft.Lmdb
         /// The cursor handle will be freed and must not be used again after this call.
         /// Its transaction must still be live if it is a write-transaction.
         /// </summary>
+        /// <remarks>
+        /// Cursors will be automatically closed when they are owned by a write transaction.
+        /// However, in a read-only transaction, cursors must be closed explicitly.
+        /// </remarks>
         public void Close() {
             Dispose();
         }
@@ -64,11 +62,8 @@ namespace KdSoft.Lmdb
         public void Renew(ReadOnlyTransaction transaction) {
             if (!IsReadOnly)
                 throw new InvalidOperationException("Only read-only cursors can be renewed.");
-            DbRetCode ret;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                ret = DbLib.mdb_cursor_renew(transaction.Handle, handle);
-            }
+            var handle = CheckDisposed();
+            var ret = DbLib.mdb_cursor_renew(transaction.Handle, handle);
             ErrorUtil.CheckRetCode(ret);
         }
 
@@ -81,14 +76,12 @@ namespace KdSoft.Lmdb
         /// <exception cref="LmdbException">Exception based on native return code.</exception>
         protected bool Get(in ReadOnlySpan<byte> key, out KeyDataPair entry, DbCursorOp op) {
             DbRetCode ret;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                unsafe {
-                    var dbKey = DbValue.From(key);
-                    var dbData = default(DbValue);
-                    ret = DbLib.mdb_cursor_get(handle, in dbKey, &dbData, op);
-                    entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
-                }
+            var handle = CheckDisposed();
+            unsafe {
+                var dbKey = DbValue.From(key);
+                var dbData = default(DbValue);
+                ret = DbLib.mdb_cursor_get(handle, in dbKey, &dbData, op);
+                entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
@@ -103,14 +96,12 @@ namespace KdSoft.Lmdb
         /// <exception cref="LmdbException">Exception based on native return code.</exception>
         protected bool Get(in KeyDataPair keyData, out KeyDataPair entry, DbCursorOp op) {
             DbRetCode ret;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                unsafe {
-                    var dbKey = DbValue.From(keyData.Key);
-                    var dbData = DbValue.From(keyData.Data);
-                    ret = DbLib.mdb_cursor_get(handle, in dbKey, &dbData, op);
-                    entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
-                }
+            var handle = CheckDisposed();
+            unsafe {
+                var dbKey = DbValue.From(keyData.Key);
+                var dbData = DbValue.From(keyData.Data);
+                ret = DbLib.mdb_cursor_get(handle, in dbKey, &dbData, op);
+                entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
@@ -126,14 +117,10 @@ namespace KdSoft.Lmdb
         /// <exception cref="LmdbException">Exception based on native return code.</exception>
         protected bool MoveToKey(in ReadOnlySpan<byte> key, DbCursorOp op) {
             DbRetCode ret;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                unsafe {
-                    fixed (void* keyPtr = key) {
-                        var dbKey = new DbValue(keyPtr, key.Length);
-                        ret = DbLib.mdb_cursor_get(handle, in dbKey, null, op);
-                    }
-                }
+            var handle = CheckDisposed();
+            unsafe {
+                var dbKey = DbValue.From(key);
+                ret = DbLib.mdb_cursor_get(handle, in dbKey, null, op);
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
@@ -150,13 +137,11 @@ namespace KdSoft.Lmdb
         /// <exception cref="LmdbException">Exception based on native return code.</exception>
         protected bool GetKey(out ReadOnlySpan<byte> key, DbCursorOp op) {
             DbRetCode ret;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                unsafe {
-                    var dbKey = default(DbValue);
-                    ret = DbLib.mdb_cursor_get(handle, in dbKey, null, op);
-                    key = dbKey.ToReadOnlySpan();
-                }
+            var handle = CheckDisposed();
+            unsafe {
+                var dbKey = default(DbValue);
+                ret = DbLib.mdb_cursor_get(handle, in dbKey, null, op);
+                key = dbKey.ToReadOnlySpan();
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
@@ -173,14 +158,12 @@ namespace KdSoft.Lmdb
         /// <exception cref="LmdbException">Exception based on native return code.</exception>
         protected bool Get(out KeyDataPair entry, DbCursorOp op) {
             DbRetCode ret;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                unsafe {
-                    var dbKey = default(DbValue);
-                    var dbData = default(DbValue);
-                    ret = DbLib.mdb_cursor_get(handle, in dbKey, &dbData, op);
-                    entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
-                }
+            var handle = CheckDisposed();
+            unsafe {
+                var dbKey = default(DbValue);
+                var dbData = default(DbValue);
+                ret = DbLib.mdb_cursor_get(handle, in dbKey, &dbData, op);
+                entry = new KeyDataPair(dbKey.ToReadOnlySpan(), dbData.ToReadOnlySpan());
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
@@ -198,14 +181,12 @@ namespace KdSoft.Lmdb
         /// <exception cref="LmdbException">Exception based on native return code.</exception>
         protected bool GetData(out ReadOnlySpan<byte> data, DbCursorOp op) {
             DbRetCode ret;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                unsafe {
-                    var dbKey = default(DbValue);
-                    var dbData = default(DbValue);
-                    ret = DbLib.mdb_cursor_get(handle, in dbKey, &dbData, op);
-                    data = dbData.ToReadOnlySpan();
-                }
+            var handle = CheckDisposed();
+            unsafe {
+                var dbKey = default(DbValue);
+                var dbData = default(DbValue);
+                ret = DbLib.mdb_cursor_get(handle, in dbKey, &dbData, op);
+                data = dbData.ToReadOnlySpan();
             }
             if (ret == DbRetCode.NOTFOUND)
                 return false;
@@ -295,13 +276,11 @@ namespace KdSoft.Lmdb
         [CLSCompliant(false)]
         protected bool PutInternal(in KeyDataPair entry, uint option) {
             DbRetCode ret;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                unsafe {
-                    var dbKey = DbValue.From(entry.Key);
-                    var dbData = DbValue.From(entry.Data);
-                    ret = DbLib.mdb_cursor_put(handle, in dbKey, &dbData, option);
-                }
+            var handle = CheckDisposed();
+            unsafe {
+                var dbKey = DbValue.From(entry.Key);
+                var dbData = DbValue.From(entry.Data);
+                ret = DbLib.mdb_cursor_put(handle, in dbKey, &dbData, option);
             }
             if (ret == DbRetCode.KEYEXIST)
                 return false;
@@ -328,11 +307,8 @@ namespace KdSoft.Lmdb
         /// This function deletes the key/data pair to which the cursor refers.
         /// </summary>
         public void Delete(CursorDeleteOption option = CursorDeleteOption.None) {
-            DbRetCode ret;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                ret = DbLib.mdb_cursor_del(handle, unchecked((uint)option));
-            }
+            var handle = CheckDisposed();
+            DbRetCode ret = DbLib.mdb_cursor_del(handle, unchecked((uint)option));
             ErrorUtil.CheckRetCode(ret);
         }
 
@@ -340,20 +316,23 @@ namespace KdSoft.Lmdb
 
         #region Unmanaged Resources
 
-        /// <summary>Resource lock object.</summary>
-        protected readonly object rscLock = new object();
-
-        volatile IntPtr cur;
-        internal IntPtr Handle => cur;
-
-        // must be executed under lock, and must not be called multiple times
-        void ReleaseUnmanagedResources() {
-            DbLib.mdb_cursor_close(cur);
+        IntPtr cur;
+        internal IntPtr Handle {
+            get {
+                Interlocked.MemoryBarrier();
+                IntPtr result = cur;
+                Interlocked.MemoryBarrier();
+                return result;
+            }
         }
 
         #endregion
 
         #region IDisposable Support
+
+        void ThrowDisposed() {
+            throw new ObjectDisposedException(this.GetType().Name);
+        }
 
         /// <summary>
         /// Returns Cursor handle.
@@ -363,20 +342,22 @@ namespace KdSoft.Lmdb
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected IntPtr CheckDisposed() {
             // avoid multiple volatile memory access
+            Interlocked.MemoryBarrier();
             IntPtr result = this.cur;
+            Interlocked.MemoryBarrier();
             if (result == IntPtr.Zero)
-                throw new ObjectDisposedException(this.GetType().Name);
+                ThrowDisposed();
             return result;
         }
 
         internal void ClearHandle() {
-            lock (rscLock) {
-                cur = IntPtr.Zero;
-            }
+            Interlocked.MemoryBarrier();
+            cur = IntPtr.Zero;
+            Interlocked.MemoryBarrier();
         }
 
         void SetDisposed() {
-            cur = IntPtr.Zero;
+            ClearHandle();
             disposed?.Invoke(this);
         }
 
@@ -384,50 +365,42 @@ namespace KdSoft.Lmdb
         /// Returns if Cursor handle is closed/disposed.
         /// </summary>
         public bool IsDisposed {
-            get { return cur == IntPtr.Zero; }
-        }
-
-        /// <summary>
-        /// Implementation of Dispose() pattern.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> if explicity disposing (finalizer not run), <c>false</c> if disposed from finalizer.</param>
-        protected virtual void Dispose(bool disposing) {
-            lock (rscLock) {
-                if (cur == IntPtr.Zero)  // already disposed
-                    return;
-                RuntimeHelpers.PrepareConstrainedRegions();
-                try { /* */ }
-                finally {
-                    if (disposing) {
-                        // dispose managed state (managed objects).
-                    }
-                    ReleaseUnmanagedResources();
-                    if (disposing)
-                        SetDisposed();
-                }
+            get {
+                Interlocked.MemoryBarrier();
+                bool result = cur == IntPtr.Zero;
+                Interlocked.MemoryBarrier();
+                return result;
             }
         }
 
         /// <summary>
-        /// Finalizer. Releases unmanaged resources.
+        /// Close a cursor handle. Sames as <see cref="Close"/>.
+        /// The cursor handle will be freed and must not be used again after this call.
+        /// Its transaction must still be live if it is a write-transaction. 
         /// </summary>
-        ~Cursor() {
-            Dispose(false);
+        /// <remarks>
+        /// Cursors will be automatically closed when they are owned by a write transaction.
+        /// However, in a read-only transaction, cursors must be closed explicitly.
+        /// </remarks>
+        public void Dispose() {
+            IntPtr handle = IntPtr.Zero;
+            RuntimeHelpers.PrepareConstrainedRegions();
+            try { /* */ }
+            finally {
+                Interlocked.MemoryBarrier();
+                handle = cur;
+                Interlocked.MemoryBarrier();
+                cur = IntPtr.Zero;
+                Interlocked.MemoryBarrier();
+                if (handle != IntPtr.Zero) {
+                    DbLib.mdb_cursor_close(handle);
+                }
+            }
+
+            if (handle != IntPtr.Zero)
+                disposed?.Invoke(this);
         }
 
-        /// <summary>
-        /// Same as <see cref="Close"/>. Close a database handle. Normally unnecessary. Use with care:
-        /// This call is not mutex protected. Handles should only be closed by a single thread, and only
-        /// if no other threads are going to reference the database handle or one of its cursors any further.
-        /// Do not close a handle if an existing transaction has modified its database.
-        /// Doing so can cause misbehavior from database corruption to errors like MDB_BAD_VALSIZE(since the DB name is gone).
-        /// Closing a database handle is not necessary, but lets mdb_dbi_open() reuse the handle value.
-        /// Usually it's better to set a bigger mdb_env_set_maxdbs(), unless that value would be large.
-        /// </summary>
-        public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
 
         #endregion
 
