@@ -169,17 +169,11 @@ namespace KdSoft.Lmdb
             base.ReleaseManagedResources(forCommit);
             if (!forCommit) {
                 lock (dbLock) {
-                    foreach (var newDb in newDatabases)
+                    foreach (var newDb in newDatabases) {
                         newDb.ClearHandle();
+                    }
+                    newDatabases.Clear();
                 }
-            }
-        }
-
-        /// <inheritdoc/>
-        protected override void Cleanup() {
-            base.Cleanup();
-            lock (dbLock) {
-                newDatabases.Clear();
             }
         }
     }

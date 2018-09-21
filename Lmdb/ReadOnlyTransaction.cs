@@ -3,6 +3,10 @@ using KdSoft.Lmdb.Interop;
 
 namespace KdSoft.Lmdb
 {
+    /// <summary>
+    /// Read-only transaction. There can be multiple simultaneously active read-only transactions but only one that can write.
+    /// If you want to pass read-only transactions across threads, you can use the MDB_NOTLS option on the environment.
+    /// </summary>
     public class ReadOnlyTransaction: Transaction
     {
         internal ReadOnlyTransaction(IntPtr txn, Transaction parent, Action<IntPtr> disposed) : base(txn, parent, disposed) {
