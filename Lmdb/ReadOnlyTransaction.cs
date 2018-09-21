@@ -3,6 +3,10 @@ using KdSoft.Lmdb.Interop;
 
 namespace KdSoft.Lmdb
 {
+    /// <summary>
+    /// Read-only transaction. There can be multiple simultaneously active read-only transactions but only one that can write.
+    /// If you want to pass read-only transactions across threads, you can use the MDB_NOTLS option on the environment.
+    /// </summary>
     public class ReadOnlyTransaction: Transaction
     {
         internal ReadOnlyTransaction(IntPtr txn, Transaction parent, Action<IntPtr> disposed) : base(txn, parent, disposed) {
@@ -21,10 +25,8 @@ namespace KdSoft.Lmdb
         /// the database size may grow much more rapidly than otherwise.
         /// </summary>
         public void Reset() {
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                DbLib.mdb_txn_reset(handle);
-            }
+            var handle = CheckDisposed();
+            DbLib.mdb_txn_reset(handle);
         }
 
         /// <summary>
@@ -33,11 +35,9 @@ namespace KdSoft.Lmdb
         /// It must be called before a reset transaction may be used again.
         /// </summary>
         public void Renew() {
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                var ret = DbLib.mdb_txn_renew(handle);
-                ErrorUtil.CheckRetCode(ret);
-            }
+            var handle = CheckDisposed();
+            var ret = DbLib.mdb_txn_renew(handle);
+            ErrorUtil.CheckRetCode(ret);
         }
     }
 }

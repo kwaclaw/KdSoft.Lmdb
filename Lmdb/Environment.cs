@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
+using System.Threading;
 using KdSoft.Lmdb.Interop;
 
 namespace KdSoft.Lmdb
@@ -62,11 +63,8 @@ namespace KdSoft.Lmdb
         /// <param name="libFunc">Native function delegate that does not return a result.</param>
         [CLSCompliant(false)]
         protected void RunChecked(Func<IntPtr, DbRetCode> libFunc) {
-            DbRetCode ret;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                ret = libFunc(handle);
-            }
+            var handle = CheckDisposed();
+            var ret = libFunc(handle);
             ErrorUtil.CheckRetCode(ret);
         }
 
@@ -89,12 +87,8 @@ namespace KdSoft.Lmdb
         /// <returns>Result returned from the native library function call.</returns>
         [CLSCompliant(false)]
         protected T GetChecked<T>(LibFunc<T, DbRetCode> libFunc) {
-            DbRetCode ret;
-            T result;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                ret = libFunc(handle, out result);
-            }
+            var handle = CheckDisposed();
+            var ret = libFunc(handle, out T result);
             ErrorUtil.CheckRetCode(ret);
             return result;
         }
@@ -198,10 +192,8 @@ namespace KdSoft.Lmdb
         /// Depends on the compile-time constant MDB_MAXKEYSIZE.Default 511. See MDB_val.
         /// </summary>
         public int GetMaxKeySize() {
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                return DbLib.mdb_env_get_maxkeysize(handle);
-            }
+            var handle = CheckDisposed();
+            return DbLib.mdb_env_get_maxkeysize(handle);
         }
 
         /// <summary>
@@ -214,7 +206,7 @@ namespace KdSoft.Lmdb
         #endregion
 
         /// <summary>
-        /// Open an environment handle.
+        /// Open an environment handle. Do not open multiple times in the same process.
         /// If this function fails, mdb_env_close() must be called to discard the MDB_env handle.
         /// </summary>
         /// <param name="path">The directory in which the database files reside. This directory must already exist and be writable.</param>
@@ -373,30 +365,19 @@ namespace KdSoft.Lmdb
 
         #region Unmanaged Resources
 
-        protected internal readonly object rscLock = new object();
-
         // access to properly aligned types of size "native int" is atomic!
-        volatile IntPtr env;
+        IntPtr env;
         readonly GCHandle instanceHandle;
 
         internal IntPtr Handle => env;
 
-        /// <summary>
-        /// Releasaes the environment handle. All transactions, databases, and cursors must already be closed
-        /// before calling this function. Attempts to use any such handles after calling this function will cause a SIGSEGV.
-        /// </summary>
-        void ReleaseUnmanagedResources() {
-            IntPtr handle = this.env;
-            // LmdbApi.mdb_env_close() could be a lengthy call, so we call SetDisposed() first, and the
-            // CER ensures that we reach LmdbApi.mdb_env_close() without external interruption.
-            // This is OK because one must not use the handle after LmdbApi.mdb_env_close() was called
-            this.env = IntPtr.Zero;  //  SetDisposed();
-            DbLib.mdb_env_close(handle);
-        }
-
         #endregion
 
         #region IDisposable Support
+
+        void ThrowDisposed() {
+            throw new ObjectDisposedException(this.GetType().Name);
+        }
 
         /// <summary>
         /// Returns Environment handle.
@@ -405,21 +386,23 @@ namespace KdSoft.Lmdb
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected IntPtr CheckDisposed() {
             // avoid multiple volatile memory access
+            Interlocked.MemoryBarrier();
             IntPtr result = this.env;
+            Interlocked.MemoryBarrier();
             if (result == IntPtr.Zero)
-                throw new ObjectDisposedException(GetType().Name);
+                ThrowDisposed();
             return result;
-        }
-
-        void SetDisposed() {
-            env = IntPtr.Zero;
         }
 
         /// <summary>
         /// Returns if Environment handle is closed/disposed.
         /// </summary>
         public bool IsDisposed {
-            get { return env == IntPtr.Zero; }
+            get {
+                Interlocked.MemoryBarrier();
+                bool result = env == IntPtr.Zero;
+                return result;
+            }
         }
 
         /// <summary>
@@ -427,12 +410,12 @@ namespace KdSoft.Lmdb
         /// </summary>
         /// <param name="disposing"><c>true</c> if explicity disposing (finalizer not run), <c>false</c> if disposed from finalizer.</param>
         protected virtual void Dispose(bool disposing) {
-            lock (rscLock) {
-                if (env == IntPtr.Zero)  // already disposed
-                    return;
-                RuntimeHelpers.PrepareConstrainedRegions();
-                try { /* */ }
-                finally {
+            RuntimeHelpers.PrepareConstrainedRegions();
+            try { /* */ }
+            finally {
+                var handle = Interlocked.CompareExchange(ref env, IntPtr.Zero, env);
+                // if the env handle was valid before we cleared it, lets close the handle
+                if (handle != IntPtr.Zero) {
                     if (disposing) {
                         // dispose managed state (managed objects).
                         foreach (var txEntry in transactions) {
@@ -448,19 +431,19 @@ namespace KdSoft.Lmdb
                             }
                         }
                     }
-                    // free unmanaged resources (unmanaged objects) and override a finalizer below.
-                    ReleaseUnmanagedResources();
+                    // free unmanaged resources
+                    DbLib.mdb_env_close(handle);
                 }
+            }
 
-                if (instanceHandle.IsAllocated)
-                    instanceHandle.Free();
+            if (instanceHandle.IsAllocated)
+                instanceHandle.Free();
 
-                // set large fields to null.
-                transactions.Clear();
-                lock (dbTxnLock) {
-                    activeDbTxn = null;
-                    databases.Clear();
-                }
+            // set large fields to null.
+            transactions.Clear();
+            lock (dbTxnLock) {
+                activeDbTxn = null;
+                databases.Clear();
             }
         }
 

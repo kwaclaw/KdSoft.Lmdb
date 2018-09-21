@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using KdSoft.Lmdb.Interop;
 
 namespace KdSoft.Lmdb
@@ -73,17 +72,15 @@ namespace KdSoft.Lmdb
                 ErrorUtil.CheckRetCode(ErrorUtil.TooManyFixedItems);
 
             DbRetCode ret;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                unsafe {
-                    var dbMultiData = stackalloc DbValue[2];
-                    fixed (void* firstDataPtr = data) {
-                        var dbKey = DbValue.From(key);
-                        dbMultiData[0] = new DbValue(firstDataPtr, DataSize);
-                        dbMultiData[1] = new DbValue(null, itemCount);
-                        ret = DbLib.mdb_cursor_put(handle, in dbKey, dbMultiData, DbLibConstants.MDB_MULTIPLE);
-                        itemCount = (int)dbMultiData[1].Size;
-                    }
+            var handle = CheckDisposed();
+            unsafe {
+                var dbMultiData = stackalloc DbValue[2];
+                fixed (void* firstDataPtr = data) {
+                    var dbKey = DbValue.From(key);
+                    dbMultiData[0] = new DbValue(firstDataPtr, DataSize);
+                    dbMultiData[1] = new DbValue(null, itemCount);
+                    ret = DbLib.mdb_cursor_put(handle, in dbKey, dbMultiData, DbLibConstants.MDB_MULTIPLE);
+                    itemCount = (int)dbMultiData[1].Size;
                 }
             }
             if (ret == DbRetCode.KEYEXIST)

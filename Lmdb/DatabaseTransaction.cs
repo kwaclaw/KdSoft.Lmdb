@@ -66,14 +66,12 @@ namespace KdSoft.Lmdb
         /// <param name="config">Database configuration instance.</param>
         /// <returns></returns>
         public Database OpenDatabase(string name, DatabaseConfiguration config) {
-            lock (rscLock) {
-                lock (dbLock) {
-                    var (dbi, handle, env) = OpenDatabaseInternal(name, unchecked((uint)config.Options), config.LibCompare);
+            lock (dbLock) {
+                var (dbi, handle, env) = OpenDatabaseInternal(name, unchecked((uint)config.Options), config.LibCompare);
 
-                    var result = new Database(dbi, env, name, NewDatabaseDisposed, config);
-                    newDatabases.Add(result);
-                    return result;
-                }
+                var result = new Database(dbi, env, name, NewDatabaseDisposed, config);
+                newDatabases.Add(result);
+                return result;
             }
         }
 
@@ -97,20 +95,18 @@ namespace KdSoft.Lmdb
         /// <returns><c>MultiValueDatabase</c> instance.</returns>
         public MultiValueDatabase OpenMultiValueDatabase(string name, MultiValueDatabaseConfiguration config) {
             uint options = unchecked((uint)config.Options | (uint)config.DupOptions | DbLibConstants.MDB_DUPSORT /* to make sure */);
-            lock (rscLock) {
-                lock (dbLock) {
-                    var (dbi, handle, env) = OpenDatabaseInternal(name, options, config.LibCompare);
-                    if (config.LibDupCompare != null) {
-                        var ret = DbLib.mdb_set_dupsort(handle, dbi, config.LibDupCompare);
-                        if (ret != DbRetCode.SUCCESS)
-                            DbLib.mdb_dbi_close(env, dbi);
-                        ErrorUtil.CheckRetCode(ret);
-                    }
-
-                    var result = new MultiValueDatabase(dbi, env, name, NewDatabaseDisposed, config);
-                    newDatabases.Add(result);
-                    return result;
+            lock (dbLock) {
+                var (dbi, handle, env) = OpenDatabaseInternal(name, options, config.LibCompare);
+                if (config.LibDupCompare != null) {
+                    var ret = DbLib.mdb_set_dupsort(handle, dbi, config.LibDupCompare);
+                    if (ret != DbRetCode.SUCCESS)
+                        DbLib.mdb_dbi_close(env, dbi);
+                    ErrorUtil.CheckRetCode(ret);
                 }
+
+                var result = new MultiValueDatabase(dbi, env, name, NewDatabaseDisposed, config);
+                newDatabases.Add(result);
+                return result;
             }
         }
 
@@ -134,20 +130,18 @@ namespace KdSoft.Lmdb
         /// <returns><c>FixedMultiValueDatabase</c> instance.</returns>
         public FixedMultiValueDatabase OpenFixedMultiValueDatabase(string name, FixedMultiValueDatabaseConfiguration config) {
             uint options = unchecked((uint)config.Options | (uint)config.DupOptions | DbLibConstants.MDB_DUPSORT | DbLibConstants.MDB_DUPFIXED /* to make sure */);
-            lock (rscLock) {
-                lock (dbLock) {
-                    var (dbi, handle, env) = OpenDatabaseInternal(name, options, config.LibCompare);
-                    if (config.LibDupCompare != null) {
-                        var ret = DbLib.mdb_set_dupsort(handle, dbi, config.LibDupCompare);
-                        if (ret != DbRetCode.SUCCESS)
-                            DbLib.mdb_dbi_close(env, dbi);
-                        ErrorUtil.CheckRetCode(ret);
-                    }
-
-                    var result = new FixedMultiValueDatabase(dbi, env, name, NewDatabaseDisposed, config);
-                    newDatabases.Add(result);
-                    return result;
+            lock (dbLock) {
+                var (dbi, handle, env) = OpenDatabaseInternal(name, options, config.LibCompare);
+                if (config.LibDupCompare != null) {
+                    var ret = DbLib.mdb_set_dupsort(handle, dbi, config.LibDupCompare);
+                    if (ret != DbRetCode.SUCCESS)
+                        DbLib.mdb_dbi_close(env, dbi);
+                    ErrorUtil.CheckRetCode(ret);
                 }
+
+                var result = new FixedMultiValueDatabase(dbi, env, name, NewDatabaseDisposed, config);
+                newDatabases.Add(result);
+                return result;
             }
         }
 
@@ -175,17 +169,11 @@ namespace KdSoft.Lmdb
             base.ReleaseManagedResources(forCommit);
             if (!forCommit) {
                 lock (dbLock) {
-                    foreach (var newDb in newDatabases)
+                    foreach (var newDb in newDatabases) {
                         newDb.ClearHandle();
+                    }
+                    newDatabases.Clear();
                 }
-            }
-        }
-
-        /// <inheritdoc/>
-        protected override void Cleanup() {
-            base.Cleanup();
-            lock (dbLock) {
-                newDatabases.Clear();
             }
         }
     }

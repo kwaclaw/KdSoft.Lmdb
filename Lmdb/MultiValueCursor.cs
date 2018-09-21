@@ -96,12 +96,9 @@ namespace KdSoft.Lmdb
         /// This function deletes the key/data pair to which the cursor refers.
         /// </summary>
         public void Delete(MultiValueCursorDeleteOption mvOption, CursorDeleteOption option = CursorDeleteOption.None) {
-            DbRetCode ret;
             var opts = unchecked((uint)option | (uint)mvOption);
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                ret = DbLib.mdb_cursor_del(handle, opts);
-            }
+            var handle = CheckDisposed();
+            var ret = DbLib.mdb_cursor_del(handle, opts);
             ErrorUtil.CheckRetCode(ret);
         }
 
@@ -111,12 +108,8 @@ namespace KdSoft.Lmdb
         /// Return count of duplicates for current key.
         /// </summary>
         public IntPtr Count() {
-            DbRetCode ret;
-            IntPtr result;
-            lock (rscLock) {
-                var handle = CheckDisposed();
-                ret = DbLib.mdb_cursor_count(handle, out result);
-            }
+            var handle = CheckDisposed();
+            var ret = DbLib.mdb_cursor_count(handle, out IntPtr result);
             ErrorUtil.CheckRetCode(ret);
             return result;
         }
@@ -182,12 +175,12 @@ namespace KdSoft.Lmdb
         /// </summary>
         public ValuesNextIterator ValuesReverseFromPrevious => new ValuesNextIterator(this, DbCursorOp.MDB_PREV_DUP);
 
-         /// <summary>
+        /// <summary>
         /// Iterates over duplicate records for the current key, in reverse duplicate sort order from the current position on.
         /// </summary>
         public ValuesIterator ValuesReverseFromCurrent => new ValuesIterator(this, DbCursorOp.MDB_GET_CURRENT, DbCursorOp.MDB_PREV_DUP);
 
-       #endregion
+        #endregion
 
         #region Nested types
 #pragma warning disable CA1815 // Override equals and operator equals on value types
