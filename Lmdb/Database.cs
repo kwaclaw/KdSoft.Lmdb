@@ -52,7 +52,7 @@ namespace KdSoft.Lmdb
         [CLSCompliant(false)]
         protected void RunChecked(Func<uint, DbRetCode> libFunc) {
             var handle = CheckDisposed();
-            DbRetCode ret = libFunc(handle);
+            var ret = libFunc(handle);
             ErrorUtil.CheckRetCode(ret);
         }
 
@@ -62,7 +62,7 @@ namespace KdSoft.Lmdb
         [CLSCompliant(false)]
         protected T GetChecked<T>(LibFunc<T, DbRetCode> libFunc) {
             var handle = CheckDisposed();
-            DbRetCode ret = libFunc(handle, out T result);
+            var ret = libFunc(handle, out T result);
             ErrorUtil.CheckRetCode(ret);
             return result;
         }
@@ -264,7 +264,6 @@ namespace KdSoft.Lmdb
             get {
                 Interlocked.MemoryBarrier();
                 uint result = dbi;
-                Interlocked.MemoryBarrier();
                 return result;
             }
         }
@@ -296,7 +295,6 @@ namespace KdSoft.Lmdb
         internal void ClearHandle() {
             Interlocked.MemoryBarrier();
             dbi = 0;
-            Interlocked.MemoryBarrier();
         }
 
         void SetDisposed() {
@@ -311,8 +309,16 @@ namespace KdSoft.Lmdb
             get {
                 Interlocked.MemoryBarrier();
                 bool result = dbi == 0;
-                Interlocked.MemoryBarrier();
                 return result;
+            }
+        }
+
+        /// <summary>
+        /// Workaround as uint and ulong are not supported by Interlocked.CompareExchange() yet.
+        /// </summary>
+        static unsafe uint InterlockedCompareExchange(ref uint location, uint value, uint comparand) {
+            fixed (uint* ptr = &location) {
+                return (uint)Interlocked.CompareExchange(ref *(int*)ptr, (int)value, (int)comparand);
             }
         }
 
@@ -334,11 +340,7 @@ namespace KdSoft.Lmdb
             RuntimeHelpers.PrepareConstrainedRegions();
             try { /* */ }
             finally {
-                Interlocked.MemoryBarrier();
-                handle = dbi;
-                Interlocked.MemoryBarrier();
-                dbi = 0;
-                Interlocked.MemoryBarrier();
+                handle = InterlockedCompareExchange(ref dbi, 0, dbi);
                 if (handle != 0) {
                     DbLib.mdb_dbi_close(env, handle);
                 }

@@ -368,7 +368,6 @@ namespace KdSoft.Lmdb
             get {
                 Interlocked.MemoryBarrier();
                 bool result = cur == IntPtr.Zero;
-                Interlocked.MemoryBarrier();
                 return result;
             }
         }
@@ -387,11 +386,7 @@ namespace KdSoft.Lmdb
             RuntimeHelpers.PrepareConstrainedRegions();
             try { /* */ }
             finally {
-                Interlocked.MemoryBarrier();
-                handle = cur;
-                Interlocked.MemoryBarrier();
-                cur = IntPtr.Zero;
-                Interlocked.MemoryBarrier();
+                handle = Interlocked.CompareExchange(ref cur, IntPtr.Zero, cur);
                 if (handle != IntPtr.Zero) {
                     DbLib.mdb_cursor_close(handle);
                 }
@@ -400,7 +395,6 @@ namespace KdSoft.Lmdb
             if (handle != IntPtr.Zero)
                 disposed?.Invoke(this);
         }
-
 
         #endregion
 

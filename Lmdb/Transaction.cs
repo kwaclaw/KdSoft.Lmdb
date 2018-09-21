@@ -88,7 +88,7 @@ namespace KdSoft.Lmdb
         /// </summary>
         public void Commit() {
             var ret = DbRetCode.SUCCESS;
-            // we check here, as we dont want to throw an exception in the CER, but won't use the handle.
+            // we check here, as we dont want to throw an exception in the CER, but won't use this handle.
             var handle = CheckDisposed();
             var txnId = IntPtr.Zero;
 
@@ -96,11 +96,8 @@ namespace KdSoft.Lmdb
             try { /* */ }
             finally {
                 // now we use atomic access to the handle
-                Interlocked.MemoryBarrier();
-                handle = txn;
-                Interlocked.MemoryBarrier();
-                txn = IntPtr.Zero;
-                Interlocked.MemoryBarrier();
+                handle = Interlocked.CompareExchange(ref txn, IntPtr.Zero, txn);
+                // if the txn handle was valid before we cleared it, lets close the handle
                 if (handle != IntPtr.Zero) {
                     txnId = DbLib.mdb_txn_id(handle);
                     ret = DbLib.mdb_txn_commit(handle);
@@ -165,7 +162,6 @@ namespace KdSoft.Lmdb
             get {
                 Interlocked.MemoryBarrier();
                 bool result = txn == IntPtr.Zero;
-                Interlocked.MemoryBarrier();
                 return result;
             }
         }
@@ -200,11 +196,8 @@ namespace KdSoft.Lmdb
             RuntimeHelpers.PrepareConstrainedRegions();
             try { /* */ }
             finally {
-                Interlocked.MemoryBarrier();
-                handle = txn;
-                Interlocked.MemoryBarrier();
-                txn = IntPtr.Zero;
-                Interlocked.MemoryBarrier();
+                handle = Interlocked.CompareExchange(ref txn, IntPtr.Zero, txn);
+                // if the txn handle was valid before we cleared it, lets close the handle
                 if (handle != IntPtr.Zero) {
                     txnId = DbLib.mdb_txn_id(handle);
                     DbLib.mdb_txn_abort(handle);
