@@ -4,6 +4,7 @@
     <Copyright>Copyright © Karl Waclawek 2018</Copyright>
     <PackageLicenseUrl>https://github.com/kwaclaw/KdSoft.Lmdb/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/kwaclaw/KdSoft.Lmdb</PackageProjectUrl>
+    <PackageTags>lmdb lightning nosql key-value storage</PackageTags>
 
     <Authors>Karl Waclawek</Authors>
     <Product>KD Soft Lmdb for .NET</Product>

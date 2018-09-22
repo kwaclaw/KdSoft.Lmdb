@@ -4,11 +4,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
     <AssemblyName>KdSoft.Lmdb</AssemblyName>
     <RootNamespace>KdSoft.Lmdb</RootNamespace>
     <VersionPrefix>1.0.1</VersionPrefix>
     <!--<VersionSuffix>beta-$(TimeStamp)</VersionSuffix>-->
-    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+    <PackageReleaseNotes >
+      Removed locks for better performance in high-throuput scenarios.
+      Included faster native libraries for Windows (MinGW32/64 instead of VS builds).
+    </PackageReleaseNotes>
   </PropertyGroup>
   
   <PropertyGroup>
