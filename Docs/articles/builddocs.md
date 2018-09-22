@@ -4,7 +4,7 @@
 * Build the Lmdb project.
 * Execute BuildAndRun.cmd from the Docs directory.
 ## Publishing to GitHub
-* Add the Docs/_site directory to the master branch and commit.
+* On the first build, add the Docs/_site directory to the master branch and commit.
 * Use `git subtree` to push to the gh-pages branch:\
   `git subtree push --prefix Docs/_site origin gh-pages`\
    where origin points to the GitHub repository
