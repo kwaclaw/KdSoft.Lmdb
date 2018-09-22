@@ -116,33 +116,6 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public class Cursor : IDisposable</code></pre>
   </div>
-  <h3 id="fields">Fields
-  </h3>
-  
-  
-  <h4 id="KdSoft_Lmdb_Cursor_rscLock" data-uid="KdSoft.Lmdb.Cursor.rscLock">rscLock</h4>
-  <div class="markdown level1 summary"><p>Resource lock object.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected readonly object rscLock</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
   <h3 id="properties">Properties
   </h3>
   
@@ -452,6 +425,10 @@ Its transaction must still be live if it is a write-transaction.</p>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void Close()</code></pre>
   </div>
+  <h5 id="KdSoft_Lmdb_Cursor_Close_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Cursors will be automatically closed when they are owned by a write transaction.
+However, in a read-only transaction, cursors must be closed explicitly.</p>
+</div>
   
   
   <a id="KdSoft_Lmdb_Cursor_Delete_" data-uid="KdSoft.Lmdb.Cursor.Delete*"></a>
@@ -485,24 +462,24 @@ This function deletes the key/data pair to which the cursor refers.</p>
   
   <a id="KdSoft_Lmdb_Cursor_Dispose_" data-uid="KdSoft.Lmdb.Cursor.Dispose*"></a>
   <h4 id="KdSoft_Lmdb_Cursor_Dispose" data-uid="KdSoft.Lmdb.Cursor.Dispose">Dispose()</h4>
-  <div class="markdown level1 summary"><p>Same as <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Close">Close()</a>. Close a database handle. Normally unnecessary. Use with care:
-This call is not mutex protected. Handles should only be closed by a single thread, and only
-if no other threads are going to reference the database handle or one of its cursors any further.
-Do not close a handle if an existing transaction has modified its database.
-Doing so can cause misbehavior from database corruption to errors like MDB_BAD_VALSIZE(since the DB name is gone).
-Closing a database handle is not necessary, but lets mdb_dbi_open() reuse the handle value.
-Usually it's better to set a bigger mdb_env_set_maxdbs(), unless that value would be large.</p>
+  <div class="markdown level1 summary"><p>Close a cursor handle. Sames as <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Close">Close()</a>.
+The cursor handle will be freed and must not be used again after this call.
+Its transaction must still be live if it is a write-transaction.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
   </div>
+  <h5 id="KdSoft_Lmdb_Cursor_Dispose_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Cursors will be automatically closed when they are owned by a write transaction.
+However, in a read-only transaction, cursors must be closed explicitly.</p>
+</div>
   
   
   <a id="KdSoft_Lmdb_Cursor_Dispose_" data-uid="KdSoft.Lmdb.Cursor.Dispose*"></a>
   <h4 id="KdSoft_Lmdb_Cursor_Dispose_System_Boolean_" data-uid="KdSoft.Lmdb.Cursor.Dispose(System.Boolean)">Dispose(Boolean)</h4>
-  <div class="markdown level1 summary"><p>Implementation of Dispose() pattern.</p>
+  <div class="markdown level1 summary"><p>Implementation of Dispose() pattern. See <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Dispose">Dispose()</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -527,17 +504,6 @@ Usually it's better to set a bigger mdb_env_set_maxdbs(), unless that value woul
       </tr>
     </tbody>
   </table>
-  
-  
-  <a id="KdSoft_Lmdb_Cursor_Finalize_" data-uid="KdSoft.Lmdb.Cursor.Finalize*"></a>
-  <h4 id="KdSoft_Lmdb_Cursor_Finalize" data-uid="KdSoft.Lmdb.Cursor.Finalize">Finalize()</h4>
-  <div class="markdown level1 summary"><p>Finalizer. Releases unmanaged resources.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected void Finalize()</code></pre>
-  </div>
   
   
   <a id="KdSoft_Lmdb_Cursor_Get_" data-uid="KdSoft.Lmdb.Cursor.Get*"></a>

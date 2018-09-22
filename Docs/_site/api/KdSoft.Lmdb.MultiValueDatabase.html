@@ -122,25 +122,22 @@
       <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_GetOptions_KdSoft_Lmdb_Transaction_">Database.GetOptions(Transaction)</a>
     </div>
     <div>
-      <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Get_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte___">Database.Get(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;)</a>
+      <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Get_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte___System_ReadOnlySpan_System_Byte___">Database.Get(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;)</a>
     </div>
     <div>
-      <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_PutInternal_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__System_UInt32_">Database.PutInternal(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;, UInt32)</a>
+      <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_PutInternal_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte___System_ReadOnlySpan_System_Byte___System_UInt32_">Database.PutInternal(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;, UInt32)</a>
     </div>
     <div>
-      <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Put_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__KdSoft_Lmdb_PutOptions_">Database.Put(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;, PutOptions)</a>
+      <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Put_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte___System_ReadOnlySpan_System_Byte___KdSoft_Lmdb_PutOptions_">Database.Put(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;, PutOptions)</a>
     </div>
     <div>
-      <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Delete_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__">Database.Delete(Transaction, ReadOnlySpan&lt;Byte&gt;)</a>
+      <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Delete_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte___">Database.Delete(Transaction, ReadOnlySpan&lt;Byte&gt;)</a>
     </div>
     <div>
-      <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Compare_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__">Database.Compare(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;)</a>
+      <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Compare_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte___System_ReadOnlySpan_System_Byte___">Database.Compare(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;)</a>
     </div>
     <div>
       <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_OpenCursorHandle_KdSoft_Lmdb_Transaction_">Database.OpenCursorHandle(Transaction)</a>
-    </div>
-    <div>
-      <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_rscLock">Database.rscLock</a>
     </div>
     <div>
       <a class="xref" href="KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_CheckDisposed">Database.CheckDisposed()</a>
@@ -187,7 +184,7 @@
   
   
   <a id="KdSoft_Lmdb_MultiValueDatabase_Delete_" data-uid="KdSoft.Lmdb.MultiValueDatabase.Delete*"></a>
-  <h4 id="KdSoft_Lmdb_MultiValueDatabase_Delete_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__" data-uid="KdSoft.Lmdb.MultiValueDatabase.Delete(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte})">Delete(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;)</h4>
+  <h4 id="KdSoft_Lmdb_MultiValueDatabase_Delete_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte___System_ReadOnlySpan_System_Byte___" data-uid="KdSoft.Lmdb.MultiValueDatabase.Delete(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@)">Delete(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;)</h4>
   <div class="markdown level1 summary"><p>Delete items from a database. This function removes key/data pairs from the database.
 Only the matching data item will be deleted.
 This function will return MDB_NOTFOUND if the specified key/data pair is not in the database.</p>
@@ -195,7 +192,7 @@ This function will return MDB_NOTFOUND if the specified key/data pair is not in 
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool Delete(Transaction transaction, ReadOnlySpan&lt;byte&gt; key, ReadOnlySpan&lt;byte&gt; data)</code></pre>
+    <pre><code class="lang-csharp hljs">public bool Delete(Transaction transaction, in ReadOnlySpan&lt;byte&gt; key, in ReadOnlySpan&lt;byte&gt; data)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -242,14 +239,14 @@ This function will return MDB_NOTFOUND if the specified key/data pair is not in 
   
   
   <a id="KdSoft_Lmdb_MultiValueDatabase_DupCompare_" data-uid="KdSoft.Lmdb.MultiValueDatabase.DupCompare*"></a>
-  <h4 id="KdSoft_Lmdb_MultiValueDatabase_DupCompare_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__" data-uid="KdSoft.Lmdb.MultiValueDatabase.DupCompare(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte})">DupCompare(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;)</h4>
+  <h4 id="KdSoft_Lmdb_MultiValueDatabase_DupCompare_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte___System_ReadOnlySpan_System_Byte___" data-uid="KdSoft.Lmdb.MultiValueDatabase.DupCompare(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@)">DupCompare(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;)</h4>
   <div class="markdown level1 summary"><p>Compare two data items according to a particular database.
 This returns a comparison as if the two data items were keys in the specified database.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int DupCompare(Transaction transaction, ReadOnlySpan&lt;byte&gt; x, ReadOnlySpan&lt;byte&gt; y)</code></pre>
+    <pre><code class="lang-csharp hljs">public int DupCompare(Transaction transaction, in ReadOnlySpan&lt;byte&gt; x, in ReadOnlySpan&lt;byte&gt; y)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -444,7 +441,7 @@ closing a cursor before closing its database.</p>
   
   
   <a id="KdSoft_Lmdb_MultiValueDatabase_Put_" data-uid="KdSoft.Lmdb.MultiValueDatabase.Put*"></a>
-  <h4 id="KdSoft_Lmdb_MultiValueDatabase_Put_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__KdSoft_Lmdb_PutOptions_KdSoft_Lmdb_MultiValuePutOptions_" data-uid="KdSoft.Lmdb.MultiValueDatabase.Put(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte},KdSoft.Lmdb.PutOptions,KdSoft.Lmdb.MultiValuePutOptions)">Put(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;, PutOptions, MultiValuePutOptions)</h4>
+  <h4 id="KdSoft_Lmdb_MultiValueDatabase_Put_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte___System_ReadOnlySpan_System_Byte___KdSoft_Lmdb_PutOptions_KdSoft_Lmdb_MultiValuePutOptions_" data-uid="KdSoft.Lmdb.MultiValueDatabase.Put(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@,KdSoft.Lmdb.PutOptions,KdSoft.Lmdb.MultiValuePutOptions)">Put(Transaction, ReadOnlySpan&lt;Byte&gt;, ReadOnlySpan&lt;Byte&gt;, PutOptions, MultiValuePutOptions)</h4>
   <div class="markdown level1 summary"><p>Store items into a database.
 This function stores key/data pairs in the database. The default behavior is to enter the new key/data pair,
 replacing any previously existing key if duplicates are disallowed, or adding a duplicate data item
@@ -453,7 +450,7 @@ if duplicates are allowed(MDB_DUPSORT).</p>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool Put(Transaction transaction, ReadOnlySpan&lt;byte&gt; key, ReadOnlySpan&lt;byte&gt; data, PutOptions options, MultiValuePutOptions mvOptions)</code></pre>
+    <pre><code class="lang-csharp hljs">public bool Put(Transaction transaction, in ReadOnlySpan&lt;byte&gt; key, in ReadOnlySpan&lt;byte&gt; data, PutOptions options, MultiValuePutOptions mvOptions)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">

@@ -69,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Cursor.html",
-          "hash": "qNRN7Fte+mUOH6PrEZkXsQ=="
+          "hash": "f9l2MkXw6Z6Vw4R1Szf1cQ=="
         }
       },
       "is_incremental": true,
@@ -117,7 +117,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Database.html",
-          "hash": "S7DWYF2iI6KxRYu47nQ5vg=="
+          "hash": "yzPFXCIxBGdHcS6gIa5oMw=="
         }
       },
       "is_incremental": true,
@@ -153,7 +153,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.DatabaseTransaction.html",
-          "hash": "+/BqS5LDH9lkeME4sMN8jQ=="
+          "hash": "xvqJCodceGOE53MpfmozAg=="
         }
       },
       "is_incremental": true,
@@ -177,7 +177,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Environment.html",
-          "hash": "y831rpZsf5kszmBv2fMhQA=="
+          "hash": "rdoS+c/cNN47FngKNwi7yA=="
         }
       },
       "is_incremental": true,
@@ -249,7 +249,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.FixedMultiValueCursor.html",
-          "hash": "ElTvYU0lyJ20vF5f6xkYuA=="
+          "hash": "caMKLEn03rTxBmqznCSpQw=="
         }
       },
       "is_incremental": true,
@@ -261,7 +261,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.FixedMultiValueDatabase.html",
-          "hash": "VTGTx8JYtDG9bfBr2N1zFQ=="
+          "hash": "+UTzGQN8oIow51UpUAluig=="
         }
       },
       "is_incremental": true,
@@ -345,7 +345,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Interop.DbValue.html",
-          "hash": "ECiF4jJOgngsGRqiQoE8Fg=="
+          "hash": "LPRFQcZZ/Sneu3yKeXlyZQ=="
         }
       },
       "is_incremental": true,
@@ -441,7 +441,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.MultiValueCursor.html",
-          "hash": "EgQZjUJHc4jF7I39Fx1T5A=="
+          "hash": "AgqgMQbOQDmZ+3IvsTPMtA=="
         }
       },
       "is_incremental": true,
@@ -477,7 +477,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.MultiValueDatabase.html",
-          "hash": "oCQzoZ0bRJhrzGPtmGUtdw=="
+          "hash": "GwaYKTt/giJirJ0BhgMklA=="
         }
       },
       "is_incremental": true,
@@ -537,7 +537,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.ReadOnlyTransaction.html",
-          "hash": "xuzgYvPbsyjrFyPjehyddA=="
+          "hash": "TaunQZ+EYFaGNkYhvEiwgg=="
         }
       },
       "is_incremental": true,
@@ -573,7 +573,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Transaction.html",
-          "hash": "BuNWNkakFvBOXNIrCW+j2w=="
+          "hash": "dDXhZ4gt2j05Wf9nDEdC3Q=="
         }
       },
       "is_incremental": true,
@@ -609,7 +609,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.html",
-          "hash": "g6hwNZxMOUIWNRO4dAJcIQ=="
+          "hash": "ck2sOKxVzUBuKKyX3096fw=="
         }
       },
       "is_incremental": true,
@@ -645,10 +645,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/builddocs.html",
-          "hash": "UVY6fTKINbDXsCSNjmE56A=="
+          "hash": "JWrd/4DFcqifFwahLTt9fg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {

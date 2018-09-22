@@ -151,32 +151,6 @@ clean up all resources it owns (databases, transactions, cursors) in its finaliz
       </tr>
     </tbody>
   </table>
-  <h3 id="fields">Fields
-  </h3>
-  
-  
-  <h4 id="KdSoft_Lmdb_Environment_rscLock" data-uid="KdSoft.Lmdb.Environment.rscLock">rscLock</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected readonly object rscLock</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
   <h3 id="properties">Properties
   </h3>
   
@@ -559,7 +533,7 @@ The environment handle will be freed and must not be used again after this call.
   
   <a id="KdSoft_Lmdb_Environment_Dispose_" data-uid="KdSoft.Lmdb.Environment.Dispose*"></a>
   <h4 id="KdSoft_Lmdb_Environment_Dispose_System_Boolean_" data-uid="KdSoft.Lmdb.Environment.Dispose(System.Boolean)">Dispose(Boolean)</h4>
-  <div class="markdown level1 summary"><p>Implementation of Dispose() pattern.</p>
+  <div class="markdown level1 summary"><p>Implementation of Dispose() pattern. See <a class="xref" href="KdSoft.Lmdb.Environment.html#KdSoft_Lmdb_Environment_Dispose">Dispose()</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -792,7 +766,7 @@ Depends on the compile-time constant MDB_MAXKEYSIZE.Default 511. See MDB_val.</p
   
   <a id="KdSoft_Lmdb_Environment_Open_" data-uid="KdSoft.Lmdb.Environment.Open*"></a>
   <h4 id="KdSoft_Lmdb_Environment_Open_System_String_KdSoft_Lmdb_EnvironmentOptions_KdSoft_Lmdb_UnixFileModes_" data-uid="KdSoft.Lmdb.Environment.Open(System.String,KdSoft.Lmdb.EnvironmentOptions,KdSoft.Lmdb.UnixFileModes)">Open(String, EnvironmentOptions, UnixFileModes)</h4>
-  <div class="markdown level1 summary"><p>Open an environment handle.
+  <div class="markdown level1 summary"><p>Open an environment handle. Do not open multiple times in the same process.
 If this function fails, mdb_env_close() must be called to discard the MDB_env handle.</p>
 </div>
   <div class="markdown level1 conceptual"></div>

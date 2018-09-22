@@ -73,7 +73,7 @@
   
   <h1 id="KdSoft_Lmdb_Transaction" data-uid="KdSoft.Lmdb.Transaction" class="text-break">Class Transaction
   </h1>
-  <div class="markdown level0 summary"><p>LMDB Transaction.</p>
+  <div class="markdown level0 summary"><p>LMDB Transaction. A thread can only use one transaction at a time, plus any child transactions. Each transaction belongs to one thread.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
@@ -117,6 +117,11 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public class Transaction : IDisposable</code></pre>
   </div>
+  <h5 id="KdSoft_Lmdb_Transaction_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>There can be multiple simultaneously active read-only transactions but only one that can write. Once a single read-write transaction is opened,
+all further attempts to begin one will block until the first one is committed or aborted. This has no effect on read-only transactions,
+however, and they may continue to be opened at any time.</p>
+</div>
   <h3 id="constructors">Constructors
   </h3>
   
@@ -157,33 +162,6 @@
         <td><span class="parametername">disposed</span></td>
         <td><p>Callback when transaction gets disposed.</p>
 </td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="fields">Fields
-  </h3>
-  
-  
-  <h4 id="KdSoft_Lmdb_Transaction_rscLock" data-uid="KdSoft.Lmdb.Transaction.rscLock">rscLock</h4>
-  <div class="markdown level1 summary"><p>Resource lock object.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected readonly object rscLock</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></td>
-        <td></td>
       </tr>
     </tbody>
   </table>
@@ -300,8 +278,8 @@
   <a id="KdSoft_Lmdb_Transaction_Abort_" data-uid="KdSoft.Lmdb.Transaction.Abort*"></a>
   <h4 id="KdSoft_Lmdb_Transaction_Abort" data-uid="KdSoft.Lmdb.Transaction.Abort">Abort()</h4>
   <div class="markdown level1 summary"><p>Abandon all the operations of the transaction instead of saving them. Same as Dispose().
-The transaction handle is freed.It and its cursors must not be used again after this call, except with mdb_cursor_renew().
-Note: Earlier documentation incorrectly said all cursors would be freed.Only write-transactions free cursors.</p>
+The transaction handle is freed. It and its cursors must not be used again after this call, except with mdb_cursor_renew().
+Note: Earlier documentation incorrectly said all cursors would be freed. Only write-transactions free cursors.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -337,22 +315,11 @@ Throws if Transaction handle is already closed/disposed of.</p>
   </table>
   
   
-  <a id="KdSoft_Lmdb_Transaction_Cleanup_" data-uid="KdSoft.Lmdb.Transaction.Cleanup*"></a>
-  <h4 id="KdSoft_Lmdb_Transaction_Cleanup" data-uid="KdSoft.Lmdb.Transaction.Cleanup">Cleanup()</h4>
-  <div class="markdown level1 summary"><p>Thread-safe cleanup of cursor references.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected virtual void Cleanup()</code></pre>
-  </div>
-  
-  
   <a id="KdSoft_Lmdb_Transaction_Commit_" data-uid="KdSoft.Lmdb.Transaction.Commit*"></a>
   <h4 id="KdSoft_Lmdb_Transaction_Commit" data-uid="KdSoft.Lmdb.Transaction.Commit">Commit()</h4>
   <div class="markdown level1 summary"><p>Commit all the operations of a transaction into the database.
-The transaction handle is freed.It and its cursors must not be used again after this call, except with mdb_cursor_renew().
-Note: Earlier documentation incorrectly said all cursors would be freed.Only write-transactions free cursors.</p>
+The transaction handle is freed. It and its cursors must not be used again after this call, except with mdb_cursor_renew().
+Note: Earlier documentation incorrectly said all cursors would be freed. Only write-transactions free cursors.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -363,8 +330,7 @@ Note: Earlier documentation incorrectly said all cursors would be freed.Only wri
   
   <a id="KdSoft_Lmdb_Transaction_Committed_" data-uid="KdSoft.Lmdb.Transaction.Committed*"></a>
   <h4 id="KdSoft_Lmdb_Transaction_Committed" data-uid="KdSoft.Lmdb.Transaction.Committed">Committed()</h4>
-  <div class="markdown level1 summary"><p>Called at end of commit, while still under a resource lock.
-At this point the transaction is already closed/disposed.</p>
+  <div class="markdown level1 summary"><p>Called at end of commit, at this point the transaction is already closed/disposed.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -375,9 +341,9 @@ At this point the transaction is already closed/disposed.</p>
   
   <a id="KdSoft_Lmdb_Transaction_Dispose_" data-uid="KdSoft.Lmdb.Transaction.Dispose*"></a>
   <h4 id="KdSoft_Lmdb_Transaction_Dispose" data-uid="KdSoft.Lmdb.Transaction.Dispose">Dispose()</h4>
-  <div class="markdown level1 summary"><p>Abandon all the operations of the transaction instead of saving them. Same as Abort().
+  <div class="markdown level1 summary"><p>Abandon all the operations of the transaction instead of saving them. Same as <a class="xref" href="KdSoft.Lmdb.Transaction.html#KdSoft_Lmdb_Transaction_Abort">Abort()</a>.
 The transaction handle is freed.It and its cursors must not be used again after this call, except with mdb_cursor_renew().
-Note: Earlier documentation incorrectly said all cursors would be freed.Only write-transactions free cursors.</p>
+Note: Earlier documentation incorrectly said all cursors would be freed. Only write-transactions free cursors.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -388,7 +354,7 @@ Note: Earlier documentation incorrectly said all cursors would be freed.Only wri
   
   <a id="KdSoft_Lmdb_Transaction_Dispose_" data-uid="KdSoft.Lmdb.Transaction.Dispose*"></a>
   <h4 id="KdSoft_Lmdb_Transaction_Dispose_System_Boolean_" data-uid="KdSoft.Lmdb.Transaction.Dispose(System.Boolean)">Dispose(Boolean)</h4>
-  <div class="markdown level1 summary"><p>Implementation of Dispose() pattern.</p>
+  <div class="markdown level1 summary"><p>Implementation of Dispose() pattern. See <a class="xref" href="KdSoft.Lmdb.Transaction.html#KdSoft_Lmdb_Transaction_Dispose">Dispose()</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -413,17 +379,6 @@ Note: Earlier documentation incorrectly said all cursors would be freed.Only wri
       </tr>
     </tbody>
   </table>
-  
-  
-  <a id="KdSoft_Lmdb_Transaction_Finalize_" data-uid="KdSoft.Lmdb.Transaction.Finalize*"></a>
-  <h4 id="KdSoft_Lmdb_Transaction_Finalize" data-uid="KdSoft.Lmdb.Transaction.Finalize">Finalize()</h4>
-  <div class="markdown level1 summary"><p>Finalizer. Releases unmanaged resources.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected void Finalize()</code></pre>
-  </div>
   
   
   <a id="KdSoft_Lmdb_Transaction_ReleaseManagedResources_" data-uid="KdSoft.Lmdb.Transaction.ReleaseManagedResources*"></a>

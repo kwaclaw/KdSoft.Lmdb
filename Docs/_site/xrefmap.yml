@@ -90,19 +90,6 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.Cursor.Dispose
   nameWithType: Cursor.Dispose
-- uid: KdSoft.Lmdb.Cursor.Finalize
-  name: Finalize()
-  href: api/KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Finalize
-  commentId: M:KdSoft.Lmdb.Cursor.Finalize
-  fullName: KdSoft.Lmdb.Cursor.Finalize()
-  nameWithType: Cursor.Finalize()
-- uid: KdSoft.Lmdb.Cursor.Finalize*
-  name: Finalize
-  href: api/KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Finalize_
-  commentId: Overload:KdSoft.Lmdb.Cursor.Finalize
-  isSpec: "True"
-  fullName: KdSoft.Lmdb.Cursor.Finalize
-  nameWithType: Cursor.Finalize
 - uid: KdSoft.Lmdb.Cursor.Forward
   name: Forward
   href: api/KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Forward
@@ -534,12 +521,6 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.Cursor.ReverseFromPrevious
   nameWithType: Cursor.ReverseFromPrevious
-- uid: KdSoft.Lmdb.Cursor.rscLock
-  name: rscLock
-  href: api/KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_rscLock
-  commentId: F:KdSoft.Lmdb.Cursor.rscLock
-  fullName: KdSoft.Lmdb.Cursor.rscLock
-  nameWithType: Cursor.rscLock
 - uid: KdSoft.Lmdb.Cursor.TxnHandle
   name: TxnHandle
   href: api/KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_TxnHandle
@@ -633,15 +614,15 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.Database.Close
   nameWithType: Database.Close
-- uid: KdSoft.Lmdb.Database.Compare(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte})
+- uid: KdSoft.Lmdb.Database.Compare(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@)
   name: Compare(Transaction, ReadOnlySpan<Byte>, ReadOnlySpan<Byte>)
-  href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Compare_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__
-  commentId: M:KdSoft.Lmdb.Database.Compare(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte})
-  name.vb: Compare(Transaction, ReadOnlySpan(Of Byte), ReadOnlySpan(Of Byte))
+  href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Compare_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte___System_ReadOnlySpan_System_Byte___
+  commentId: M:KdSoft.Lmdb.Database.Compare(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@)
+  name.vb: Compare(Transaction, ByRef ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte))
   fullName: KdSoft.Lmdb.Database.Compare(KdSoft.Lmdb.Transaction, System.ReadOnlySpan<System.Byte>, System.ReadOnlySpan<System.Byte>)
-  fullName.vb: KdSoft.Lmdb.Database.Compare(KdSoft.Lmdb.Transaction, System.ReadOnlySpan(Of System.Byte), System.ReadOnlySpan(Of System.Byte))
+  fullName.vb: KdSoft.Lmdb.Database.Compare(KdSoft.Lmdb.Transaction, ByRef System.ReadOnlySpan(Of System.Byte), ByRef System.ReadOnlySpan(Of System.Byte))
   nameWithType: Database.Compare(Transaction, ReadOnlySpan<Byte>, ReadOnlySpan<Byte>)
-  nameWithType.vb: Database.Compare(Transaction, ReadOnlySpan(Of Byte), ReadOnlySpan(Of Byte))
+  nameWithType.vb: Database.Compare(Transaction, ByRef ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte))
 - uid: KdSoft.Lmdb.Database.Compare*
   name: Compare
   href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Compare_
@@ -662,15 +643,15 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.Database.Config
   nameWithType: Database.Config
-- uid: KdSoft.Lmdb.Database.Delete(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte})
+- uid: KdSoft.Lmdb.Database.Delete(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@)
   name: Delete(Transaction, ReadOnlySpan<Byte>)
-  href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Delete_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__
-  commentId: M:KdSoft.Lmdb.Database.Delete(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte})
-  name.vb: Delete(Transaction, ReadOnlySpan(Of Byte))
+  href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Delete_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte___
+  commentId: M:KdSoft.Lmdb.Database.Delete(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@)
+  name.vb: Delete(Transaction, ByRef ReadOnlySpan(Of Byte))
   fullName: KdSoft.Lmdb.Database.Delete(KdSoft.Lmdb.Transaction, System.ReadOnlySpan<System.Byte>)
-  fullName.vb: KdSoft.Lmdb.Database.Delete(KdSoft.Lmdb.Transaction, System.ReadOnlySpan(Of System.Byte))
+  fullName.vb: KdSoft.Lmdb.Database.Delete(KdSoft.Lmdb.Transaction, ByRef System.ReadOnlySpan(Of System.Byte))
   nameWithType: Database.Delete(Transaction, ReadOnlySpan<Byte>)
-  nameWithType.vb: Database.Delete(Transaction, ReadOnlySpan(Of Byte))
+  nameWithType.vb: Database.Delete(Transaction, ByRef ReadOnlySpan(Of Byte))
 - uid: KdSoft.Lmdb.Database.Delete*
   name: Delete
   href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Delete_
@@ -723,28 +704,15 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.Database.Environment
   nameWithType: Database.Environment
-- uid: KdSoft.Lmdb.Database.Finalize
-  name: Finalize()
-  href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Finalize
-  commentId: M:KdSoft.Lmdb.Database.Finalize
-  fullName: KdSoft.Lmdb.Database.Finalize()
-  nameWithType: Database.Finalize()
-- uid: KdSoft.Lmdb.Database.Finalize*
-  name: Finalize
-  href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Finalize_
-  commentId: Overload:KdSoft.Lmdb.Database.Finalize
-  isSpec: "True"
-  fullName: KdSoft.Lmdb.Database.Finalize
-  nameWithType: Database.Finalize
-- uid: KdSoft.Lmdb.Database.Get(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte}@)
+- uid: KdSoft.Lmdb.Database.Get(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@)
   name: Get(Transaction, ReadOnlySpan<Byte>, out ReadOnlySpan<Byte>)
-  href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Get_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte___
-  commentId: M:KdSoft.Lmdb.Database.Get(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte}@)
-  name.vb: Get(Transaction, ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte))
+  href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Get_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte___System_ReadOnlySpan_System_Byte___
+  commentId: M:KdSoft.Lmdb.Database.Get(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@)
+  name.vb: Get(Transaction, ByRef ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte))
   fullName: KdSoft.Lmdb.Database.Get(KdSoft.Lmdb.Transaction, System.ReadOnlySpan<System.Byte>, out System.ReadOnlySpan<System.Byte>)
-  fullName.vb: KdSoft.Lmdb.Database.Get(KdSoft.Lmdb.Transaction, System.ReadOnlySpan(Of System.Byte), ByRef System.ReadOnlySpan(Of System.Byte))
+  fullName.vb: KdSoft.Lmdb.Database.Get(KdSoft.Lmdb.Transaction, ByRef System.ReadOnlySpan(Of System.Byte), ByRef System.ReadOnlySpan(Of System.Byte))
   nameWithType: Database.Get(Transaction, ReadOnlySpan<Byte>, out ReadOnlySpan<Byte>)
-  nameWithType.vb: Database.Get(Transaction, ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte))
+  nameWithType.vb: Database.Get(Transaction, ByRef ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte))
 - uid: KdSoft.Lmdb.Database.Get*
   name: Get
   href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Get_
@@ -868,15 +836,15 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.Database.OpenCursorHandle
   nameWithType: Database.OpenCursorHandle
-- uid: KdSoft.Lmdb.Database.Put(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte},KdSoft.Lmdb.PutOptions)
+- uid: KdSoft.Lmdb.Database.Put(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@,KdSoft.Lmdb.PutOptions)
   name: Put(Transaction, ReadOnlySpan<Byte>, ReadOnlySpan<Byte>, PutOptions)
-  href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Put_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__KdSoft_Lmdb_PutOptions_
-  commentId: M:KdSoft.Lmdb.Database.Put(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte},KdSoft.Lmdb.PutOptions)
-  name.vb: Put(Transaction, ReadOnlySpan(Of Byte), ReadOnlySpan(Of Byte), PutOptions)
+  href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Put_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte___System_ReadOnlySpan_System_Byte___KdSoft_Lmdb_PutOptions_
+  commentId: M:KdSoft.Lmdb.Database.Put(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@,KdSoft.Lmdb.PutOptions)
+  name.vb: Put(Transaction, ByRef ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte), PutOptions)
   fullName: KdSoft.Lmdb.Database.Put(KdSoft.Lmdb.Transaction, System.ReadOnlySpan<System.Byte>, System.ReadOnlySpan<System.Byte>, KdSoft.Lmdb.PutOptions)
-  fullName.vb: KdSoft.Lmdb.Database.Put(KdSoft.Lmdb.Transaction, System.ReadOnlySpan(Of System.Byte), System.ReadOnlySpan(Of System.Byte), KdSoft.Lmdb.PutOptions)
+  fullName.vb: KdSoft.Lmdb.Database.Put(KdSoft.Lmdb.Transaction, ByRef System.ReadOnlySpan(Of System.Byte), ByRef System.ReadOnlySpan(Of System.Byte), KdSoft.Lmdb.PutOptions)
   nameWithType: Database.Put(Transaction, ReadOnlySpan<Byte>, ReadOnlySpan<Byte>, PutOptions)
-  nameWithType.vb: Database.Put(Transaction, ReadOnlySpan(Of Byte), ReadOnlySpan(Of Byte), PutOptions)
+  nameWithType.vb: Database.Put(Transaction, ByRef ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte), PutOptions)
 - uid: KdSoft.Lmdb.Database.Put*
   name: Put
   href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_Put_
@@ -884,15 +852,15 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.Database.Put
   nameWithType: Database.Put
-- uid: KdSoft.Lmdb.Database.PutInternal(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte},System.UInt32)
+- uid: KdSoft.Lmdb.Database.PutInternal(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@,System.UInt32)
   name: PutInternal(Transaction, ReadOnlySpan<Byte>, ReadOnlySpan<Byte>, UInt32)
-  href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_PutInternal_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__System_UInt32_
-  commentId: M:KdSoft.Lmdb.Database.PutInternal(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte},System.UInt32)
-  name.vb: PutInternal(Transaction, ReadOnlySpan(Of Byte), ReadOnlySpan(Of Byte), UInt32)
+  href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_PutInternal_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte___System_ReadOnlySpan_System_Byte___System_UInt32_
+  commentId: M:KdSoft.Lmdb.Database.PutInternal(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@,System.UInt32)
+  name.vb: PutInternal(Transaction, ByRef ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte), UInt32)
   fullName: KdSoft.Lmdb.Database.PutInternal(KdSoft.Lmdb.Transaction, System.ReadOnlySpan<System.Byte>, System.ReadOnlySpan<System.Byte>, System.UInt32)
-  fullName.vb: KdSoft.Lmdb.Database.PutInternal(KdSoft.Lmdb.Transaction, System.ReadOnlySpan(Of System.Byte), System.ReadOnlySpan(Of System.Byte), System.UInt32)
+  fullName.vb: KdSoft.Lmdb.Database.PutInternal(KdSoft.Lmdb.Transaction, ByRef System.ReadOnlySpan(Of System.Byte), ByRef System.ReadOnlySpan(Of System.Byte), System.UInt32)
   nameWithType: Database.PutInternal(Transaction, ReadOnlySpan<Byte>, ReadOnlySpan<Byte>, UInt32)
-  nameWithType.vb: Database.PutInternal(Transaction, ReadOnlySpan(Of Byte), ReadOnlySpan(Of Byte), UInt32)
+  nameWithType.vb: Database.PutInternal(Transaction, ByRef ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte), UInt32)
 - uid: KdSoft.Lmdb.Database.PutInternal*
   name: PutInternal
   href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_PutInternal_
@@ -900,12 +868,6 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.Database.PutInternal
   nameWithType: Database.PutInternal
-- uid: KdSoft.Lmdb.Database.rscLock
-  name: rscLock
-  href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_rscLock
-  commentId: F:KdSoft.Lmdb.Database.rscLock
-  fullName: KdSoft.Lmdb.Database.rscLock
-  nameWithType: Database.rscLock
 - uid: KdSoft.Lmdb.Database.RunChecked(System.Func{System.UInt32,KdSoft.Lmdb.Interop.DbRetCode})
   name: RunChecked(Func<UInt32, DbRetCode>)
   href: api/KdSoft.Lmdb.Database.html#KdSoft_Lmdb_Database_RunChecked_System_Func_System_UInt32_KdSoft_Lmdb_Interop_DbRetCode__
@@ -1032,19 +994,6 @@ references:
   commentId: T:KdSoft.Lmdb.DatabaseTransaction
   fullName: KdSoft.Lmdb.DatabaseTransaction
   nameWithType: DatabaseTransaction
-- uid: KdSoft.Lmdb.DatabaseTransaction.Cleanup
-  name: Cleanup()
-  href: api/KdSoft.Lmdb.DatabaseTransaction.html#KdSoft_Lmdb_DatabaseTransaction_Cleanup
-  commentId: M:KdSoft.Lmdb.DatabaseTransaction.Cleanup
-  fullName: KdSoft.Lmdb.DatabaseTransaction.Cleanup()
-  nameWithType: DatabaseTransaction.Cleanup()
-- uid: KdSoft.Lmdb.DatabaseTransaction.Cleanup*
-  name: Cleanup
-  href: api/KdSoft.Lmdb.DatabaseTransaction.html#KdSoft_Lmdb_DatabaseTransaction_Cleanup_
-  commentId: Overload:KdSoft.Lmdb.DatabaseTransaction.Cleanup
-  isSpec: "True"
-  fullName: KdSoft.Lmdb.DatabaseTransaction.Cleanup
-  nameWithType: DatabaseTransaction.Cleanup
 - uid: KdSoft.Lmdb.DatabaseTransaction.Committed
   name: Committed()
   href: api/KdSoft.Lmdb.DatabaseTransaction.html#KdSoft_Lmdb_DatabaseTransaction_Committed
@@ -1397,12 +1346,6 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.Environment.Open
   nameWithType: Environment.Open
-- uid: KdSoft.Lmdb.Environment.rscLock
-  name: rscLock
-  href: api/KdSoft.Lmdb.Environment.html#KdSoft_Lmdb_Environment_rscLock
-  commentId: F:KdSoft.Lmdb.Environment.rscLock
-  fullName: KdSoft.Lmdb.Environment.rscLock
-  nameWithType: Environment.rscLock
 - uid: KdSoft.Lmdb.Environment.RunChecked(System.Func{System.IntPtr,KdSoft.Lmdb.Interop.DbRetCode})
   name: RunChecked(Func<IntPtr, DbRetCode>)
   href: api/KdSoft.Lmdb.Environment.html#KdSoft_Lmdb_Environment_RunChecked_System_Func_System_IntPtr_KdSoft_Lmdb_Interop_DbRetCode__
@@ -1806,15 +1749,15 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.FixedMultiValueCursor.GetPreviousMultiple
   nameWithType: FixedMultiValueCursor.GetPreviousMultiple
-- uid: KdSoft.Lmdb.FixedMultiValueCursor.PutMultiple(System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte},System.Int32@)
+- uid: KdSoft.Lmdb.FixedMultiValueCursor.PutMultiple(System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@,System.Int32@)
   name: PutMultiple(ReadOnlySpan<Byte>, ReadOnlySpan<Byte>, ref Int32)
-  href: api/KdSoft.Lmdb.FixedMultiValueCursor.html#KdSoft_Lmdb_FixedMultiValueCursor_PutMultiple_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__System_Int32__
-  commentId: M:KdSoft.Lmdb.FixedMultiValueCursor.PutMultiple(System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte},System.Int32@)
-  name.vb: PutMultiple(ReadOnlySpan(Of Byte), ReadOnlySpan(Of Byte), ByRef Int32)
+  href: api/KdSoft.Lmdb.FixedMultiValueCursor.html#KdSoft_Lmdb_FixedMultiValueCursor_PutMultiple_System_ReadOnlySpan_System_Byte___System_ReadOnlySpan_System_Byte___System_Int32__
+  commentId: M:KdSoft.Lmdb.FixedMultiValueCursor.PutMultiple(System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@,System.Int32@)
+  name.vb: PutMultiple(ByRef ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte), ByRef Int32)
   fullName: KdSoft.Lmdb.FixedMultiValueCursor.PutMultiple(System.ReadOnlySpan<System.Byte>, System.ReadOnlySpan<System.Byte>, ref System.Int32)
-  fullName.vb: KdSoft.Lmdb.FixedMultiValueCursor.PutMultiple(System.ReadOnlySpan(Of System.Byte), System.ReadOnlySpan(Of System.Byte), ByRef System.Int32)
+  fullName.vb: KdSoft.Lmdb.FixedMultiValueCursor.PutMultiple(ByRef System.ReadOnlySpan(Of System.Byte), ByRef System.ReadOnlySpan(Of System.Byte), ByRef System.Int32)
   nameWithType: FixedMultiValueCursor.PutMultiple(ReadOnlySpan<Byte>, ReadOnlySpan<Byte>, ref Int32)
-  nameWithType.vb: FixedMultiValueCursor.PutMultiple(ReadOnlySpan(Of Byte), ReadOnlySpan(Of Byte), ByRef Int32)
+  nameWithType.vb: FixedMultiValueCursor.PutMultiple(ByRef ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte), ByRef Int32)
 - uid: KdSoft.Lmdb.FixedMultiValueCursor.PutMultiple*
   name: PutMultiple
   href: api/KdSoft.Lmdb.FixedMultiValueCursor.html#KdSoft_Lmdb_FixedMultiValueCursor_PutMultiple_
@@ -2764,6 +2707,49 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.Interop.DbValue.Equals
   nameWithType: DbValue.Equals
+- uid: KdSoft.Lmdb.Interop.DbValue.From(System.ReadOnlySpan{System.Byte})
+  name: From(ReadOnlySpan<Byte>)
+  href: api/KdSoft.Lmdb.Interop.DbValue.html#KdSoft_Lmdb_Interop_DbValue_From_System_ReadOnlySpan_System_Byte__
+  commentId: M:KdSoft.Lmdb.Interop.DbValue.From(System.ReadOnlySpan{System.Byte})
+  name.vb: From(ReadOnlySpan(Of Byte))
+  fullName: KdSoft.Lmdb.Interop.DbValue.From(System.ReadOnlySpan<System.Byte>)
+  fullName.vb: KdSoft.Lmdb.Interop.DbValue.From(System.ReadOnlySpan(Of System.Byte))
+  nameWithType: DbValue.From(ReadOnlySpan<Byte>)
+  nameWithType.vb: DbValue.From(ReadOnlySpan(Of Byte))
+- uid: KdSoft.Lmdb.Interop.DbValue.From(System.Span{System.Byte})
+  name: From(Span<Byte>)
+  href: api/KdSoft.Lmdb.Interop.DbValue.html#KdSoft_Lmdb_Interop_DbValue_From_System_Span_System_Byte__
+  commentId: M:KdSoft.Lmdb.Interop.DbValue.From(System.Span{System.Byte})
+  name.vb: From(Span(Of Byte))
+  fullName: KdSoft.Lmdb.Interop.DbValue.From(System.Span<System.Byte>)
+  fullName.vb: KdSoft.Lmdb.Interop.DbValue.From(System.Span(Of System.Byte))
+  nameWithType: DbValue.From(Span<Byte>)
+  nameWithType.vb: DbValue.From(Span(Of Byte))
+- uid: KdSoft.Lmdb.Interop.DbValue.From*
+  name: From
+  href: api/KdSoft.Lmdb.Interop.DbValue.html#KdSoft_Lmdb_Interop_DbValue_From_
+  commentId: Overload:KdSoft.Lmdb.Interop.DbValue.From
+  isSpec: "True"
+  fullName: KdSoft.Lmdb.Interop.DbValue.From
+  nameWithType: DbValue.From
+- uid: KdSoft.Lmdb.Interop.DbValue.From``1(System.ReadOnlySpan{``0})
+  name: From<T>(ReadOnlySpan<T>)
+  href: api/KdSoft.Lmdb.Interop.DbValue.html#KdSoft_Lmdb_Interop_DbValue_From__1_System_ReadOnlySpan___0__
+  commentId: M:KdSoft.Lmdb.Interop.DbValue.From``1(System.ReadOnlySpan{``0})
+  name.vb: From(Of T)(ReadOnlySpan(Of T))
+  fullName: KdSoft.Lmdb.Interop.DbValue.From<T>(System.ReadOnlySpan<T>)
+  fullName.vb: KdSoft.Lmdb.Interop.DbValue.From(Of T)(System.ReadOnlySpan(Of T))
+  nameWithType: DbValue.From<T>(ReadOnlySpan<T>)
+  nameWithType.vb: DbValue.From(Of T)(ReadOnlySpan(Of T))
+- uid: KdSoft.Lmdb.Interop.DbValue.From``1(System.Span{``0})
+  name: From<T>(Span<T>)
+  href: api/KdSoft.Lmdb.Interop.DbValue.html#KdSoft_Lmdb_Interop_DbValue_From__1_System_Span___0__
+  commentId: M:KdSoft.Lmdb.Interop.DbValue.From``1(System.Span{``0})
+  name.vb: From(Of T)(Span(Of T))
+  fullName: KdSoft.Lmdb.Interop.DbValue.From<T>(System.Span<T>)
+  fullName.vb: KdSoft.Lmdb.Interop.DbValue.From(Of T)(System.Span(Of T))
+  nameWithType: DbValue.From<T>(Span<T>)
+  nameWithType.vb: DbValue.From(Of T)(Span(Of T))
 - uid: KdSoft.Lmdb.Interop.DbValue.op_Equality(KdSoft.Lmdb.Interop.DbValue,KdSoft.Lmdb.Interop.DbValue)
   name: Equality(DbValue, DbValue)
   href: api/KdSoft.Lmdb.Interop.DbValue.html#KdSoft_Lmdb_Interop_DbValue_op_Equality_KdSoft_Lmdb_Interop_DbValue_KdSoft_Lmdb_Interop_DbValue_
@@ -3412,15 +3398,15 @@ references:
   commentId: T:KdSoft.Lmdb.MultiValueDatabase
   fullName: KdSoft.Lmdb.MultiValueDatabase
   nameWithType: MultiValueDatabase
-- uid: KdSoft.Lmdb.MultiValueDatabase.Delete(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte})
+- uid: KdSoft.Lmdb.MultiValueDatabase.Delete(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@)
   name: Delete(Transaction, ReadOnlySpan<Byte>, ReadOnlySpan<Byte>)
-  href: api/KdSoft.Lmdb.MultiValueDatabase.html#KdSoft_Lmdb_MultiValueDatabase_Delete_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__
-  commentId: M:KdSoft.Lmdb.MultiValueDatabase.Delete(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte})
-  name.vb: Delete(Transaction, ReadOnlySpan(Of Byte), ReadOnlySpan(Of Byte))
+  href: api/KdSoft.Lmdb.MultiValueDatabase.html#KdSoft_Lmdb_MultiValueDatabase_Delete_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte___System_ReadOnlySpan_System_Byte___
+  commentId: M:KdSoft.Lmdb.MultiValueDatabase.Delete(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@)
+  name.vb: Delete(Transaction, ByRef ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte))
   fullName: KdSoft.Lmdb.MultiValueDatabase.Delete(KdSoft.Lmdb.Transaction, System.ReadOnlySpan<System.Byte>, System.ReadOnlySpan<System.Byte>)
-  fullName.vb: KdSoft.Lmdb.MultiValueDatabase.Delete(KdSoft.Lmdb.Transaction, System.ReadOnlySpan(Of System.Byte), System.ReadOnlySpan(Of System.Byte))
+  fullName.vb: KdSoft.Lmdb.MultiValueDatabase.Delete(KdSoft.Lmdb.Transaction, ByRef System.ReadOnlySpan(Of System.Byte), ByRef System.ReadOnlySpan(Of System.Byte))
   nameWithType: MultiValueDatabase.Delete(Transaction, ReadOnlySpan<Byte>, ReadOnlySpan<Byte>)
-  nameWithType.vb: MultiValueDatabase.Delete(Transaction, ReadOnlySpan(Of Byte), ReadOnlySpan(Of Byte))
+  nameWithType.vb: MultiValueDatabase.Delete(Transaction, ByRef ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte))
 - uid: KdSoft.Lmdb.MultiValueDatabase.Delete*
   name: Delete
   href: api/KdSoft.Lmdb.MultiValueDatabase.html#KdSoft_Lmdb_MultiValueDatabase_Delete_
@@ -3428,15 +3414,15 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.MultiValueDatabase.Delete
   nameWithType: MultiValueDatabase.Delete
-- uid: KdSoft.Lmdb.MultiValueDatabase.DupCompare(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte})
+- uid: KdSoft.Lmdb.MultiValueDatabase.DupCompare(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@)
   name: DupCompare(Transaction, ReadOnlySpan<Byte>, ReadOnlySpan<Byte>)
-  href: api/KdSoft.Lmdb.MultiValueDatabase.html#KdSoft_Lmdb_MultiValueDatabase_DupCompare_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__
-  commentId: M:KdSoft.Lmdb.MultiValueDatabase.DupCompare(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte})
-  name.vb: DupCompare(Transaction, ReadOnlySpan(Of Byte), ReadOnlySpan(Of Byte))
+  href: api/KdSoft.Lmdb.MultiValueDatabase.html#KdSoft_Lmdb_MultiValueDatabase_DupCompare_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte___System_ReadOnlySpan_System_Byte___
+  commentId: M:KdSoft.Lmdb.MultiValueDatabase.DupCompare(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@)
+  name.vb: DupCompare(Transaction, ByRef ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte))
   fullName: KdSoft.Lmdb.MultiValueDatabase.DupCompare(KdSoft.Lmdb.Transaction, System.ReadOnlySpan<System.Byte>, System.ReadOnlySpan<System.Byte>)
-  fullName.vb: KdSoft.Lmdb.MultiValueDatabase.DupCompare(KdSoft.Lmdb.Transaction, System.ReadOnlySpan(Of System.Byte), System.ReadOnlySpan(Of System.Byte))
+  fullName.vb: KdSoft.Lmdb.MultiValueDatabase.DupCompare(KdSoft.Lmdb.Transaction, ByRef System.ReadOnlySpan(Of System.Byte), ByRef System.ReadOnlySpan(Of System.Byte))
   nameWithType: MultiValueDatabase.DupCompare(Transaction, ReadOnlySpan<Byte>, ReadOnlySpan<Byte>)
-  nameWithType.vb: MultiValueDatabase.DupCompare(Transaction, ReadOnlySpan(Of Byte), ReadOnlySpan(Of Byte))
+  nameWithType.vb: MultiValueDatabase.DupCompare(Transaction, ByRef ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte))
 - uid: KdSoft.Lmdb.MultiValueDatabase.DupCompare*
   name: DupCompare
   href: api/KdSoft.Lmdb.MultiValueDatabase.html#KdSoft_Lmdb_MultiValueDatabase_DupCompare_
@@ -3483,15 +3469,15 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.MultiValueDatabase.OpenMultiValueCursor
   nameWithType: MultiValueDatabase.OpenMultiValueCursor
-- uid: KdSoft.Lmdb.MultiValueDatabase.Put(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte},KdSoft.Lmdb.PutOptions,KdSoft.Lmdb.MultiValuePutOptions)
+- uid: KdSoft.Lmdb.MultiValueDatabase.Put(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@,KdSoft.Lmdb.PutOptions,KdSoft.Lmdb.MultiValuePutOptions)
   name: Put(Transaction, ReadOnlySpan<Byte>, ReadOnlySpan<Byte>, PutOptions, MultiValuePutOptions)
-  href: api/KdSoft.Lmdb.MultiValueDatabase.html#KdSoft_Lmdb_MultiValueDatabase_Put_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte__System_ReadOnlySpan_System_Byte__KdSoft_Lmdb_PutOptions_KdSoft_Lmdb_MultiValuePutOptions_
-  commentId: M:KdSoft.Lmdb.MultiValueDatabase.Put(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte},KdSoft.Lmdb.PutOptions,KdSoft.Lmdb.MultiValuePutOptions)
-  name.vb: Put(Transaction, ReadOnlySpan(Of Byte), ReadOnlySpan(Of Byte), PutOptions, MultiValuePutOptions)
+  href: api/KdSoft.Lmdb.MultiValueDatabase.html#KdSoft_Lmdb_MultiValueDatabase_Put_KdSoft_Lmdb_Transaction_System_ReadOnlySpan_System_Byte___System_ReadOnlySpan_System_Byte___KdSoft_Lmdb_PutOptions_KdSoft_Lmdb_MultiValuePutOptions_
+  commentId: M:KdSoft.Lmdb.MultiValueDatabase.Put(KdSoft.Lmdb.Transaction,System.ReadOnlySpan{System.Byte}@,System.ReadOnlySpan{System.Byte}@,KdSoft.Lmdb.PutOptions,KdSoft.Lmdb.MultiValuePutOptions)
+  name.vb: Put(Transaction, ByRef ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte), PutOptions, MultiValuePutOptions)
   fullName: KdSoft.Lmdb.MultiValueDatabase.Put(KdSoft.Lmdb.Transaction, System.ReadOnlySpan<System.Byte>, System.ReadOnlySpan<System.Byte>, KdSoft.Lmdb.PutOptions, KdSoft.Lmdb.MultiValuePutOptions)
-  fullName.vb: KdSoft.Lmdb.MultiValueDatabase.Put(KdSoft.Lmdb.Transaction, System.ReadOnlySpan(Of System.Byte), System.ReadOnlySpan(Of System.Byte), KdSoft.Lmdb.PutOptions, KdSoft.Lmdb.MultiValuePutOptions)
+  fullName.vb: KdSoft.Lmdb.MultiValueDatabase.Put(KdSoft.Lmdb.Transaction, ByRef System.ReadOnlySpan(Of System.Byte), ByRef System.ReadOnlySpan(Of System.Byte), KdSoft.Lmdb.PutOptions, KdSoft.Lmdb.MultiValuePutOptions)
   nameWithType: MultiValueDatabase.Put(Transaction, ReadOnlySpan<Byte>, ReadOnlySpan<Byte>, PutOptions, MultiValuePutOptions)
-  nameWithType.vb: MultiValueDatabase.Put(Transaction, ReadOnlySpan(Of Byte), ReadOnlySpan(Of Byte), PutOptions, MultiValuePutOptions)
+  nameWithType.vb: MultiValueDatabase.Put(Transaction, ByRef ReadOnlySpan(Of Byte), ByRef ReadOnlySpan(Of Byte), PutOptions, MultiValuePutOptions)
 - uid: KdSoft.Lmdb.MultiValueDatabase.Put*
   name: Put
   href: api/KdSoft.Lmdb.MultiValueDatabase.html#KdSoft_Lmdb_MultiValueDatabase_Put_
@@ -3763,19 +3749,6 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.Transaction.CheckDisposed
   nameWithType: Transaction.CheckDisposed
-- uid: KdSoft.Lmdb.Transaction.Cleanup
-  name: Cleanup()
-  href: api/KdSoft.Lmdb.Transaction.html#KdSoft_Lmdb_Transaction_Cleanup
-  commentId: M:KdSoft.Lmdb.Transaction.Cleanup
-  fullName: KdSoft.Lmdb.Transaction.Cleanup()
-  nameWithType: Transaction.Cleanup()
-- uid: KdSoft.Lmdb.Transaction.Cleanup*
-  name: Cleanup
-  href: api/KdSoft.Lmdb.Transaction.html#KdSoft_Lmdb_Transaction_Cleanup_
-  commentId: Overload:KdSoft.Lmdb.Transaction.Cleanup
-  isSpec: "True"
-  fullName: KdSoft.Lmdb.Transaction.Cleanup
-  nameWithType: Transaction.Cleanup
 - uid: KdSoft.Lmdb.Transaction.Commit
   name: Commit()
   href: api/KdSoft.Lmdb.Transaction.html#KdSoft_Lmdb_Transaction_Commit
@@ -3834,19 +3807,6 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.Transaction.Environment
   nameWithType: Transaction.Environment
-- uid: KdSoft.Lmdb.Transaction.Finalize
-  name: Finalize()
-  href: api/KdSoft.Lmdb.Transaction.html#KdSoft_Lmdb_Transaction_Finalize
-  commentId: M:KdSoft.Lmdb.Transaction.Finalize
-  fullName: KdSoft.Lmdb.Transaction.Finalize()
-  nameWithType: Transaction.Finalize()
-- uid: KdSoft.Lmdb.Transaction.Finalize*
-  name: Finalize
-  href: api/KdSoft.Lmdb.Transaction.html#KdSoft_Lmdb_Transaction_Finalize_
-  commentId: Overload:KdSoft.Lmdb.Transaction.Finalize
-  isSpec: "True"
-  fullName: KdSoft.Lmdb.Transaction.Finalize
-  nameWithType: Transaction.Finalize
 - uid: KdSoft.Lmdb.Transaction.Id
   name: Id
   href: api/KdSoft.Lmdb.Transaction.html#KdSoft_Lmdb_Transaction_Id
@@ -3899,12 +3859,6 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.Transaction.ReleaseManagedResources
   nameWithType: Transaction.ReleaseManagedResources
-- uid: KdSoft.Lmdb.Transaction.rscLock
-  name: rscLock
-  href: api/KdSoft.Lmdb.Transaction.html#KdSoft_Lmdb_Transaction_rscLock
-  commentId: F:KdSoft.Lmdb.Transaction.rscLock
-  fullName: KdSoft.Lmdb.Transaction.rscLock
-  nameWithType: Transaction.rscLock
 - uid: KdSoft.Lmdb.TransactionModes
   name: TransactionModes
   href: api/KdSoft.Lmdb.TransactionModes.html

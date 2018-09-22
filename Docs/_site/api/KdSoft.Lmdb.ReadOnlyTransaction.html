@@ -73,7 +73,9 @@
   
   <h1 id="KdSoft_Lmdb_ReadOnlyTransaction" data-uid="KdSoft.Lmdb.ReadOnlyTransaction" class="text-break">Class ReadOnlyTransaction
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Read-only transaction. There can be multiple simultaneously active read-only transactions but only one that can write.
+If you want to pass read-only transactions across threads, you can use the MDB_NOTLS option on the environment.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -89,9 +91,6 @@
     <h5>Inherited Members</h5>
     <div>
       <a class="xref" href="KdSoft.Lmdb.Transaction.html#KdSoft_Lmdb_Transaction_Parent">Transaction.Parent</a>
-    </div>
-    <div>
-      <a class="xref" href="KdSoft.Lmdb.Transaction.html#KdSoft_Lmdb_Transaction_rscLock">Transaction.rscLock</a>
     </div>
     <div>
       <a class="xref" href="KdSoft.Lmdb.Transaction.html#KdSoft_Lmdb_Transaction_Environment">Transaction.Environment</a>
@@ -116,9 +115,6 @@
     </div>
     <div>
       <a class="xref" href="KdSoft.Lmdb.Transaction.html#KdSoft_Lmdb_Transaction_ReleaseManagedResources_System_Boolean_">Transaction.ReleaseManagedResources(Boolean)</a>
-    </div>
-    <div>
-      <a class="xref" href="KdSoft.Lmdb.Transaction.html#KdSoft_Lmdb_Transaction_Cleanup">Transaction.Cleanup()</a>
     </div>
     <div>
       <a class="xref" href="KdSoft.Lmdb.Transaction.html#KdSoft_Lmdb_Transaction_Dispose_System_Boolean_">Transaction.Dispose(Boolean)</a>

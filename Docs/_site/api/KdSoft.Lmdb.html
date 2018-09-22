@@ -120,9 +120,11 @@ or inappropriate use of the .NET bindings.</p>
       <section><p>MultiValueDatabase configuration</p>
 </section>
       <h4><a class="xref" href="KdSoft.Lmdb.ReadOnlyTransaction.html">ReadOnlyTransaction</a></h4>
-      <section></section>
+      <section><p>Read-only transaction. There can be multiple simultaneously active read-only transactions but only one that can write.
+If you want to pass read-only transactions across threads, you can use the MDB_NOTLS option on the environment.</p>
+</section>
       <h4><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></h4>
-      <section><p>LMDB Transaction.</p>
+      <section><p>LMDB Transaction. A thread can only use one transaction at a time, plus any child transactions. Each transaction belongs to one thread.</p>
 </section>
     <h3 id="structs">Structs
   </h3>
