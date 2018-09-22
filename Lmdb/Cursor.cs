@@ -373,15 +373,10 @@ namespace KdSoft.Lmdb
         }
 
         /// <summary>
-        /// Close a cursor handle. Sames as <see cref="Close"/>.
-        /// The cursor handle will be freed and must not be used again after this call.
-        /// Its transaction must still be live if it is a write-transaction. 
+        /// Implementation of Dispose() pattern. See <see cref="Dispose()"/>.
         /// </summary>
-        /// <remarks>
-        /// Cursors will be automatically closed when they are owned by a write transaction.
-        /// However, in a read-only transaction, cursors must be closed explicitly.
-        /// </remarks>
-        public void Dispose() {
+        /// <param name="disposing"><c>true</c> if explicity disposing (finalizer not run), <c>false</c> if disposed from finalizer.</param>
+        protected virtual void Dispose(bool disposing) {
             IntPtr handle = IntPtr.Zero;
             RuntimeHelpers.PrepareConstrainedRegions();
             try { /* */ }
@@ -394,6 +389,20 @@ namespace KdSoft.Lmdb
 
             if (handle != IntPtr.Zero)
                 disposed?.Invoke(this);
+        }
+
+        /// <summary>
+        /// Close a cursor handle. Sames as <see cref="Close"/>.
+        /// The cursor handle will be freed and must not be used again after this call.
+        /// Its transaction must still be live if it is a write-transaction. 
+        /// </summary>
+        /// <remarks>
+        /// Cursors will be automatically closed when they are owned by a write transaction.
+        /// However, in a read-only transaction, cursors must be closed explicitly.
+        /// </remarks>
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

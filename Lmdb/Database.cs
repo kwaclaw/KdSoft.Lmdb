@@ -317,9 +317,29 @@ namespace KdSoft.Lmdb
         /// Workaround as uint and ulong are not supported by Interlocked.CompareExchange() yet.
         /// </summary>
         static unsafe uint InterlockedCompareExchange(ref uint location, uint value, uint comparand) {
-            fixed (uint* ptr = &location) {
-                return (uint)Interlocked.CompareExchange(ref *(int*)ptr, (int)value, (int)comparand);
+            fixed (uint* ptr = &location)
+                unchecked {
+                    return (uint)Interlocked.CompareExchange(ref *(int*)ptr, (int)value, (int)comparand);
+                }
+        }
+
+        /// <summary>
+        /// Implementation of Dispose() pattern. See <see cref="Dispose()"/>.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> if explicity disposing (finalizer not run), <c>false</c> if disposed from finalizer.</param>
+        protected virtual void Dispose(bool disposing) {
+            uint handle = 0;
+            RuntimeHelpers.PrepareConstrainedRegions();
+            try { /* */ }
+            finally {
+                handle = InterlockedCompareExchange(ref dbi, 0, dbi);
+                if (handle != 0) {
+                    DbLib.mdb_dbi_close(env, handle);
+                }
             }
+
+            if (handle != 0)
+                disposed?.Invoke(this);
         }
 
         /// <summary>
@@ -336,18 +356,8 @@ namespace KdSoft.Lmdb
         /// Usually it's better to set a bigger mdb_env_set_maxdbs(), unless that value would be large.
         /// </remarks>
         public void Dispose() {
-            uint handle = 0;
-            RuntimeHelpers.PrepareConstrainedRegions();
-            try { /* */ }
-            finally {
-                handle = InterlockedCompareExchange(ref dbi, 0, dbi);
-                if (handle != 0) {
-                    DbLib.mdb_dbi_close(env, handle);
-                }
-            }
-
-            if (handle != 0)
-                disposed?.Invoke(this);
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

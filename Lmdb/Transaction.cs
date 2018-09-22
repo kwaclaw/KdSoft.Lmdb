@@ -186,11 +186,10 @@ namespace KdSoft.Lmdb
         }
 
         /// <summary>
-        /// Abandon all the operations of the transaction instead of saving them. Same as <see cref="Abort"/>.
-        /// The transaction handle is freed.It and its cursors must not be used again after this call, except with mdb_cursor_renew().
-        /// Note: Earlier documentation incorrectly said all cursors would be freed. Only write-transactions free cursors.
+        /// Implementation of Dispose() pattern. See <see cref="Dispose()"/>.
         /// </summary>
-        public void Dispose() {
+        /// <param name="disposing"><c>true</c> if explicity disposing (finalizer not run), <c>false</c> if disposed from finalizer.</param>
+        protected virtual void Dispose(bool disposing) {
             IntPtr handle = IntPtr.Zero;
             IntPtr txnId = IntPtr.Zero;
             RuntimeHelpers.PrepareConstrainedRegions();
@@ -208,6 +207,16 @@ namespace KdSoft.Lmdb
                 ReleaseManagedResources();
                 disposed?.Invoke(txnId);
             }
+        }
+
+        /// <summary>
+        /// Abandon all the operations of the transaction instead of saving them. Same as <see cref="Abort"/>.
+        /// The transaction handle is freed.It and its cursors must not be used again after this call, except with mdb_cursor_renew().
+        /// Note: Earlier documentation incorrectly said all cursors would be freed. Only write-transactions free cursors.
+        /// </summary>
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

@@ -406,7 +406,7 @@ namespace KdSoft.Lmdb
         }
 
         /// <summary>
-        /// Implementation of Dispose() pattern.
+        /// Implementation of Dispose() pattern. See <see cref="Dispose()"/>.
         /// </summary>
         /// <param name="disposing"><c>true</c> if explicity disposing (finalizer not run), <c>false</c> if disposed from finalizer.</param>
         protected virtual void Dispose(bool disposing) {
