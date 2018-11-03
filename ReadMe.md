@@ -148,6 +148,8 @@ Include as Nuget package from https://www.nuget.org/packages/KdSoft.Lmdb/ . This
 #### Installing the native libraries
 * Windows: A recent x64 build is included in this project.
 
+  * Note: On Windows the data file will be pre-allocated to the full size of the memory map. If one needs the capability to have the data file grow incrementally, then one must use a build from the __master__ branch on https://github.com/LMDB/lmdb.git . This has about a 10%-20% performance penalty. See related issue [OpenLDAP ITS#8324](https://www.openldap.org/its/index.cgi/Software%20Enhancements?id=8324;selectid=8324) which is "fixed" on the master branch.
+
 * Linux-like: 
 
   * Install package, Example for Ubuntu: `sudo apt-get install liblmdb-dev`
