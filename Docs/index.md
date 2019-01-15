@@ -7,8 +7,8 @@ Provides a .NET/C# friendly API and supports zero-copy access to the native libr
 #### Create a database
 
 ```c#
-var envConfig = new EnvironmentConfiguration(10);
-using (var env = new Environment(envConfig)) {
+var envConfig = new LmdbEnvironmentConfiguration(10);
+using (var env = new LmdbEnvironment(envConfig)) {
     env.Open(envPath);    
     Database dbase;
     var dbConfig = new DatabaseConfiguration(DatabaseOptions.Create);
@@ -23,7 +23,7 @@ using (var env = new Environment(envConfig)) {
 #### Simple Store and Retrieve
 
 ```c#
-<Env points to an open Environment handle>
+<Env points to an open LmdbEnvironment handle>
 ...  
 var config = new DatabaseConfiguration(DatabaseOptions.Create);
 Database dbase;

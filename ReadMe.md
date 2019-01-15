@@ -13,8 +13,8 @@ It requires the .NET Core SDK 2.1 (or later) installed. There are no third-party
 #### Create a database
 
 ```c#
-var envConfig = new EnvironmentConfiguration(10);
-using (var env = new Environment(envConfig)) {
+var envConfig = new LmdbEnvironmentConfiguration(10);
+using (var env = new LmdbEnvironment(envConfig)) {
     env.Open(envPath);    
     Database dbase;
     var dbConfig = new DatabaseConfiguration(DatabaseOptions.Create);
@@ -29,7 +29,7 @@ using (var env = new Environment(envConfig)) {
 #### Simple Store and Retrieve
 
 ```c#
-<Env points to an open Environment handle>
+<Env points to an open LmdbEnvironment handle>
 ...  
 var config = new DatabaseConfiguration(DatabaseOptions.Create);
 Database dbase;

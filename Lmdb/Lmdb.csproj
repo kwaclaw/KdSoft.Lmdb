@@ -7,11 +7,11 @@
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
     <AssemblyName>KdSoft.Lmdb</AssemblyName>
     <RootNamespace>KdSoft.Lmdb</RootNamespace>
-    <VersionPrefix>1.0.1</VersionPrefix>
+    <VersionPrefix>2.00</VersionPrefix>
     <!--<VersionSuffix>beta-$(TimeStamp)</VersionSuffix>-->
     <PackageReleaseNotes>
-      Removed locks for better performance in high-throuput scenarios.
-      Included faster native libraries for Windows (MinGW32/64 instead of VS builds).
+      Renamed EnvironmentXXX types to LmdbEnvironmentXXX to avoid naming conflicts with System.Environemnt.
+      Added missing TransactionModes values.
     </PackageReleaseNotes>
   </PropertyGroup>
   
