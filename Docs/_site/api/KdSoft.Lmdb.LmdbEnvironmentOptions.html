@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Enum TransactionModes
+    <title>Enum LmdbEnvironmentOptions
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Enum TransactionModes
+    <meta name="title" content="Enum LmdbEnvironmentOptions
    ">
     <meta name="generator" content="docfx 2.39.2.0">
     
@@ -68,20 +68,20 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="KdSoft.Lmdb.TransactionModes">
+            <article class="content wrap" id="_content" data-uid="KdSoft.Lmdb.LmdbEnvironmentOptions">
   
   
-  <h1 id="KdSoft_Lmdb_TransactionModes" data-uid="KdSoft.Lmdb.TransactionModes" class="text-break">Enum TransactionModes
+  <h1 id="KdSoft_Lmdb_LmdbEnvironmentOptions" data-uid="KdSoft.Lmdb.LmdbEnvironmentOptions" class="text-break">Enum LmdbEnvironmentOptions
   </h1>
-  <div class="markdown level0 summary"><p>Transaction open mode</p>
+  <div class="markdown level0 summary"><p>Options to open LMDB environment</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <h6><strong>Namespace</strong>: <a class="xref" href="KdSoft.Lmdb.html">KdSoft.Lmdb</a></h6>
   <h6><strong>Assembly</strong>: KdSoft.Lmdb.dll</h6>
-  <h5 id="KdSoft_Lmdb_TransactionModes_syntax">Syntax</h5>
+  <h5 id="KdSoft_Lmdb_LmdbEnvironmentOptions_syntax">Syntax</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[Flags]
-public enum TransactionModes</code></pre>
+public enum LmdbEnvironmentOptions</code></pre>
   </div>
   <h3 id="fields">Fields
   </h3>
@@ -94,7 +94,34 @@ public enum TransactionModes</code></pre>
     <thead>
     <tbody>
       <tr>
-        <td id="KdSoft_Lmdb_TransactionModes_NoMetaSync">NoMetaSync</td>
+        <td id="KdSoft_Lmdb_LmdbEnvironmentOptions_FixedMap">FixedMap</td>
+        <td><p>MDB_FIXEDMAP. use a fixed address for the mmap region.
+This flag must be specified when creating the environment, and is stored persistently in the environment.
+If successful, the memory map will always reside at the same virtual address and pointers used to reference data items in the database will be constant across multiple invocations.
+This option may not always work, depending on how the operating system has allocated memory to shared libraries and other uses.
+The feature is highly experimental.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_LmdbEnvironmentOptions_MapAsync">MapAsync</td>
+        <td><p>MDB_MAPASYNC. When using MDB_WRITEMAP, use asynchronous flushes to disk.
+As with MDB_NOSYNC, a system crash can then corrupt the database or lose the last transactions.
+Calling mdb_env_sync() ensures on-disk database integrity until next commit.
+This flag may be changed at any time using mdb_env_set_flags().</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_LmdbEnvironmentOptions_NoLock">NoLock</td>
+        <td><p>MDB_NOLOCK. don't do any locking, caller must manage their own locks</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_LmdbEnvironmentOptions_NoMemoryInitialization">NoMemoryInitialization</td>
+        <td><p>MDB_NOMEMINIT. don't initialize malloc'd memory before writing to datafile</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_LmdbEnvironmentOptions_NoMetaSync">NoMetaSync</td>
         <td><p>MDB_NOMETASYNC. Flush system buffers to disk only once per transaction, omit the metadata flush.
 Defer that until the system flushes files to disk, or next non-MDB_RDONLY commit or mdb_env_sync().
 This optimization maintains database integrity, but a system crash may undo the last committed transaction.
@@ -103,12 +130,24 @@ This flag may be changed at any time using mdb_env_set_flags().</p>
 </td>
       </tr>
       <tr>
-        <td id="KdSoft_Lmdb_TransactionModes_None">None</td>
-        <td><p>Normal mode</p>
+        <td id="KdSoft_Lmdb_LmdbEnvironmentOptions_None">None</td>
+        <td><p>No special options.</p>
 </td>
       </tr>
       <tr>
-        <td id="KdSoft_Lmdb_TransactionModes_NoSync">NoSync</td>
+        <td id="KdSoft_Lmdb_LmdbEnvironmentOptions_NoReadAhead">NoReadAhead</td>
+        <td><p>MDB_NORDAHEAD. don't do readahead (no effect on Windows)</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_LmdbEnvironmentOptions_NoSubDir">NoSubDir</td>
+        <td><p>MDB_NOSUBDIR. By default, MDB creates its environment in a directory whose pathname is given in path, and creates its data and lock files under that directory.
+With this option, path is used as-is for the database main data file.
+The database lock file is the path with &quot;-lock&quot; appended.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_LmdbEnvironmentOptions_NoSync">NoSync</td>
         <td><p>MDB_NOSYNC. Don't flush system buffers to disk when committing a transaction.
 This optimization means a system crash can corrupt the database or lose the last transactions if buffers are not yet flushed to disk.
 The risk is governed by how often the system flushes dirty buffers to disk and how often mdb_env_sync() is called.
@@ -120,10 +159,22 @@ This flag may be changed at any time using mdb_env_set_flags().</p>
 </td>
       </tr>
       <tr>
-        <td id="KdSoft_Lmdb_TransactionModes_ReadOnly">ReadOnly</td>
+        <td id="KdSoft_Lmdb_LmdbEnvironmentOptions_NoThreadLocalStorage">NoThreadLocalStorage</td>
+        <td><p>MDB_NOTLS. tie reader locktable slots to MDB_txn objects instead of to threads</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_LmdbEnvironmentOptions_ReadOnly">ReadOnly</td>
         <td><p>MDB_RDONLY. Open the environment in read-only mode.
 No write operations will be allowed.
 MDB will still modify the lock file - except on read-only filesystems, where MDB does not use locks.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_LmdbEnvironmentOptions_WriteMap">WriteMap</td>
+        <td><p>MDB_WRITEMAP Use a writeable memory map unless MDB_RDONLY is set.
+This is faster and uses fewer mallocs, but loses protection from application bugs like wild pointer writes and other bad updates into the database.
+Incompatible with nested transactions.</p>
 </td>
       </tr>
     </tbody>

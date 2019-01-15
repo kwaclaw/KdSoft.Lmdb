@@ -66,8 +66,8 @@
 Provides a .NET/C# friendly API and supports zero-copy access to the native library.</p>
 <h2 id="overview">Overview</h2>
 <h4 id="create-a-database">Create a database</h4>
-<pre><code class="lang-c#">var envConfig = new EnvironmentConfiguration(10);
-using (var env = new Environment(envConfig)) {
+<pre><code class="lang-c#">var envConfig = new LmdbEnvironmentConfiguration(10);
+using (var env = new LmdbEnvironment(envConfig)) {
     env.Open(envPath);    
     Database dbase;
     var dbConfig = new DatabaseConfiguration(DatabaseOptions.Create);
@@ -79,7 +79,7 @@ using (var env = new Environment(envConfig)) {
 }
 </code></pre>
 <h4 id="simple-store-and-retrieve">Simple Store and Retrieve</h4>
-<pre><code class="lang-c#">&lt;Env points to an open Environment handle&gt;
+<pre><code class="lang-c#">&lt;Env points to an open LmdbEnvironment handle&gt;
 ...  
 var config = new DatabaseConfiguration(DatabaseOptions.Create);
 Database dbase;

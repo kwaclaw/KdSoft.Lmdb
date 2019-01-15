@@ -90,12 +90,6 @@
       <section><p>LMDB Transaction that allows creating or opening databases.
 Only one of these can be active in the environment at a time.</p>
 </section>
-      <h4><a class="xref" href="KdSoft.Lmdb.Environment.html">Environment</a></h4>
-      <section><p>LMDB environment.</p>
-</section>
-      <h4><a class="xref" href="KdSoft.Lmdb.EnvironmentConfiguration.html">EnvironmentConfiguration</a></h4>
-      <section><p>Basic environment configuration</p>
-</section>
       <h4><a class="xref" href="KdSoft.Lmdb.ErrorUtil.html">ErrorUtil</a></h4>
       <section><p>Helpers for native error handling.</p>
 </section>
@@ -106,6 +100,12 @@ Only one of these can be active in the environment at a time.</p>
       <section></section>
       <h4><a class="xref" href="KdSoft.Lmdb.FixedMultiValueDatabaseConfiguration.html">FixedMultiValueDatabaseConfiguration</a></h4>
       <section><p>FixedMultiValueDatabase configuration</p>
+</section>
+      <h4><a class="xref" href="KdSoft.Lmdb.LmdbEnvironment.html">LmdbEnvironment</a></h4>
+      <section><p>LMDB environment.</p>
+</section>
+      <h4><a class="xref" href="KdSoft.Lmdb.LmdbEnvironmentConfiguration.html">LmdbEnvironmentConfiguration</a></h4>
+      <section><p>Basic environment configuration</p>
 </section>
       <h4><a class="xref" href="KdSoft.Lmdb.LmdbException.html">LmdbException</a></h4>
       <section><p>Exception class representing errors returned from MLDB API calls,
@@ -148,11 +148,11 @@ implementation of the <a class="xref" href="https://docs.microsoft.com/dotnet/ap
 can only live on the stack. This works because the foreach loop does not require an explicit
 implementaion of the <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.ienumerable">IEnumerable</a> interface.</p>
 </section>
-      <h4><a class="xref" href="KdSoft.Lmdb.EnvironmentInfo.html">EnvironmentInfo</a></h4>
-      <section><p>Statistics for a database in the environment</p>
-</section>
       <h4><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></h4>
       <section><p>Represents a database entry/record as a stack-only data structure (ref struct).</p>
+</section>
+      <h4><a class="xref" href="KdSoft.Lmdb.LmdbEnvironmentInfo.html">LmdbEnvironmentInfo</a></h4>
+      <section><p>Statistics for a database in the environment</p>
 </section>
       <h4><a class="xref" href="KdSoft.Lmdb.MultiValueCursor.ValuesEnumerator.html">MultiValueCursor.ValuesEnumerator</a></h4>
       <section><p>Enumerator class that iterates over all values in a key. See <a class="xref" href="KdSoft.Lmdb.MultiValueCursor.ValuesIterator.html">MultiValueCursor.ValuesIterator</a>.
@@ -188,10 +188,10 @@ Can be used in foreach statements as if it was an implementation of <a class="xr
       <h4><a class="xref" href="KdSoft.Lmdb.DatabaseOptions.html">DatabaseOptions</a></h4>
       <section><p>Flags to open a database with.</p>
 </section>
-      <h4><a class="xref" href="KdSoft.Lmdb.EnvironmentCopyOptions.html">EnvironmentCopyOptions</a></h4>
+      <h4><a class="xref" href="KdSoft.Lmdb.LmdbEnvironmentCopyOptions.html">LmdbEnvironmentCopyOptions</a></h4>
       <section><p>Options for copying an environment</p>
 </section>
-      <h4><a class="xref" href="KdSoft.Lmdb.EnvironmentOptions.html">EnvironmentOptions</a></h4>
+      <h4><a class="xref" href="KdSoft.Lmdb.LmdbEnvironmentOptions.html">LmdbEnvironmentOptions</a></h4>
       <section><p>Options to open LMDB environment</p>
 </section>
       <h4><a class="xref" href="KdSoft.Lmdb.MultiValueCursorDeleteOption.html">MultiValueCursorDeleteOption</a></h4>
@@ -221,7 +221,7 @@ Can be used in foreach statements as if it was an implementation of <a class="xr
       <section></section>
       <h4><a class="xref" href="KdSoft.Lmdb.Database.LibFunc-2.html">Database.LibFunc&lt;T, R&gt;</a></h4>
       <section></section>
-      <h4><a class="xref" href="KdSoft.Lmdb.Environment.LibFunc-2.html">Environment.LibFunc&lt;T, R&gt;</a></h4>
+      <h4><a class="xref" href="KdSoft.Lmdb.LmdbEnvironment.LibFunc-2.html">LmdbEnvironment.LibFunc&lt;T, R&gt;</a></h4>
       <section><p>Helper delegate for calling library functions with a common signature.</p>
 </section>
       <h4><a class="xref" href="KdSoft.Lmdb.SpanComparison-1.html">SpanComparison&lt;T&gt;</a></h4>

@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.AssertFunction.html",
-          "hash": "q6jGXWRS9D+2suIewir9kw=="
+          "hash": "+0KpT5qTQDNQ5pPtMLsrHw=="
         }
       },
       "is_incremental": true,
@@ -117,7 +117,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Database.html",
-          "hash": "yzPFXCIxBGdHcS6gIa5oMw=="
+          "hash": "qf0LpkYoW250l2EhXD9eCQ=="
         }
       },
       "is_incremental": true,
@@ -154,78 +154,6 @@
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.DatabaseTransaction.html",
           "hash": "xvqJCodceGOE53MpfmozAg=="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/KdSoft.Lmdb.Environment.LibFunc-2.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/KdSoft.Lmdb.Environment.LibFunc-2.html",
-          "hash": "zLSNT9ok3FlnBnCnK512Xg=="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/KdSoft.Lmdb.Environment.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/KdSoft.Lmdb.Environment.html",
-          "hash": "rdoS+c/cNN47FngKNwi7yA=="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/KdSoft.Lmdb.EnvironmentConfiguration.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/KdSoft.Lmdb.EnvironmentConfiguration.html",
-          "hash": "BLLALBCereMDiMZ4QRDGrw=="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/KdSoft.Lmdb.EnvironmentCopyOptions.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/KdSoft.Lmdb.EnvironmentCopyOptions.html",
-          "hash": "D7gdWUmdXfhPo71bAQlEpw=="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/KdSoft.Lmdb.EnvironmentInfo.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/KdSoft.Lmdb.EnvironmentInfo.html",
-          "hash": "i4mBDYmHltgUDsOgZmjobw=="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/KdSoft.Lmdb.EnvironmentOptions.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/KdSoft.Lmdb.EnvironmentOptions.html",
-          "hash": "gDHmk/8MfWwMvbGywodiCA=="
         }
       },
       "is_incremental": true,
@@ -370,6 +298,78 @@
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.KeyDataPair.html",
           "hash": "+ySpfqOytGRJco84O6qaBw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.LmdbEnvironment.LibFunc-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.LmdbEnvironment.LibFunc-2.html",
+          "hash": "2HTu0GA80YGMcaDx8rRY9w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.LmdbEnvironment.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.LmdbEnvironment.html",
+          "hash": "Xc7atDqEF1YDXN+BktAv4Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.LmdbEnvironmentConfiguration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.LmdbEnvironmentConfiguration.html",
+          "hash": "5iz1YyvBmD/Jf1GK/ekrXw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.LmdbEnvironmentCopyOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.LmdbEnvironmentCopyOptions.html",
+          "hash": "TNsmo3d+oA+lKoSYGdcRxA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.LmdbEnvironmentInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.LmdbEnvironmentInfo.html",
+          "hash": "E0NaOXavtOnuRXf4Stuyeg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/KdSoft.Lmdb.LmdbEnvironmentOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KdSoft.Lmdb.LmdbEnvironmentOptions.html",
+          "hash": "+xLIrfFg5FtNaPnm7YmA2w=="
         }
       },
       "is_incremental": true,
@@ -573,7 +573,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Transaction.html",
-          "hash": "dDXhZ4gt2j05Wf9nDEdC3Q=="
+          "hash": "xeZjs23U6ZfeCHOIXhOpaA=="
         }
       },
       "is_incremental": true,
@@ -585,7 +585,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.TransactionModes.html",
-          "hash": "gFJh/UHKQBs68VeWP4n8lQ=="
+          "hash": "RUGzVWXFyiST5Zs1oIa8fw=="
         }
       },
       "is_incremental": true,
@@ -609,7 +609,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.html",
-          "hash": "ck2sOKxVzUBuKKyX3096fw=="
+          "hash": "UFhNjj1n7CI9Hc+ObxVhDA=="
         }
       },
       "is_incremental": true,
@@ -633,7 +633,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "QPSgmO3r1GqewzEKKHeSFw=="
+          "hash": "v28gflevyWXwrznkM3Viag=="
         }
       },
       "is_incremental": false,
@@ -648,7 +648,7 @@
           "hash": "JWrd/4DFcqifFwahLTt9fg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -669,7 +669,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "0vNQzxF+wHeSZbzAt4CH6A=="
+          "hash": "zMcEe1NO12gWGj2zPPtOUw=="
         }
       },
       "is_incremental": true,
