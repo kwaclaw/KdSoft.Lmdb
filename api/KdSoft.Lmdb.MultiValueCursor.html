@@ -1,0 +1,962 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class MultiValueCursor
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class MultiValueCursor
+   ">
+    <meta name="generator" content="docfx 2.39.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="KdSoft.Lmdb.MultiValueCursor">
+  
+  
+  <h1 id="KdSoft_Lmdb_MultiValueCursor" data-uid="KdSoft.Lmdb.MultiValueCursor" class="text-break">Class MultiValueCursor
+  </h1>
+  <div class="markdown level0 summary"><p>Cursor for multi-value database.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level1"><a class="xref" href="KdSoft.Lmdb.Cursor.html">Cursor</a></div>
+    <div class="level2"><span class="xref">MultiValueCursor</span></div>
+      <div class="level3"><a class="xref" href="KdSoft.Lmdb.FixedMultiValueCursor.html">FixedMultiValueCursor</a></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_TxnHandle">Cursor.TxnHandle</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_IsReadOnly">Cursor.IsReadOnly</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_DbiHandle">Cursor.DbiHandle</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Close">Cursor.Close()</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Renew_KdSoft_Lmdb_ReadOnlyTransaction_">Cursor.Renew(ReadOnlyTransaction)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Get_System_ReadOnlySpan_System_Byte___KdSoft_Lmdb_KeyDataPair__KdSoft_Lmdb_Interop_DbCursorOp_">Cursor.Get(ReadOnlySpan&lt;Byte&gt;, KeyDataPair, DbCursorOp)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Get_KdSoft_Lmdb_KeyDataPair__KdSoft_Lmdb_KeyDataPair__KdSoft_Lmdb_Interop_DbCursorOp_">Cursor.Get(KeyDataPair, KeyDataPair, DbCursorOp)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_MoveToKey_System_ReadOnlySpan_System_Byte___KdSoft_Lmdb_Interop_DbCursorOp_">Cursor.MoveToKey(ReadOnlySpan&lt;Byte&gt;, DbCursorOp)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_GetKey_System_ReadOnlySpan_System_Byte___KdSoft_Lmdb_Interop_DbCursorOp_">Cursor.GetKey(ReadOnlySpan&lt;Byte&gt;, DbCursorOp)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Get_KdSoft_Lmdb_KeyDataPair__KdSoft_Lmdb_Interop_DbCursorOp_">Cursor.Get(KeyDataPair, DbCursorOp)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_GetData_System_ReadOnlySpan_System_Byte___KdSoft_Lmdb_Interop_DbCursorOp_">Cursor.GetData(ReadOnlySpan&lt;Byte&gt;, DbCursorOp)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_MoveToKey_System_ReadOnlySpan_System_Byte___">Cursor.MoveToKey(ReadOnlySpan&lt;Byte&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_GetAt_System_ReadOnlySpan_System_Byte___KdSoft_Lmdb_KeyDataPair__">Cursor.GetAt(ReadOnlySpan&lt;Byte&gt;, KeyDataPair)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_GetNearest_System_ReadOnlySpan_System_Byte___KdSoft_Lmdb_KeyDataPair__">Cursor.GetNearest(ReadOnlySpan&lt;Byte&gt;, KeyDataPair)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_GetCurrent_System_ReadOnlySpan_System_Byte___">Cursor.GetCurrent(ReadOnlySpan&lt;Byte&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_GetCurrent_KdSoft_Lmdb_KeyDataPair__">Cursor.GetCurrent(KeyDataPair)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_GetNext_KdSoft_Lmdb_KeyDataPair__">Cursor.GetNext(KeyDataPair)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_GetPrevious_KdSoft_Lmdb_KeyDataPair__">Cursor.GetPrevious(KeyDataPair)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_PutInternal_KdSoft_Lmdb_KeyDataPair__System_UInt32_">Cursor.PutInternal(KeyDataPair, UInt32)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Put_KdSoft_Lmdb_KeyDataPair__KdSoft_Lmdb_CursorPutOption_">Cursor.Put(KeyDataPair, CursorPutOption)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Delete_KdSoft_Lmdb_CursorDeleteOption_">Cursor.Delete(CursorDeleteOption)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_CheckDisposed">Cursor.CheckDisposed()</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_IsDisposed">Cursor.IsDisposed</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Dispose_System_Boolean_">Cursor.Dispose(Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Dispose">Cursor.Dispose()</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Forward">Cursor.Forward</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_ForwardFromNext">Cursor.ForwardFromNext</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_ForwardFromCurrent">Cursor.ForwardFromCurrent</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Reverse">Cursor.Reverse</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_ReverseFromPrevious">Cursor.ReverseFromPrevious</a>
+    </div>
+    <div>
+      <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_ReverseFromCurrent">Cursor.ReverseFromCurrent</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#System_Object_Equals_System_Object_">Object.Equals(Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#System_Object_Equals_System_Object_System_Object_">Object.Equals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.gethashcode#System_Object_GetHashCode">Object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.gettype#System_Object_GetType">Object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.memberwiseclone#System_Object_MemberwiseClone">Object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.referenceequals#System_Object_ReferenceEquals_System_Object_System_Object_">Object.ReferenceEquals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.tostring#System_Object_ToString">Object.ToString()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="KdSoft.Lmdb.html">KdSoft.Lmdb</a></h6>
+  <h6><strong>Assembly</strong>: KdSoft.Lmdb.dll</h6>
+  <h5 id="KdSoft_Lmdb_MultiValueCursor_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class MultiValueCursor : Cursor, IDisposable</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_ForwardByKey_" data-uid="KdSoft.Lmdb.MultiValueCursor.ForwardByKey*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_ForwardByKey" data-uid="KdSoft.Lmdb.MultiValueCursor.ForwardByKey">ForwardByKey</h4>
+  <div class="markdown level1 summary"><p>Iterates over all keys in sort order. Retrieves each key's first duplicate record in duplicate sort order.
+One can iterate over the duplicate records separately in a nested loop with <a class="xref" href="KdSoft.Lmdb.MultiValueCursor.html#KdSoft_Lmdb_MultiValueCursor_ValuesForward">ValuesForward</a>
+or <a class="xref" href="KdSoft.Lmdb.MultiValueCursor.html#KdSoft_Lmdb_MultiValueCursor_ValuesReverse">ValuesReverse</a>, or one can iterate including duplicate records with <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Forward">Forward</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Cursor.ItemsIterator ForwardByKey { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Cursor.ItemsIterator.html">Cursor.ItemsIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_ForwardFromCurrentByKey_" data-uid="KdSoft.Lmdb.MultiValueCursor.ForwardFromCurrentByKey*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_ForwardFromCurrentByKey" data-uid="KdSoft.Lmdb.MultiValueCursor.ForwardFromCurrentByKey">ForwardFromCurrentByKey</h4>
+  <div class="markdown level1 summary"><p>Iterates over keys in sort order, from the current position on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Cursor.ItemsIterator ForwardFromCurrentByKey { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Cursor.ItemsIterator.html">Cursor.ItemsIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_ForwardFromNextByKey_" data-uid="KdSoft.Lmdb.MultiValueCursor.ForwardFromNextByKey*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_ForwardFromNextByKey" data-uid="KdSoft.Lmdb.MultiValueCursor.ForwardFromNextByKey">ForwardFromNextByKey</h4>
+  <div class="markdown level1 summary"><p>Iterates over keys in sort order, from the next position on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Cursor.NextItemsIterator ForwardFromNextByKey { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Cursor.NextItemsIterator.html">Cursor.NextItemsIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_ReverseByKey_" data-uid="KdSoft.Lmdb.MultiValueCursor.ReverseByKey*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_ReverseByKey" data-uid="KdSoft.Lmdb.MultiValueCursor.ReverseByKey">ReverseByKey</h4>
+  <div class="markdown level1 summary"><p>Iterates over all keys in reverse sort order. Retrieves each key's first duplicate record in duplicate sort order.
+One can iterate over the duplicate records separately in a nested loop with <a class="xref" href="KdSoft.Lmdb.MultiValueCursor.html#KdSoft_Lmdb_MultiValueCursor_ValuesForward">ValuesForward</a>
+or <a class="xref" href="KdSoft.Lmdb.MultiValueCursor.html#KdSoft_Lmdb_MultiValueCursor_ValuesReverse">ValuesReverse</a>, or one can iterate including duplicate records with <a class="xref" href="KdSoft.Lmdb.Cursor.html#KdSoft_Lmdb_Cursor_Reverse">Reverse</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Cursor.ItemsIterator ReverseByKey { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Cursor.ItemsIterator.html">Cursor.ItemsIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_ReverseFromCurrentByKey_" data-uid="KdSoft.Lmdb.MultiValueCursor.ReverseFromCurrentByKey*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_ReverseFromCurrentByKey" data-uid="KdSoft.Lmdb.MultiValueCursor.ReverseFromCurrentByKey">ReverseFromCurrentByKey</h4>
+  <div class="markdown level1 summary"><p>Iterates over keys in reverse sort order, from the current position on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Cursor.ItemsIterator ReverseFromCurrentByKey { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Cursor.ItemsIterator.html">Cursor.ItemsIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_ReverseFromNextByKey_" data-uid="KdSoft.Lmdb.MultiValueCursor.ReverseFromNextByKey*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_ReverseFromNextByKey" data-uid="KdSoft.Lmdb.MultiValueCursor.ReverseFromNextByKey">ReverseFromNextByKey</h4>
+  <div class="markdown level1 summary"><p>Iterates over keys in reverse sort order, from the previous position on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Cursor.NextItemsIterator ReverseFromNextByKey { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Cursor.NextItemsIterator.html">Cursor.NextItemsIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_ValuesForward_" data-uid="KdSoft.Lmdb.MultiValueCursor.ValuesForward*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_ValuesForward" data-uid="KdSoft.Lmdb.MultiValueCursor.ValuesForward">ValuesForward</h4>
+  <div class="markdown level1 summary"><p>Iterates over all duplicate records for the current key.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MultiValueCursor.ValuesIterator ValuesForward { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.MultiValueCursor.ValuesIterator.html">MultiValueCursor.ValuesIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_ValuesForwardFromCurrent_" data-uid="KdSoft.Lmdb.MultiValueCursor.ValuesForwardFromCurrent*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_ValuesForwardFromCurrent" data-uid="KdSoft.Lmdb.MultiValueCursor.ValuesForwardFromCurrent">ValuesForwardFromCurrent</h4>
+  <div class="markdown level1 summary"><p>Iterates over duplicate records for the current key, in duplicate sort order from the current position on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MultiValueCursor.ValuesIterator ValuesForwardFromCurrent { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.MultiValueCursor.ValuesIterator.html">MultiValueCursor.ValuesIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_ValuesForwardFromNext_" data-uid="KdSoft.Lmdb.MultiValueCursor.ValuesForwardFromNext*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_ValuesForwardFromNext" data-uid="KdSoft.Lmdb.MultiValueCursor.ValuesForwardFromNext">ValuesForwardFromNext</h4>
+  <div class="markdown level1 summary"><p>Iterates over duplicate records for the current key, in duplicate sort order from the next position on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MultiValueCursor.ValuesNextIterator ValuesForwardFromNext { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.MultiValueCursor.ValuesNextIterator.html">MultiValueCursor.ValuesNextIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_ValuesReverse_" data-uid="KdSoft.Lmdb.MultiValueCursor.ValuesReverse*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_ValuesReverse" data-uid="KdSoft.Lmdb.MultiValueCursor.ValuesReverse">ValuesReverse</h4>
+  <div class="markdown level1 summary"><p>Iterates over all duplicate records for the current key, in reverse duplicate sort order.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MultiValueCursor.ValuesIterator ValuesReverse { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.MultiValueCursor.ValuesIterator.html">MultiValueCursor.ValuesIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_ValuesReverseFromCurrent_" data-uid="KdSoft.Lmdb.MultiValueCursor.ValuesReverseFromCurrent*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_ValuesReverseFromCurrent" data-uid="KdSoft.Lmdb.MultiValueCursor.ValuesReverseFromCurrent">ValuesReverseFromCurrent</h4>
+  <div class="markdown level1 summary"><p>Iterates over duplicate records for the current key, in reverse duplicate sort order from the current position on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MultiValueCursor.ValuesIterator ValuesReverseFromCurrent { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.MultiValueCursor.ValuesIterator.html">MultiValueCursor.ValuesIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_ValuesReverseFromPrevious_" data-uid="KdSoft.Lmdb.MultiValueCursor.ValuesReverseFromPrevious*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_ValuesReverseFromPrevious" data-uid="KdSoft.Lmdb.MultiValueCursor.ValuesReverseFromPrevious">ValuesReverseFromPrevious</h4>
+  <div class="markdown level1 summary"><p>Iterates over duplicate records for the current key, in reverse duplicate sort order from the previous position on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MultiValueCursor.ValuesNextIterator ValuesReverseFromPrevious { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.MultiValueCursor.ValuesNextIterator.html">MultiValueCursor.ValuesNextIterator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_Count_" data-uid="KdSoft.Lmdb.MultiValueCursor.Count*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_Count" data-uid="KdSoft.Lmdb.MultiValueCursor.Count">Count()</h4>
+  <div class="markdown level1 summary"><p>Return count of duplicates for current key.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IntPtr Count()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.intptr">IntPtr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_Delete_" data-uid="KdSoft.Lmdb.MultiValueCursor.Delete*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_Delete_KdSoft_Lmdb_MultiValueCursorDeleteOption_KdSoft_Lmdb_CursorDeleteOption_" data-uid="KdSoft.Lmdb.MultiValueCursor.Delete(KdSoft.Lmdb.MultiValueCursorDeleteOption,KdSoft.Lmdb.CursorDeleteOption)">Delete(MultiValueCursorDeleteOption, CursorDeleteOption)</h4>
+  <div class="markdown level1 summary"><p>Delete current key/data pair.
+This function deletes the key/data pair to which the cursor refers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Delete(MultiValueCursorDeleteOption mvOption, CursorDeleteOption option = CursorDeleteOption.None)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.MultiValueCursorDeleteOption.html">MultiValueCursorDeleteOption</a></td>
+        <td><span class="parametername">mvOption</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.CursorDeleteOption.html">CursorDeleteOption</a></td>
+        <td><span class="parametername">option</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_GetAt_" data-uid="KdSoft.Lmdb.MultiValueCursor.GetAt*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_GetAt_KdSoft_Lmdb_KeyDataPair__KdSoft_Lmdb_KeyDataPair__" data-uid="KdSoft.Lmdb.MultiValueCursor.GetAt(KdSoft.Lmdb.KeyDataPair@,KdSoft.Lmdb.KeyDataPair@)">GetAt(KeyDataPair, out KeyDataPair)</h4>
+  <div class="markdown level1 summary"><p>Move cursor to position of key/data pair and get the record (key and data).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool GetAt(in KeyDataPair keyData, out KeyDataPair entry)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">keyData</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">entry</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if key/data pair exists, false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_GetNearest_" data-uid="KdSoft.Lmdb.MultiValueCursor.GetNearest*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_GetNearest_KdSoft_Lmdb_KeyDataPair__KdSoft_Lmdb_KeyDataPair__" data-uid="KdSoft.Lmdb.MultiValueCursor.GetNearest(KdSoft.Lmdb.KeyDataPair@,KdSoft.Lmdb.KeyDataPair@)">GetNearest(KeyDataPair, out KeyDataPair)</h4>
+  <div class="markdown level1 summary"><p>Move cursor to key and nearest data position. key must match, data position must
+be greater than or equal to specified data. Then get the record (key and data).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool GetNearest(in KeyDataPair keyData, out KeyDataPair entry)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">keyData</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">entry</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if nearest key/data pair exists, false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_GetNextByKey_" data-uid="KdSoft.Lmdb.MultiValueCursor.GetNextByKey*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_GetNextByKey_KdSoft_Lmdb_KeyDataPair__" data-uid="KdSoft.Lmdb.MultiValueCursor.GetNextByKey(KdSoft.Lmdb.KeyDataPair@)">GetNextByKey(out KeyDataPair)</h4>
+  <div class="markdown level1 summary"><p>Move cursor to first data position of next key and get the record (key and data).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool GetNextByKey(out KeyDataPair entry)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">entry</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if next key exists, false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_GetNextKey_" data-uid="KdSoft.Lmdb.MultiValueCursor.GetNextKey*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_GetNextKey_System_ReadOnlySpan_System_Byte___" data-uid="KdSoft.Lmdb.MultiValueCursor.GetNextKey(System.ReadOnlySpan{System.Byte}@)">GetNextKey(out ReadOnlySpan&lt;Byte&gt;)</h4>
+  <div class="markdown level1 summary"><p>Move cursor to first data position of next key and get the key.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool GetNextKey(out ReadOnlySpan&lt;byte&gt; key)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">key</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if next key exists, false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_GetPreviousByKey_" data-uid="KdSoft.Lmdb.MultiValueCursor.GetPreviousByKey*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_GetPreviousByKey_KdSoft_Lmdb_KeyDataPair__" data-uid="KdSoft.Lmdb.MultiValueCursor.GetPreviousByKey(KdSoft.Lmdb.KeyDataPair@)">GetPreviousByKey(out KeyDataPair)</h4>
+  <div class="markdown level1 summary"><p>Move cursor to last data position of previous key and get the record (key and data).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool GetPreviousByKey(out KeyDataPair entry)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">entry</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if previous key exists, false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_GetPreviousKey_" data-uid="KdSoft.Lmdb.MultiValueCursor.GetPreviousKey*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_GetPreviousKey_System_ReadOnlySpan_System_Byte___" data-uid="KdSoft.Lmdb.MultiValueCursor.GetPreviousKey(System.ReadOnlySpan{System.Byte}@)">GetPreviousKey(out ReadOnlySpan&lt;Byte&gt;)</h4>
+  <div class="markdown level1 summary"><p>Move cursor to last data position of previous key and get the key.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool GetPreviousKey(out ReadOnlySpan&lt;byte&gt; key)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">key</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><code>true</code> if previous key exists, false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueCursor_Put_" data-uid="KdSoft.Lmdb.MultiValueCursor.Put*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueCursor_Put_KdSoft_Lmdb_KeyDataPair__KdSoft_Lmdb_MultiValueCursorPutOption_" data-uid="KdSoft.Lmdb.MultiValueCursor.Put(KdSoft.Lmdb.KeyDataPair@,KdSoft.Lmdb.MultiValueCursorPutOption)">Put(KeyDataPair, MultiValueCursorPutOption)</h4>
+  <div class="markdown level1 summary"><p>Store by cursor.
+This function stores key/data pairs into the database.
+The cursor is positioned at the new item, or on failure usually near it.
+Note: Earlier documentation incorrectly said errors would leave the state of the cursor unchanged.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Put(in KeyDataPair entry, MultiValueCursorPutOption option)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.KeyDataPair.html">KeyDataPair</a></td>
+        <td><span class="parametername">entry</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.MultiValueCursorPutOption.html">MultiValueCursorPutOption</a></td>
+        <td><span class="parametername">option</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="KdSoft_Lmdb_MultiValueCursor_Put_KdSoft_Lmdb_KeyDataPair__KdSoft_Lmdb_MultiValueCursorPutOption__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p><code>true</code> if inserted without error, <code>false</code> if <a class="xref" href="KdSoft.Lmdb.MultiValueCursorPutOption.html#KdSoft_Lmdb_MultiValueCursorPutOption_NoDuplicateData">NoDuplicateData</a>
+was specified and the key/data pair already exists.</p>
+</div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.idisposable">System.IDisposable</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

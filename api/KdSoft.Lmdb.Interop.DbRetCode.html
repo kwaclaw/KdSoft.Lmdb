@@ -1,0 +1,407 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Enum DbRetCode
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Enum DbRetCode
+   ">
+    <meta name="generator" content="docfx 2.39.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="KdSoft.Lmdb.Interop.DbRetCode">
+  
+  
+  <h1 id="KdSoft_Lmdb_Interop_DbRetCode" data-uid="KdSoft.Lmdb.Interop.DbRetCode" class="text-break">Enum DbRetCode
+  </h1>
+  <div class="markdown level0 summary"><p>General native LMDB API return codes.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="KdSoft.Lmdb.Interop.html">KdSoft.Lmdb.Interop</a></h6>
+  <h6><strong>Assembly</strong>: KdSoft.Lmdb.dll</h6>
+  <h5 id="KdSoft_Lmdb_Interop_DbRetCode_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public enum DbRetCode</code></pre>
+  </div>
+  <h5 id="KdSoft_Lmdb_Interop_DbRetCode_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>Also includes framework specific custom codes such as those returned from a call-back.</p>
+</div>
+  <h3 id="fields">Fields
+  </h3>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    <thead>
+    <tbody>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_BAD_DBI">BAD_DBI</td>
+        <td><p>The specified DBI was changed unexpectedly</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_BAD_RSLOT">BAD_RSLOT</td>
+        <td><p>Invalid reuse of reader locktable slot</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_BAD_TXN">BAD_TXN</td>
+        <td><p>Transaction must abort, has a child, or is invalid</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_BAD_VALSIZE">BAD_VALSIZE</td>
+        <td><p>Unsupported size of key/DB name/data, or wrong DUPFIXED size</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_CORRUPTED">CORRUPTED</td>
+        <td><p>Located page was wrong type</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_CURSOR_FULL">CURSOR_FULL</td>
+        <td><p>Cursor stack too deep - internal error</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_DBS_FULL">DBS_FULL</td>
+        <td><p>Environment maxdbs reached</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_E2BIG">E2BIG</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EACCES">EACCES</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EAGAIN">EAGAIN</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EBADF">EBADF</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EBUSY">EBUSY</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ECHILD">ECHILD</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EDEADLK">EDEADLK</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EDOM">EDOM</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EEXIST">EEXIST</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EFAULT">EFAULT</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EFBIG">EFBIG</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EILSEQ">EILSEQ</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EINTR">EINTR</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EINVAL">EINVAL</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EIO">EIO</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EISDIR">EISDIR</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EMFILE">EMFILE</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EMLINK">EMLINK</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ENAMETOOLONG">ENAMETOOLONG</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ENFILE">ENFILE</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ENODEV">ENODEV</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ENOENT">ENOENT</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ENOEXEC">ENOEXEC</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ENOLCK">ENOLCK</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ENOMEM">ENOMEM</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ENOSPC">ENOSPC</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ENOSYS">ENOSYS</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ENOTDIR">ENOTDIR</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ENOTEMPTY">ENOTEMPTY</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ENOTTY">ENOTTY</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ENXIO">ENXIO</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EPERM">EPERM</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EPIPE">EPIPE</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ERANGE">ERANGE</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EROFS">EROFS</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ESPIPE">ESPIPE</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_ESRCH">ESRCH</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_EXDEV">EXDEV</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_INCOMPATIBLE">INCOMPATIBLE</td>
+        <td><p>Operation and DB incompatible, or DB type changed. This can mean:</p>
+<ul>
+<li>The operation expects an #MDB_DUPSORT / #MDB_DUPFIXED database.</li>
+<li>Opening a named DB when the unnamed DB has #MDB_DUPSORT / #MDB_INTEGERKEY.</li>
+<li>Accessing a data record as a database, or vice versa.</li>
+<li>The database was dropped and recreated with different flags.</li>
+</ul>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_INVALID">INVALID</td>
+        <td><p>File is not a valid LMDB file</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_KEYEXIST">KEYEXIST</td>
+        <td><p>key/data pair already exists</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_LAST_ERRCODE">LAST_ERRCODE</td>
+        <td><p>The last defined error code</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_MAP_FULL">MAP_FULL</td>
+        <td><p>Environment mapsize reached</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_MAP_RESIZED">MAP_RESIZED</td>
+        <td><p>Database contents grew beyond environment mapsize</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_NOTFOUND">NOTFOUND</td>
+        <td><p>key/data pair not found (EOF)</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_PAGE_FULL">PAGE_FULL</td>
+        <td><p>Page has not enough space - internal error</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_PAGE_NOTFOUND">PAGE_NOTFOUND</td>
+        <td><p>Requested page not found - this usually indicates corruption</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_PANIC">PANIC</td>
+        <td><p>Update of meta page failed or environment had fatal error</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_READERS_FULL">READERS_FULL</td>
+        <td><p>Environment maxreaders reached</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_STRUNCATE">STRUNCATE</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_SUCCESS">SUCCESS</td>
+        <td><p>Successful result</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_TLS_FULL">TLS_FULL</td>
+        <td><p>Too many TLS keys in use - Windows only</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_TXN_FULL">TXN_FULL</td>
+        <td><p>Txn has too many dirty pages</p>
+</td>
+      </tr>
+      <tr>
+        <td id="KdSoft_Lmdb_Interop_DbRetCode_VERSION_MISMATCH">VERSION_MISMATCH</td>
+        <td><p>Environment version mismatch</p>
+</td>
+      </tr>
+    </tbody>
+  </thead></thead></table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,991 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class LmdbEnvironment
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class LmdbEnvironment
+   ">
+    <meta name="generator" content="docfx 2.39.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="KdSoft.Lmdb.LmdbEnvironment">
+  
+  
+  <h1 id="KdSoft_Lmdb_LmdbEnvironment" data-uid="KdSoft.Lmdb.LmdbEnvironment" class="text-break">Class LmdbEnvironment
+  </h1>
+  <div class="markdown level0 summary"><p>LMDB environment.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level1"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.runtime.constrainedexecution.criticalfinalizerobject">CriticalFinalizerObject</a></div>
+    <div class="level2"><span class="xref">LmdbEnvironment</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#System_Object_Equals_System_Object_">Object.Equals(Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#System_Object_Equals_System_Object_System_Object_">Object.Equals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.gethashcode#System_Object_GetHashCode">Object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.gettype#System_Object_GetType">Object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.memberwiseclone#System_Object_MemberwiseClone">Object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.referenceequals#System_Object_ReferenceEquals_System_Object_System_Object_">Object.ReferenceEquals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.tostring#System_Object_ToString">Object.ToString()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="KdSoft.Lmdb.html">KdSoft.Lmdb</a></h6>
+  <h6><strong>Assembly</strong>: KdSoft.Lmdb.dll</h6>
+  <h5 id="KdSoft_Lmdb_LmdbEnvironment_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class LmdbEnvironment : CriticalFinalizerObject, IDisposable</code></pre>
+  </div>
+  <h5 id="KdSoft_Lmdb_LmdbEnvironment_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>We make Environment the only <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.runtime.constrainedexecution.criticalfinalizerobject">CriticalFinalizerObject</a> because it can
+clean up all resources it owns (databases, transactions, cursors) in its finalizer.</p>
+</div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment__ctor_" data-uid="KdSoft.Lmdb.LmdbEnvironment.#ctor*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment__ctor_KdSoft_Lmdb_LmdbEnvironmentConfiguration_" data-uid="KdSoft.Lmdb.LmdbEnvironment.#ctor(KdSoft.Lmdb.LmdbEnvironmentConfiguration)">LmdbEnvironment(LmdbEnvironmentConfiguration)</h4>
+  <div class="markdown level1 summary"><p>Constructor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public LmdbEnvironment(LmdbEnvironmentConfiguration config = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.LmdbEnvironmentConfiguration.html">LmdbEnvironmentConfiguration</a></td>
+        <td><span class="parametername">config</span></td>
+        <td><p>Configuration to use.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_Databases_" data-uid="KdSoft.Lmdb.LmdbEnvironment.Databases*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_Databases" data-uid="KdSoft.Lmdb.LmdbEnvironment.Databases">Databases</h4>
+  <div class="markdown level1 summary"><p>Enumerates databases in the environment.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;Database&gt; Databases { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="KdSoft.Lmdb.Database.html">Database</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_IsDisposed_" data-uid="KdSoft.Lmdb.LmdbEnvironment.IsDisposed*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_IsDisposed" data-uid="KdSoft.Lmdb.LmdbEnvironment.IsDisposed">IsDisposed</h4>
+  <div class="markdown level1 summary"><p>Returns if Environment handle is closed/disposed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsDisposed { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_Item_" data-uid="KdSoft.Lmdb.LmdbEnvironment.Item*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_Item_System_String_" data-uid="KdSoft.Lmdb.LmdbEnvironment.Item(System.String)">Item[String]</h4>
+  <div class="markdown level1 summary"><p>Returns database by name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Database this[string name] { get; }</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="parametername">name</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Database.html">Database</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_MaxDatabases_" data-uid="KdSoft.Lmdb.LmdbEnvironment.MaxDatabases*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_MaxDatabases" data-uid="KdSoft.Lmdb.LmdbEnvironment.MaxDatabases">MaxDatabases</h4>
+  <div class="markdown level1 summary"><p>Set/get the maximum number of named databases for the environment.
+This function is only needed if multiple databases will be used in the environment.
+Simpler applications that use the environment as a single unnamed database can ignore this option.
+This function may only be called after mdb_env_create() and before mdb_env_open().
+Currently a moderate number of slots are cheap but a huge number gets expensive: 7-120 words per transaction,
+and every mdb_dbi_open() does a linear search of the opened slots.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int MaxDatabases { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_MaxReaders_" data-uid="KdSoft.Lmdb.LmdbEnvironment.MaxReaders*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_MaxReaders" data-uid="KdSoft.Lmdb.LmdbEnvironment.MaxReaders">MaxReaders</h4>
+  <div class="markdown level1 summary"><p>This defines the number of slots in the lock table that is used to track readers in the the environment.
+The default is 126. Starting a read-only transaction normally ties a lock table slot to the current thread
+until the environment closes or the thread exits. If MDB_NOTLS is in use, mdb_txn_begin() instead
+ties the slot to the MDB_txn object until it or the MDB_env object is destroyed.
+This function may only be called after mdb_env_create() and before mdb_env_open().</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int MaxReaders { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_BeginDatabaseTransaction_" data-uid="KdSoft.Lmdb.LmdbEnvironment.BeginDatabaseTransaction*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_BeginDatabaseTransaction_KdSoft_Lmdb_TransactionModes_KdSoft_Lmdb_Transaction_" data-uid="KdSoft.Lmdb.LmdbEnvironment.BeginDatabaseTransaction(KdSoft.Lmdb.TransactionModes,KdSoft.Lmdb.Transaction)">BeginDatabaseTransaction(TransactionModes, Transaction)</h4>
+  <div class="markdown level1 summary"><p>Create a transaction that allows opening databases in the environment. <a class="xref" href="KdSoft.Lmdb.LmdbEnvironment.html#KdSoft_Lmdb_LmdbEnvironment_BeginTransaction_KdSoft_Lmdb_TransactionModes_KdSoft_Lmdb_Transaction_">BeginTransaction(TransactionModes, Transaction)</a>.
+A newly opened database handle will be private to the transaction until the transaction is successfully committed.
+If the transaction is aborted the handle will be closed automatically.
+After a successful commit the handle will reside in the shared environment, and may be used by other transactions.
+The OpenDatabase function must not be called from multiple concurrent transactions in the same process.
+A transaction that uses that function must finish (either commit or abort) before any other transaction in the process
+may use the OpenDatabase function, therefore only one such transaction is allowed to be active in the environment at a time.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DatabaseTransaction BeginDatabaseTransaction(TransactionModes modes, Transaction parent = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.TransactionModes.html">TransactionModes</a></td>
+        <td><span class="parametername">modes</span></td>
+        <td><p>Special options for this transaction..</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></td>
+        <td><span class="parametername">parent</span></td>
+        <td><p>If this parameter is non-NULL, the new transaction will be a nested transaction.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.DatabaseTransaction.html">DatabaseTransaction</a></td>
+        <td><p>New transaction instance.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_BeginReadOnlyTransaction_" data-uid="KdSoft.Lmdb.LmdbEnvironment.BeginReadOnlyTransaction*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_BeginReadOnlyTransaction_KdSoft_Lmdb_TransactionModes_KdSoft_Lmdb_Transaction_" data-uid="KdSoft.Lmdb.LmdbEnvironment.BeginReadOnlyTransaction(KdSoft.Lmdb.TransactionModes,KdSoft.Lmdb.Transaction)">BeginReadOnlyTransaction(TransactionModes, Transaction)</h4>
+  <div class="markdown level1 summary"><p>Creates a <a class="xref" href="KdSoft.Lmdb.ReadOnlyTransaction.html">ReadOnlyTransaction</a>. The <a class="xref" href="KdSoft.Lmdb.TransactionModes.html#KdSoft_Lmdb_TransactionModes_ReadOnly">ReadOnly</a> flag will be set automatically.
+For details, see <a class="xref" href="KdSoft.Lmdb.LmdbEnvironment.html#KdSoft_Lmdb_LmdbEnvironment_BeginTransaction_KdSoft_Lmdb_TransactionModes_KdSoft_Lmdb_Transaction_">BeginTransaction(TransactionModes, Transaction)</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReadOnlyTransaction BeginReadOnlyTransaction(TransactionModes modes = TransactionModes.None, Transaction parent = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.TransactionModes.html">TransactionModes</a></td>
+        <td><span class="parametername">modes</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></td>
+        <td><span class="parametername">parent</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.ReadOnlyTransaction.html">ReadOnlyTransaction</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_BeginTransaction_" data-uid="KdSoft.Lmdb.LmdbEnvironment.BeginTransaction*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_BeginTransaction_KdSoft_Lmdb_TransactionModes_KdSoft_Lmdb_Transaction_" data-uid="KdSoft.Lmdb.LmdbEnvironment.BeginTransaction(KdSoft.Lmdb.TransactionModes,KdSoft.Lmdb.Transaction)">BeginTransaction(TransactionModes, Transaction)</h4>
+  <div class="markdown level1 summary"><p>Create a transaction for use with the environment.
+The transaction handle may be discarded using mdb_txn_abort() or mdb_txn_commit().
+Note: A transaction and its cursors must only be used by a single thread, and a thread may only have a single transaction at a time.
+If MDB_NOTLS is in use, this does not apply to read-only transactions.
+Cursors may not span transactions.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Transaction BeginTransaction(TransactionModes modes = TransactionModes.None, Transaction parent = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.TransactionModes.html">TransactionModes</a></td>
+        <td><span class="parametername">modes</span></td>
+        <td><p>Special options for this transaction. This parameter must be set to 0 or by bitwise OR'ing together.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></td>
+        <td><span class="parametername">parent</span></td>
+        <td><p>If this parameter is non-NULL, the new transaction will be a nested transaction, with the transaction
+indicated by parent as its parent. Transactions may be nested to any level.
+A parent transaction and its cursors may not issue any other operations than
+mdb_txn_commit and mdb_txn_abort while it has active child transactions.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Transaction.html">Transaction</a></td>
+        <td><p>New transaction instance.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_CheckDisposed_" data-uid="KdSoft.Lmdb.LmdbEnvironment.CheckDisposed*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_CheckDisposed" data-uid="KdSoft.Lmdb.LmdbEnvironment.CheckDisposed">CheckDisposed()</h4>
+  <div class="markdown level1 summary"><p>Returns Environment handle.
+Throws if Environment handle is already closed/disposed of.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected IntPtr CheckDisposed()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.intptr">IntPtr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_Close_" data-uid="KdSoft.Lmdb.LmdbEnvironment.Close*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_Close" data-uid="KdSoft.Lmdb.LmdbEnvironment.Close">Close()</h4>
+  <div class="markdown level1 summary"><p>Close the environment and release the memory map. Same as Dispose().
+Only a single thread may call this function. All transactions, databases, and cursors must already be closed
+before calling this function. Attempts to use any such handles after calling this function will cause a SIGSEGV.
+The environment handle will be freed and must not be used again after this call.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Close()</code></pre>
+  </div>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_Dispose_" data-uid="KdSoft.Lmdb.LmdbEnvironment.Dispose*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_Dispose" data-uid="KdSoft.Lmdb.LmdbEnvironment.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"><p>Close the environment and release the memory map. Same as Close().
+Only a single thread may call this function.
+The environment handle will be freed and must not be used again after this call.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_Dispose_" data-uid="KdSoft.Lmdb.LmdbEnvironment.Dispose*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_Dispose_System_Boolean_" data-uid="KdSoft.Lmdb.LmdbEnvironment.Dispose(System.Boolean)">Dispose(Boolean)</h4>
+  <div class="markdown level1 summary"><p>Implementation of Dispose() pattern. See <a class="xref" href="KdSoft.Lmdb.LmdbEnvironment.html#KdSoft_Lmdb_LmdbEnvironment_Dispose">Dispose()</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">disposing</span></td>
+        <td><p><code>true</code> if explicity disposing (finalizer not run), <code>false</code> if disposed from finalizer.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_Finalize_" data-uid="KdSoft.Lmdb.LmdbEnvironment.Finalize*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_Finalize" data-uid="KdSoft.Lmdb.LmdbEnvironment.Finalize">Finalize()</h4>
+  <div class="markdown level1 summary"><p>Finalizer. Releases unmanaged resources.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void Finalize()</code></pre>
+  </div>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_GetChecked_" data-uid="KdSoft.Lmdb.LmdbEnvironment.GetChecked*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_GetChecked__1_KdSoft_Lmdb_LmdbEnvironment_LibFunc___0_KdSoft_Lmdb_Interop_DbRetCode__" data-uid="KdSoft.Lmdb.LmdbEnvironment.GetChecked``1(KdSoft.Lmdb.LmdbEnvironment.LibFunc{``0,KdSoft.Lmdb.Interop.DbRetCode})">GetChecked&lt;T&gt;(LmdbEnvironment.LibFunc&lt;T, DbRetCode&gt;)</h4>
+  <div class="markdown level1 summary"><p>Helper method to run a native library function with disposed checking and exception processing.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
+protected T GetChecked&lt;T&gt;(LmdbEnvironment.LibFunc&lt;T, DbRetCode&gt; libFunc)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.LmdbEnvironment.LibFunc-2.html">LmdbEnvironment.LibFunc</a>&lt;T, <a class="xref" href="KdSoft.Lmdb.Interop.DbRetCode.html">DbRetCode</a>&gt;</td>
+        <td><span class="parametername">libFunc</span></td>
+        <td><p>Native function delegate that resturns a result.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">T</span></td>
+        <td><p>Result returned from the native library function call.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td><p>Result type returned by native function.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_GetInfo_" data-uid="KdSoft.Lmdb.LmdbEnvironment.GetInfo*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_GetInfo" data-uid="KdSoft.Lmdb.LmdbEnvironment.GetInfo">GetInfo()</h4>
+  <div class="markdown level1 summary"><p>Return information about the LMDB environment.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public LmdbEnvironmentInfo GetInfo()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.LmdbEnvironmentInfo.html">LmdbEnvironmentInfo</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_GetMaxKeySize_" data-uid="KdSoft.Lmdb.LmdbEnvironment.GetMaxKeySize*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_GetMaxKeySize" data-uid="KdSoft.Lmdb.LmdbEnvironment.GetMaxKeySize">GetMaxKeySize()</h4>
+  <div class="markdown level1 summary"><p>Get the maximum size of keys and MDB_DUPSORT data we can write.
+Depends on the compile-time constant MDB_MAXKEYSIZE.Default 511. See MDB_val.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetMaxKeySize()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_GetOptions_" data-uid="KdSoft.Lmdb.LmdbEnvironment.GetOptions*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_GetOptions" data-uid="KdSoft.Lmdb.LmdbEnvironment.GetOptions">GetOptions()</h4>
+  <div class="markdown level1 summary"><p>Return information about the LMDB environment.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public LmdbEnvironmentOptions GetOptions()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.LmdbEnvironmentOptions.html">LmdbEnvironmentOptions</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_GetPath_" data-uid="KdSoft.Lmdb.LmdbEnvironment.GetPath*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_GetPath" data-uid="KdSoft.Lmdb.LmdbEnvironment.GetPath">GetPath()</h4>
+  <div class="markdown level1 summary"><p>Return the path that was used in mdb_env_open().</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string GetPath()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_GetStats_" data-uid="KdSoft.Lmdb.LmdbEnvironment.GetStats*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_GetStats" data-uid="KdSoft.Lmdb.LmdbEnvironment.GetStats">GetStats()</h4>
+  <div class="markdown level1 summary"><p>Return statistics about the LMDB environment.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Statistics GetStats()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.Statistics.html">Statistics</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_Open_" data-uid="KdSoft.Lmdb.LmdbEnvironment.Open*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_Open_System_String_KdSoft_Lmdb_LmdbEnvironmentOptions_KdSoft_Lmdb_UnixFileModes_" data-uid="KdSoft.Lmdb.LmdbEnvironment.Open(System.String,KdSoft.Lmdb.LmdbEnvironmentOptions,KdSoft.Lmdb.UnixFileModes)">Open(String, LmdbEnvironmentOptions, UnixFileModes)</h4>
+  <div class="markdown level1 summary"><p>Open an environment handle. Do not open multiple times in the same process.
+If this function fails, mdb_env_close() must be called to discard the MDB_env handle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Open(string path, LmdbEnvironmentOptions options = LmdbEnvironmentOptions.None, UnixFileModes fileMode = UnixFileModes.OwnerRead | UnixFileModes.OwnerWrite | UnixFileModes.GroupRead | UnixFileModes.GroupWrite | UnixFileModes.OtherRead | UnixFileModes.OtherWrite | UnixFileModes.Default)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="parametername">path</span></td>
+        <td><p>The directory in which the database files reside. This directory must already exist and be writable.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.LmdbEnvironmentOptions.html">LmdbEnvironmentOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td><p>Special options for this environment. See <a class="xref" href="KdSoft.Lmdb.LmdbEnvironmentOptions.html">LmdbEnvironmentOptions</a>.
+This parameter must be set to 0 or by bitwise OR'ing together one or more of the values.
+Flags set by mdb_env_set_flags() are also used.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.UnixFileModes.html">UnixFileModes</a></td>
+        <td><span class="parametername">fileMode</span></td>
+        <td><p>The UNIX permissions to set on created files and semaphores. This parameter is ignored on Windows.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_RunChecked_" data-uid="KdSoft.Lmdb.LmdbEnvironment.RunChecked*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_RunChecked_System_Func_System_IntPtr_KdSoft_Lmdb_Interop_DbRetCode__" data-uid="KdSoft.Lmdb.LmdbEnvironment.RunChecked(System.Func{System.IntPtr,KdSoft.Lmdb.Interop.DbRetCode})">RunChecked(Func&lt;IntPtr, DbRetCode&gt;)</h4>
+  <div class="markdown level1 summary"><p>Helper method to run a native library function with disposed checking and exception processing.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
+protected void RunChecked(Func&lt;IntPtr, DbRetCode&gt; libFunc)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.intptr">IntPtr</a>, <a class="xref" href="KdSoft.Lmdb.Interop.DbRetCode.html">DbRetCode</a>&gt;</td>
+        <td><span class="parametername">libFunc</span></td>
+        <td><p>Native function delegate that does not return a result.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_SetMapSize_" data-uid="KdSoft.Lmdb.LmdbEnvironment.SetMapSize*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_SetMapSize_System_Int64_" data-uid="KdSoft.Lmdb.LmdbEnvironment.SetMapSize(System.Int64)">SetMapSize(Int64)</h4>
+  <div class="markdown level1 summary"><p>Set the size of the memory map to use for this environment.
+The size should be a multiple of the OS page size. The default is 10485760 bytes. The size of the memory map
+is also the maximum size of the database. The value should be chosen as large as possible, to accommodate
+future growth of the database. This function should be called after mdb_env_create() and before mdb_env_open().
+It may be called at later times if no transactions are active in this process.
+Note that the library does not check for this condition, the caller must ensure it explicitly.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetMapSize(long newValue)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int64">Int64</a></td>
+        <td><span class="parametername">newValue</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="KdSoft_Lmdb_LmdbEnvironment_SetMapSize_System_Int64__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The new size takes effect immediately for the current process but will not be persisted to any others
+until a write transaction has been committed by the current process. Also, only mapsize increases are persisted
+into the environment.
+If the mapsize is increased by another process, and data has grown beyond the range of the current mapsize,
+mdb_txn_begin() will return MDB_MAP_RESIZED. This function may be called with a size of zero to adopt the new size.
+Any attempt to set a size smaller than the space already consumed by the environment will be silently changed
+to the current size of the used space.
+Note: the current MapSize can be obtained by calling GetEnvInfo().</p>
+</div>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_SetOptions_" data-uid="KdSoft.Lmdb.LmdbEnvironment.SetOptions*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_SetOptions_KdSoft_Lmdb_LmdbEnvironmentOptions_System_Boolean_" data-uid="KdSoft.Lmdb.LmdbEnvironment.SetOptions(KdSoft.Lmdb.LmdbEnvironmentOptions,System.Boolean)">SetOptions(LmdbEnvironmentOptions, Boolean)</h4>
+  <div class="markdown level1 summary"><p>Set environment flags.
+This may be used to set some flags in addition to those from mdb_env_open(), or to unset these flags.
+If several threads change the flags at the same time, the result is undefined.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetOptions(LmdbEnvironmentOptions options, bool onoff)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.LmdbEnvironmentOptions.html">LmdbEnvironmentOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td><p>Option flags to set, bitwise OR'ed together.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">onoff</span></td>
+        <td><p>A <code>true</code> value sets the flags, <code>false</code> clears them.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_LmdbEnvironment_Sync_" data-uid="KdSoft.Lmdb.LmdbEnvironment.Sync*"></a>
+  <h4 id="KdSoft_Lmdb_LmdbEnvironment_Sync_System_Boolean_" data-uid="KdSoft.Lmdb.LmdbEnvironment.Sync(System.Boolean)">Sync(Boolean)</h4>
+  <div class="markdown level1 summary"><p>Flush the data buffers to disk. Data is always written to disk when mdb_txn_commit() is called,
+but the operating system may keep it buffered.LMDB always flushes the OS buffers upon commit as well,
+unless the environment was opened with MDB_NOSYNC or in part MDB_NOMETASYNC.
+This call is not valid if the environment was opened with MDB_RDONLY.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Sync(bool force)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">force</span></td>
+        <td><p>If <code>true</code>, force a synchronous flush. Otherwise if the environment has the MDB_NOSYNC flag set
+the flushes will be omitted, and with MDB_MAPASYNC they will be asynchronous.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.idisposable">System.IDisposable</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
