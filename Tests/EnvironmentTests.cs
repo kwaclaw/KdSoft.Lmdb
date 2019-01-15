@@ -18,7 +18,7 @@ namespace KdSoft.Lmdb.Tests
 
         [Fact]
         public void OpenEnvironment() {
-            using (var env = new Environment()) {
+            using (var env = new LmdbEnvironment()) {
                 env.Open(envPath);
                 var envInfo = env.GetInfo();
                 output.WriteLine($"MapAddr: {envInfo.MapAddr}");
@@ -32,7 +32,7 @@ namespace KdSoft.Lmdb.Tests
 
         [Fact]
         public void AbortTransaction() {
-            using (var env = new Environment()) {
+            using (var env = new LmdbEnvironment()) {
                 env.Open(envPath);
                 using (var tx = env.BeginTransaction(TransactionModes.None)) {
                     //
@@ -43,7 +43,7 @@ namespace KdSoft.Lmdb.Tests
 
         [Fact]
         public void CommitTransaction() {
-            using (var env = new Environment()) {
+            using (var env = new LmdbEnvironment()) {
                 env.Open(envPath);
                 using (var tx = env.BeginTransaction(TransactionModes.None)) {
                     tx.Commit();

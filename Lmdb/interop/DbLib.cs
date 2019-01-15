@@ -36,7 +36,7 @@ namespace KdSoft.Lmdb.Interop
         public static extern DbRetCode mdb_env_create(out IntPtr env);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_env_open(IntPtr env, string path, EnvironmentOptions flags, UnixFileModes mode);
+        public static extern DbRetCode mdb_env_open(IntPtr env, string path, LmdbEnvironmentOptions flags, UnixFileModes mode);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_env_copy(IntPtr env, string path);
@@ -54,7 +54,7 @@ namespace KdSoft.Lmdb.Interop
         public static extern DbRetCode mdb_env_stat(IntPtr env, out Statistics stat);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_env_info(IntPtr env, out EnvironmentInfo stat);
+        public static extern DbRetCode mdb_env_info(IntPtr env, out LmdbEnvironmentInfo stat);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_env_sync(IntPtr env, bool force);
@@ -63,10 +63,10 @@ namespace KdSoft.Lmdb.Interop
         public static extern void mdb_env_close(IntPtr env);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_env_set_flags(IntPtr env, EnvironmentOptions flags, bool onoff);
+        public static extern DbRetCode mdb_env_set_flags(IntPtr env, LmdbEnvironmentOptions flags, bool onoff);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_env_get_flags(IntPtr env, out EnvironmentOptions flags);
+        public static extern DbRetCode mdb_env_get_flags(IntPtr env, out LmdbEnvironmentOptions flags);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_env_get_path(IntPtr env, [MarshalAs(UnmanagedType.LPStr)] out string path);

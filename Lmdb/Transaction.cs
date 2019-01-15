@@ -48,12 +48,12 @@ namespace KdSoft.Lmdb
         /// <summary>
         /// Environment that owns the transaction.
         /// </summary>
-        public Environment Environment {
+        public LmdbEnvironment Environment {
             get {
                 var handle = CheckDisposed();
                 var env = DbLib.mdb_txn_env(handle);
                 var gcHandle = (GCHandle)DbLib.mdb_env_get_userctx(env);
-                return (Environment)gcHandle.Target;
+                return (LmdbEnvironment)gcHandle.Target;
             }
         }
 

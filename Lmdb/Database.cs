@@ -40,10 +40,10 @@ namespace KdSoft.Lmdb
         }
 
         /// <summary>Environment the database was created in.</summary>
-        public Environment Environment {
+        public LmdbEnvironment Environment {
             get {
                 var gcHandle = (GCHandle)DbLib.mdb_env_get_userctx(env);
-                return (Environment)gcHandle.Target;
+                return (LmdbEnvironment)gcHandle.Target;
             }
         }
 

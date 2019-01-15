@@ -14,15 +14,15 @@ namespace KdSoft.Lmdb.Tests
             envPath = Path.Combine(TestUtils.ProjectDir, envDirName);
             Directory.CreateDirectory(envPath);
 
-            var config = new EnvironmentConfiguration(10, 10, 1000000000);
-            var env = new Environment(config);
-            env.Open(envPath, EnvironmentOptions.NoThreadLocalStorage);
+            var config = new LmdbEnvironmentConfiguration(10, 10, 1000000000);
+            var env = new LmdbEnvironment(config);
+            env.Open(envPath, LmdbEnvironmentOptions.NoThreadLocalStorage);
 
             this.Env = env;
             this.Buffers = new BufferPool();
         }
 
-        public Environment Env { get; }
+        public LmdbEnvironment Env { get; }
 
         public BufferPool Buffers { get; }
 

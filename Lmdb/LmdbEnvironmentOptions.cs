@@ -8,7 +8,7 @@ namespace KdSoft.Lmdb
     /// Options to open LMDB environment
     /// </summary>
     [Flags]
-    public enum EnvironmentOptions
+    public enum LmdbEnvironmentOptions
     {
         /// <summary>
         /// No special options.

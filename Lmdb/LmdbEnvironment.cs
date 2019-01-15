@@ -9,20 +9,20 @@ using KdSoft.Lmdb.Interop;
 
 namespace KdSoft.Lmdb
 {
-    public delegate void AssertFunction(Environment env, string msg);
+    public delegate void AssertFunction(LmdbEnvironment env, string msg);
 
     /// <summary>LMDB environment.</summary>
     /// <remarks>
     /// We make Environment the only <see cref="CriticalFinalizerObject"/> because it can
     /// clean up all resources it owns (databases, transactions, cursors) in its finalizer.
     /// </remarks>
-    public class Environment: CriticalFinalizerObject, IDisposable
+    public class LmdbEnvironment: CriticalFinalizerObject, IDisposable
     {
         readonly bool autoReduceMapSizeIn32BitProcess;
 
         /// <summary>Constructor.</summary>
         /// <param name="config">Configuration to use.</param>
-        public Environment(EnvironmentConfiguration config = null) {
+        public LmdbEnvironment(LmdbEnvironmentConfiguration config = null) {
             // so that we can refer back to the Environment instance
             instanceHandle = GCHandle.Alloc(this, GCHandleType.WeakTrackResurrection);
 
@@ -161,22 +161,22 @@ namespace KdSoft.Lmdb
         /// </summary>
         /// <param name="options">Option flags to set, bitwise OR'ed together.</param>
         /// <param name="onoff">A <c>true</c> value sets the flags, <c>false</c> clears them.</param>
-        public void SetOptions(EnvironmentOptions options, bool onoff) {
+        public void SetOptions(LmdbEnvironmentOptions options, bool onoff) {
             RunChecked((handle) => DbLib.mdb_env_set_flags(handle, options, onoff));
         }
 
         /// <summary>
         /// Return information about the LMDB environment.
         /// </summary>
-        public EnvironmentOptions GetOptions() {
-            return GetChecked((IntPtr handle, out EnvironmentOptions value) => DbLib.mdb_env_get_flags(handle, out value));
+        public LmdbEnvironmentOptions GetOptions() {
+            return GetChecked((IntPtr handle, out LmdbEnvironmentOptions value) => DbLib.mdb_env_get_flags(handle, out value));
         }
 
         /// <summary>
         /// Return information about the LMDB environment.
         /// </summary>
-        public EnvironmentInfo GetInfo() {
-            return GetChecked((IntPtr handle, out EnvironmentInfo value) => DbLib.mdb_env_info(handle, out value));
+        public LmdbEnvironmentInfo GetInfo() {
+            return GetChecked((IntPtr handle, out LmdbEnvironmentInfo value) => DbLib.mdb_env_info(handle, out value));
         }
 
         /// <summary>
@@ -210,11 +210,11 @@ namespace KdSoft.Lmdb
         /// If this function fails, mdb_env_close() must be called to discard the MDB_env handle.
         /// </summary>
         /// <param name="path">The directory in which the database files reside. This directory must already exist and be writable.</param>
-        /// <param name="options">Special options for this environment. See <see cref="EnvironmentOptions"/>.
+        /// <param name="options">Special options for this environment. See <see cref="LmdbEnvironmentOptions"/>.
         /// This parameter must be set to 0 or by bitwise OR'ing together one or more of the values.
         /// Flags set by mdb_env_set_flags() are also used.</param>
         /// <param name="fileMode">The UNIX permissions to set on created files and semaphores. This parameter is ignored on Windows.</param>
-        public void Open(string path, EnvironmentOptions options = EnvironmentOptions.None, UnixFileModes fileMode = UnixFileModes.Default) {
+        public void Open(string path, LmdbEnvironmentOptions options = LmdbEnvironmentOptions.None, UnixFileModes fileMode = UnixFileModes.Default) {
             RunChecked((handle) => DbLib.mdb_env_open(handle, path, options, fileMode));
         }
 
@@ -318,7 +318,7 @@ namespace KdSoft.Lmdb
             else {
                 result = new ReadOnlyTransaction(txn, parent, TransactionDisposed);
                 var opts = GetOptions();
-                if (opts.HasFlag(EnvironmentOptions.NoThreadLocalStorage))
+                if (opts.HasFlag(LmdbEnvironmentOptions.NoThreadLocalStorage))
                     checkConcurrent = false;
             }
 
@@ -450,7 +450,7 @@ namespace KdSoft.Lmdb
         /// <summary>
         /// Finalizer. Releases unmanaged resources.
         /// </summary>
-        ~Environment() {
+        ~LmdbEnvironment() {
             Dispose(false);
         }
 

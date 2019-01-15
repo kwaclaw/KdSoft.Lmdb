@@ -11,7 +11,7 @@ namespace KdSoft.Lmdb
     // This struct does not have reference type fields, so the default equality comparison
     // does not use reflection and is therefore efficient, no need to override it.
 #pragma warning disable CA1815 // Override equals and operator equals on value types
-    public struct EnvironmentInfo
+    public struct LmdbEnvironmentInfo
 #pragma warning restore CA1815 // Override equals and operator equals on value types
     {
         /// <summary>
