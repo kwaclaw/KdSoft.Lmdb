@@ -99,7 +99,7 @@ namespace KdSoft.Lmdb
     /// Options for copying an environment
     /// </summary>
     [Flags]
-    public enum EnvironmentCopyOptions
+    public enum LmdbEnvironmentCopyOptions
     {
         None = 0,
 

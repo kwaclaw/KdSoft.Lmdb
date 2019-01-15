@@ -45,10 +45,10 @@ namespace KdSoft.Lmdb.Interop
         public static extern DbRetCode mdb_env_copyfd(IntPtr env, IntPtr fd);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_env_copy2(IntPtr env, string path, EnvironmentCopyOptions copyFlags);
+        public static extern DbRetCode mdb_env_copy2(IntPtr env, string path, LmdbEnvironmentCopyOptions copyFlags);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
-        public static extern DbRetCode mdb_env_copyfd2(IntPtr env, IntPtr fd, EnvironmentCopyOptions flags);
+        public static extern DbRetCode mdb_env_copyfd2(IntPtr env, IntPtr fd, LmdbEnvironmentCopyOptions flags);
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_env_stat(IntPtr env, out Statistics stat);
