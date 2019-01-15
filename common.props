@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Copyright>Copyright © Karl Waclawek 2018</Copyright>
-    <PackageLicenseUrl>https://github.com/kwaclaw/KdSoft.Lmdb/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/kwaclaw/KdSoft.Lmdb</PackageProjectUrl>
     <PackageTags>lmdb lightning nosql key-value storage</PackageTags>
 
