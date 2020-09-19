@@ -33,17 +33,21 @@ namespace KdSoft.Lmdb.Tests.proto {
             "ZXN0cy5wcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::KdSoft.Lmdb.Tests.proto.LineItemKey), global::KdSoft.Lmdb.Tests.proto.LineItemKey.Parser, new[]{ "ProdCode", "OrderId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::KdSoft.Lmdb.Tests.proto.LineItem), global::KdSoft.Lmdb.Tests.proto.LineItem.Parser, new[]{ "Key", "Quantity" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::KdSoft.Lmdb.Tests.proto.Order), global::KdSoft.Lmdb.Tests.proto.Order.Parser, new[]{ "Id", "Time", "CustomerId" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::KdSoft.Lmdb.Tests.proto.LineItemKey), global::KdSoft.Lmdb.Tests.proto.LineItemKey.Parser, new[]{ "ProdCode", "OrderId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::KdSoft.Lmdb.Tests.proto.LineItem), global::KdSoft.Lmdb.Tests.proto.LineItem.Parser, new[]{ "Key", "Quantity" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::KdSoft.Lmdb.Tests.proto.Order), global::KdSoft.Lmdb.Tests.proto.Order.Parser, new[]{ "Id", "Time", "CustomerId" }, null, null, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
-  public sealed partial class LineItemKey : pb::IMessage<LineItemKey> {
+  public sealed partial class LineItemKey : pb::IMessage<LineItemKey>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<LineItemKey> _parser = new pb::MessageParser<LineItemKey>(() => new LineItemKey());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -136,6 +140,9 @@ namespace KdSoft.Lmdb.Tests.proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       if (ProdCode.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(ProdCode);
@@ -147,7 +154,25 @@ namespace KdSoft.Lmdb.Tests.proto {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (ProdCode.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(ProdCode);
+      }
+      if (OrderId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(OrderId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -180,6 +205,9 @@ namespace KdSoft.Lmdb.Tests.proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -196,11 +224,38 @@ namespace KdSoft.Lmdb.Tests.proto {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            ProdCode = input.ReadString();
+            break;
+          }
+          case 16: {
+            OrderId = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
   }
 
-  public sealed partial class LineItem : pb::IMessage<LineItem> {
+  public sealed partial class LineItem : pb::IMessage<LineItem>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<LineItem> _parser = new pb::MessageParser<LineItem>(() => new LineItem());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -293,6 +348,9 @@ namespace KdSoft.Lmdb.Tests.proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       if (key_ != null) {
         output.WriteRawTag(10);
         output.WriteMessage(Key);
@@ -304,7 +362,25 @@ namespace KdSoft.Lmdb.Tests.proto {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (key_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Key);
+      }
+      if (Quantity != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Quantity);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -328,7 +404,7 @@ namespace KdSoft.Lmdb.Tests.proto {
       }
       if (other.key_ != null) {
         if (key_ == null) {
-          key_ = new global::KdSoft.Lmdb.Tests.proto.LineItemKey();
+          Key = new global::KdSoft.Lmdb.Tests.proto.LineItemKey();
         }
         Key.MergeFrom(other.Key);
       }
@@ -340,6 +416,9 @@ namespace KdSoft.Lmdb.Tests.proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -348,9 +427,34 @@ namespace KdSoft.Lmdb.Tests.proto {
             break;
           case 10: {
             if (key_ == null) {
-              key_ = new global::KdSoft.Lmdb.Tests.proto.LineItemKey();
+              Key = new global::KdSoft.Lmdb.Tests.proto.LineItemKey();
             }
-            input.ReadMessage(key_);
+            input.ReadMessage(Key);
+            break;
+          }
+          case 16: {
+            Quantity = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (key_ == null) {
+              Key = new global::KdSoft.Lmdb.Tests.proto.LineItemKey();
+            }
+            input.ReadMessage(Key);
             break;
           }
           case 16: {
@@ -360,10 +464,15 @@ namespace KdSoft.Lmdb.Tests.proto {
         }
       }
     }
+    #endif
 
   }
 
-  public sealed partial class Order : pb::IMessage<Order> {
+  public sealed partial class Order : pb::IMessage<Order>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<Order> _parser = new pb::MessageParser<Order>(() => new Order());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -470,6 +579,9 @@ namespace KdSoft.Lmdb.Tests.proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       if (Id != 0) {
         output.WriteRawTag(8);
         output.WriteInt32(Id);
@@ -485,7 +597,29 @@ namespace KdSoft.Lmdb.Tests.proto {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Id != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Id);
+      }
+      if (time_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Time);
+      }
+      if (CustomerId != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(CustomerId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -515,7 +649,7 @@ namespace KdSoft.Lmdb.Tests.proto {
       }
       if (other.time_ != null) {
         if (time_ == null) {
-          time_ = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+          Time = new global::Google.Protobuf.WellKnownTypes.Timestamp();
         }
         Time.MergeFrom(other.Time);
       }
@@ -527,6 +661,9 @@ namespace KdSoft.Lmdb.Tests.proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -539,9 +676,38 @@ namespace KdSoft.Lmdb.Tests.proto {
           }
           case 18: {
             if (time_ == null) {
-              time_ = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+              Time = new global::Google.Protobuf.WellKnownTypes.Timestamp();
             }
-            input.ReadMessage(time_);
+            input.ReadMessage(Time);
+            break;
+          }
+          case 24: {
+            CustomerId = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Id = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            if (time_ == null) {
+              Time = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(Time);
             break;
           }
           case 24: {
@@ -551,6 +717,7 @@ namespace KdSoft.Lmdb.Tests.proto {
         }
       }
     }
+    #endif
 
   }
 
