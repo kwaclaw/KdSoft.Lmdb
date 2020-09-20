@@ -6,38 +6,40 @@ namespace KdSoft.Lmdb.Tests.fbs
 {
 
 using global::System;
+using global::System.Collections.Generic;
 using global::Google.FlatBuffers;
 
 public struct LineItem : IFlatbufferObject
 {
   private Table __p;
   public ByteBuffer ByteBuffer { get { return __p.bb; } }
+  public static void ValidateVersion() { FlatBufferConstants.FLATBUFFERS_1_12_0(); }
   public static LineItem GetRootAsLineItem(ByteBuffer _bb) { return GetRootAsLineItem(_bb, new LineItem()); }
   public static LineItem GetRootAsLineItem(ByteBuffer _bb, LineItem obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
-  public void __init(int _i, ByteBuffer _bb) { __p.bb_pos = _i; __p.bb = _bb; }
+  public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public LineItem __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public LineItemKey? Key { get { int o = __p.__offset(4); return o != 0 ? (LineItemKey?)(new LineItemKey()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
+  public KdSoft.Lmdb.Tests.fbs.LineItemKey? Key { get { int o = __p.__offset(4); return o != 0 ? (KdSoft.Lmdb.Tests.fbs.LineItemKey?)(new KdSoft.Lmdb.Tests.fbs.LineItemKey()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
   public int Quantity { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
 
-  public static Offset<LineItem> CreateLineItem(FlatBufferBuilder builder,
-      Offset<LineItemKey> keyOffset = default(Offset<LineItemKey>),
+  public static Offset<KdSoft.Lmdb.Tests.fbs.LineItem> CreateLineItem(FlatBufferBuilder builder,
+      Offset<KdSoft.Lmdb.Tests.fbs.LineItemKey> keyOffset = default(Offset<KdSoft.Lmdb.Tests.fbs.LineItemKey>),
       int quantity = 0) {
-    builder.StartObject(2);
+    builder.StartTable(2);
     LineItem.AddQuantity(builder, quantity);
     LineItem.AddKey(builder, keyOffset);
     return LineItem.EndLineItem(builder);
   }
 
-  public static void StartLineItem(FlatBufferBuilder builder) { builder.StartObject(2); }
-  public static void AddKey(FlatBufferBuilder builder, Offset<LineItemKey> keyOffset) { builder.AddOffset(0, keyOffset.Value, 0); }
+  public static void StartLineItem(FlatBufferBuilder builder) { builder.StartTable(2); }
+  public static void AddKey(FlatBufferBuilder builder, Offset<KdSoft.Lmdb.Tests.fbs.LineItemKey> keyOffset) { builder.AddOffset(0, keyOffset.Value, 0); }
   public static void AddQuantity(FlatBufferBuilder builder, int quantity) { builder.AddInt(1, quantity, 0); }
-  public static Offset<LineItem> EndLineItem(FlatBufferBuilder builder) {
-    int o = builder.EndObject();
-    return new Offset<LineItem>(o);
+  public static Offset<KdSoft.Lmdb.Tests.fbs.LineItem> EndLineItem(FlatBufferBuilder builder) {
+    int o = builder.EndTable();
+    return new Offset<KdSoft.Lmdb.Tests.fbs.LineItem>(o);
   }
-  public static void FinishLineItemBuffer(FlatBufferBuilder builder, Offset<LineItem> offset) { builder.Finish(offset.Value); }
-  public static void FinishSizePrefixedLineItemBuffer(FlatBufferBuilder builder, Offset<LineItem> offset) { builder.FinishSizePrefixed(offset.Value); }
+  public static void FinishLineItemBuffer(FlatBufferBuilder builder, Offset<KdSoft.Lmdb.Tests.fbs.LineItem> offset) { builder.Finish(offset.Value); }
+  public static void FinishSizePrefixedLineItemBuffer(FlatBufferBuilder builder, Offset<KdSoft.Lmdb.Tests.fbs.LineItem> offset) { builder.FinishSizePrefixed(offset.Value); }
 };
 
 

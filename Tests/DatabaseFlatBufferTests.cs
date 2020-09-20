@@ -51,8 +51,8 @@ namespace KdSoft.Lmdb.Tests.fbs
                     // lineItem points into the liBuilder's data buffer
                     var lineItem = LineItem.GetRootAsLineItem(liBuilder.DataBuffer);
 
-                    var keySpan = liKeyBuilder.DataBuffer.AsBytes();
-                    var dataSpan = liBuilder.DataBuffer.AsBytes();
+                    var keySpan = liKeyBuilder.DataBuffer.ToSpan();
+                    var dataSpan = liBuilder.DataBuffer.ToSpan();
                     dbase.Put(tx, keySpan, dataSpan, PutOptions.None);
 
                     liKeyBuilder.Clear();
@@ -69,8 +69,8 @@ namespace KdSoft.Lmdb.Tests.fbs
 
                     li2Bytes = liBuilder.SizedByteArray();
 
-                    keySpan = liKeyBuilder.DataBuffer.AsBytes();
-                    dataSpan = liBuilder.DataBuffer.AsBytes();
+                    keySpan = liKeyBuilder.DataBuffer.ToSpan();
+                    dataSpan = liBuilder.DataBuffer.ToSpan();
                     dbase.Put(tx, keySpan, dataSpan, PutOptions.None);
 
                     tx.Commit();
@@ -84,7 +84,7 @@ namespace KdSoft.Lmdb.Tests.fbs
                     var lik = LineItemKey.CreateLineItemKey(liKeyBuilder, prodCode, 1);
                     liKeyBuilder.Finish(lik.Value);
 
-                    var keySpan = liKeyBuilder.DataBuffer.AsBytes();
+                    var keySpan = liKeyBuilder.DataBuffer.ToSpan();
 
                     Assert.True(dbase.Get(tx, keySpan, out ReadOnlySpan<byte> dataSpan));
                     liOutBytes = dataSpan.ToArray();
@@ -97,7 +97,7 @@ namespace KdSoft.Lmdb.Tests.fbs
                     lik = LineItemKey.CreateLineItemKey(liKeyBuilder, prodCode, 2);
                     liKeyBuilder.Finish(lik.Value);
 
-                    keySpan = liKeyBuilder.DataBuffer.AsBytes();
+                    keySpan = liKeyBuilder.DataBuffer.ToSpan();
 
                     Assert.True(dbase.Get(tx, keySpan, out dataSpan));
                     liOut2Bytes = dataSpan.ToArray();
