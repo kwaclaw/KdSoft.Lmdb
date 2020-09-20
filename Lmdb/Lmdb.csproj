@@ -7,11 +7,10 @@
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
     <AssemblyName>KdSoft.Lmdb</AssemblyName>
     <RootNamespace>KdSoft.Lmdb</RootNamespace>
-    <VersionPrefix>2.00</VersionPrefix>
+    <VersionPrefix>2.0.1</VersionPrefix>
     <!--<VersionSuffix>beta-$(TimeStamp)</VersionSuffix>-->
     <PackageReleaseNotes>
-      Renamed EnvironmentXXX types to LmdbEnvironmentXXX to avoid naming conflicts with System.Environemnt.
-      Added missing TransactionModes values.
+      Updated Lmdb binaries to v0.9.26.
     </PackageReleaseNotes>
   </PropertyGroup>
   
