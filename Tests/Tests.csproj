@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <AssemblyName>KdSoft.Lmdb.Tests</AssemblyName>
     <RootNamespace>KdSoft.Lmdb.Tests</RootNamespace>
   </PropertyGroup>
@@ -10,6 +10,7 @@
     <CodeAnalysisRuleSet>..\Solution.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputType>WinExe</OutputType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -21,19 +22,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.13.0" />
-    <PackageReference Include="Google.Protobuf.Tools" Version="3.13.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.14.0" />
+    <PackageReference Include="Google.Protobuf.Tools" Version="3.14.0" />
     <PackageReference Include="KdSoft.FlatBuffers" Version="1.12.0" />
     <PackageReference Include="KdSoft.Serialization" Version="2.0.2" />
     <PackageReference Include="KdSoft.Utils.Portable" Version="3.6.3" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="3.1.6" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.8" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.0" />
     <PackageReference Include="MsBuild.ProtocolBuffers" Version="1.2.0" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
