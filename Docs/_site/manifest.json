@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "F:/Work/Private/KdSoft.Lmdb/Docs",
+  "source_base_path": "D:/Work/Private/KdSoft.Lmdb/Docs",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.AssertFunction.html",
-          "hash": "+0KpT5qTQDNQ5pPtMLsrHw=="
+          "hash": "JvW7rL149XDX6wawHNxp8g=="
         }
       },
       "is_incremental": true,
@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Cursor.ItemsEnumerator.html",
-          "hash": "wSK6tMfnPex73/t/BThaRw=="
+          "hash": "smZde0z6Makg8edhflddWA=="
         }
       },
       "is_incremental": true,
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Cursor.ItemsIterator.html",
-          "hash": "IkO6aWxRmcdXhAVARSfnhg=="
+          "hash": "8spAj1NV6mYhajzK8g6bvQ=="
         }
       },
       "is_incremental": true,
@@ -45,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Cursor.NextItemsEnumerator.html",
-          "hash": "M07NnYAMVr+zlLlAIBnCdQ=="
+          "hash": "F6aLTgmSQOq0kwpqCS+mYw=="
         }
       },
       "is_incremental": true,
@@ -57,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Cursor.NextItemsIterator.html",
-          "hash": "PdVMtupUYYN1aFDoL+POeQ=="
+          "hash": "Ns+gnOlfB1NvFO8bVwctHA=="
         }
       },
       "is_incremental": true,
@@ -69,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Cursor.html",
-          "hash": "f9l2MkXw6Z6Vw4R1Szf1cQ=="
+          "hash": "6zS+9+qSjbOLYNgHvWBm4A=="
         }
       },
       "is_incremental": true,
@@ -81,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.CursorDeleteOption.html",
-          "hash": "v68v60UA7GkM15K7G9u60w=="
+          "hash": "4uXmSu/LqYmugWMNQd4xsw=="
         }
       },
       "is_incremental": true,
@@ -93,7 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.CursorPutOption.html",
-          "hash": "PgZ5TvYHyWO4vkgesYXqPA=="
+          "hash": "sPrOPF3RtMmna6xWMOzQOg=="
         }
       },
       "is_incremental": true,
@@ -105,7 +105,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Database.LibFunc-2.html",
-          "hash": "kBSIEwdPAGDDuZX+2BzDgw=="
+          "hash": "OwiKENHmFSVorqcranW/6Q=="
         }
       },
       "is_incremental": true,
@@ -117,7 +117,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Database.html",
-          "hash": "qf0LpkYoW250l2EhXD9eCQ=="
+          "hash": "FPC2Cth1wjWAcWRJKpAoNQ=="
         }
       },
       "is_incremental": true,
@@ -129,7 +129,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.DatabaseConfiguration.html",
-          "hash": "ppIJB/0By+Gpay9PwC9tLw=="
+          "hash": "3mCTDjFBr/5asFCotzGz2g=="
         }
       },
       "is_incremental": true,
@@ -141,7 +141,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.DatabaseOptions.html",
-          "hash": "YAJiz19S0n6/vL8BNVoa7g=="
+          "hash": "fSmrlUKqBsFjuhge1Avlww=="
         }
       },
       "is_incremental": true,
@@ -153,7 +153,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.DatabaseTransaction.html",
-          "hash": "xvqJCodceGOE53MpfmozAg=="
+          "hash": "K1U7DQNm3EySNJl2LyQgRw=="
         }
       },
       "is_incremental": true,
@@ -165,7 +165,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.ErrorUtil.html",
-          "hash": "z618OfU1mI+5iMQtL8YI6Q=="
+          "hash": "1b99dDpZe3rKuqvLANA7Xg=="
         }
       },
       "is_incremental": true,
@@ -177,7 +177,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.FixedMultiValueCursor.html",
-          "hash": "caMKLEn03rTxBmqznCSpQw=="
+          "hash": "gkmxeHYaqB8GlIREzD7A+Q=="
         }
       },
       "is_incremental": true,
@@ -189,7 +189,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.FixedMultiValueDatabase.html",
-          "hash": "+UTzGQN8oIow51UpUAluig=="
+          "hash": "URBODVFLA7asL/8EXl08JA=="
         }
       },
       "is_incremental": true,
@@ -201,7 +201,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.FixedMultiValueDatabaseConfiguration.html",
-          "hash": "lKJEsx0SbXqlE61c81U7ZA=="
+          "hash": "F4nHig8OqdS8ledf2INHqw=="
         }
       },
       "is_incremental": true,
@@ -213,7 +213,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Interop.DbCursorOp.html",
-          "hash": "DzoKDJPNQSSwbrXLV7B6LA=="
+          "hash": "IIkcwjWWn4atRCcfAmFV7A=="
         }
       },
       "is_incremental": true,
@@ -225,7 +225,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Interop.DbLibCompareFunction.html",
-          "hash": "HaSpxm8OQV2akcedNNkWPQ=="
+          "hash": "ebNVgtc1VpZQpzap46sn3Q=="
         }
       },
       "is_incremental": true,
@@ -237,7 +237,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Interop.DbLibConstants.html",
-          "hash": "Wwt3V4DQFD5SHa5WvCdswg=="
+          "hash": "LRXxQsKb7JlrH0NtwFWrvg=="
         }
       },
       "is_incremental": true,
@@ -249,7 +249,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Interop.DbLibUtil.html",
-          "hash": "MLRP5UyBovqWtK+xlLwQoQ=="
+          "hash": "p/q87EeMOnGxj7SuqCtY1g=="
         }
       },
       "is_incremental": true,
@@ -261,7 +261,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Interop.DbRetCode.html",
-          "hash": "qD5GOmu6iXMu7Tq3MEvyLg=="
+          "hash": "CMKwKbSvKUDG5o7Sek1eMA=="
         }
       },
       "is_incremental": true,
@@ -273,7 +273,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Interop.DbValue.html",
-          "hash": "LPRFQcZZ/Sneu3yKeXlyZQ=="
+          "hash": "/SFBngtqYwsYyAqu9f21gg=="
         }
       },
       "is_incremental": true,
@@ -285,7 +285,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Interop.html",
-          "hash": "HDTZzPeuWWKmn5nX+OYiyQ=="
+          "hash": "TtUSYAabSIks8PDOAVPRKw=="
         }
       },
       "is_incremental": true,
@@ -297,7 +297,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.KeyDataPair.html",
-          "hash": "+ySpfqOytGRJco84O6qaBw=="
+          "hash": "4Nns5fQRCQXOiihu2e7SYQ=="
         }
       },
       "is_incremental": true,
@@ -309,7 +309,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.LmdbEnvironment.LibFunc-2.html",
-          "hash": "2HTu0GA80YGMcaDx8rRY9w=="
+          "hash": "282BWUZxKMMuTKgDgx6yHw=="
         }
       },
       "is_incremental": true,
@@ -321,7 +321,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.LmdbEnvironment.html",
-          "hash": "Xc7atDqEF1YDXN+BktAv4Q=="
+          "hash": "U+ZdrcEDnSJA4ucYy2uo7g=="
         }
       },
       "is_incremental": true,
@@ -333,7 +333,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.LmdbEnvironmentConfiguration.html",
-          "hash": "5iz1YyvBmD/Jf1GK/ekrXw=="
+          "hash": "WAh1+iofc42ixd42aNNw8w=="
         }
       },
       "is_incremental": true,
@@ -345,7 +345,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.LmdbEnvironmentCopyOptions.html",
-          "hash": "TNsmo3d+oA+lKoSYGdcRxA=="
+          "hash": "N+sd1ioqh69HfeaAh5Z+9Q=="
         }
       },
       "is_incremental": true,
@@ -357,7 +357,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.LmdbEnvironmentInfo.html",
-          "hash": "E0NaOXavtOnuRXf4Stuyeg=="
+          "hash": "cukBhuU9e1/YyIDHzWLZfA=="
         }
       },
       "is_incremental": true,
@@ -369,7 +369,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.LmdbEnvironmentOptions.html",
-          "hash": "+xLIrfFg5FtNaPnm7YmA2w=="
+          "hash": "K7UKUA+otDsbCJDAYqcRdw=="
         }
       },
       "is_incremental": true,
@@ -381,7 +381,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.LmdbException.html",
-          "hash": "jtqQFituKs00OcbUcCiq7Q=="
+          "hash": "6zasWrPKQPPKp2xEJT5mcA=="
         }
       },
       "is_incremental": true,
@@ -393,7 +393,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.MultiValueCursor.ValuesEnumerator.html",
-          "hash": "n3/rQ6ncev4jPuVzjEbFEA=="
+          "hash": "xg9f52Itq5Ry5kkWlzZPfw=="
         }
       },
       "is_incremental": true,
@@ -405,7 +405,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.MultiValueCursor.ValuesIterator.html",
-          "hash": "4px+hM8mNi0Aa5hc+KDlZQ=="
+          "hash": "PJiWtP2eS7+YVL9ADf/NRQ=="
         }
       },
       "is_incremental": true,
@@ -417,7 +417,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.MultiValueCursor.ValuesNextEnumerator.html",
-          "hash": "M1ND7DdIHJjbrSox1ApGHg=="
+          "hash": "IxZWrEJbEHP/liv+F/LnYw=="
         }
       },
       "is_incremental": true,
@@ -429,7 +429,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.MultiValueCursor.ValuesNextIterator.html",
-          "hash": "OMgWpVHpmEUqkRBD7mFFWg=="
+          "hash": "BveG7MgQeKf0KmdciuTABw=="
         }
       },
       "is_incremental": true,
@@ -441,7 +441,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.MultiValueCursor.html",
-          "hash": "AgqgMQbOQDmZ+3IvsTPMtA=="
+          "hash": "mKhvVXhU/BbPpqopeJa+Mw=="
         }
       },
       "is_incremental": true,
@@ -453,7 +453,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.MultiValueCursorDeleteOption.html",
-          "hash": "ax093ZmOSv4OCP8daVo1ag=="
+          "hash": "4NOVs+QJxlGQdxbI15RvSQ=="
         }
       },
       "is_incremental": true,
@@ -465,7 +465,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.MultiValueCursorPutOption.html",
-          "hash": "9KEb8AVGQhnjl3jkCDB/4Q=="
+          "hash": "7vwoTQYuZdWmKQZBhC0xGA=="
         }
       },
       "is_incremental": true,
@@ -477,7 +477,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.MultiValueDatabase.html",
-          "hash": "GwaYKTt/giJirJ0BhgMklA=="
+          "hash": "fzb2T+yBZ3SsHY3alKcp4w=="
         }
       },
       "is_incremental": true,
@@ -489,7 +489,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.MultiValueDatabaseConfiguration.html",
-          "hash": "fCzXfEI7/0JwnKTjCB6+ZQ=="
+          "hash": "L7KgXRDL6iqmnVRmt6XEag=="
         }
       },
       "is_incremental": true,
@@ -501,7 +501,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.MultiValueDatabaseOptions.html",
-          "hash": "fH/KKSMNIOcJTv7bJ9pyOg=="
+          "hash": "AVbWfImmVWQIyPYDlvyhWg=="
         }
       },
       "is_incremental": true,
@@ -513,7 +513,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.MultiValuePutOptions.html",
-          "hash": "11QJ8PkO3erxM/uKxIWDBg=="
+          "hash": "hvlxtwcfwEkAHq7qKf4RqA=="
         }
       },
       "is_incremental": true,
@@ -525,7 +525,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.PutOptions.html",
-          "hash": "p4IWx7Hi9Hf/0EV+lW0FWA=="
+          "hash": "sgvSxDI6yELVqvCy5SpI/A=="
         }
       },
       "is_incremental": true,
@@ -537,7 +537,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.ReadOnlyTransaction.html",
-          "hash": "TaunQZ+EYFaGNkYhvEiwgg=="
+          "hash": "oAHQxMEYQDbbUMm6//EQSg=="
         }
       },
       "is_incremental": true,
@@ -549,7 +549,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.SpanComparison-1.html",
-          "hash": "VnayGaLoWOvmN+KeGY24bg=="
+          "hash": "dSQ1kXdnVAFRfcGgt1vUVQ=="
         }
       },
       "is_incremental": true,
@@ -561,7 +561,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Statistics.html",
-          "hash": "dCqbRBv2GQP28/G9kxVg5A=="
+          "hash": "N+4f8JDT2SrCegFkYM/tzQ=="
         }
       },
       "is_incremental": true,
@@ -573,7 +573,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.Transaction.html",
-          "hash": "xeZjs23U6ZfeCHOIXhOpaA=="
+          "hash": "pCUuHEt8BzasTP4yT1BsNg=="
         }
       },
       "is_incremental": true,
@@ -585,7 +585,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.TransactionModes.html",
-          "hash": "RUGzVWXFyiST5Zs1oIa8fw=="
+          "hash": "PuZ8qEBD0n/6il1Vrp5suQ=="
         }
       },
       "is_incremental": true,
@@ -597,7 +597,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.UnixFileModes.html",
-          "hash": "BJ1Z42pXAT6XFxuYylYFWQ=="
+          "hash": "nil3tBYhrymVlLPqL/RTEA=="
         }
       },
       "is_incremental": true,
@@ -609,7 +609,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.html",
-          "hash": "UFhNjj1n7CI9Hc+ObxVhDA=="
+          "hash": "G7XewrJddznia2IkySVyuA=="
         }
       },
       "is_incremental": true,
@@ -621,7 +621,7 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "NnLWM/f0bt/C6yZMachTHg=="
+          "hash": "BmZ6auU9R6X75vwmydaydg=="
         }
       },
       "is_incremental": true,
@@ -633,7 +633,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "v28gflevyWXwrznkM3Viag=="
+          "hash": "S6thkyxlqguNSNY6tIGFOQ=="
         }
       },
       "is_incremental": false,
@@ -645,7 +645,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/builddocs.html",
-          "hash": "JWrd/4DFcqifFwahLTt9fg=="
+          "hash": "BL8CSReQKwnhQ7E7b3oTBA=="
         }
       },
       "is_incremental": true,
@@ -657,7 +657,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "joQcd0eeujsSAUqe1FqF+A=="
+          "hash": "jfPuqWzudykrZbb2j22ozg=="
         }
       },
       "is_incremental": false,
@@ -669,7 +669,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "zMcEe1NO12gWGj2zPPtOUw=="
+          "hash": "qUbeWCtG/fYQ0pkV6mkA/w=="
         }
       },
       "is_incremental": true,
@@ -681,7 +681,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "g4HCkht5hH5Aveupq+XF6Q=="
+          "hash": "D2OaTt0WPWhopoI0QdFBGQ=="
         }
       },
       "is_incremental": false,
@@ -692,21 +692,29 @@
     {
       "status": {
         "can_incremental": true,
-        "incrementalPhase": "build"
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
       },
       "processors": {
-        "TocDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
         "ConceptualDocumentProcessor": {
           "can_incremental": true,
-          "incrementalPhase": "build"
+          "incrementalPhase": "build",
+          "total_file_count": 3,
+          "skipped_file_count": 3
         },
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": true,
-          "incrementalPhase": "build"
+          "incrementalPhase": "build",
+          "total_file_count": 51,
+          "skipped_file_count": 51
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
         }
       }
     },
@@ -714,7 +722,9 @@
       "status": {
         "can_incremental": true,
         "details": "Can support incremental post processing.",
-        "incrementalPhase": "postProcessing"
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
       },
       "processors": {}
     }
