@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Rules for LMDB" Description="Code analysis rules for LMDB." ToolsVersion="15.0">
+<RuleSet Name="Rules for LMDB" Description="Code analysis rules for LMDB." ToolsVersion="16.0">
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1000" Action="Warning" />
     <Rule Id="CA1001" Action="Warning" />
@@ -21,7 +21,6 @@
     <Rule Id="CA1018" Action="Warning" />
     <Rule Id="CA1019" Action="Warning" />
     <Rule Id="CA1020" Action="Warning" />
-    <Rule Id="CA1021" Action="Warning" />
     <Rule Id="CA1023" Action="Warning" />
     <Rule Id="CA1024" Action="Warning" />
     <Rule Id="CA1025" Action="Warning" />
@@ -203,7 +202,6 @@
     <Rule Id="CA2214" Action="Warning" />
     <Rule Id="CA2215" Action="Warning" />
     <Rule Id="CA2216" Action="Warning" />
-    <Rule Id="CA2217" Action="None" />
     <Rule Id="CA2218" Action="Warning" />
     <Rule Id="CA2219" Action="Warning" />
     <Rule Id="CA2220" Action="Warning" />
@@ -642,14 +640,13 @@
     <Rule Id="C6995" Action="Warning" />
     <Rule Id="C6997" Action="Warning" />
   </Rules>
-  <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
-    <Rule Id="S125" Action="None" />
-  </Rules>
   <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
     <Rule Id="CA1051" Action="None" />
-    <Rule Id="CA2217" Action="None" />
   </Rules>
   <Rules AnalyzerId="Microsoft.NetCore.Analyzers" RuleNamespace="Microsoft.NetCore.Analyzers">
     <Rule Id="CA2101" Action="None" />
+  </Rules>
+  <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
+    <Rule Id="S125" Action="None" />
   </Rules>
 </RuleSet>
