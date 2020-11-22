@@ -129,7 +129,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.DatabaseConfiguration.html",
-          "hash": "3mCTDjFBr/5asFCotzGz2g=="
+          "hash": "8zUDB4AiFrxLB/nTLMxx6A=="
         }
       },
       "is_incremental": true,
@@ -153,7 +153,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.DatabaseTransaction.html",
-          "hash": "K1U7DQNm3EySNJl2LyQgRw=="
+          "hash": "Vao+b8TFZ1oE/xdoWkPB8w=="
         }
       },
       "is_incremental": true,
@@ -201,7 +201,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.FixedMultiValueDatabaseConfiguration.html",
-          "hash": "F4nHig8OqdS8ledf2INHqw=="
+          "hash": "drgZJgcoYGH4nf5xQKsJ7A=="
         }
       },
       "is_incremental": true,
@@ -489,7 +489,7 @@
       "output": {
         ".html": {
           "relative_path": "api/KdSoft.Lmdb.MultiValueDatabaseConfiguration.html",
-          "hash": "L7KgXRDL6iqmnVRmt6XEag=="
+          "hash": "leb0UKiYcIAj4MTbTvk4GQ=="
         }
       },
       "is_incremental": true,

@@ -92,9 +92,6 @@
       <a class="xref" href="KdSoft.Lmdb.DatabaseConfiguration.html#KdSoft_Lmdb_DatabaseConfiguration_Compare">DatabaseConfiguration.Compare</a>
     </div>
     <div>
-      <a class="xref" href="KdSoft.Lmdb.DatabaseConfiguration.html#KdSoft_Lmdb_DatabaseConfiguration_LibCompare">DatabaseConfiguration.LibCompare</a>
-    </div>
-    <div>
       <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#System_Object_Equals_System_Object_">Object.Equals(Object)</a>
     </div>
     <div>
@@ -127,6 +124,47 @@
   
   
   <a id="KdSoft_Lmdb_MultiValueDatabaseConfiguration__ctor_" data-uid="KdSoft.Lmdb.MultiValueDatabaseConfiguration.#ctor*"></a>
+  <h4 id="KdSoft_Lmdb_MultiValueDatabaseConfiguration__ctor_KdSoft_Lmdb_DatabaseOptions_KdSoft_Lmdb_SpanComparison_System_Byte__KdSoft_Lmdb_MultiValueDatabaseOptions_" data-uid="KdSoft.Lmdb.MultiValueDatabaseConfiguration.#ctor(KdSoft.Lmdb.DatabaseOptions,KdSoft.Lmdb.SpanComparison{System.Byte},KdSoft.Lmdb.MultiValueDatabaseOptions)">MultiValueDatabaseConfiguration(DatabaseOptions, SpanComparison&lt;Byte&gt;, MultiValueDatabaseOptions)</h4>
+  <div class="markdown level1 summary"><p>Constructor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MultiValueDatabaseConfiguration(DatabaseOptions options, SpanComparison&lt;byte&gt; compare = null, MultiValueDatabaseOptions dupOptions = MultiValueDatabaseOptions.None)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.DatabaseOptions.html">DatabaseOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td><p>Options to configure database.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.SpanComparison-1.html">SpanComparison</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">compare</span></td>
+        <td><p>Key compare function. Can be <code>null</code>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="KdSoft.Lmdb.MultiValueDatabaseOptions.html">MultiValueDatabaseOptions</a></td>
+        <td><span class="parametername">dupOptions</span></td>
+        <td><p>Options to configure multi-value database.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="KdSoft_Lmdb_MultiValueDatabaseConfiguration__ctor_" data-uid="KdSoft.Lmdb.MultiValueDatabaseConfiguration.#ctor*"></a>
   <h4 id="KdSoft_Lmdb_MultiValueDatabaseConfiguration__ctor_KdSoft_Lmdb_DatabaseOptions_KdSoft_Lmdb_SpanComparison_System_Byte__KdSoft_Lmdb_MultiValueDatabaseOptions_KdSoft_Lmdb_SpanComparison_System_Byte__" data-uid="KdSoft.Lmdb.MultiValueDatabaseConfiguration.#ctor(KdSoft.Lmdb.DatabaseOptions,KdSoft.Lmdb.SpanComparison{System.Byte},KdSoft.Lmdb.MultiValueDatabaseOptions,KdSoft.Lmdb.SpanComparison{System.Byte})">MultiValueDatabaseConfiguration(DatabaseOptions, SpanComparison&lt;Byte&gt;, MultiValueDatabaseOptions, SpanComparison&lt;Byte&gt;)</h4>
   <div class="markdown level1 summary"><p>Constructor.</p>
 </div>
@@ -154,7 +192,7 @@
       <tr>
         <td><a class="xref" href="KdSoft.Lmdb.SpanComparison-1.html">SpanComparison</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
         <td><span class="parametername">compare</span></td>
-        <td><p>Key compare function.</p>
+        <td><p>Key compare function. Can be <code>null</code>.</p>
 </td>
       </tr>
       <tr>
@@ -166,7 +204,7 @@
       <tr>
         <td><a class="xref" href="KdSoft.Lmdb.SpanComparison-1.html">SpanComparison</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
         <td><span class="parametername">dupCompare</span></td>
-        <td><p>Duplicate (by key) data compare function.</p>
+        <td><p>Duplicate (by key) data compare function. Can be <code>null</code>.</p>
 </td>
       </tr>
     </tbody>
@@ -221,33 +259,6 @@
     <tbody>
       <tr>
         <td><a class="xref" href="KdSoft.Lmdb.MultiValueDatabaseOptions.html">MultiValueDatabaseOptions</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="KdSoft_Lmdb_MultiValueDatabaseConfiguration_LibDupCompare_" data-uid="KdSoft.Lmdb.MultiValueDatabaseConfiguration.LibDupCompare*"></a>
-  <h4 id="KdSoft_Lmdb_MultiValueDatabaseConfiguration_LibDupCompare" data-uid="KdSoft.Lmdb.MultiValueDatabaseConfiguration.LibDupCompare">LibDupCompare</h4>
-  <div class="markdown level1 summary"><p>Wraps managed data compare function to be called from native code.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
-protected DbLibCompareFunction LibDupCompare { get; set; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="KdSoft.Lmdb.Interop.DbLibCompareFunction.html">DbLibCompareFunction</a></td>
         <td></td>
       </tr>
     </tbody>

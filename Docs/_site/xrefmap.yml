@@ -932,19 +932,6 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.DatabaseConfiguration.Compare
   nameWithType: DatabaseConfiguration.Compare
-- uid: KdSoft.Lmdb.DatabaseConfiguration.LibCompare
-  name: LibCompare
-  href: api/KdSoft.Lmdb.DatabaseConfiguration.html#KdSoft_Lmdb_DatabaseConfiguration_LibCompare
-  commentId: P:KdSoft.Lmdb.DatabaseConfiguration.LibCompare
-  fullName: KdSoft.Lmdb.DatabaseConfiguration.LibCompare
-  nameWithType: DatabaseConfiguration.LibCompare
-- uid: KdSoft.Lmdb.DatabaseConfiguration.LibCompare*
-  name: LibCompare
-  href: api/KdSoft.Lmdb.DatabaseConfiguration.html#KdSoft_Lmdb_DatabaseConfiguration_LibCompare_
-  commentId: Overload:KdSoft.Lmdb.DatabaseConfiguration.LibCompare
-  isSpec: "True"
-  fullName: KdSoft.Lmdb.DatabaseConfiguration.LibCompare
-  nameWithType: DatabaseConfiguration.LibCompare
 - uid: KdSoft.Lmdb.DatabaseConfiguration.Options
   name: Options
   href: api/KdSoft.Lmdb.DatabaseConfiguration.html#KdSoft_Lmdb_DatabaseConfiguration_Options
@@ -3491,6 +3478,15 @@ references:
   commentId: T:KdSoft.Lmdb.MultiValueDatabaseConfiguration
   fullName: KdSoft.Lmdb.MultiValueDatabaseConfiguration
   nameWithType: MultiValueDatabaseConfiguration
+- uid: KdSoft.Lmdb.MultiValueDatabaseConfiguration.#ctor(KdSoft.Lmdb.DatabaseOptions,KdSoft.Lmdb.SpanComparison{System.Byte},KdSoft.Lmdb.MultiValueDatabaseOptions)
+  name: MultiValueDatabaseConfiguration(DatabaseOptions, SpanComparison<Byte>, MultiValueDatabaseOptions)
+  href: api/KdSoft.Lmdb.MultiValueDatabaseConfiguration.html#KdSoft_Lmdb_MultiValueDatabaseConfiguration__ctor_KdSoft_Lmdb_DatabaseOptions_KdSoft_Lmdb_SpanComparison_System_Byte__KdSoft_Lmdb_MultiValueDatabaseOptions_
+  commentId: M:KdSoft.Lmdb.MultiValueDatabaseConfiguration.#ctor(KdSoft.Lmdb.DatabaseOptions,KdSoft.Lmdb.SpanComparison{System.Byte},KdSoft.Lmdb.MultiValueDatabaseOptions)
+  name.vb: MultiValueDatabaseConfiguration(DatabaseOptions, SpanComparison(Of Byte), MultiValueDatabaseOptions)
+  fullName: KdSoft.Lmdb.MultiValueDatabaseConfiguration.MultiValueDatabaseConfiguration(KdSoft.Lmdb.DatabaseOptions, KdSoft.Lmdb.SpanComparison<System.Byte>, KdSoft.Lmdb.MultiValueDatabaseOptions)
+  fullName.vb: KdSoft.Lmdb.MultiValueDatabaseConfiguration.MultiValueDatabaseConfiguration(KdSoft.Lmdb.DatabaseOptions, KdSoft.Lmdb.SpanComparison(Of System.Byte), KdSoft.Lmdb.MultiValueDatabaseOptions)
+  nameWithType: MultiValueDatabaseConfiguration.MultiValueDatabaseConfiguration(DatabaseOptions, SpanComparison<Byte>, MultiValueDatabaseOptions)
+  nameWithType.vb: MultiValueDatabaseConfiguration.MultiValueDatabaseConfiguration(DatabaseOptions, SpanComparison(Of Byte), MultiValueDatabaseOptions)
 - uid: KdSoft.Lmdb.MultiValueDatabaseConfiguration.#ctor(KdSoft.Lmdb.DatabaseOptions,KdSoft.Lmdb.SpanComparison{System.Byte},KdSoft.Lmdb.MultiValueDatabaseOptions,KdSoft.Lmdb.SpanComparison{System.Byte})
   name: MultiValueDatabaseConfiguration(DatabaseOptions, SpanComparison<Byte>, MultiValueDatabaseOptions, SpanComparison<Byte>)
   href: api/KdSoft.Lmdb.MultiValueDatabaseConfiguration.html#KdSoft_Lmdb_MultiValueDatabaseConfiguration__ctor_KdSoft_Lmdb_DatabaseOptions_KdSoft_Lmdb_SpanComparison_System_Byte__KdSoft_Lmdb_MultiValueDatabaseOptions_KdSoft_Lmdb_SpanComparison_System_Byte__
@@ -3533,19 +3529,6 @@ references:
   isSpec: "True"
   fullName: KdSoft.Lmdb.MultiValueDatabaseConfiguration.DupOptions
   nameWithType: MultiValueDatabaseConfiguration.DupOptions
-- uid: KdSoft.Lmdb.MultiValueDatabaseConfiguration.LibDupCompare
-  name: LibDupCompare
-  href: api/KdSoft.Lmdb.MultiValueDatabaseConfiguration.html#KdSoft_Lmdb_MultiValueDatabaseConfiguration_LibDupCompare
-  commentId: P:KdSoft.Lmdb.MultiValueDatabaseConfiguration.LibDupCompare
-  fullName: KdSoft.Lmdb.MultiValueDatabaseConfiguration.LibDupCompare
-  nameWithType: MultiValueDatabaseConfiguration.LibDupCompare
-- uid: KdSoft.Lmdb.MultiValueDatabaseConfiguration.LibDupCompare*
-  name: LibDupCompare
-  href: api/KdSoft.Lmdb.MultiValueDatabaseConfiguration.html#KdSoft_Lmdb_MultiValueDatabaseConfiguration_LibDupCompare_
-  commentId: Overload:KdSoft.Lmdb.MultiValueDatabaseConfiguration.LibDupCompare
-  isSpec: "True"
-  fullName: KdSoft.Lmdb.MultiValueDatabaseConfiguration.LibDupCompare
-  nameWithType: MultiValueDatabaseConfiguration.LibDupCompare
 - uid: KdSoft.Lmdb.MultiValueDatabaseOptions
   name: MultiValueDatabaseOptions
   href: api/KdSoft.Lmdb.MultiValueDatabaseOptions.html
