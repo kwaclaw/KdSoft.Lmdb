@@ -314,12 +314,12 @@ namespace KdSoft.Lmdb
         }
 
         /// <summary>
-        /// Workaround as uint and ulong are not supported by Interlocked.CompareExchange() yet.
+        /// Workaround as uint and ulong are not supported in netstandard2.0 by Interlocked.Exchange() yet.
         /// </summary>
-        static unsafe uint InterlockedCompareExchange(ref uint location, uint value, uint comparand) {
+        static unsafe uint InterlockedExchange(ref uint location, uint value) {
             fixed (uint* ptr = &location)
                 unchecked {
-                    return (uint)Interlocked.CompareExchange(ref *(int*)ptr, (int)value, (int)comparand);
+                    return (uint)Interlocked.Exchange(ref *(int*)ptr, (int)value);
                 }
         }
 
@@ -328,18 +328,15 @@ namespace KdSoft.Lmdb
         /// </summary>
         /// <param name="disposing"><c>true</c> if explicity disposing (finalizer not run), <c>false</c> if disposed from finalizer.</param>
         protected virtual void Dispose(bool disposing) {
-            uint handle = 0;
-            RuntimeHelpers.PrepareConstrainedRegions();
-            try { /* */ }
-            finally {
-                handle = InterlockedCompareExchange(ref dbi, 0, dbi);
-                if (handle != 0) {
-                    DbLib.mdb_dbi_close(env, handle);
-                }
-            }
-
-            if (handle != 0)
+#if NETSTANDARD2_0
+            uint handle = InterlockedExchange(ref dbi, 0);
+#else
+            uint handle = Interlocked.Exchange(ref dbi, 0);
+#endif
+            if (handle != 0) {
+                DbLib.mdb_dbi_close(env, handle);
                 disposed?.Invoke(this);
+            }
         }
 
         /// <summary>
@@ -360,6 +357,6 @@ namespace KdSoft.Lmdb
             GC.SuppressFinalize(this);
         }
 
-        #endregion
+#endregion
     }
 }

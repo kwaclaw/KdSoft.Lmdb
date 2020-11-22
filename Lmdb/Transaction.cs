@@ -87,25 +87,16 @@ namespace KdSoft.Lmdb
         /// Note: Earlier documentation incorrectly said all cursors would be freed. Only write-transactions free cursors.
         /// </summary>
         public void Commit() {
-            var ret = DbRetCode.SUCCESS;
-            // we check here, as we dont want to throw an exception in the CER, but won't use this handle.
-            var handle = CheckDisposed();
-            var txnId = IntPtr.Zero;
+            // we check here, as we dont want to throw an exception later, but won't use this handle.
+            var currentHandle = CheckDisposed();
 
-            RuntimeHelpers.PrepareConstrainedRegions();
-            try { /* */ }
-            finally {
-                // now we use atomic access to the handle
-                handle = Interlocked.CompareExchange(ref txn, IntPtr.Zero, txn);
-                // if the txn handle was valid before we cleared it, lets close the handle
-                if (handle != IntPtr.Zero) {
-                    txnId = DbLib.mdb_txn_id(handle);
-                    ret = DbLib.mdb_txn_commit(handle);
-                }
-            }
-
+            // now we use atomic access to the handle
+            var handle = Interlocked.Exchange(ref txn, IntPtr.Zero);
+            // if the txn handle was valid before we cleared it, lets close the handle
             if (handle != IntPtr.Zero) {
-                // weather the call succeeded or not, the transaction cannot be re-used.
+                var txnId = DbLib.mdb_txn_id(handle);
+                var ret = DbLib.mdb_txn_commit(handle);
+                // whether the call succeeded or not, the transaction cannot be re-used.
                 ReleaseManagedResources(true);
                 disposed?.Invoke(txnId);
 
@@ -190,20 +181,11 @@ namespace KdSoft.Lmdb
         /// </summary>
         /// <param name="disposing"><c>true</c> if explicity disposing (finalizer not run), <c>false</c> if disposed from finalizer.</param>
         protected virtual void Dispose(bool disposing) {
-            IntPtr handle = IntPtr.Zero;
-            IntPtr txnId = IntPtr.Zero;
-            RuntimeHelpers.PrepareConstrainedRegions();
-            try { /* */ }
-            finally {
-                handle = Interlocked.CompareExchange(ref txn, IntPtr.Zero, txn);
-                // if the txn handle was valid before we cleared it, lets close the handle
-                if (handle != IntPtr.Zero) {
-                    txnId = DbLib.mdb_txn_id(handle);
-                    DbLib.mdb_txn_abort(handle);
-                }
-            }
-
+            var handle = Interlocked.Exchange(ref txn, IntPtr.Zero);
+            // if the txn handle was valid before we cleared it, lets close the handle
             if (handle != IntPtr.Zero) {
+                var txnId = DbLib.mdb_txn_id(handle);
+                DbLib.mdb_txn_abort(handle);
                 ReleaseManagedResources();
                 disposed?.Invoke(txnId);
             }

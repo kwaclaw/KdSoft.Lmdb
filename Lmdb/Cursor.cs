@@ -377,18 +377,11 @@ namespace KdSoft.Lmdb
         /// </summary>
         /// <param name="disposing"><c>true</c> if explicity disposing (finalizer not run), <c>false</c> if disposed from finalizer.</param>
         protected virtual void Dispose(bool disposing) {
-            IntPtr handle = IntPtr.Zero;
-            RuntimeHelpers.PrepareConstrainedRegions();
-            try { /* */ }
-            finally {
-                handle = Interlocked.CompareExchange(ref cur, IntPtr.Zero, cur);
-                if (handle != IntPtr.Zero) {
-                    DbLib.mdb_cursor_close(handle);
-                }
-            }
-
-            if (handle != IntPtr.Zero)
+            IntPtr handle = Interlocked.Exchange(ref cur, IntPtr.Zero);
+            if (handle != IntPtr.Zero) {
+                DbLib.mdb_cursor_close(handle);
                 disposed?.Invoke(this);
+            }
         }
 
         /// <summary>

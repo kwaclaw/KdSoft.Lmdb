@@ -9,6 +9,9 @@ using KdSoft.Lmdb.Interop;
 
 namespace KdSoft.Lmdb
 {
+    //TODO Implement .NET 5.0 native interop improvements
+    //     see https://devblogs.microsoft.com/dotnet/improvements-in-native-code-interop-in-net-5-0/
+
     public delegate void AssertFunction(LmdbEnvironment env, string msg);
 
     /// <summary>LMDB environment.</summary>
@@ -26,20 +29,14 @@ namespace KdSoft.Lmdb
             // so that we can refer back to the Environment instance
             instanceHandle = GCHandle.Alloc(this, GCHandleType.WeakTrackResurrection);
 
-            DbRetCode ret;
-            RuntimeHelpers.PrepareConstrainedRegions();
-            try { /* */ }
-            finally {
-                IntPtr envHandle;
-                ret = DbLib.mdb_env_create(out envHandle);
-                if (ret == DbRetCode.SUCCESS) {
-                    var ret2 = DbLib.mdb_env_set_userctx(envHandle, (IntPtr)instanceHandle);
-                    if (ret2 == DbRetCode.SUCCESS)
-                        this.env = envHandle;
-                    else {
-                        ret = ret2;
-                        DbLib.mdb_env_close(envHandle);
-                    }
+            DbRetCode ret = DbLib.mdb_env_create(out IntPtr envHandle);
+            if (ret == DbRetCode.SUCCESS) {
+                var ret2 = DbLib.mdb_env_set_userctx(envHandle, (IntPtr)instanceHandle);
+                if (ret2 == DbRetCode.SUCCESS)
+                    this.env = envHandle;
+                else {
+                    ret = ret2;
+                    DbLib.mdb_env_close(envHandle);
                 }
             }
             ErrorUtil.CheckRetCode(ret);
@@ -410,30 +407,26 @@ namespace KdSoft.Lmdb
         /// </summary>
         /// <param name="disposing"><c>true</c> if explicity disposing (finalizer not run), <c>false</c> if disposed from finalizer.</param>
         protected virtual void Dispose(bool disposing) {
-            RuntimeHelpers.PrepareConstrainedRegions();
-            try { /* */ }
-            finally {
-                var handle = Interlocked.CompareExchange(ref env, IntPtr.Zero, env);
-                // if the env handle was valid before we cleared it, lets close the handle
-                if (handle != IntPtr.Zero) {
-                    if (disposing) {
-                        // dispose managed state (managed objects).
-                        foreach (var txEntry in transactions) {
-                            txEntry.Value.Dispose(); // this will also close the cursors owened by the transaction
-                        }
-                        lock (dbTxnLock) {
-                            activeDbTxn?.Dispose();
-                            // It is very rarely necessary to close a database handle, and in general they should just be left open.
-                            // Therefore we just set the database handle to 0 when the environment is Disposed(), so that
-                            // using the Database instance will raise the appropriate exception
-                            foreach (var dbEntry in databases) {
-                                dbEntry.Value.ClearHandle();
-                            }
+            var handle = Interlocked.Exchange(ref env, IntPtr.Zero);
+            // if the env handle was valid before we cleared it, lets close the handle
+            if (handle != IntPtr.Zero) {
+                if (disposing) {
+                    // dispose managed state (managed objects).
+                    foreach (var txEntry in transactions) {
+                        txEntry.Value.Dispose(); // this will also close the cursors owened by the transaction
+                    }
+                    lock (dbTxnLock) {
+                        activeDbTxn?.Dispose();
+                        // It is very rarely necessary to close a database handle, and in general they should just be left open.
+                        // Therefore we just set the database handle to 0 when the environment is Disposed(), so that
+                        // using the Database instance will raise the appropriate exception
+                        foreach (var dbEntry in databases) {
+                            dbEntry.Value.ClearHandle();
                         }
                     }
-                    // free unmanaged resources
-                    DbLib.mdb_env_close(handle);
                 }
+                // free unmanaged resources
+                DbLib.mdb_env_close(handle);
             }
 
             if (instanceHandle.IsAllocated)
