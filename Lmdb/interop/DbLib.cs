@@ -4,6 +4,16 @@ using System.Security;
 
 namespace KdSoft.Lmdb.Interop
 {
+    //TODO Annotate eligible methods with [SuppressGCTransition]
+    /* see https://devblogs.microsoft.com/dotnet/improvements-in-native-code-interop-in-net-5-0/
+     * These methods must:
+     *  - Always execute for a trivial amount of time (less than 1 microsecond)
+     *  - Not perform a blocking syscall (e.g. any type of I/O)
+     *  - Not call back into the runtime (e.g. Reverse P/Invoke)
+     *  - Not throw exceptions
+     *  - Not manipulate locks or other concurrency primitives
+     */
+
     /// <summary>Interface to the LMDB library.</summary>
     [SuppressUnmanagedCodeSecurity]
 #pragma warning disable CA1060 // Move pinvokes to native methods class
@@ -145,8 +155,18 @@ namespace KdSoft.Lmdb.Interop
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_set_compare(IntPtr txn, uint dbi, DbLibCompareFunction cmp);
 
+#if !NETSTANDARD2_0
+        [DllImport(libName, CallingConvention = Compile.CallConv)]
+        public static extern DbRetCode mdb_set_compare(IntPtr txn, uint dbi, delegate* unmanaged<DbValue, DbValue, int> cmp);
+#endif
+
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_set_dupsort(IntPtr txn, uint dbi, DbLibCompareFunction cmp);
+
+#if !NETSTANDARD2_0
+        [DllImport(libName, CallingConvention = Compile.CallConv)]
+        public static extern DbRetCode mdb_set_dupsort(IntPtr txn, uint dbi, delegate* unmanaged<DbValue, DbValue, int> cmp);
+#endif
 
         [DllImport(libName, CallingConvention = Compile.CallConv)]
         public static extern DbRetCode mdb_get(IntPtr txn, uint dbi, in DbValue key, in DbValue data);

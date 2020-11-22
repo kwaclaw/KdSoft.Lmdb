@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using KdSoft.Lmdb.Interop;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -148,6 +149,60 @@ namespace KdSoft.Lmdb.Tests
         [Fact]
         public void UseCompareFunction() {
             var config = new DatabaseConfiguration(DatabaseOptions.Create, IntKeyCompare);
+            Database dbase;
+            using (var tx = fixture.Env.BeginDatabaseTransaction(TransactionModes.None)) {
+                dbase = tx.OpenDatabase("TestDb3", config);
+                tx.Commit();
+            }
+
+            var buffer = fixture.Buffers.Acquire(1024);
+            try {
+                using (var tx = fixture.Env.BeginTransaction(TransactionModes.None)) {
+                    for (int key = 0; key < 10; key++) {
+                        var putData = $"Test Data {key}";
+                        int byteCount = Encoding.UTF8.GetBytes(putData, 0, putData.Length, buffer, 0);
+                        dbase.Put(tx, BitConverter.GetBytes(key), new ReadOnlySpan<byte>(buffer, 0, byteCount), PutOptions.None);
+                    }
+                    tx.Commit();
+                }
+
+                ReadOnlySpan<byte> getData;
+                using (var tx = fixture.Env.BeginReadOnlyTransaction(TransactionModes.None)) {
+                    for (int key = 0; key < 10; key++) {
+                        var compareData = $"Test Data {key}";
+                        dbase.Get(tx, BitConverter.GetBytes(key), out getData);
+                        Assert.Equal(compareData, Encoding.UTF8.GetString(getData));
+
+                        // check if two adjacent keys are comparing correctly when using the database's compare function
+                        if (key > 0) {
+                            int compResult = dbase.Compare(tx, BitConverter.GetBytes(key), BitConverter.GetBytes(key - 1));
+                            Assert.True(compResult > 0);
+                        }
+                    }
+                    tx.Commit();
+                }
+            }
+            finally {
+                fixture.Buffers.Return(buffer);
+                using (var tx = fixture.Env.BeginDatabaseTransaction(TransactionModes.None)) {
+                    dbase.Drop(tx);
+                    tx.Commit();
+                }
+            }
+        }
+
+        //[UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
+        [UnmanagedCallersOnly]
+        static int IntKeyCompareFast(DbValue x, DbValue y) {
+            var xInt = BitConverter.ToInt32(x.ToReadOnlySpan());
+            var yInt = BitConverter.ToInt32(y.ToReadOnlySpan());
+            return Comparer<int>.Default.Compare(xInt, yInt);
+        }
+
+        [Fact]
+        public unsafe void UseCompareFunctionFast() {
+            delegate* unmanaged<DbValue, DbValue, int> unmanagedPtr = &IntKeyCompareFast;
+            var config = new DatabaseConfiguration(DatabaseOptions.Create, unmanagedPtr);
             Database dbase;
             using (var tx = fixture.Env.BeginDatabaseTransaction(TransactionModes.None)) {
                 dbase = tx.OpenDatabase("TestDb3", config);

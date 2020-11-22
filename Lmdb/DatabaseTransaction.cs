@@ -27,7 +27,11 @@ namespace KdSoft.Lmdb
 
         readonly object dbLock = new object();
 
-        (uint dbi, IntPtr handle, IntPtr env) OpenDatabaseInternal(string name, uint options, DbLibCompareFunction compare) {
+#if NETSTANDARD2_0
+        (uint dbi, IntPtr handle, IntPtr env) OpenDatabaseInternal(string name, uint options, CompareHolder compareHolder) {
+#else
+        unsafe (uint dbi, IntPtr handle, IntPtr env) OpenDatabaseInternal(string name, uint options, CompareHolder compareHolder) {
+#endif
             // we won't allow database name conflicts, even before the new database is committed
             if (committedDatabases.ContainsKey(name))
                 throw new LmdbException($"Database '{name}' exists already.");
@@ -37,12 +41,22 @@ namespace KdSoft.Lmdb
 
             var env = DbLib.mdb_txn_env(handle);
 
-            if (compare != null) {
-                ret = DbLib.mdb_set_compare(handle, dbi, compare);
-                if (ret != DbRetCode.SUCCESS)
-                    DbLib.mdb_dbi_close(env, dbi);
-                ErrorUtil.CheckRetCode(ret);
+#if NETSTANDARD2_0
+            if (compareHolder.LibCompare != null) {
+                ret = DbLib.mdb_set_compare(handle, dbi, compareHolder.LibCompare);
             }
+#else
+            if (compareHolder.UnsafeCompare != null) {
+                ret = DbLib.mdb_set_compare(handle, dbi, compareHolder.UnsafeCompare);
+            }
+            else if (compareHolder.LibCompare != null) {
+                ret = DbLib.mdb_set_compare(handle, dbi, compareHolder.LibCompare);
+            }
+#endif
+            
+            if (ret != DbRetCode.SUCCESS)
+                DbLib.mdb_dbi_close(env, dbi);
+            ErrorUtil.CheckRetCode(ret);
 
             return (dbi, handle, env);
         }
@@ -64,11 +78,12 @@ namespace KdSoft.Lmdb
         /// </summary>
         /// <param name="name">Database name. Can be <c>null</c> for the default database.</param>
         /// <param name="config">Database configuration instance.</param>
-        /// <returns></returns>
+        /// <returns>Database instance open for use.</returns>
         public Database OpenDatabase(string name, DatabaseConfiguration config) {
+            if (config == null)
+                throw new ArgumentNullException(nameof(config));
             lock (dbLock) {
-                var (dbi, handle, env) = OpenDatabaseInternal(name, unchecked((uint)config.Options), config.LibCompare);
-
+                var (dbi, handle, env) = OpenDatabaseInternal(name, unchecked((uint)config.Options), config.CompareHolder);
                 var result = new Database(dbi, env, name, NewDatabaseDisposed, config);
                 newDatabases.Add(result);
                 return result;
@@ -93,16 +108,31 @@ namespace KdSoft.Lmdb
         /// <param name="name">Database name. Can be <c>null</c> for the default database.</param>
         /// <param name="config">Database configuration instance.</param>
         /// <returns><c>MultiValueDatabase</c> instance.</returns>
+#if NETSTANDARD2_0
         public MultiValueDatabase OpenMultiValueDatabase(string name, MultiValueDatabaseConfiguration config) {
+#else
+        public unsafe MultiValueDatabase OpenMultiValueDatabase(string name, MultiValueDatabaseConfiguration config) {
+#endif
             uint options = unchecked((uint)config.Options | (uint)config.DupOptions | DbLibConstants.MDB_DUPSORT /* to make sure */);
             lock (dbLock) {
-                var (dbi, handle, env) = OpenDatabaseInternal(name, options, config.LibCompare);
-                if (config.LibDupCompare != null) {
-                    var ret = DbLib.mdb_set_dupsort(handle, dbi, config.LibDupCompare);
-                    if (ret != DbRetCode.SUCCESS)
-                        DbLib.mdb_dbi_close(env, dbi);
-                    ErrorUtil.CheckRetCode(ret);
+                var (dbi, handle, env) = OpenDatabaseInternal(name, options, config.CompareHolder);
+                DbRetCode ret = DbRetCode.SUCCESS;
+#if NETSTANDARD2_0
+                if (config.DupCompareHolder.LibCompare != null) {
+                    ret = DbLib.mdb_set_dupsort(handle, dbi, config.DupCompareHolder.LibCompare);
                 }
+#else
+                if (config.DupCompareHolder.UnsafeCompare != null) {
+                    ret = DbLib.mdb_set_dupsort(handle, dbi, config.DupCompareHolder.UnsafeCompare);
+                }
+                else if (config.DupCompareHolder.LibCompare != null) {
+                    ret = DbLib.mdb_set_dupsort(handle, dbi, config.DupCompareHolder.LibCompare);
+                }
+#endif
+
+                if (ret != DbRetCode.SUCCESS)
+                    DbLib.mdb_dbi_close(env, dbi);
+                ErrorUtil.CheckRetCode(ret);
 
                 var result = new MultiValueDatabase(dbi, env, name, NewDatabaseDisposed, config);
                 newDatabases.Add(result);
@@ -128,16 +158,31 @@ namespace KdSoft.Lmdb
         /// <param name="name">Database name. Can be <c>null</c> for the default database.</param>
         /// <param name="config">Database configuration instance.</param>
         /// <returns><c>FixedMultiValueDatabase</c> instance.</returns>
+#if NETSTANDARD2_0
         public FixedMultiValueDatabase OpenFixedMultiValueDatabase(string name, FixedMultiValueDatabaseConfiguration config) {
+#else
+        public unsafe FixedMultiValueDatabase OpenFixedMultiValueDatabase(string name, FixedMultiValueDatabaseConfiguration config) {
+#endif
             uint options = unchecked((uint)config.Options | (uint)config.DupOptions | DbLibConstants.MDB_DUPSORT | DbLibConstants.MDB_DUPFIXED /* to make sure */);
             lock (dbLock) {
-                var (dbi, handle, env) = OpenDatabaseInternal(name, options, config.LibCompare);
-                if (config.LibDupCompare != null) {
-                    var ret = DbLib.mdb_set_dupsort(handle, dbi, config.LibDupCompare);
-                    if (ret != DbRetCode.SUCCESS)
-                        DbLib.mdb_dbi_close(env, dbi);
-                    ErrorUtil.CheckRetCode(ret);
+                var (dbi, handle, env) = OpenDatabaseInternal(name, options, config.CompareHolder);
+                DbRetCode ret = DbRetCode.SUCCESS;
+#if NETSTANDARD2_0
+                if (config.DupCompareHolder.LibCompare != null) {
+                    ret = DbLib.mdb_set_dupsort(handle, dbi, config.DupCompareHolder.LibCompare);
                 }
+#else
+                if (config.DupCompareHolder.UnsafeCompare != null) {
+                    ret = DbLib.mdb_set_dupsort(handle, dbi, config.DupCompareHolder.UnsafeCompare);
+                }
+                else if (config.DupCompareHolder.LibCompare != null) {
+                    ret = DbLib.mdb_set_dupsort(handle, dbi, config.DupCompareHolder.LibCompare);
+                }
+#endif
+
+                if (ret != DbRetCode.SUCCESS)
+                    DbLib.mdb_dbi_close(env, dbi);
+                ErrorUtil.CheckRetCode(ret);
 
                 var result = new FixedMultiValueDatabase(dbi, env, name, NewDatabaseDisposed, config);
                 newDatabases.Add(result);
